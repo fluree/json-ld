@@ -1,6 +1,5 @@
 (ns fluree.json-ld.iri
-  (:require [clojure.tools.logging :as log]
-            [fluree.json-ld.util :refer [try-catchall]]
+  (:require [fluree.json-ld.util :refer [try-catchall]]
             [clojure.string :as str]))
 
 (defn parse-compact-iri
@@ -38,6 +37,7 @@
   (try-catchall
     (when-let [[_ prefix suffix] (parse-compact-iri s)]
       [prefix suffix])
-    (catch e
-            (log/warn (str "Error attempting to parse iri: " s))
-            (throw e))))
+    (catch e (throw (ex-info (str "Error attempting to parse iri: " s)
+                             {:status 400
+                              :error  :json-ld/invalid-iri}
+                             e)))))

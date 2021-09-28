@@ -1,8 +1,7 @@
 {:paths ["src" "resources"]
 
  :deps {org.clojure/clojure       {:mvn/version "1.10.3"}
-        org.clojure/clojurescript {:mvn/version "1.10.866"}
-        org.clojure/tools.logging {:mvn/version "1.1.0"}}
+        org.clojure/clojurescript {:mvn/version "1.10.866"}}
 
  :aliases
  {:mvn/group-id com.fluree
