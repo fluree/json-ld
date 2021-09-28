@@ -1,22 +1,25 @@
 .PHONY: test jar install deploy clean
 
-test:
-	clojure -A:test:runner
+SOURCES := $(shell find src)
+
+target/fluree-jsonld.jar: pom.xml deps.edn $(SOURCES)
+	clojure -X:jar
 
 pom.xml: deps.edn
 	clojure -Spom
 
-target/json-ld.jar: pom.xml src/**/* resources/**/*
-	clojure -A:jar
+test:
+	clojure -M:test
 
-jar: target/json-ld.jar
+jar: target/fluree-json-ld.jar
 
-install: target/json-ld.jar
-	clojure -A:install
+install: target/fluree-json-ld.jar
+	clojure -X:install
 
-# requires CLOJARS_USERNAME and CLOJARS_PASSWORD env vars to be set
-deploy: target/json-ld.jar
-	clojure -A:deploy
+# You'll need to set the env vars CLOJARS_USERNAME & CLOJARS_PASSWORD
+# (which must be a Clojars deploy token now) to use this.
+deploy: target/fluree-json-ld.jar
+	clojure -X:deploy
 
 clean:
 	rm -rf target

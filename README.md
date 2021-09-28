@@ -1,10 +1,10 @@
 # json-ld
 
-A Clojure JSON-LD library that wraps the Java [Titanium JSON-LD library](https://github.com/filip26/titanium-json-ld).
+A Clojure(script) JSON-LD library. 
+
+API in the fluree.json-ld namespace.
 
 ## Usage
-
-FIXME: write usage documentation!
 
 Run the project's tests:
 
@@ -24,7 +24,7 @@ Deploy it to Clojars -- needs `CLOJARS_USERNAME` and `CLOJARS_PASSWORD` environm
 
 ## License
 
-Copyright © 2020 Fluree, PBC
+Copyright © 2021 Fluree, PBC
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.

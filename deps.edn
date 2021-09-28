@@ -1,19 +1,45 @@
 {:paths ["src" "resources"]
- :deps {org.clojure/clojure {:mvn/version "1.10.1"}
-        com.apicatalog/titanium-json-ld {:mvn/version "0.8.4"}
-        org.glassfish/jakarta.json {:mvn/version "1.1.6"}}
+
+ :deps {org.clojure/clojure       {:mvn/version "1.10.3"}
+        org.clojure/clojurescript {:mvn/version "1.10.866"}
+        org.clojure/tools.logging {:mvn/version "1.1.0"}}
+
  :aliases
- {:test {:extra-paths ["test" "test-resources"]
-         :extra-deps {org.clojure/test.check {:mvn/version "1.0.0"}}}
-  :runner
-  {:extra-deps {com.cognitect/test-runner
-                {:git/url "https://github.com/cognitect-labs/test-runner"
-                 :sha "f7ef16dc3b8332b0d77bc0274578ad5270fbfedd"}}
-   :main-opts ["-m" "cognitect.test-runner"
-               "-d" "test"]}
-  :jar {:extra-deps {seancorfield/depstar {:mvn/version "1.0.94"}}
-        :main-opts ["-m" "hf.depstar.jar" "target/json-ld.jar"]}
-  :install {:extra-deps {deps-deploy/deps-deploy {:mvn/version "0.0.9"}}
-            :main-opts ["-m" "deps-deploy.deps-deploy" "install" "target/json-ld.jar"]}
-  :deploy {:extra-deps {deps-deploy/deps-deploy {:mvn/version "0.0.9"}}
-           :main-opts ["-m" "deps-deploy.deps-deploy" "deploy" "target/json-ld.jar"]}}}
+ {:mvn/group-id com.fluree
+  :mvn/artifact-id json-ld
+  :mvn/version "0.1.0"
+
+  :dev
+  {:extra-paths ["dev", "test"]
+   :extra-deps {org.clojure/tools.namespace {:mvn/version "1.1.0"}}
+   :main-opts ["-e" "(require,'user)"
+               "-e" "(in-ns,'user)"]}
+
+  :test
+  {:extra-paths ["test"]
+   :extra-deps  {com.cognitect/test-runner
+                 {:git/url "https://github.com/cognitect-labs/test-runner.git"
+                  :sha     "b6b3193fcc42659d7e46ecd1884a228993441182"}}
+   :main-opts   ["-m" "cognitect.test-runner"]}
+
+  :jar
+  {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.1.267"}}
+   :exec-fn hf.depstar/jar
+   :exec-args {:jar "target/fluree-json-ld.jar"
+               :group-id :mvn/group-id
+               :artifact-id :mvn/artifact-id
+               :version :mvn/version
+               :sync-pom true}}
+
+  :install
+  {:extra-deps {slipset/deps-deploy {:mvn/version "RELEASE"}}
+   :exec-fn    deps-deploy.deps-deploy/deploy
+   :exec-args  {:installer :local
+                :artifact  "target/fluree-json-ld.jar"}}
+
+  :deploy
+  {:extra-deps {slipset/deps-deploy {:mvn/version "RELEASE"}}
+   :exec-fn    deps-deploy.deps-deploy/deploy
+   :exec-args  {:installer      :remote
+                :sign-releases? false
+                :artifact       "target/fluree-json-ld.jar"}}}}
