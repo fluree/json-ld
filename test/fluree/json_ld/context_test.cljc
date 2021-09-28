@@ -3,8 +3,8 @@
             [fluree.json-ld.context :refer :all]))
 
 
-(deftest string-context-parsing
-  (testing "Context parsing of a single string"
+(deftest default-vocabularies
+  (testing "A context with a string should be a default vocabulary"
 
     ;; with trailing '/'
     (is (= (parse "https://schema.org/")
@@ -12,6 +12,11 @@
 
     ;; without trailing '/'
     (is (= (parse "https://schema.org")
+           {:vocab {:id "https://schema.org/"}})))
+
+
+  (testing "An explicitly defined default vocabulary with @vocab"
+    (is (= (parse {"@vocab" "https://schema.org/"})
            {:vocab {:id "https://schema.org/"}}))))
 
 
