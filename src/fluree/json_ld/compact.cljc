@@ -2,9 +2,18 @@
   (:require [clojure.string :as str]))
 
 (defn- reverse-context
-  "Flips context map from prefix -> prefix-map, to iri -> prefix-map"
+  "Flips context map from prefix -> prefix-map, to iri -> prefix-map.
+
+  Only includes context items that have an :id; i.e., @id.
+  Excludes non-id context statements (e.g., @reverse)."
   [context]
-  (reduce-kv #(assoc %1 (:id %3) %2) {} context))
+  (loop [[ci & r] context
+         acc {}]
+    (if ci
+      (if-let [id (:id (val ci))]
+        (recur r (assoc acc id (key ci)))
+        (recur r acc))
+      acc)))
 
 (defn compact-fn
   "Returns a single arity function based on the provided context that will compact any string iri."

@@ -1,6 +1,7 @@
 (ns fluree.json-ld.context
   (:require [fluree.json-ld.iri :as iri]
-            [fluree.json-ld.util :as util]))
+            [fluree.json-ld.util :as util]
+            [clojure.string :as str]))
 
 
 (defn keywordize-at-value
@@ -22,40 +23,51 @@
   {'nc'   'http://release.niem.gov/niem/niem-core/4.0/#'
    'name' 'nc:PersonName'}
   we ultimately want 'name' to map to http://release.niem.gov/niem/niem-core/4.0/#PersonName"
-  [orig-context compact-iri]
-  (or (when-let [[prefix suffix] (iri/parse-prefix compact-iri)]
-        (when-let [full-prefix (or (get orig-context prefix)
-                                   (get-in orig-context [prefix "@id"]))]
-          (str full-prefix suffix)))
-      compact-iri))
+  [orig-context default-vocab compact-iri]
+  (cond
+    (str/includes? compact-iri ":")
+    (or (when-let [[prefix suffix] (iri/parse-prefix compact-iri)]
+          (when-let [full-prefix (or (get orig-context prefix)
+                                     (get-in orig-context [prefix "@id"]))]
+            (str full-prefix suffix)))
+        compact-iri)
+
+    default-vocab
+    (if (str/starts-with? compact-iri "@")
+      compact-iri
+      (str default-vocab compact-iri))
+
+    :else compact-iri))
 
 
 (defn parse-value
   "Parses json-ld context value. If a map, iterates over keys."
   [ctx-map-val ctx-original]
-  (cond
-    (string? ctx-map-val)
-    {:id (parse-compact-iri-val ctx-original ctx-map-val)}
+  (let [default-vocab (when-let [vocab (get ctx-original "@vocab")]
+                        (or (get vocab "@id") vocab))]
+    (cond
+      (string? ctx-map-val)
+      {:id (parse-compact-iri-val ctx-original default-vocab ctx-map-val)}
 
-    (map? ctx-map-val)
-    (reduce-kv
-      (fn [acc k v]
-        (cond
-          (= "@id" k)
-          (assoc acc :id (parse-compact-iri-val ctx-original v))
+      (map? ctx-map-val)
+      (reduce-kv
+        (fn [acc k v]
+          (let [k* (keywordize-at-value k)]
+            (assoc acc k* (cond
+                            (#{:id :reverse} k*)
+                            (parse-compact-iri-val ctx-original default-vocab v)
 
-          (= "@type" k)
-          (assoc acc :type (->> v
-                                util/sequential
-                                (mapv (partial parse-compact-iri-val ctx-original))))
+                            (= :type k*)
+                            (->> v
+                                 util/sequential
+                                 (mapv (partial parse-compact-iri-val ctx-original default-vocab)))
 
-          :else
-          (assoc acc (keywordize-at-value k) v)))
-      {} ctx-map-val)
+                            :else v))))
+        {} ctx-map-val)
 
-    :else
-    (throw (ex-info "Invalid context provided. Context map values must be a string or map."
-                    {:status 400 :error :json-ld/invalid-context}))))
+      :else
+      (throw (ex-info "Invalid context provided. Context map values must be a string or map."
+                      {:status 400 :error :json-ld/invalid-context})))))
 
 
 (defn parse-map

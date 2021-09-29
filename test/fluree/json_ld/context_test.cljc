@@ -17,7 +17,19 @@
 
   (testing "An explicitly defined default vocabulary with @vocab"
     (is (= (parse {"@vocab" "https://schema.org/"})
-           {:vocab {:id "https://schema.org/"}}))))
+           {:vocab {:id "https://schema.org/"}})))
+
+  (testing "References to default vocabulary should be concatenated"
+    (is (= (parse {"@vocab"     "https://schema.org/"
+                   "reverseRef" {"@reverse" "isBasedOn"}
+                   "explicit"   "name"
+                   "dontTouch"  "https://example.com/ns#42"
+                   "id"         "@id"})
+           {:vocab       {:id "https://schema.org/"}
+            "reverseRef" {:reverse "https://schema.org/isBasedOn"}
+            "explicit"   {:id "https://schema.org/name"}
+            "dontTouch"  {:id "https://example.com/ns#42"}
+            "id"         {:id "@id"}}))))
 
 
 (deftest map-context-parsing
@@ -86,3 +98,22 @@
            {"schema"      {:id "https://schema.org/"}
             "customClass" {:id   "https://schema.org/Book"
                            :type ["https://schema.org/CreativeWork" "https://schema.org/Thing"]}}))))
+
+
+(deftest reverse-refs
+  (testing "Reverse refs using full IRI"
+    (is (= (parse {"@vocab"       "https://schema.org/"
+                   "title"        "https://schema.org/titleEIDR"
+                   "derivedWorks" {"@reverse" "https://schema.org/isBasedOn"}})
+           {:vocab         {:id "https://schema.org/"},
+            "title"        {:id "https://schema.org/titleEIDR"},
+            "derivedWorks" {:reverse "https://schema.org/isBasedOn"}})))
+
+  (testing "Reverse refs with compact-iri"
+    (is (= (parse {"schema"       "https://schema.org/"
+                   "title"        "schema:titleEIDR"
+                   "derivedWorks" {"@reverse" "schema:isBasedOn"}})
+           {"schema"       {:id "https://schema.org/"},
+            "title"        {:id "https://schema.org/titleEIDR"},
+            "derivedWorks" {:reverse "https://schema.org/isBasedOn"}}))))
+
