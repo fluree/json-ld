@@ -14,12 +14,18 @@
   "Given a full IRI, finds a matching vocab file from the
   vocab->file map and reads contents, else returns nil."
   [iri]
-  (some #(when (str/starts-with? iri %)
-           (-> (get vocab->file %)
-               io/resource
-               slurp
-               edn/read-string))
-        vocabs))
+  (try
+    (some #(when (str/starts-with? iri %)
+             (-> (get vocab->file %)
+                 io/resource
+                 slurp
+                 edn/read-string))
+          vocabs)
+    (catch Exception e
+      (throw (ex-info
+               (str "Invalid IRI, unable to read vocabulary: " iri)
+               {:status 400 :error :json-ld/invalid-iri}
+               e)))))
 
 
 (defn vocab

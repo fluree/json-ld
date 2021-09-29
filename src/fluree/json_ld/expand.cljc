@@ -8,7 +8,12 @@
   Else returns nil."
   [compact-iri context]
   (when-let [exact-match (get context compact-iri)]
-    [(:id exact-match) exact-match]))
+    (let [iri (or (:id exact-match)
+                  (:reverse exact-match)
+                  (throw (ex-info
+                           (str "Matching value in context does not contain an @id or @reverse: " compact-iri)
+                           {:status 400 :error :json-ld/invalid-iri})))]
+      [iri exact-match])))
 
 
 (defn match-prefix
