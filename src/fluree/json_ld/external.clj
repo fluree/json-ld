@@ -5,7 +5,8 @@
             [fluree.json-ld.iri :as iri])
   (:refer-clojure :exclude [read]))
 
-(def vocab->file {"https://schema.org/" "schema.org.edn"})
+(def vocab->file {"https://schema.org/"            "schema.org.edn"
+                  "http://www.w3.org/2002/07/owl#" "owl.edn"})
 
 (def vocabs (->> vocab->file keys (sort-by count) reverse))
 
