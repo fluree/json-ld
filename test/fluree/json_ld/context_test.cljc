@@ -51,10 +51,32 @@
 
 (deftest dependent-context
   (testing "Some contexts use compact IRIs defined in their own document"
-    (is (= (parse {"nc"   "http://release.niem.gov/niem/niem-core/4.0/#",
-                   "name" "nc:PersonName"})
-           {"nc"   {:id "http://release.niem.gov/niem/niem-core/4.0/#"}
-            "name" {:id "http://release.niem.gov/niem/niem-core/4.0/#PersonName"}}))))
+    (testing "One level deep"
+      (is (= (parse {"nc"   "http://release.niem.gov/niem/niem-core/4.0/#",
+                     "name" "nc:PersonName"})
+             {"nc"   {:id "http://release.niem.gov/niem/niem-core/4.0/#"}
+              "name" {:id "http://release.niem.gov/niem/niem-core/4.0/#PersonName"}})))
+    (testing "Two levels deep"
+      ;; from CLR vocabulary
+      (is (= (parse {"clri"      "https://purl.imsglobal.org/spec/clr/vocab#"
+                     "Address"   "dtAddress",
+                     "dtAddress" "clri:dtAddress"})
+             {"Address"   {:id "https://purl.imsglobal.org/spec/clr/vocab#dtAddress"}
+              "clri"      {:id "https://purl.imsglobal.org/spec/clr/vocab#"}
+              "dtAddress" {:id "https://purl.imsglobal.org/spec/clr/vocab#dtAddress"}})))
+    (testing "Two levels deep with map val"
+      ;; from CLR vocabulary
+      (is (= (parse {"clri"   "https://purl.imsglobal.org/spec/clr/vocab#"
+                     "xsd"    "http://www.w3.org/2001/XMLSchema#"
+                     "UUID"   "dtUUID"
+                     "dtUUID" {"@id"   "clri:dtUUID",
+                               "@type" "xsd:string"}})
+             {"UUID"   {:id   "https://purl.imsglobal.org/spec/clr/vocab#dtUUID"
+                        :type ["http://www.w3.org/2001/XMLSchema#string"]}
+              "clri"   {:id "https://purl.imsglobal.org/spec/clr/vocab#"}
+              "dtUUID" {:id   "https://purl.imsglobal.org/spec/clr/vocab#dtUUID"
+                        :type ["http://www.w3.org/2001/XMLSchema#string"]}
+              "xsd"    {:id "http://www.w3.org/2001/XMLSchema#"}})))))
 
 
 (deftest multiple-contexts
