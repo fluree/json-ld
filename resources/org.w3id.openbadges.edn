@@ -1,0 +1,90 @@
+{"https://w3id.org/openbadges#issueDate"
+ {:type         ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"]
+  :iri          "https://w3id.org/openbadges#issueDate",
+  :id           "https://w3id.org/openbadges#issueDate"
+  :rdfs/label   {:en "Issued On"},
+  :rdfs/comment "Timestamp of when awarded",
+  :fluree/type  :dateTime}
+
+ "https://w3id.org/openbadges#verify"
+ {:type         ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"]
+  :iri          "https://w3id.org/openbadges#verify",
+  :id           "https://w3id.org/openbadges#verify"
+  :rdfs/label   {:en "Verification"},
+  :rdfs/comment "Instructions for third parties to verify this assertion.",
+  :fluree/type  :ref}
+
+ "https://w3id.org/openbadges#verificationProperty"
+ {:type         ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"]
+  :iri          "https://w3id.org/openbadges#verificationProperty",
+  :id           "https://w3id.org/openbadges#verificationProperty"
+  :rdfs/label   {:en "Verification Property"},
+  :rdfs/comment "The @id of the property to be used for verification that an Assertion is within the allowed scope. Only id is supported. Verifiers will consider id the default value if verificationProperty is omitted or if an issuer Profile has no explicit verification instructions, so it may be safely omitted.",
+  :fluree/type  :string}
+
+ "https://w3id.org/openbadges#recipient"
+ {:type         ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"]
+  :iri          "https://w3id.org/openbadges#recipient",
+  :id           "https://w3id.org/openbadges#recipient"
+  :rdfs/label   {:en "recipient"},
+  :rdfs/comment "The recipient of the achievement."
+  :fluree/type  :ref}
+
+ "https://w3id.org/openbadges#identityHash"
+ {:type         ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"]
+  :iri          "https://w3id.org/openbadges#identityHash",
+  :id           "https://w3id.org/openbadges#identityHash"
+  :rdfs/label   {:en "Identity Hash"},
+  :rdfs/comment "Either the hash of the identity or the plaintext value. If it's possible that the plaintext transmission and storage of the identity value would leak personally identifiable information where there is an expectation of privacy, it is strongly recommended that an IdentityHash be used."
+  :fluree/type  :string}
+
+ "https://w3id.org/openbadges#hashed"
+ {:type         ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"]
+  :iri          "https://w3id.org/openbadges#hashed",
+  :id           "https://w3id.org/openbadges#hashed"
+  :rdfs/label   {:en "Hashed?"},
+  :rdfs/comment "Whether or not the identity value is hashed."
+  :fluree/type  :boolean}
+
+ "https://w3id.org/openbadges#alignment"
+ {:type         ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"]
+  :iri          "https://w3id.org/openbadges#alignment",
+  :id           "https://w3id.org/openbadges#alignment"
+  :rdfs/label   {:en "Alignment"},
+  :rdfs/comment "An object describing which objectives or educational standards this badge aligns to, if any."
+  :fluree/type  :ref
+  :rdfs/range [{:id "https://schema.org/AlignmentObject"
+                :iri "https://schema.org/AlignmentObject"}]}
+
+ "https://w3id.org/openbadges#issuer"
+ {:type         ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"]
+  :iri          "https://w3id.org/openbadges#issuer",
+  :id           "https://w3id.org/openbadges#issuer"
+  :rdfs/label   {:en "Issuer"},
+  :rdfs/comment "IRI or document describing the individual, entity, or organization that issued the badge"
+  :fluree/type  :ref
+  :rdfs/range [{:id "https://schema.org/AlignmentObject"
+                :iri "https://schema.org/AlignmentObject"}]}
+
+ "https://w3id.org/openbadges#evidence"
+ {:type         ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"]
+  :iri          "https://w3id.org/openbadges#evidence",
+  :id           "https://w3id.org/openbadges#evidence"
+  :rdfs/label   {:en "Evidence"},
+  :rdfs/comment "IRI or document describing the work that the recipient did to earn the achievement. This can be a page that links out to other pages if linking directly to the work is infeasible."
+  :fluree/type  :ref}
+
+ "https://w3id.org/openbadges#criteria"
+ {:type         ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"]
+  :iri          "https://w3id.org/openbadges#criteria",
+  :id           "https://w3id.org/openbadges#criteria"
+  :rdfs/label   {:en "criteria"},
+  :rdfs/comment "URI or embedded criteria document describing how to earn the achievement."
+  :fluree/type  :ref}
+
+
+ }
+
+
+
+;; :type ["http://www.w3.org/2000/01/rdf-schema#Class"],

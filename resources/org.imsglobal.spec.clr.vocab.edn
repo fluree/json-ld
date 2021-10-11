@@ -1,0 +1,225 @@
+{"https://purl.imsglobal.org/spec/clr/vocab#dtAssertion"
+ {:type         ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"]
+  :iri          "https://purl.imsglobal.org/spec/clr/vocab#dtAssertion",
+  :id           "https://purl.imsglobal.org/spec/clr/vocab#dtAssertion"
+  :rdfs/label   {:en "Assertions"},
+  :rdfs/comment "The learner's asserted achievements.",
+  :rdfs/range   [{:id  "https://purl.imsglobal.org/spec/clr/vocab#Assertion"
+                  :iri "https://purl.imsglobal.org/spec/clr/vocab#Assertion"}]
+  :fluree/type  :ref}
+
+ "https://purl.imsglobal.org/spec/clr/vocab#Assertion"
+ {:type         ["http://www.w3.org/2000/01/rdf-schema#Class"]
+  :iri          "https://purl.imsglobal.org/spec/clr/vocab#Assertion",
+  :id           "https://purl.imsglobal.org/spec/clr/vocab#Assertion"
+  :rdfs/label   {:en "Assertion"},
+  :rdfs/comment "Assertions are representations of an Achievement awarded to a Learner. It is used to share information about the Achievement Assertion, such as a result and verification method. ",
+  :class?       true}
+
+ "https://purl.imsglobal.org/spec/clr/vocab#dtResult"
+ {:type         ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"]
+  :iri          "https://purl.imsglobal.org/spec/clr/vocab#dtResult",
+  :id           "https://purl.imsglobal.org/spec/clr/vocab#dtResult"
+  :rdfs/label   {:en "Results"},
+  :rdfs/comment "The set of results being asserted."
+  :rdfs/range   [{:id  "https://purl.imsglobal.org/spec/clr/vocab#Result"
+                  :iri "https://purl.imsglobal.org/spec/clr/vocab#Result"}]
+  :fluree/type  :ref}
+
+ "https://purl.imsglobal.org/spec/clr/vocab#Result"
+ {:type         ["http://www.w3.org/2000/01/rdf-schema#Class"]
+  :iri          "https://purl.imsglobal.org/spec/clr/vocab#Result",
+  :id           "https://purl.imsglobal.org/spec/clr/vocab#Result"
+  :rdfs/label   {:en "Result"},
+  :rdfs/comment "Describes a result of an achievement."
+  :class?       true}
+
+ "https://purl.imsglobal.org/spec/clr/vocab#dtIRI"
+ {:type         ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"]
+  :iri          "https://purl.imsglobal.org/spec/clr/vocab#dtIRI",
+  :id           "https://purl.imsglobal.org/spec/clr/vocab#dtIRI"
+  :rdfs/label   {:en "IRIs"},
+  :rdfs/comment "IRI string."
+  :fluree/type  :string}
+
+ "https://purl.imsglobal.org/spec/clr/vocab#dtAchievement"
+ {:type         ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"]
+  :iri          "https://purl.imsglobal.org/spec/clr/vocab#dtAchievement",
+  :id           "https://purl.imsglobal.org/spec/clr/vocab#dtAchievement"
+  :rdfs/label   {:en "Results"},
+  :rdfs/comment "The set of achievements."
+  :rdfs/range   [{:id  "https://purl.imsglobal.org/spec/clr/vocab#Achievement"
+                  :iri "https://purl.imsglobal.org/spec/clr/vocab#Achievement"}]
+  :fluree/type  :ref}
+
+ "https://purl.imsglobal.org/spec/clr/vocab#Achievement"
+ {:type         ["http://www.w3.org/2000/01/rdf-schema#Class"]
+  :iri          "https://purl.imsglobal.org/spec/clr/vocab#Achievement",
+  :id           "https://purl.imsglobal.org/spec/clr/vocab#Achievement"
+  :rdfs/label   {:en "Achievement"},
+  :rdfs/comment "An accomplishment such as completing a degree, mastering a competency, or course completion that may be asserted about one or more learners."
+  :class?       true}
+
+ "https://purl.imsglobal.org/spec/clr/vocab#creditsAvailable"
+ {:type         ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"]
+  :iri          "https://purl.imsglobal.org/spec/clr/vocab#creditsAvailable",
+  :id           "https://purl.imsglobal.org/spec/clr/vocab#creditsAvailable"
+  :rdfs/label   {:en "Credits Available"},
+  :rdfs/comment "Credit hours associated with this entity, or credit hours possible. For example '3.0'."
+  :fluree/type  :float}
+
+ "https://purl.imsglobal.org/spec/clr/vocab#EnumExtString"
+ {:type            ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :class?          true
+  :enum?           true
+  :iri             "https://purl.imsglobal.org/spec/clr/vocab#EnumExtString",
+  :id              "https://purl.imsglobal.org/spec/clr/vocab#EnumExtString",
+  :rdfs/label      {:en "Enumerated Extendable String"},
+  :rdfs/comment    "The data-type that enables an enumerated vocabulary to be extended."}
+
+ "https://purl.imsglobal.org/spec/clr/vocab#AchievementType"
+ {:type            ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :class?          true
+  :enum?           true
+  :iri             "https://purl.imsglobal.org/spec/clr/vocab#AchievementType",
+  :id              "https://purl.imsglobal.org/spec/clr/vocab#AchievementType",
+  :rdfs/label      {:en "Achievement Type"},
+  :rdfs/comment    "The type of Achievement, an enumerated class."}
+
+ "https://purl.imsglobal.org/spec/clr/vocab#dtExtensibleAchievementType"
+ {:type         ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/label   {:en "Achievement Types"},
+  :iri          "https://purl.imsglobal.org/spec/clr/vocab#dtExtensibleAchievementType"
+  :id           "https://purl.imsglobal.org/spec/clr/vocab#dtExtensibleAchievementType"
+  :rdfs/comment "List of achievement types."
+  :enum?        true
+  :fluree/type :ref}
+
+ "https://purl.imsglobal.org/spec/clr/vocab#ExtensibleAchievementType"
+ {:type            ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :class?          true
+  :enum?           true
+  :rdfs/subClassOf [{:id  "https://purl.imsglobal.org/spec/clr/vocab#AchievementType",
+                     :iri "https://purl.imsglobal.org/spec/clr/vocab#AchievementType"}
+                    {:id  "https://purl.imsglobal.org/spec/clr/vocab#EnumExtString",
+                     :iri "https://purl.imsglobal.org/spec/clr/vocab#EnumExtString"}]
+  :iri             "https://purl.imsglobal.org/spec/clr/vocab#ExtensibleAchievementType",
+  :id              "https://purl.imsglobal.org/spec/clr/vocab#ExtensibleAchievementType",
+  :rdfs/label      {:en "Extensible Achievement Type"},
+  :rdfs/comment    "The type of achievement. This is an extensible enumerated vocabulary. Extending the vocabulary makes use of a naming convention"}
+
+ "https://purl.imsglobal.org/spec/clr/vocab#AchievementResult"
+ {:type            ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :class?          true
+  :enum?           true
+  :rdfs/subClassOf [{:id  "https://purl.imsglobal.org/spec/clr/vocab#ExtensibleAchievementType",
+                     :iri "https://purl.imsglobal.org/spec/clr/vocab#ExtensibleAchievementType"}]
+  :iri             "https://purl.imsglobal.org/spec/clr/vocab#AchievementResult",
+  :id              "https://purl.imsglobal.org/spec/clr/vocab#AchievementResult",
+  :rdfs/label      {:en "Achievement Result"},
+  :rdfs/comment    "Represents a generic achievement result"}
+
+ "https://purl.imsglobal.org/spec/clr/vocab#dtResultDescription"
+ {:type         ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/label   {:en "Result Descriptions"},
+  :iri          "https://purl.imsglobal.org/spec/clr/vocab#dtResultDescription"
+  :id           "https://purl.imsglobal.org/spec/clr/vocab#dtResultDescription"
+  :rdfs/comment "The set of result descriptions that may be asserted as results with this achievement."
+  :fluree/type :ref}
+
+ "https://purl.imsglobal.org/spec/clr/vocab#allowedValues"
+ {:type         ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/label   {:en "Allowed Values"},
+  :iri          "https://purl.imsglobal.org/spec/clr/vocab#allowedValues"
+  :id           "https://purl.imsglobal.org/spec/clr/vocab#allowedValues"
+  :rdfs/comment "The ordered from 'low' to 'high' set of allowed values."
+  :fluree/type :string}
+
+ "https://purl.imsglobal.org/spec/clr/vocab#dtExtensibleResultType"
+ {:type         ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/label   {:en "Result Types"},
+  :iri          "https://purl.imsglobal.org/spec/clr/vocab#dtExtensibleResultType"
+  :id           "https://purl.imsglobal.org/spec/clr/vocab#dtExtensibleResultType"
+  :rdfs/comment "The type of result. This is an extensible enumerated vocabulary"
+  :enum?        true
+  :fluree/type :ref}
+
+ "https://purl.imsglobal.org/spec/clr/vocab#ResultType"
+ {:type            ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :class?          true
+  :enum?           true
+  :iri             "https://purl.imsglobal.org/spec/clr/vocab#ResultType",
+  :id              "https://purl.imsglobal.org/spec/clr/vocab#ResultType",
+  :rdfs/label      {:en "Result Type"},
+  :rdfs/comment    "The type of result claimed in the Achievement. Enumerated class."}
+
+ "https://purl.imsglobal.org/spec/clr/vocab#ExtensibleResultType"
+ {:type            ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :class?          true
+  :enum?           true
+  :rdfs/subClassOf [{:id  "https://purl.imsglobal.org/spec/clr/vocab#ResultType",
+                     :iri "https://purl.imsglobal.org/spec/clr/vocab#ResultType"}
+                    {:id  "https://purl.imsglobal.org/spec/clr/vocab#EnumExtString",
+                     :iri "https://purl.imsglobal.org/spec/clr/vocab#EnumExtString"}]
+  :iri             "https://purl.imsglobal.org/spec/clr/vocab#ExtensibleResultType",
+  :id              "https://purl.imsglobal.org/spec/clr/vocab#ExtensibleResultType",
+  :rdfs/label      {:en "Extensible Result Type"},
+  :rdfs/comment    "The type of result. This is an extensible enumerated vocabulary. Extending the vocabulary makes use of a naming convention"}
+
+ "https://purl.imsglobal.org/spec/clr/vocab#dtRubricCriterionLevel"
+ {:type         ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/label   {:en "Rubric Criterion Levels"},
+  :iri          "https://purl.imsglobal.org/spec/clr/vocab#dtRubricCriterionLevel"
+  :id           "https://purl.imsglobal.org/spec/clr/vocab#dtRubricCriterionLevel"
+  :rdfs/comment "The ordered from 'low' to 'high' set of rubric criterion levels that may be asserted."
+  :fluree/type :ref}
+
+ "https://purl.imsglobal.org/spec/clr/vocab#dtAssociation"
+ {:type         ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/label   {:en "Associations"},
+  :iri          "https://purl.imsglobal.org/spec/clr/vocab#dtAssociation"
+  :id           "https://purl.imsglobal.org/spec/clr/vocab#dtAssociation"
+  :rdfs/comment "Associations between this achievement and other achievements."
+  :fluree/type :ref}
+
+ "https://purl.imsglobal.org/spec/clr/vocab#creditsEarned"
+ {:type         ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/label   {:en "Credits Earned"},
+  :iri          "https://purl.imsglobal.org/spec/clr/vocab#creditsEarned"
+  :id           "https://purl.imsglobal.org/spec/clr/vocab#creditsEarned"
+  :rdfs/comment "The number of credits earned, generally in semester or quarter credit hours. This field correlates with the Achievement creditsAvailable field."
+  :fluree/type :float}
+
+ "https://purl.imsglobal.org/spec/clr/vocab#activityStartDate"
+ {:type         ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"]
+  :iri          "https://purl.imsglobal.org/spec/clr/vocab#activityStartDate",
+  :id           "https://purl.imsglobal.org/spec/clr/vocab#activityStartDate"
+  :rdfs/label   {:en "Activity Start Date"},
+  :rdfs/comment "If present, start date for the activity.",
+  :fluree/type  :dateTime}
+
+ "https://purl.imsglobal.org/spec/clr/vocab#activityEndDate"
+ {:type         ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"]
+  :iri          "https://purl.imsglobal.org/spec/clr/vocab#activityEndDate",
+  :id           "https://purl.imsglobal.org/spec/clr/vocab#activityEndDate"
+  :rdfs/label   {:en "Activity End Date"},
+  :rdfs/comment "If present, end date for the activity.",
+  :fluree/type  :dateTime}
+
+
+ #_{:rdfs/subClassOf
+                [{:id  "https://schema.org/CreativeWork",
+                  :iri "https://schema.org/CreativeWork"}],
+    :extra
+                {"https://schema.org/isPartOf" "https://pending.schema.org",
+                 "https://schema.org/source"
+                                               ["https://github.com/schemaorg/schemaorg/issues/2358"]},
+    :class?     true,
+    :type       ["http://www.w3.org/2000/01/rdf-schema#Class"],
+    :rdfs/label {:en "WebContent"},
+    :id         "https://schema.org/WebContent",
+    :rdfs/comment
+                "WebContent is a type representing all [[WebPage]], [[WebSite]] and [[WebPageElement]] content. It is sometimes the case that detailed distinctions between Web pages, sites and their parts is not always important or obvious. The  [[WebContent]] type makes it easier to describe Web-addressable content without requiring such distinctions to always be stated. (The intent is that the existing types [[WebPage]], [[WebSite]] and [[WebPageElement]] will eventually be declared as subtypes of [[WebContent]]).",
+    :iri        "https://schema.org/WebContent"}
+
+ }

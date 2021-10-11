@@ -1,0 +1,2109 @@
+{"http://purl.org/dc/terms/provenance"
+ {:type ["http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Provenance"},
+  :id "http://purl.org/dc/terms/provenance",
+  "http://purl.org/dc/dcam/rangeIncludes"
+  [{:id "http://purl.org/dc/terms/ProvenanceStatement",
+    :iri "http://purl.org/dc/terms/ProvenanceStatement"}],
+  :rdfs/comment
+  "A statement of any changes in ownership and custody of the resource since its creation that are significant for its authenticity, integrity, and interpretation.",
+  :iri "http://purl.org/dc/terms/provenance",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2004-09-20"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "The statement may include a description of any changes successive custodians made to the resource."}]},
+ "http://purl.org/dc/terms/abstract"
+ {:id "http://purl.org/dc/terms/abstract",
+  :iri "http://purl.org/dc/terms/abstract",
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  :rdfs/comment "A summary of the resource.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Abstract"},
+  :rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/description",
+    :iri "http://purl.org/dc/elements/1.1/description"}
+   {:id "http://purl.org/dc/terms/description",
+    :iri "http://purl.org/dc/terms/description"}]},
+ "http://purl.org/dc/terms/isPartOf"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/relation",
+    :iri "http://purl.org/dc/elements/1.1/relation"}
+   {:id "http://purl.org/dc/terms/relation",
+    :iri "http://purl.org/dc/terms/relation"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Is Part Of"},
+  :id "http://purl.org/dc/terms/isPartOf",
+  :rdfs/comment
+  "A related resource in which the described resource is physically or logically included.",
+  :iri "http://purl.org/dc/terms/isPartOf",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "This property is intended to be used with non-literal values. This property is an inverse property of Has Part."}]},
+ "http://purl.org/dc/terms/LinguisticSystem"
+ {:class? true,
+  :type
+  ["http://www.w3.org/2002/07/owl#Class"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Linguistic System"},
+  :id "http://purl.org/dc/terms/LinguisticSystem",
+  :rdfs/comment
+  "A system of signs, symbols, sounds, gestures, or rules used in communication.",
+  :iri "http://purl.org/dc/terms/LinguisticSystem",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Written, spoken, sign, and computer languages are linguistic systems."}]},
+ "http://purl.org/dc/terms/Standard"
+ {:id "http://purl.org/dc/terms/Standard",
+  :iri "http://purl.org/dc/terms/Standard",
+  :type
+  ["http://www.w3.org/2002/07/owl#Class"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  :rdfs/comment
+  "A reference point against which other things can be evaluated or compared.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Standard"},
+  :class? true},
+ "http://purl.org/dc/terms/isFormatOf"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/relation",
+    :iri "http://purl.org/dc/elements/1.1/relation"}
+   {:id "http://purl.org/dc/terms/relation",
+    :iri "http://purl.org/dc/terms/relation"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Is Format Of"},
+  :id "http://purl.org/dc/terms/isFormatOf",
+  :rdfs/comment
+  "A pre-existing related resource that is substantially the same as the described resource, but in another format.",
+  :iri "http://purl.org/dc/terms/isFormatOf",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "This property is intended to be used with non-literal values. This property is an inverse property of Has Format."}]},
+ "http://purl.org/dc/terms/IMT"
+ {:id "http://purl.org/dc/terms/IMT",
+  :iri "http://purl.org/dc/terms/IMT",
+  :type
+  ["http://www.w3.org/2002/07/owl#NamedIndividual"
+   "http://purl.org/dc/dcam/VocabularyEncodingScheme"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  :rdfs/comment
+  "The set of media types specified by the Internet Assigned Numbers Authority.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "IMT"},
+  :rdfs/seeAlso
+  [{:id "http://www.iana.org/assignments/media-types/",
+    :iri "http://www.iana.org/assignments/media-types/"}]},
+ "http://purl.org/dc/terms/hasFormat"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/relation",
+    :iri "http://purl.org/dc/elements/1.1/relation"}
+   {:id "http://purl.org/dc/terms/relation",
+    :iri "http://purl.org/dc/terms/relation"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Has Format"},
+  :id "http://purl.org/dc/terms/hasFormat",
+  :rdfs/comment
+  "A related resource that is substantially the same as the pre-existing described resource, but in another format.",
+  :iri "http://purl.org/dc/terms/hasFormat",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "This property is intended to be used with non-literal values. This property is an inverse property of Is Format Of."}]},
+ "http://purl.org/dc/terms/valid"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/date",
+    :iri "http://purl.org/dc/elements/1.1/date"}
+   {:id "http://purl.org/dc/terms/date",
+    :iri "http://purl.org/dc/terms/date"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#DatatypeProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Date Valid"},
+  :id "http://purl.org/dc/terms/valid",
+  :rdfs/comment "Date (often a range) of validity of a resource.",
+  :iri "http://purl.org/dc/terms/valid",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Recommended practice is to describe the date, date/time, or period of time as recommended for the property Date, of which this is a subproperty."}],
+  :rdfs/range
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Literal",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Literal"}]},
+ "http://purl.org/dc/terms/replaces"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/relation",
+    :iri "http://purl.org/dc/elements/1.1/relation"}
+   {:id "http://purl.org/dc/terms/relation",
+    :iri "http://purl.org/dc/terms/relation"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Replaces"},
+  :id "http://purl.org/dc/terms/replaces",
+  :rdfs/comment
+  "A related resource that is supplanted, displaced, or superseded by the described resource.",
+  :iri "http://purl.org/dc/terms/replaces",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "This property is intended to be used with non-literal values. This property is an inverse property of Is Replaced By."}]},
+ "http://purl.org/dc/terms/alternative"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/title",
+    :iri "http://purl.org/dc/elements/1.1/title"}
+   {:id "http://purl.org/dc/terms/title",
+    :iri "http://purl.org/dc/terms/title"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#DatatypeProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Alternative Title"},
+  :id "http://purl.org/dc/terms/alternative",
+  :rdfs/comment "An alternative name for the resource.",
+  :iri "http://purl.org/dc/terms/alternative",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "The distinction between titles and alternative titles is application-specific."}],
+  :rdfs/range
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Literal",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Literal"}]},
+ "http://purl.org/dc/terms/FileFormat"
+ {:rdfs/subClassOf
+  [{:id "http://purl.org/dc/terms/MediaType",
+    :iri "http://purl.org/dc/terms/MediaType"}],
+  :class? true,
+  :type
+  ["http://www.w3.org/2002/07/owl#Class"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "File Format"},
+  :id "http://purl.org/dc/terms/FileFormat",
+  :rdfs/comment "A digital resource format.",
+  :iri "http://purl.org/dc/terms/FileFormat",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}]},
+ "http://purl.org/dc/terms/audience"
+ {:type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Audience"},
+  :id "http://purl.org/dc/terms/audience",
+  "http://purl.org/dc/dcam/rangeIncludes"
+  [{:id "http://purl.org/dc/terms/AgentClass",
+    :iri "http://purl.org/dc/terms/AgentClass"}],
+  :rdfs/comment
+  "A class of agents for whom the resource is intended or useful.",
+  :iri "http://purl.org/dc/terms/audience",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2001-05-21"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Recommended practice is to use this property with non-literal values from a vocabulary of audience types."}]},
+ "http://purl.org/dc/terms/identifier"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/identifier",
+    :iri "http://purl.org/dc/elements/1.1/identifier"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#DatatypeProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Identifier"},
+  :id "http://purl.org/dc/terms/identifier",
+  :rdfs/comment
+  "An unambiguous reference to the resource within a given context.",
+  :iri "http://purl.org/dc/terms/identifier",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Recommended practice is to identify the resource by means of a string conforming to an identification system. Examples include International Standard Book Number (ISBN), Digital Object Identifier (DOI), and Uniform Resource Name (URN).  Persistent identifiers should be provided as HTTP URIs."}],
+  :rdfs/range
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Literal",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Literal"}]},
+ "http://purl.org/dc/terms/temporal"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/coverage",
+    :iri "http://purl.org/dc/elements/1.1/coverage"}
+   {:id "http://purl.org/dc/terms/coverage",
+    :iri "http://purl.org/dc/terms/coverage"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Temporal Coverage"},
+  :id "http://purl.org/dc/terms/temporal",
+  "http://purl.org/dc/dcam/rangeIncludes"
+  [{:id "http://purl.org/dc/terms/PeriodOfTime",
+    :iri "http://purl.org/dc/terms/PeriodOfTime"}],
+  :rdfs/comment "Temporal characteristics of the resource.",
+  :iri "http://purl.org/dc/terms/temporal",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}]},
+ "http://purl.org/dc/terms/conformsTo"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/relation",
+    :iri "http://purl.org/dc/elements/1.1/relation"}
+   {:id "http://purl.org/dc/terms/relation",
+    :iri "http://purl.org/dc/terms/relation"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Conforms To"},
+  :id "http://purl.org/dc/terms/conformsTo",
+  "http://purl.org/dc/dcam/rangeIncludes"
+  [{:id "http://purl.org/dc/terms/Standard",
+    :iri "http://purl.org/dc/terms/Standard"}],
+  :rdfs/comment
+  "An established standard to which the described resource conforms.",
+  :iri "http://purl.org/dc/terms/conformsTo",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2001-05-21"}]},
+ "http://purl.org/dc/terms/RFC3066"
+ {:rdfs/seeAlso
+  [{:id "http://www.ietf.org/rfc/rfc3066.txt",
+    :iri "http://www.ietf.org/rfc/rfc3066.txt"}],
+  :type
+  ["http://www.w3.org/2000/01/rdf-schema#Datatype"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "RFC 3066"},
+  :id "http://purl.org/dc/terms/RFC3066",
+  :rdfs/comment
+  "The set of tags constructed according to RFC 3066 for the identification of languages.",
+  :iri "http://purl.org/dc/terms/RFC3066",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2002-07-13"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value" "RFC 3066 has been obsoleted by RFC 4646."}]},
+ "http://purl.org/dc/terms/isRequiredBy"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/relation",
+    :iri "http://purl.org/dc/elements/1.1/relation"}
+   {:id "http://purl.org/dc/terms/relation",
+    :iri "http://purl.org/dc/terms/relation"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Is Required By"},
+  :id "http://purl.org/dc/terms/isRequiredBy",
+  :rdfs/comment
+  "A related resource that requires the described resource to support its function, delivery, or coherence.",
+  :iri "http://purl.org/dc/terms/isRequiredBy",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "This property is intended to be used with non-literal values. This property is an inverse property of Requires."}]},
+ "http://purl.org/dc/terms/Jurisdiction"
+ {:rdfs/subClassOf
+  [{:id "http://purl.org/dc/terms/LocationPeriodOrJurisdiction",
+    :iri "http://purl.org/dc/terms/LocationPeriodOrJurisdiction"}],
+  :class? true,
+  :type
+  ["http://www.w3.org/2002/07/owl#Class"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Jurisdiction"},
+  :id "http://purl.org/dc/terms/Jurisdiction",
+  :rdfs/comment
+  "The extent or range of judicial, law enforcement, or other authority.",
+  :iri "http://purl.org/dc/terms/Jurisdiction",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}]},
+ "http://purl.org/dc/terms/hasVersion"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/relation",
+    :iri "http://purl.org/dc/elements/1.1/relation"}
+   {:id "http://purl.org/dc/terms/relation",
+    :iri "http://purl.org/dc/terms/relation"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Has Version"},
+  :id "http://purl.org/dc/terms/hasVersion",
+  :rdfs/comment
+  "A related resource that is a version, edition, or adaptation of the described resource.",
+  :iri "http://purl.org/dc/terms/hasVersion",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Changes in version imply substantive changes in content rather than differences in format. This property is intended to be used with non-literal values. This property is an inverse property of Is Version Of."}]},
+ "http://purl.org/dc/terms/RFC4646"
+ {:rdfs/seeAlso
+  [{:id "http://www.ietf.org/rfc/rfc4646.txt",
+    :iri "http://www.ietf.org/rfc/rfc4646.txt"}],
+  :type
+  ["http://www.w3.org/2000/01/rdf-schema#Datatype"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "RFC 4646"},
+  :id "http://purl.org/dc/terms/RFC4646",
+  :rdfs/comment
+  "The set of tags constructed according to RFC 4646 for the identification of languages.",
+  :iri "http://purl.org/dc/terms/RFC4646",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en", "@value" "RFC 4646 obsoletes RFC 3066."}]},
+ "http://purl.org/dc/terms/source"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/source",
+    :iri "http://purl.org/dc/elements/1.1/source"}
+   {:id "http://purl.org/dc/terms/relation",
+    :iri "http://purl.org/dc/terms/relation"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Source"},
+  :id "http://purl.org/dc/terms/source",
+  :rdfs/comment
+  "A related resource from which the described resource is derived.",
+  :iri "http://purl.org/dc/terms/source",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "This property is intended to be used with non-literal values. The described resource may be derived from the related resource in whole or in part. Best practice is to identify the related resource by means of a URI or a string conforming to a formal identification system."}]},
+ "http://purl.org/dc/terms/AgentClass"
+ {:rdfs/subClassOf
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Class",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Class"}],
+  :class? true,
+  :type
+  ["http://www.w3.org/2002/07/owl#Class"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Agent Class"},
+  :id "http://purl.org/dc/terms/AgentClass",
+  :rdfs/comment "A group of agents.",
+  :iri "http://purl.org/dc/terms/AgentClass",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}]},
+ "http://purl.org/dc/terms/Box"
+ {:id "http://purl.org/dc/terms/Box",
+  :iri "http://purl.org/dc/terms/Box",
+  :type
+  ["http://www.w3.org/2000/01/rdf-schema#Datatype"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  :rdfs/comment
+  "The set of regions in space defined by their geographic coordinates according to the DCMI Box Encoding Scheme.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "DCMI Box"},
+  :rdfs/seeAlso
+  [{:id
+    "https://www.dublincore.org/specifications/dublin-core/dcmi-box/",
+    :iri
+    "https://www.dublincore.org/specifications/dublin-core/dcmi-box/"}]},
+ "http://purl.org/dc/terms/RFC5646"
+ {:rdfs/seeAlso
+  [{:id "http://www.ietf.org/rfc/rfc5646.txt",
+    :iri "http://www.ietf.org/rfc/rfc5646.txt"}],
+  :type
+  ["http://www.w3.org/2000/01/rdf-schema#Datatype"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "RFC 5646"},
+  :id "http://purl.org/dc/terms/RFC5646",
+  :rdfs/comment
+  "The set of tags constructed according to RFC 5646 for the identification of languages.",
+  :iri "http://purl.org/dc/terms/RFC5646",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2010-10-11"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en", "@value" "RFC 5646 obsoletes RFC 4646."}]},
+ "http://purl.org/dc/terms/RightsStatement"
+ {:id "http://purl.org/dc/terms/RightsStatement",
+  :iri "http://purl.org/dc/terms/RightsStatement",
+  :type
+  ["http://www.w3.org/2002/07/owl#Class"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  :rdfs/comment
+  "A statement about the intellectual property rights (IPR) held in or over a resource, a legal document giving official permission to do something with a resource, or a statement about access rights.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Rights Statement"},
+  :class? true},
+ "http://purl.org/dc/terms/date"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/date",
+    :iri "http://purl.org/dc/elements/1.1/date"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#DatatypeProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Date"},
+  :id "http://purl.org/dc/terms/date",
+  :rdfs/comment
+  "A point or period of time associated with an event in the lifecycle of the resource.",
+  :iri "http://purl.org/dc/terms/date",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Date may be used to express temporal information at any level of granularity.  Recommended practice is to express the date, date/time, or period of time according to ISO 8601-1 [[ISO 8601-1](https://www.iso.org/iso-8601-date-and-time-format.html)] or a published profile of the ISO standard, such as the W3C Note on Date and Time Formats [[W3CDTF](https://www.w3.org/TR/NOTE-datetime)] or the Extended Date/Time Format Specification [[EDTF](http://www.loc.gov/standards/datetime/)].  If the full date is unknown, month and year (YYYY-MM) or just year (YYYY) may be used. Date ranges may be specified using ISO 8601 period of time specification in which start and end dates are separated by a '/' (slash) character.  Either the start or end date may be missing."}],
+  :rdfs/range
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Literal",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Literal"}]},
+ "http://purl.org/dc/terms/Period"
+ {:id "http://purl.org/dc/terms/Period",
+  :iri "http://purl.org/dc/terms/Period",
+  :type
+  ["http://www.w3.org/2000/01/rdf-schema#Datatype"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  :rdfs/comment
+  "The set of time intervals defined by their limits according to the DCMI Period Encoding Scheme.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "DCMI Period"},
+  :rdfs/seeAlso
+  [{:id
+    "https://www.dublincore.org/specifications/dublin-core/dcmi-period/",
+    :iri
+    "https://www.dublincore.org/specifications/dublin-core/dcmi-period/"}]},
+ "http://purl.org/dc/terms/accrualPolicy"
+ {:rdfs/domain
+  [{:id "http://purl.org/dc/dcmitype/Collection",
+    :iri "http://purl.org/dc/dcmitype/Collection"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Accrual Policy"},
+  :id "http://purl.org/dc/terms/accrualPolicy",
+  "http://purl.org/dc/dcam/rangeIncludes"
+  [{:id "http://purl.org/dc/terms/Policy",
+    :iri "http://purl.org/dc/terms/Policy"}],
+  :rdfs/comment
+  "The policy governing the addition of items to a collection.",
+  :iri "http://purl.org/dc/terms/accrualPolicy",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2005-06-13"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Recommended practice is to use a value from the Collection Description Accrual Policy Vocabulary [[DCMI-ACCRUALPOLICY](https://dublincore.org/groups/collections/accrual-policy/)]."}]},
+ "http://purl.org/dc/terms/accrualPeriodicity"
+ {:rdfs/domain
+  [{:id "http://purl.org/dc/dcmitype/Collection",
+    :iri "http://purl.org/dc/dcmitype/Collection"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Accrual Periodicity"},
+  :id "http://purl.org/dc/terms/accrualPeriodicity",
+  "http://purl.org/dc/dcam/rangeIncludes"
+  [{:id "http://purl.org/dc/terms/Frequency",
+    :iri "http://purl.org/dc/terms/Frequency"}],
+  :rdfs/comment
+  "The frequency with which items are added to a collection.",
+  :iri "http://purl.org/dc/terms/accrualPeriodicity",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2005-06-13"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Recommended practice is to use a value from the Collection Description Frequency Vocabulary [[DCMI-COLLFREQ](https://dublincore.org/groups/collections/frequency/)]."}]},
+ "http://purl.org/dc/terms/modified"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/date",
+    :iri "http://purl.org/dc/elements/1.1/date"}
+   {:id "http://purl.org/dc/terms/date",
+    :iri "http://purl.org/dc/terms/date"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#DatatypeProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Date Modified"},
+  :id "http://purl.org/dc/terms/modified",
+  :rdfs/comment "Date on which the resource was changed.",
+  :iri "http://purl.org/dc/terms/modified",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Recommended practice is to describe the date, date/time, or period of time as recommended for the property Date, of which this is a subproperty."}],
+  :rdfs/range
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Literal",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Literal"}]},
+ "http://purl.org/dc/terms/format"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/format",
+    :iri "http://purl.org/dc/elements/1.1/format"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Format"},
+  :id "http://purl.org/dc/terms/format",
+  "http://purl.org/dc/dcam/rangeIncludes"
+  [{:id "http://purl.org/dc/terms/Extent",
+    :iri "http://purl.org/dc/terms/Extent"}
+   {:id "http://purl.org/dc/terms/MediaType",
+    :iri "http://purl.org/dc/terms/MediaType"}],
+  :rdfs/comment
+  "The file format, physical medium, or dimensions of the resource.",
+  :iri "http://purl.org/dc/terms/format",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Recommended practice is to use a controlled vocabulary where available. For example, for file formats one could use the list of Internet Media Types [[MIME](https://www.iana.org/assignments/media-types/media-types.xhtml)].  Examples of dimensions include size and duration."}]},
+ "http://purl.org/dc/terms/isReplacedBy"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/relation",
+    :iri "http://purl.org/dc/elements/1.1/relation"}
+   {:id "http://purl.org/dc/terms/relation",
+    :iri "http://purl.org/dc/terms/relation"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Is Replaced By"},
+  :id "http://purl.org/dc/terms/isReplacedBy",
+  :rdfs/comment
+  "A related resource that supplants, displaces, or supersedes the described resource.",
+  :iri "http://purl.org/dc/terms/isReplacedBy",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "This property is intended to be used with non-literal values. This property is an inverse property of Replaces."}]},
+ "http://purl.org/dc/terms/references"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/relation",
+    :iri "http://purl.org/dc/elements/1.1/relation"}
+   {:id "http://purl.org/dc/terms/relation",
+    :iri "http://purl.org/dc/terms/relation"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "References"},
+  :id "http://purl.org/dc/terms/references",
+  :rdfs/comment
+  "A related resource that is referenced, cited, or otherwise pointed to by the described resource.",
+  :iri "http://purl.org/dc/terms/references",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "This property is intended to be used with non-literal values. This property is an inverse property of Is Referenced By."}]},
+ "http://purl.org/dc/terms/instructionalMethod"
+ {:type ["http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Instructional Method"},
+  :id "http://purl.org/dc/terms/instructionalMethod",
+  "http://purl.org/dc/dcam/rangeIncludes"
+  [{:id "http://purl.org/dc/terms/MethodOfInstruction",
+    :iri "http://purl.org/dc/terms/MethodOfInstruction"}],
+  :rdfs/comment
+  "A process, used to engender knowledge, attitudes and skills, that the described resource is designed to support.",
+  :iri "http://purl.org/dc/terms/instructionalMethod",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2005-06-13"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Instructional Method typically includes ways of presenting instructional materials or conducting instructional activities, patterns of learner-to-learner and learner-to-instructor interactions, and mechanisms by which group and individual levels of learning are measured.  Instructional methods include all aspects of the instruction and learning processes from planning and implementation through evaluation and feedback."}]},
+ "http://purl.org/dc/terms/MediaType"
+ {:rdfs/subClassOf
+  [{:id "http://purl.org/dc/terms/MediaTypeOrExtent",
+    :iri "http://purl.org/dc/terms/MediaTypeOrExtent"}],
+  :class? true,
+  :type
+  ["http://www.w3.org/2002/07/owl#Class"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Media Type"},
+  :id "http://purl.org/dc/terms/MediaType",
+  :rdfs/comment "A file format or physical medium.",
+  :iri "http://purl.org/dc/terms/MediaType",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}]},
+ "http://purl.org/dc/terms/type"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/type",
+    :iri "http://purl.org/dc/elements/1.1/type"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Type"},
+  :id "http://purl.org/dc/terms/type",
+  :rdfs/comment "The nature or genre of the resource.",
+  :iri "http://purl.org/dc/terms/type",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Recommended practice is to use a controlled vocabulary such as the DCMI Type Vocabulary [[DCMI-TYPE](http://dublincore.org/documents/dcmi-type-vocabulary/)]. To describe the file format, physical medium, or dimensions of the resource, use the property Format."}]},
+ "http://purl.org/dc/terms/contributor"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/contributor",
+    :iri "http://purl.org/dc/elements/1.1/contributor"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Contributor"},
+  :id "http://purl.org/dc/terms/contributor",
+  "http://purl.org/dc/dcam/rangeIncludes"
+  [{:id "http://purl.org/dc/terms/Agent",
+    :iri "http://purl.org/dc/terms/Agent"}],
+  :rdfs/comment
+  "An entity responsible for making contributions to the resource.",
+  :iri "http://purl.org/dc/terms/contributor",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "The guidelines for using names of persons or organizations as creators apply to contributors."}]},
+ "http://purl.org/dc/terms/dateCopyrighted"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/date",
+    :iri "http://purl.org/dc/elements/1.1/date"}
+   {:id "http://purl.org/dc/terms/date",
+    :iri "http://purl.org/dc/terms/date"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#DatatypeProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Date Copyrighted"},
+  :id "http://purl.org/dc/terms/dateCopyrighted",
+  :rdfs/comment "Date of copyright of the resource.",
+  :iri "http://purl.org/dc/terms/dateCopyrighted",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2002-07-13"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Typically a year.  Recommended practice is to describe the date, date/time, or period of time as recommended for the property Date, of which this is a subproperty."}],
+  :rdfs/range
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Literal",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Literal"}]},
+ "http://purl.org/dc/terms/hasPart"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/relation",
+    :iri "http://purl.org/dc/elements/1.1/relation"}
+   {:id "http://purl.org/dc/terms/relation",
+    :iri "http://purl.org/dc/terms/relation"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Has Part"},
+  :id "http://purl.org/dc/terms/hasPart",
+  :rdfs/comment
+  "A related resource that is included either physically or logically in the described resource.",
+  :iri "http://purl.org/dc/terms/hasPart",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "This property is intended to be used with non-literal values. This property is an inverse property of Is Part Of."}]},
+ "http://purl.org/dc/terms/MediaTypeOrExtent"
+ {:id "http://purl.org/dc/terms/MediaTypeOrExtent",
+  :iri "http://purl.org/dc/terms/MediaTypeOrExtent",
+  :type
+  ["http://www.w3.org/2002/07/owl#Class"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  :rdfs/comment "A media type or extent.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Media Type or Extent"},
+  :class? true},
+ "http://purl.org/dc/terms/dateSubmitted"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/date",
+    :iri "http://purl.org/dc/elements/1.1/date"}
+   {:id "http://purl.org/dc/terms/date",
+    :iri "http://purl.org/dc/terms/date"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#DatatypeProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Date Submitted"},
+  :id "http://purl.org/dc/terms/dateSubmitted",
+  :rdfs/comment "Date of submission of the resource.",
+  :iri "http://purl.org/dc/terms/dateSubmitted",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2002-07-13"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Recommended practice is to describe the date, date/time, or period of time as recommended for the property Date, of which this is a subproperty.  Examples of resources to which a 'Date Submitted' may be relevant include a thesis (submitted to a university department) or an article (submitted to a journal)."}],
+  :rdfs/range
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Literal",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Literal"}]},
+ "http://purl.org/dc/terms/requires"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/relation",
+    :iri "http://purl.org/dc/elements/1.1/relation"}
+   {:id "http://purl.org/dc/terms/relation",
+    :iri "http://purl.org/dc/terms/relation"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Requires"},
+  :id "http://purl.org/dc/terms/requires",
+  :rdfs/comment
+  "A related resource that is required by the described resource to support its function, delivery, or coherence.",
+  :iri "http://purl.org/dc/terms/requires",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "This property is intended to be used with non-literal values. This property is an inverse property of Is Required By."}]},
+ "http://purl.org/dc/terms/"
+ {:id "http://purl.org/dc/terms/",
+  :iri "http://purl.org/dc/terms/",
+  :type ["http://www.w3.org/2002/07/owl#NamedIndividual"],
+  "http://purl.org/dc/terms/modified"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2012-06-14"}],
+  "http://purl.org/dc/terms/publisher"
+  [{:id "http://purl.org/dc/aboutdcmi#DCMI",
+    :iri "http://purl.org/dc/aboutdcmi#DCMI"}],
+  "http://purl.org/dc/terms/title"
+  [{"@language" "en", "@value" "DCMI Metadata Terms - other"}]},
+ "http://purl.org/dc/terms/W3CDTF"
+ {:id "http://purl.org/dc/terms/W3CDTF",
+  :iri "http://purl.org/dc/terms/W3CDTF",
+  :type
+  ["http://www.w3.org/2000/01/rdf-schema#Datatype"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  :rdfs/comment
+  "The set of dates and times constructed according to the W3C Date and Time Formats Specification.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "W3C-DTF"},
+  :rdfs/seeAlso
+  [{:id "http://www.w3.org/TR/NOTE-datetime",
+    :iri "http://www.w3.org/TR/NOTE-datetime"}]},
+ "http://purl.org/dc/terms/Point"
+ {:id "http://purl.org/dc/terms/Point",
+  :iri "http://purl.org/dc/terms/Point",
+  :type
+  ["http://www.w3.org/2000/01/rdf-schema#Datatype"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  :rdfs/comment
+  "The set of points in space defined by their geographic coordinates according to the DCMI Point Encoding Scheme.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "DCMI Point"},
+  :rdfs/seeAlso
+  [{:id
+    "https://www.dublincore.org/specifications/dublin-core/dcmi-point/",
+    :iri
+    "https://www.dublincore.org/specifications/dublin-core/dcmi-point/"}]},
+ "http://purl.org/dc/terms/Policy"
+ {:id "http://purl.org/dc/terms/Policy",
+  :iri "http://purl.org/dc/terms/Policy",
+  :type
+  ["http://www.w3.org/2002/07/owl#Class"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  :rdfs/comment
+  "A plan or course of action by an authority, intended to influence and determine decisions, actions, and other matters.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Policy"},
+  :class? true},
+ "http://purl.org/dc/terms/BibliographicResource"
+ {:id "http://purl.org/dc/terms/BibliographicResource",
+  :iri "http://purl.org/dc/terms/BibliographicResource",
+  :type
+  ["http://www.w3.org/2002/07/owl#Class"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  :rdfs/comment "A book, article, or other documentary resource.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Bibliographic Resource"},
+  :class? true},
+ "http://purl.org/dc/terms/PhysicalMedium"
+ {:rdfs/subClassOf
+  [{:id "http://purl.org/dc/terms/MediaType",
+    :iri "http://purl.org/dc/terms/MediaType"}],
+  :class? true,
+  :type
+  ["http://www.w3.org/2002/07/owl#Class"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Physical Medium"},
+  :id "http://purl.org/dc/terms/PhysicalMedium",
+  :rdfs/comment "A physical material or carrier.",
+  :iri "http://purl.org/dc/terms/PhysicalMedium",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value" "Examples include paper, canvas, or DVD."}]},
+ "http://purl.org/dc/terms/NLM"
+ {:id "http://purl.org/dc/terms/NLM",
+  :iri "http://purl.org/dc/terms/NLM",
+  :type
+  ["http://www.w3.org/2002/07/owl#NamedIndividual"
+   "http://purl.org/dc/dcam/VocabularyEncodingScheme"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2005-06-13"}],
+  :rdfs/comment
+  "The set of conceptual resources specified by the National Library of Medicine Classification.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "NLM"},
+  :rdfs/seeAlso
+  [{:id "http://wwwcf.nlm.nih.gov/class/",
+    :iri "http://wwwcf.nlm.nih.gov/class/"}]},
+ "http://purl.org/dc/terms/spatial"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/coverage",
+    :iri "http://purl.org/dc/elements/1.1/coverage"}
+   {:id "http://purl.org/dc/terms/coverage",
+    :iri "http://purl.org/dc/terms/coverage"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Spatial Coverage"},
+  :id "http://purl.org/dc/terms/spatial",
+  "http://purl.org/dc/dcam/rangeIncludes"
+  [{:id "http://purl.org/dc/terms/Location",
+    :iri "http://purl.org/dc/terms/Location"}],
+  :rdfs/comment "Spatial characteristics of the resource.",
+  :iri "http://purl.org/dc/terms/spatial",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}]},
+ "http://purl.org/dc/terms/DCMIType"
+ {:id "http://purl.org/dc/terms/DCMIType",
+  :iri "http://purl.org/dc/terms/DCMIType",
+  :type
+  ["http://www.w3.org/2002/07/owl#NamedIndividual"
+   "http://purl.org/dc/dcam/VocabularyEncodingScheme"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  :rdfs/comment
+  "The set of classes specified by the DCMI Type Vocabulary, used to categorize the nature or genre of the resource.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "DCMI Type Vocabulary"},
+  :rdfs/seeAlso
+  [{:id "http://purl.org/dc/dcmitype/",
+    :iri "http://purl.org/dc/dcmitype/"}]},
+ "http://purl.org/dc/terms/title"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/title",
+    :iri "http://purl.org/dc/elements/1.1/title"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#DatatypeProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Title"},
+  :id "http://purl.org/dc/terms/title",
+  :rdfs/comment "A name given to the resource.",
+  :iri "http://purl.org/dc/terms/title",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  :rdfs/range
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Literal",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Literal"}]},
+ "http://purl.org/dc/terms/LocationPeriodOrJurisdiction"
+ {:id "http://purl.org/dc/terms/LocationPeriodOrJurisdiction",
+  :iri "http://purl.org/dc/terms/LocationPeriodOrJurisdiction",
+  :type
+  ["http://www.w3.org/2002/07/owl#Class"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  :rdfs/comment "A location, period of time, or jurisdiction.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Location, Period, or Jurisdiction"},
+  :class? true},
+ "http://purl.org/dc/terms/coverage"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/coverage",
+    :iri "http://purl.org/dc/elements/1.1/coverage"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Coverage"},
+  :id "http://purl.org/dc/terms/coverage",
+  "http://purl.org/dc/dcam/rangeIncludes"
+  [{:id "http://purl.org/dc/terms/Period",
+    :iri "http://purl.org/dc/terms/Period"}
+   {:id "http://purl.org/dc/terms/Location",
+    :iri "http://purl.org/dc/terms/Location"}
+   {:id "http://purl.org/dc/terms/Jurisdiction",
+    :iri "http://purl.org/dc/terms/Jurisdiction"}],
+  :rdfs/comment
+  "The spatial or temporal topic of the resource, spatial applicability of the resource, or jurisdiction under which the resource is relevant.",
+  :iri "http://purl.org/dc/terms/coverage",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Spatial topic and spatial applicability may be a named place or a location specified by its geographic coordinates. Temporal topic may be a named period, date, or date range. A jurisdiction may be a named administrative entity or a geographic place to which the resource applies. Recommended practice is to use a controlled vocabulary such as the Getty Thesaurus of Geographic Names [[TGN](https://www.getty.edu/research/tools/vocabulary/tgn/index.html)]. Where appropriate, named places or time periods may be used in preference to numeric identifiers such as sets of coordinates or date ranges.  Because coverage is so broadly defined, it is preferable to use the more specific subproperties Temporal Coverage and Spatial Coverage."}]},
+ "http://purl.org/dc/terms/creator"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/creator",
+    :iri "http://purl.org/dc/elements/1.1/creator"}
+   {:id "http://purl.org/dc/terms/contributor",
+    :iri "http://purl.org/dc/terms/contributor"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Creator"},
+  :id "http://purl.org/dc/terms/creator",
+  "http://purl.org/dc/dcam/rangeIncludes"
+  [{:id "http://purl.org/dc/terms/Agent",
+    :iri "http://purl.org/dc/terms/Agent"}],
+  :rdfs/comment "An entity responsible for making the resource.",
+  :iri "http://purl.org/dc/terms/creator",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Recommended practice is to identify the creator with a URI.  If this is not possible or feasible, a literal value that identifies the creator may be provided."}]},
+ "http://purl.org/dc/terms/ISO639-3"
+ {:id "http://purl.org/dc/terms/ISO639-3",
+  :iri "http://purl.org/dc/terms/ISO639-3",
+  :type
+  ["http://www.w3.org/2000/01/rdf-schema#Datatype"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  :rdfs/comment
+  "The set of three-letter codes listed in ISO 639-3 for the representation of names of languages.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "ISO 639-3"},
+  :rdfs/seeAlso
+  [{:id "http://www.sil.org/iso639-3/",
+    :iri "http://www.sil.org/iso639-3/"}]},
+ "http://purl.org/dc/terms/LicenseDocument"
+ {:rdfs/subClassOf
+  [{:id "http://purl.org/dc/terms/RightsStatement",
+    :iri "http://purl.org/dc/terms/RightsStatement"}],
+  :class? true,
+  :type
+  ["http://www.w3.org/2002/07/owl#Class"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "License Document"},
+  :id "http://purl.org/dc/terms/LicenseDocument",
+  :rdfs/comment
+  "A legal document giving official permission to do something with a resource.",
+  :iri "http://purl.org/dc/terms/LicenseDocument",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}]},
+ "http://purl.org/dc/terms/license"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/rights",
+    :iri "http://purl.org/dc/elements/1.1/rights"}
+   {:id "http://purl.org/dc/terms/rights",
+    :iri "http://purl.org/dc/terms/rights"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "License"},
+  :id "http://purl.org/dc/terms/license",
+  "http://purl.org/dc/dcam/rangeIncludes"
+  [{:id "http://purl.org/dc/terms/LicenseDocument",
+    :iri "http://purl.org/dc/terms/LicenseDocument"}],
+  :rdfs/comment
+  "A legal document giving official permission to do something with the resource.",
+  :iri "http://purl.org/dc/terms/license",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2004-06-14"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Recommended practice is to identify the license document with a URI. If this is not possible or feasible, a literal value that identifies the license may be provided."}]},
+ "http://purl.org/dc/terms/RFC1766"
+ {:id "http://purl.org/dc/terms/RFC1766",
+  :iri "http://purl.org/dc/terms/RFC1766",
+  :type
+  ["http://www.w3.org/2000/01/rdf-schema#Datatype"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  :rdfs/comment
+  "The set of tags, constructed according to RFC 1766, for the identification of languages.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "RFC 1766"},
+  :rdfs/seeAlso
+  [{:id "http://www.ietf.org/rfc/rfc1766.txt",
+    :iri "http://www.ietf.org/rfc/rfc1766.txt"}]},
+ "http://purl.org/dc/terms/PeriodOfTime"
+ {:rdfs/subClassOf
+  [{:id "http://purl.org/dc/terms/LocationPeriodOrJurisdiction",
+    :iri "http://purl.org/dc/terms/LocationPeriodOrJurisdiction"}],
+  :class? true,
+  :type
+  ["http://www.w3.org/2002/07/owl#Class"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Period of Time"},
+  :id "http://purl.org/dc/terms/PeriodOfTime",
+  :rdfs/comment
+  "An interval of time that is named or defined by its start and end dates.",
+  :iri "http://purl.org/dc/terms/PeriodOfTime",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}]},
+ "http://purl.org/dc/terms/SizeOrDuration"
+ {:rdfs/subClassOf
+  [{:id "http://purl.org/dc/terms/MediaTypeOrExtent",
+    :iri "http://purl.org/dc/terms/MediaTypeOrExtent"}],
+  :class? true,
+  :type
+  ["http://www.w3.org/2002/07/owl#Class"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Size or Duration"},
+  :id "http://purl.org/dc/terms/SizeOrDuration",
+  :rdfs/comment
+  "A dimension or extent, or a time taken to play or execute.",
+  :iri "http://purl.org/dc/terms/SizeOrDuration",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Examples include a number of pages, a specification of length, width, and breadth, or a period in hours, minutes, and seconds."}]},
+ "http://purl.org/dc/terms/created"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/date",
+    :iri "http://purl.org/dc/elements/1.1/date"}
+   {:id "http://purl.org/dc/terms/date",
+    :iri "http://purl.org/dc/terms/date"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#DatatypeProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Date Created"},
+  :id "http://purl.org/dc/terms/created",
+  :rdfs/comment "Date of creation of the resource.",
+  :iri "http://purl.org/dc/terms/created",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Recommended practice is to describe the date, date/time, or period of time as recommended for the property Date, of which this is a subproperty."}],
+  :rdfs/range
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Literal",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Literal"}]},
+ "http://purl.org/dc/terms/educationLevel"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/terms/audience",
+    :iri "http://purl.org/dc/terms/audience"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Audience Education Level"},
+  :id "http://purl.org/dc/terms/educationLevel",
+  "http://purl.org/dc/dcam/rangeIncludes"
+  [{:id "http://purl.org/dc/terms/AgentClass",
+    :iri "http://purl.org/dc/terms/AgentClass"}],
+  :rdfs/comment
+  "A class of agents, defined in terms of progression through an educational or training context, for which the described resource is intended.",
+  :iri "http://purl.org/dc/terms/educationLevel",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2002-07-13"}]},
+ "http://purl.org/dc/terms/URI"
+ {:id "http://purl.org/dc/terms/URI",
+  :iri "http://purl.org/dc/terms/URI",
+  :type
+  ["http://www.w3.org/2000/01/rdf-schema#Datatype"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  :rdfs/comment
+  "The set of identifiers constructed according to the generic syntax for Uniform Resource Identifiers as specified by the Internet Engineering Task Force.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "URI"},
+  :rdfs/seeAlso
+  [{:id "http://www.ietf.org/rfc/rfc3986.txt",
+    :iri "http://www.ietf.org/rfc/rfc3986.txt"}]},
+ "http://purl.org/dc/terms/TGN"
+ {:id "http://purl.org/dc/terms/TGN",
+  :iri "http://purl.org/dc/terms/TGN",
+  :type
+  ["http://www.w3.org/2002/07/owl#NamedIndividual"
+   "http://purl.org/dc/dcam/VocabularyEncodingScheme"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  :rdfs/comment
+  "The set of places specified by the Getty Thesaurus of Geographic Names.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "TGN"},
+  :rdfs/seeAlso
+  [{:id
+    "http://www.getty.edu/research/tools/vocabulary/tgn/index.html",
+    :iri
+    "http://www.getty.edu/research/tools/vocabulary/tgn/index.html"}]},
+ "http://purl.org/dc/terms/medium"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/format",
+    :iri "http://purl.org/dc/elements/1.1/format"}
+   {:id "http://purl.org/dc/terms/format",
+    :iri "http://purl.org/dc/terms/format"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  "http://purl.org/dc/dcam/domainIncludes"
+  [{:id "http://purl.org/dc/terms/PhysicalResource",
+    :iri "http://purl.org/dc/terms/PhysicalResource"}],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Medium"},
+  :id "http://purl.org/dc/terms/medium",
+  "http://purl.org/dc/dcam/rangeIncludes"
+  [{:id "http://purl.org/dc/terms/PhysicalMedium",
+    :iri "http://purl.org/dc/terms/PhysicalMedium"}],
+  :rdfs/comment "The material or physical carrier of the resource.",
+  :iri "http://purl.org/dc/terms/medium",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}]},
+ "http://purl.org/dc/terms/MESH"
+ {:id "http://purl.org/dc/terms/MESH",
+  :iri "http://purl.org/dc/terms/MESH",
+  :type
+  ["http://www.w3.org/2002/07/owl#NamedIndividual"
+   "http://purl.org/dc/dcam/VocabularyEncodingScheme"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  :rdfs/comment
+  "The set of labeled concepts specified by the Medical Subject Headings.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "MeSH"},
+  :rdfs/seeAlso
+  [{:id "http://www.nlm.nih.gov/mesh/meshhome.html",
+    :iri "http://www.nlm.nih.gov/mesh/meshhome.html"}]},
+ "http://purl.org/dc/terms/LCSH"
+ {:id "http://purl.org/dc/terms/LCSH",
+  :iri "http://purl.org/dc/terms/LCSH",
+  :type
+  ["http://www.w3.org/2002/07/owl#NamedIndividual"
+   "http://purl.org/dc/dcam/VocabularyEncodingScheme"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  :rdfs/comment
+  "The set of labeled concepts specified by the Library of Congress Subject Headings.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "LCSH"}},
+ "http://purl.org/dc/terms/DDC"
+ {:id "http://purl.org/dc/terms/DDC",
+  :iri "http://purl.org/dc/terms/DDC",
+  :type
+  ["http://www.w3.org/2002/07/owl#NamedIndividual"
+   "http://purl.org/dc/dcam/VocabularyEncodingScheme"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  :rdfs/comment
+  "The set of conceptual resources specified by the Dewey Decimal Classification.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "DDC"},
+  :rdfs/seeAlso
+  [{:id "http://www.oclc.org/dewey/",
+    :iri "http://www.oclc.org/dewey/"}]},
+ "http://purl.org/dc/terms/tableOfContents"
+ {:id "http://purl.org/dc/terms/tableOfContents",
+  :iri "http://purl.org/dc/terms/tableOfContents",
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  :rdfs/comment "A list of subunits of the resource.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Table Of Contents"},
+  :rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/description",
+    :iri "http://purl.org/dc/elements/1.1/description"}
+   {:id "http://purl.org/dc/terms/description",
+    :iri "http://purl.org/dc/terms/description"}]},
+ "http://purl.org/dc/terms/language"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/language",
+    :iri "http://purl.org/dc/elements/1.1/language"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Language"},
+  :id "http://purl.org/dc/terms/language",
+  "http://purl.org/dc/dcam/rangeIncludes"
+  [{:id "http://purl.org/dc/terms/LinguisticSystem",
+    :iri "http://purl.org/dc/terms/LinguisticSystem"}],
+  :rdfs/comment "A language of the resource.",
+  :iri "http://purl.org/dc/terms/language",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Recommended practice is to use either a non-literal value representing a language from a controlled vocabulary such as ISO 639-2 or ISO 639-3, or a literal value consisting of an IETF Best Current Practice 47 [[IETF-BCP47](https://tools.ietf.org/html/bcp47)] language tag."}]},
+ "http://purl.org/dc/terms/LCC"
+ {:id "http://purl.org/dc/terms/LCC",
+  :iri "http://purl.org/dc/terms/LCC",
+  :type
+  ["http://www.w3.org/2002/07/owl#NamedIndividual"
+   "http://purl.org/dc/dcam/VocabularyEncodingScheme"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  :rdfs/comment
+  "The set of conceptual resources specified by the Library of Congress Classification.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "LCC"},
+  :rdfs/seeAlso
+  [{:id "http://lcweb.loc.gov/catdir/cpso/lcco/lcco.html",
+    :iri "http://lcweb.loc.gov/catdir/cpso/lcco/lcco.html"}]},
+ "http://purl.org/dc/terms/isReferencedBy"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/relation",
+    :iri "http://purl.org/dc/elements/1.1/relation"}
+   {:id "http://purl.org/dc/terms/relation",
+    :iri "http://purl.org/dc/terms/relation"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Is Referenced By"},
+  :id "http://purl.org/dc/terms/isReferencedBy",
+  :rdfs/comment
+  "A related resource that references, cites, or otherwise points to the described resource.",
+  :iri "http://purl.org/dc/terms/isReferencedBy",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "This property is intended to be used with non-literal values. This property is an inverse property of References."}]},
+ "http://purl.org/dc/terms/mediator"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/terms/audience",
+    :iri "http://purl.org/dc/terms/audience"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Mediator"},
+  :id "http://purl.org/dc/terms/mediator",
+  "http://purl.org/dc/dcam/rangeIncludes"
+  [{:id "http://purl.org/dc/terms/AgentClass",
+    :iri "http://purl.org/dc/terms/AgentClass"}],
+  :rdfs/comment "An entity that mediates access to the resource.",
+  :iri "http://purl.org/dc/terms/mediator",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2001-05-21"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "In an educational context, a mediator might be a parent, teacher, teaching assistant, or care-giver."}]},
+ "http://purl.org/dc/terms/MethodOfAccrual"
+ {:id "http://purl.org/dc/terms/MethodOfAccrual",
+  :iri "http://purl.org/dc/terms/MethodOfAccrual",
+  :type
+  ["http://www.w3.org/2002/07/owl#Class"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  :rdfs/comment
+  "A method by which resources are added to a collection.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Method of Accrual"},
+  :class? true},
+ "http://purl.org/dc/terms/isVersionOf"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/relation",
+    :iri "http://purl.org/dc/elements/1.1/relation"}
+   {:id "http://purl.org/dc/terms/relation",
+    :iri "http://purl.org/dc/terms/relation"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Is Version Of"},
+  :id "http://purl.org/dc/terms/isVersionOf",
+  :rdfs/comment
+  "A related resource of which the described resource is a version, edition, or adaptation.",
+  :iri "http://purl.org/dc/terms/isVersionOf",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Changes in version imply substantive changes in content rather than differences in format. This property is intended to be used with non-literal values. This property is an inverse property of Has Version."}]},
+ "http://purl.org/dc/terms/available"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/date",
+    :iri "http://purl.org/dc/elements/1.1/date"}
+   {:id "http://purl.org/dc/terms/date",
+    :iri "http://purl.org/dc/terms/date"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#DatatypeProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Date Available"},
+  :id "http://purl.org/dc/terms/available",
+  :rdfs/comment
+  "Date that the resource became or will become available.",
+  :iri "http://purl.org/dc/terms/available",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Recommended practice is to describe the date, date/time, or period of time as recommended for the property Date, of which this is a subproperty."}],
+  :rdfs/range
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Literal",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Literal"}]},
+ "http://purl.org/dc/terms/relation"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/relation",
+    :iri "http://purl.org/dc/elements/1.1/relation"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Relation"},
+  :id "http://purl.org/dc/terms/relation",
+  :rdfs/comment "A related resource.",
+  :iri "http://purl.org/dc/terms/relation",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Recommended practice is to identify the related resource by means of a URI.  If this is not possible or feasible, a string conforming to a formal identification system may be provided."}]},
+ "http://purl.org/dc/terms/accessRights"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/rights",
+    :iri "http://purl.org/dc/elements/1.1/rights"}
+   {:id "http://purl.org/dc/terms/rights",
+    :iri "http://purl.org/dc/terms/rights"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Access Rights"},
+  :id "http://purl.org/dc/terms/accessRights",
+  "http://purl.org/dc/dcam/rangeIncludes"
+  [{:id "http://purl.org/dc/terms/RightsStatement",
+    :iri "http://purl.org/dc/terms/RightsStatement"}],
+  :rdfs/comment
+  "Information about who access the resource or an indication of its security status.",
+  :iri "http://purl.org/dc/terms/accessRights",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2003-02-15"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Access Rights may include information regarding access or restrictions based on privacy, security, or other policies."}]},
+ "http://purl.org/dc/terms/ISO639-2"
+ {:id "http://purl.org/dc/terms/ISO639-2",
+  :iri "http://purl.org/dc/terms/ISO639-2",
+  :type
+  ["http://www.w3.org/2000/01/rdf-schema#Datatype"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  :rdfs/comment
+  "The three-letter alphabetic codes listed in ISO639-2 for the representation of names of languages.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "ISO 639-2"},
+  :rdfs/seeAlso
+  [{:id "http://lcweb.loc.gov/standards/iso639-2/langhome.html",
+    :iri "http://lcweb.loc.gov/standards/iso639-2/langhome.html"}]},
+ "http://purl.org/dc/terms/Agent"
+ {:id "http://purl.org/dc/terms/Agent",
+  :iri "http://purl.org/dc/terms/Agent",
+  :type
+  ["http://www.w3.org/2002/07/owl#Class"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"
+   "http://purl.org/dc/terms/AgentClass"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  :rdfs/comment "A resource that acts or has the power to act.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Agent"},
+  :class? true},
+ "http://purl.org/dc/terms/ProvenanceStatement"
+ {:id "http://purl.org/dc/terms/ProvenanceStatement",
+  :iri "http://purl.org/dc/terms/ProvenanceStatement",
+  :type
+  ["http://www.w3.org/2002/07/owl#Class"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  :rdfs/comment
+  "Any changes in ownership and custody of a resource since its creation that are significant for its authenticity, integrity, and interpretation.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Provenance Statement"},
+  :class? true},
+ "http://purl.org/dc/terms/publisher"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/publisher",
+    :iri "http://purl.org/dc/elements/1.1/publisher"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Publisher"},
+  :id "http://purl.org/dc/terms/publisher",
+  "http://purl.org/dc/dcam/rangeIncludes"
+  [{:id "http://purl.org/dc/terms/Agent",
+    :iri "http://purl.org/dc/terms/Agent"}],
+  :rdfs/comment
+  "An entity responsible for making the resource available.",
+  :iri "http://purl.org/dc/terms/publisher",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}]},
+ "http://purl.org/dc/terms/Location"
+ {:rdfs/subClassOf
+  [{:id "http://purl.org/dc/terms/LocationPeriodOrJurisdiction",
+    :iri "http://purl.org/dc/terms/LocationPeriodOrJurisdiction"}],
+  :class? true,
+  :type
+  ["http://www.w3.org/2002/07/owl#Class"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Location"},
+  :id "http://purl.org/dc/terms/Location",
+  :rdfs/comment "A spatial region or named place.",
+  :iri "http://purl.org/dc/terms/Location",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}]},
+ "http://purl.org/dc/terms/issued"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/date",
+    :iri "http://purl.org/dc/elements/1.1/date"}
+   {:id "http://purl.org/dc/terms/date",
+    :iri "http://purl.org/dc/terms/date"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#DatatypeProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Date Issued"},
+  :id "http://purl.org/dc/terms/issued",
+  :rdfs/comment "Date of formal issuance of the resource.",
+  :iri "http://purl.org/dc/terms/issued",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Recommended practice is to describe the date, date/time, or period of time as recommended for the property Date, of which this is a subproperty."}],
+  :rdfs/range
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Literal",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Literal"}]},
+ "http://purl.org/dc/terms/subject"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/subject",
+    :iri "http://purl.org/dc/elements/1.1/subject"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Subject"},
+  :id "http://purl.org/dc/terms/subject",
+  :rdfs/comment "A topic of the resource.",
+  :iri "http://purl.org/dc/terms/subject",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Recommended practice is to refer to the subject with a URI. If this is not possible or feasible, a literal value that identifies the subject may be provided. Both should preferably refer to a subject in a controlled vocabulary."}]},
+ "http://purl.org/dc/terms/dateAccepted"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/date",
+    :iri "http://purl.org/dc/elements/1.1/date"}
+   {:id "http://purl.org/dc/terms/date",
+    :iri "http://purl.org/dc/terms/date"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#DatatypeProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Date Accepted"},
+  :id "http://purl.org/dc/terms/dateAccepted",
+  :rdfs/comment "Date of acceptance of the resource.",
+  :iri "http://purl.org/dc/terms/dateAccepted",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2002-07-13"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Recommended practice is to describe the date, date/time, or period of time as recommended for the property Date, of which this is a subproperty.  Examples of resources to which a date of acceptance may be relevant are a thesis (accepted by a university department) or an article (accepted by a journal)."}],
+  :rdfs/range
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Literal",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Literal"}]},
+ "http://purl.org/dc/terms/bibliographicCitation"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/identifier",
+    :iri "http://purl.org/dc/elements/1.1/identifier"}
+   {:id "http://purl.org/dc/terms/identifier",
+    :iri "http://purl.org/dc/terms/identifier"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#DatatypeProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Bibliographic Citation"},
+  :id "http://purl.org/dc/terms/bibliographicCitation",
+  :rdfs/comment "A bibliographic reference for the resource.",
+  :iri "http://purl.org/dc/terms/bibliographicCitation",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2003-02-15"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Recommended practice is to include sufficient bibliographic detail to identify the resource as unambiguously as possible."}],
+  :rdfs/range
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Literal",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Literal"}]},
+ "http://purl.org/dc/terms/extent"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/format",
+    :iri "http://purl.org/dc/elements/1.1/format"}
+   {:id "http://purl.org/dc/terms/format",
+    :iri "http://purl.org/dc/terms/format"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Extent"},
+  :id "http://purl.org/dc/terms/extent",
+  "http://purl.org/dc/dcam/rangeIncludes"
+  [{:id "http://purl.org/dc/terms/SizeOrDuration",
+    :iri "http://purl.org/dc/terms/SizeOrDuration"}],
+  :rdfs/comment "The size or duration of the resource.",
+  :iri "http://purl.org/dc/terms/extent",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Recommended practice is to specify the file size in megabytes and duration in ISO 8601 format."}]},
+ "http://purl.org/dc/terms/ISO3166"
+ {:id "http://purl.org/dc/terms/ISO3166",
+  :iri "http://purl.org/dc/terms/ISO3166",
+  :type
+  ["http://www.w3.org/2000/01/rdf-schema#Datatype"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  :rdfs/comment
+  "The set of codes listed in ISO 3166-1 for the representation of names of countries.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "ISO 3166"},
+  :rdfs/seeAlso
+  [{:id "https://www.iso.org/obp/ui/#search",
+    :iri "https://www.iso.org/obp/ui/#search"}]},
+ "http://purl.org/dc/terms/Frequency"
+ {:id "http://purl.org/dc/terms/Frequency",
+  :iri "http://purl.org/dc/terms/Frequency",
+  :type
+  ["http://www.w3.org/2002/07/owl#Class"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  :rdfs/comment "A rate at which something recurs.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Frequency"},
+  :class? true},
+ "http://purl.org/dc/terms/PhysicalResource"
+ {:id "http://purl.org/dc/terms/PhysicalResource",
+  :iri "http://purl.org/dc/terms/PhysicalResource",
+  :type
+  ["http://www.w3.org/2002/07/owl#Class"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  :rdfs/comment "A material thing.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Physical Resource"},
+  :class? true},
+ "http://purl.org/dc/terms/description"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/description",
+    :iri "http://purl.org/dc/elements/1.1/description"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Description"},
+  :id "http://purl.org/dc/terms/description",
+  :rdfs/comment "An account of the resource.",
+  :iri "http://purl.org/dc/terms/description",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Description may include but is not limited to: an abstract, a table of contents, a graphical representation, or a free-text account of the resource."}]},
+ "http://purl.org/dc/terms/UDC"
+ {:id "http://purl.org/dc/terms/UDC",
+  :iri "http://purl.org/dc/terms/UDC",
+  :type
+  ["http://www.w3.org/2002/07/owl#NamedIndividual"
+   "http://purl.org/dc/dcam/VocabularyEncodingScheme"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2000-07-11"}],
+  :rdfs/comment
+  "The set of conceptual resources specified by the Universal Decimal Classification.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "UDC"},
+  :rdfs/seeAlso
+  [{:id "http://www.udcc.org/", :iri "http://www.udcc.org/"}]},
+ "http://purl.org/dc/terms/accrualMethod"
+ {:rdfs/domain
+  [{:id "http://purl.org/dc/dcmitype/Collection",
+    :iri "http://purl.org/dc/dcmitype/Collection"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Accrual Method"},
+  :id "http://purl.org/dc/terms/accrualMethod",
+  "http://purl.org/dc/dcam/rangeIncludes"
+  [{:id "http://purl.org/dc/terms/MethodOfAccrual",
+    :iri "http://purl.org/dc/terms/MethodOfAccrual"}],
+  :rdfs/comment "The method by which items are added to a collection.",
+  :iri "http://purl.org/dc/terms/accrualMethod",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2005-06-13"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Recommended practice is to use a value from the Collection Description Accrual Method Vocabulary [[DCMI-ACCRUALMETHOD](https://dublincore.org/groups/collections/accrual-method/)]."}]},
+ "http://purl.org/dc/terms/MethodOfInstruction"
+ {:id "http://purl.org/dc/terms/MethodOfInstruction",
+  :iri "http://purl.org/dc/terms/MethodOfInstruction",
+  :type
+  ["http://www.w3.org/2002/07/owl#Class"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  :rdfs/comment
+  "A process that is used to engender knowledge, attitudes, and skills.",
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Method of Instruction"},
+  :class? true},
+ "http://purl.org/dc/terms/rights"
+ {:rdfs/subPropertyOf
+  [{:id "http://purl.org/dc/elements/1.1/rights",
+    :iri "http://purl.org/dc/elements/1.1/rights"}],
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Rights"},
+  :id "http://purl.org/dc/terms/rights",
+  "http://purl.org/dc/dcam/rangeIncludes"
+  [{:id "http://purl.org/dc/terms/RightsStatement",
+    :iri "http://purl.org/dc/terms/RightsStatement"}],
+  :rdfs/comment
+  "Information about rights held in and over the resource.",
+  :iri "http://purl.org/dc/terms/rights",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2008-01-14"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Typically, rights information includes a statement about various property rights associated with the resource, including intellectual property rights.  Recommended practice is to refer to a rights statement with a URI.  If this is not possible or feasible, a literal value (name, label, or short text) may be provided."}]},
+ "http://purl.org/dc/terms/rightsHolder"
+ {:type ["http://www.w3.org/2002/07/owl#NamedIndividual"],
+  :rdfs/isDefinedBy
+  [{:id "http://purl.org/dc/terms/",
+    :iri "http://purl.org/dc/terms/"}],
+  :rdfs/label {:en "Rights Holder"},
+  :id "http://purl.org/dc/terms/rightsHolder",
+  "http://purl.org/dc/dcam/rangeIncludes"
+  [{:id "http://purl.org/dc/terms/Agent",
+    :iri "http://purl.org/dc/terms/Agent"}],
+  :rdfs/comment
+  "A person or organization owning or managing rights over the resource.",
+  :iri "http://purl.org/dc/terms/rightsHolder",
+  "http://purl.org/dc/terms/issued"
+  [{:type ["http://www.w3.org/2001/XMLSchema#date"],
+    "@value" "2004-06-14"}],
+  "http://purl.org/dc/terms/description"
+  [{"@language" "en",
+    "@value"
+    "Recommended practice is to refer to the rights holder with a URI. If this is not possible or feasible, a literal value that identifies the rights holder may be provided."}]}}
