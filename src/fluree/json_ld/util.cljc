@@ -1,4 +1,6 @@
-(ns fluree.json-ld.util)
+(ns fluree.json-ld.util
+  (:require #?(:clj [clojure.java.io :as io])
+            #?(:clj [clojure.edn :as edn])))
 
 #?(:clj (set! *warn-on-reflection* true))
 
@@ -34,3 +36,19 @@
   (if (sequential? x)
     x
     [x]))
+
+
+(defn read-resource
+  [filename]
+  #?(:cljs (throw (ex-info (str "Loading external resources is not yet supported in Javascript.")
+                           {:status 400 :error :json-ld/external-resource}))
+     :clj  (try
+             (some-> filename
+                     io/resource
+                     slurp
+                     edn/read-string)
+             (catch Exception e
+               (throw (ex-info
+                        (str "Invalid IRI, unable to read vocabulary from: " filename)
+                        {:status 400 :error :json-ld/external-resource}
+                        e))))))

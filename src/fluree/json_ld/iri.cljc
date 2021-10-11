@@ -2,6 +2,8 @@
   (:require [fluree.json-ld.util :refer [try-catchall]]
             [clojure.string :as str]))
 
+#?(:clj (set! *warn-on-reflection* true))
+
 (defn parse-compact-iri
   "Returns 3-tuple of [original-iri prefix suffix] if string looks like
   a compact IRI (i.e. xsd:string or schema:name), else nil.

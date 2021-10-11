@@ -1,8 +1,12 @@
 (ns fluree.json-ld.context
   (:require [fluree.json-ld.iri :as iri]
             [fluree.json-ld.util :as util]
+            [fluree.json-ld.external :as external]
             [clojure.string :as str]))
 
+#?(:clj (set! *warn-on-reflection* true))
+
+(declare parse)
 
 (defn keywordize-at-value
   "If a context key value starts with '@' (i.e. @type, @id), returns
@@ -56,9 +60,7 @@
    ... }"
   [compact-iri ctx-original]
   (if-let [compact-iri* (get ctx-original compact-iri)]
-    (do
-      (println "Internally refereced IRI: " compact-iri "val: " compact-iri* )
-      (recur compact-iri* ctx-original))
+    (recur compact-iri* ctx-original)
     compact-iri))
 
 
@@ -87,11 +89,20 @@
                                  util/sequential
                                  (mapv (partial parse-compact-iri-val ctx-original default-vocab)))
 
+                            (= :context k*)
+                            (parse v)
+
+
                             :else v))))
         {} ctx-map-val*)
 
+      (or (number? ctx-map-val*)                            ;; likely something like @version: 1.1 or @protected: true
+          (boolean? ctx-map-val*))
+      {:val ctx-map-val*}
+
       :else
-      (throw (ex-info "Invalid context provided. Context map values must be a string or map."
+      (throw (ex-info (str "Invalid context provided. Context map values must be a scalars or map. "
+                           "Error at value: " ctx-map-val)
                       {:status 400 :error :json-ld/invalid-context})))))
 
 
@@ -126,8 +137,11 @@
      (nil? context)
      base-context
 
+     ;; assume either an external context, or a default focab
      (string? context)
-     (assoc base-context :vocab {:id (iri/add-trailing-slash context)})
+     (if (str/ends-with? context ".jsonld")
+       (external/context context)
+       (assoc base-context :vocab {:id (iri/add-trailing-slash context)}))
 
      (map? context)
      (parse-map base-context context)

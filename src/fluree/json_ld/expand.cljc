@@ -1,6 +1,7 @@
 (ns fluree.json-ld.expand
   (:require [fluree.json-ld.iri :as iri]))
 
+#?(:clj (set! *warn-on-reflection* true))
 
 (defn match-exact
   "Attempts to do an exact match with a compact-iri.

@@ -4,6 +4,7 @@
             [fluree.json-ld.expand :as expand]
             #?(:clj [fluree.json-ld.external :as external])))
 
+#?(:clj (set! *warn-on-reflection* true))
 
 (defn parse-context
   "Parses a JSON-LD context and returns a Clojure map (or error if context invalid).
@@ -21,9 +22,7 @@
 
   The vocab will include information beyond a context mapping, i.e. rdfs:subClassOf."
   [iri]
-  #?(:cljs (throw (ex-info (str "Loading external contexts is not yet supported in Javascript.")
-                           {:status 400 :error :json-ld/external-context}))
-     :clj  (external/vocab iri)))
+  (external/vocab iri))
 
 (defn external-iri
   "Loads a supported external vocabulary for a specific iri, which should be
@@ -31,9 +30,17 @@
 
   The vocab will include information beyond a context mapping, i.e. rdfs:subClassOf."
   [iri]
-  #?(:cljs (throw (ex-info (str "Loading external contexts is not yet supported in Javascript.")
-                           {:status 400 :error :json-ld/external-context}))
-     :clj  (external/iri iri)))
+  (external/iri iri))
+
+
+(defn external-context
+  "Loads a pre-fetched, parsed context based on URL that may be used as a @context value.
+  Note this is not a vocabulary, but just a context mapping. It may end up using many different
+  vocabularies as part of its mapping..
+
+  Returns nil if context not pre-fetched."
+  [url]
+  (external/context url))
 
 
 (defn compact

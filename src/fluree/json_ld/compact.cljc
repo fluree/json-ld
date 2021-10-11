@@ -1,6 +1,8 @@
 (ns fluree.json-ld.compact
   (:require [clojure.string :as str]))
 
+#?(:clj (set! *warn-on-reflection* true))
+
 (defn- reverse-context
   "Flips context map from prefix -> prefix-map, to iri -> prefix-map.
 

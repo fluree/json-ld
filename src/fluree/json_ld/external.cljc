@@ -1,44 +1,36 @@
 (ns fluree.json-ld.external
-  (:require [clojure.java.io :as io]
-            [clojure.edn :as edn]
-            [clojure.string :as str]
-            [fluree.json-ld.iri :as iri])
+  (:require [fluree.json-ld.iri :as iri]
+            [fluree.json-ld.util :as util]
+            [clojure.string :as str])
   (:refer-clojure :exclude [read]))
 
-(def vocab->file {"https://schema.org/"            "org.schema.edn"
-                  "http://www.w3.org/2002/07/owl#" "owl.edn"
-                  "http://purl.org/dc/terms/"      "org.purl.dc.terms.edn"})
+#?(:clj (set! *warn-on-reflection* true))
+
+(def vocab->file {"https://schema.org/"                        "org.schema.edn"
+                  "http://schema.org/"                         "org.schema.edn"
+                  "http://www.w3.org/2002/07/owl#"             "owl.edn"
+                  "http://purl.org/dc/terms/"                  "org.purl.dc.terms.edn"
+                  "https://w3id.org/openbadges#"               "org.w3id.openbadges.edn"
+                  "https://purl.imsglobal.org/spec/clr/vocab#" "org.imsglobal.spec.clr.vocab.edn"})
 
 (def context->file {"https://purl.imsglobal.org/spec/clr/v1p0/context/clr_v1p0.jsonld"
-                    "contexts/org/imsglobal/purl/spec/clr/v1p0/context/clr_v1p0.edn"})
+                    "contexts/org/imsglobal/purl/spec/clr/v1p0/context/clr_v1p0.edn"
+
+                    "https://www.w3.org/2018/credentials/v1"
+                    "contexts/org/w3/www/2018/credentials/v1.edn"})
 
 (def vocabs (->> vocab->file keys (sort-by count) reverse))
-
-
-(defn read
-  "Given a full IRI, finds a matching vocab file from the
-  vocab->file map and reads contents, else returns nil."
-  [iri]
-  (try
-    (some #(when (str/starts-with? iri %)
-             (-> (get vocab->file %)
-                 io/resource
-                 slurp
-                 edn/read-string))
-          vocabs)
-    (catch Exception e
-      (throw (ex-info
-               (str "Invalid IRI, unable to read vocabulary: " iri)
-               {:status 400 :error :json-ld/invalid-iri}
-               e)))))
 
 
 (defn vocab
   "Loads an entire vocabulary file, i.e. https://schema.org"
   [iri]
-  (-> iri
-      iri/add-trailing-slash
-      read))
+  #?(:cljs (throw (ex-info (str "Loading external vocabularies is not yet supported in Javascript.")
+                           {:status 400 :error :json-ld/external-vocab}))
+     :clj  (->> iri
+                iri/add-trailing-slash
+                (get vocab->file)
+                util/read-resource)))
 
 
 (defn iri
@@ -49,8 +41,14 @@
   
   Only supported on CLJ"
   [iri]
-  (some-> (read iri)
-          (get iri)))
+  #?(:cljs (throw (ex-info (str "Loading external vocabularies is not yet supported in Javascript.")
+                           {:status 400 :error :json-ld/external-vocab}))
+     :clj  (some #(when (str/starts-with? iri %)
+                    (-> (vocab %)
+                        (get iri)))
+                 vocabs)))
+
+
 
 
 (defn context
@@ -59,17 +57,17 @@
 
   Returns nil if the context requested does not exist."
   [url]
-  (some-> (get context->file url)
-          io/resource
-          slurp
-          edn/read-string))
+  #?(:cljs (throw (ex-info (str "Loading external contexts is not yet supported in Javascript.")
+                           {:status 400 :error :json-ld/external-context}))
+     :clj  (some-> (get context->file url)
+                   util/read-resource)))
 
 
 (comment
 
-  (iri "https://schema.org/commentCount")
+  (iri "https://schema.org/Person")
 
-  (iri "http://www.w3.org/2002/07/owl#ObjectProperty")
+  (iri "https://purl.imsglobal.org/spec/clr/vocab#dtExtensibleAchievementType")
 
   (context "https://purl.imsglobal.org/spec/clr/v1p0/context/clr_v1p0.jsonld")
   (get context->file "https://purl.imsglobal.org/spec/clr/v1p0/context/clr_v1p0.jsonld")
