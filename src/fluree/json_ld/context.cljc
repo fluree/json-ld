@@ -63,46 +63,63 @@
     (recur compact-iri* ctx-original)
     compact-iri))
 
+(defn- assert-string
+  "Throws if provided value is not a string, original key provided for nicer error message"
+  [k v]
+  (if (string? v)
+    v
+    (throw (ex-info (str "Invalid @context value in json-ld. " k
+                         "must be a string value, provided: " v ".")
+                    {:status 400
+                     :error  :json-ld/invalid-context}))))
 
-(defn parse-value
+(defn- parse-value
   "Parses json-ld context value. If a map, iterates over keys."
-  [ctx-map-val ctx-original]
+  [ctx-key ctx-val ctx-original]
   (let [default-vocab (when-let [vocab (get ctx-original "@vocab")]
                         (or (get vocab "@id") vocab))
-        ctx-map-val* (if (string? ctx-map-val)
-                       (recursively-get-id ctx-map-val ctx-original)
-                       ctx-map-val)]
+        ctx-val*      (if (string? ctx-val)
+                        (recursively-get-id ctx-val ctx-original)
+                        ctx-val)]
     (cond
-      (string? ctx-map-val*)
-      {:id (parse-compact-iri-val ctx-original default-vocab ctx-map-val*)}
+      (string? ctx-val*)
+      {:id (parse-compact-iri-val ctx-original default-vocab ctx-val*)}
 
-      (map? ctx-map-val*)
-      (reduce-kv
-        (fn [acc k v]
-          (let [k* (keywordize-at-value k)]
-            (assoc acc k* (cond
-                            (#{:id :reverse} k*)
-                            (parse-compact-iri-val ctx-original default-vocab v)
+      (map? ctx-val*)
+      (let [map-val (reduce-kv
+                      (fn [acc k v]
+                        (let [k* (keywordize-at-value k)]
+                          (assoc acc k* (cond
+                                          (= :type k*)
+                                          (->> v
+                                               (assert-string k)
+                                               (parse-compact-iri-val ctx-original default-vocab)
+                                               keywordize-at-value)
 
-                            (= :type k*)
-                            (->> v
-                                 util/sequential
-                                 (mapv (partial parse-compact-iri-val ctx-original default-vocab)))
+                                          (#{:id :reverse} k*)
+                                          (->> v
+                                               (assert-string k)
+                                               (parse-compact-iri-val ctx-original default-vocab))
 
-                            (= :context k*)
-                            (parse v)
+                                          (= :context k*)
+                                          (parse v)
+
+                                          :else v))))
+                      {} ctx-val*)]
+        ;; sometimes a context defines a compact-iri as the key and only includes @type - in this case we need to generate an @id
+        (if (or (contains? map-val :id)
+                (contains? map-val :reverse))
+          map-val
+          (assoc map-val :id (parse-compact-iri-val ctx-original default-vocab ctx-key))))
 
 
-                            :else v))))
-        {} ctx-map-val*)
-
-      (or (number? ctx-map-val*)                            ;; likely something like @version: 1.1 or @protected: true
-          (boolean? ctx-map-val*))
-      {:val ctx-map-val*}
+      (or (number? ctx-val*)                                ;; likely something like @version: 1.1 or @protected: true
+          (boolean? ctx-val*))
+      {:val ctx-val*}
 
       :else
       (throw (ex-info (str "Invalid context provided. Context map values must be a scalars or map. "
-                           "Error at value: " ctx-map-val)
+                           "Error at value: " ctx-val)
                       {:status 400 :error :json-ld/invalid-context})))))
 
 
@@ -119,7 +136,7 @@
     (fn [acc k v]
       (if (= "@vocab" k)
         (assoc-in acc [:vocab :id] (iri/add-trailing-slash v))
-        (assoc acc k (parse-value v context))))
+        (assoc acc k (parse-value k v context))))
     base-context context))
 
 

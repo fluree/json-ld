@@ -72,10 +72,10 @@
                      "dtUUID" {"@id"   "clri:dtUUID",
                                "@type" "xsd:string"}})
              {"UUID"   {:id   "https://purl.imsglobal.org/spec/clr/vocab#dtUUID"
-                        :type ["http://www.w3.org/2001/XMLSchema#string"]}
+                        :type "http://www.w3.org/2001/XMLSchema#string"}
               "clri"   {:id "https://purl.imsglobal.org/spec/clr/vocab#"}
               "dtUUID" {:id   "https://purl.imsglobal.org/spec/clr/vocab#dtUUID"
-                        :type ["http://www.w3.org/2001/XMLSchema#string"]}
+                        :type "http://www.w3.org/2001/XMLSchema#string"}
               "xsd"    {:id "http://www.w3.org/2001/XMLSchema#"}})))))
 
 
@@ -112,14 +112,14 @@
                                    "@type" "https://schema.org/Text"}})
            {"schema"       {:id "https://schema.org/"}
             "customScalar" {:id   "https://schema.org/name"
-                            :type ["https://schema.org/Text"]}}))
+                            :type "https://schema.org/Text"}}))
 
     (is (= (parse {"schema"      "https://schema.org/",
                    "customClass" {"@id"   "schema:Book"
-                                  "@type" ["schema:CreativeWork" "schema:Thing"]}})
+                                  "@type" "schema:CreativeWork"}})
            {"schema"      {:id "https://schema.org/"}
             "customClass" {:id   "https://schema.org/Book"
-                           :type ["https://schema.org/CreativeWork" "https://schema.org/Thing"]}}))))
+                           :type "https://schema.org/CreativeWork"}}))))
 
 
 (deftest reverse-refs
@@ -138,4 +138,15 @@
            {"schema"       {:id "https://schema.org/"},
             "title"        {:id "https://schema.org/titleEIDR"},
             "derivedWorks" {:reverse "https://schema.org/isBasedOn"}}))))
+
+
+(deftest type-only
+  (testing "A context map's value can include only @type and we must infer @id"
+    (is (= (parse {"ical"         "http://www.w3.org/2002/12/cal/ical#",
+                   "xsd"          "http://www.w3.org/2001/XMLSchema#",
+                   "ical:dtstart" {"@type" "xsd:dateTime"}})
+           {"ical"         {:id "http://www.w3.org/2002/12/cal/ical#"},
+            "xsd"          {:id "http://www.w3.org/2001/XMLSchema#"},
+            "ical:dtstart" {:type "http://www.w3.org/2001/XMLSchema#dateTime",
+                            :id   "http://www.w3.org/2002/12/cal/ical#dtstart"}}))))
 
