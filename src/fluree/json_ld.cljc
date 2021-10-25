@@ -66,10 +66,23 @@
   (expand/iri compact-iri parsed-context))
 
 
+(defn expand-node
+  "Expands an entire JSON-LD node (JSON object), with optional parsed context
+  provided. If node has a local context, will merge with provided parse-context.
+
+  Expands into child nodes."
+  ([node-map]
+   (expand/node node-map {}))
+  ([node-map parsed-context]
+   (expand/node node-map parsed-context)))
+
+
 (defn details
   "Like expand, but returns two-tuple of expanded iri followed by
   a map of any context settings for that iri.
-  Returns nil if no match exists."
+
+  If no match exists, returns original compact-iri as first element
+  and nil for second."
   [compact-iri parsed-context]
   (expand/details compact-iri parsed-context))
 
