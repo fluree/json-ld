@@ -58,7 +58,7 @@
   (compact/compact-fn parsed-context))
 
 
-(defn expand
+(defn expand-iri
   "Expands a compacted iri string to full iri.
 
   If the iri is not compacted, returns original iri string."

@@ -1,0 +1,33 @@
+{"http://www.w3.org/2002/07/owl#Class"
+ {:id "http://www.w3.org/2002/07/owl#Class",
+  :iri "http://www.w3.org/2002/07/owl#Class",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :class? true,
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Class",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Class"}]
+  :rdfs/comment
+  "OWL Class Definition.",
+  :rdfs/label {:en "OWL Class Definition"}},
+ "http://www.w3.org/2002/07/owl#ObjectProperty"
+ {:id "http://www.w3.org/2002/07/owl#ObjectProperty",
+  :iri "http://www.w3.org/2002/07/owl#ObjectProperty",
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :class? true,
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+    :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"}]
+  :rdfs/comment
+  "OWL Object properties link individuals to individuals.",
+  :rdfs/label {:en "OWL Object properties link individuals to individuals."}}
+ "http://www.w3.org/2002/07/owl#DatatypeProperty"
+ {:id "http://www.w3.org/2002/07/owl#DatatypeProperty",
+  :iri "http://www.w3.org/2002/07/owl#DatatypeProperty",
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :class? true,
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+    :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"}]
+  :rdfs/comment
+  "OWL Datatype properties link individuals to data values.",
+  :rdfs/label {:en "OWL Datatype properties link individuals to data values."}}}
