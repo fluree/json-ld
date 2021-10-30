@@ -1,0 +1,1308 @@
+{"http://www.w3.org/2002/07/owl#inverseOf"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#ObjectProperty",
+                 :iri "http://www.w3.org/2002/07/owl#ObjectProperty"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "inverseOf"},
+  :id "http://www.w3.org/2002/07/owl#inverseOf",
+  :rdfs/comment
+               "The property that determines that two given properties are inverse.",
+  :iri "http://www.w3.org/2002/07/owl#inverseOf",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/2002/07/owl#ObjectProperty",
+                 :iri "http://www.w3.org/2002/07/owl#ObjectProperty"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/2002/07/owl#ObjectProperty",
+                 :iri "http://www.w3.org/2002/07/owl#ObjectProperty"}]},
+ "http://www.w3.org/2002/07/owl#Ontology"
+ {:id "http://www.w3.org/2002/07/owl#Ontology",
+  :iri "http://www.w3.org/2002/07/owl#Ontology",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/comment "The class of ontologies.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "Ontology"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}],
+  :class? true},
+ "http://www.w3.org/2002/07/owl#AsymmetricProperty"
+ {:id "http://www.w3.org/2002/07/owl#AsymmetricProperty",
+  :iri "http://www.w3.org/2002/07/owl#AsymmetricProperty",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/comment "The class of asymmetric properties.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "AsymmetricProperty"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/2002/07/owl#ObjectProperty",
+    :iri "http://www.w3.org/2002/07/owl#ObjectProperty"}],
+  :class? true},
+ "http://www.w3.org/2002/07/owl#AllDisjointProperties"
+ {:id "http://www.w3.org/2002/07/owl#AllDisjointProperties",
+  :iri "http://www.w3.org/2002/07/owl#AllDisjointProperties",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/comment
+  "The class of collections of pairwise disjoint properties.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "AllDisjointProperties"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}],
+  :class? true},
+ "http://www.w3.org/2002/07/owl#propertyDisjointWith"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "propertyDisjointWith"},
+  :id "http://www.w3.org/2002/07/owl#propertyDisjointWith",
+  :rdfs/comment
+               "The property that determines that two given properties are disjoint.",
+  :iri "http://www.w3.org/2002/07/owl#propertyDisjointWith",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"}]},
+ "http://www.w3.org/2002/07/owl#minQualifiedCardinality"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#Restriction",
+                 :iri "http://www.w3.org/2002/07/owl#Restriction"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "minQualifiedCardinality"},
+  :id "http://www.w3.org/2002/07/owl#minQualifiedCardinality",
+  :rdfs/comment
+               "The property that determines the cardinality of a minimum qualified cardinality restriction.",
+  :iri "http://www.w3.org/2002/07/owl#minQualifiedCardinality",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+                 :iri "http://www.w3.org/2001/XMLSchema#nonNegativeInteger"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+                 :iri "http://www.w3.org/2001/XMLSchema#nonNegativeInteger"}]},
+ "http://www.w3.org/2002/07/owl#cardinality"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#Restriction",
+                 :iri "http://www.w3.org/2002/07/owl#Restriction"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "cardinality"},
+  :id "http://www.w3.org/2002/07/owl#cardinality",
+  :rdfs/comment
+               "The property that determines the cardinality of an exact cardinality restriction.",
+  :iri "http://www.w3.org/2002/07/owl#cardinality",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+                 :iri "http://www.w3.org/2001/XMLSchema#nonNegativeInteger"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+                 :iri "http://www.w3.org/2001/XMLSchema#nonNegativeInteger"}]},
+ "http://www.w3.org/2002/07/owl#versionIRI"
+ {:id "http://www.w3.org/2002/07/owl#versionIRI",
+  :iri "http://www.w3.org/2002/07/owl#versionIRI",
+  :type ["http://www.w3.org/2002/07/owl#OntologyProperty"],
+  :rdfs/comment
+  "The property that identifies the version IRI of an ontology.",
+  :rdfs/domain
+  [{:id "http://www.w3.org/2002/07/owl#Ontology",
+    :iri "http://www.w3.org/2002/07/owl#Ontology"}],
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "versionIRI"},
+  :rdfs/range
+  [{:id "http://www.w3.org/2002/07/owl#Ontology",
+    :iri "http://www.w3.org/2002/07/owl#Ontology"}]},
+ "http://www.w3.org/2002/07/owl#bottomObjectProperty"
+ {:id "http://www.w3.org/2002/07/owl#bottomObjectProperty",
+  :iri "http://www.w3.org/2002/07/owl#bottomObjectProperty",
+  :type ["http://www.w3.org/2002/07/owl#ObjectProperty"],
+  :rdfs/comment
+  "The object property that does not relate any two individuals.",
+  :rdfs/domain
+  [{:id "http://www.w3.org/2002/07/owl#Thing",
+    :iri "http://www.w3.org/2002/07/owl#Thing"}],
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "bottomObjectProperty"},
+  :rdfs/range
+  [{:id "http://www.w3.org/2002/07/owl#Thing",
+    :iri "http://www.w3.org/2002/07/owl#Thing"}]},
+ "http://www.w3.org/2002/07/owl#ReflexiveProperty"
+ {:id "http://www.w3.org/2002/07/owl#ReflexiveProperty",
+  :iri "http://www.w3.org/2002/07/owl#ReflexiveProperty",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/comment "The class of reflexive properties.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "ReflexiveProperty"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/2002/07/owl#ObjectProperty",
+    :iri "http://www.w3.org/2002/07/owl#ObjectProperty"}],
+  :class? true},
+ "http://www.w3.org/2002/07/owl#bottomDataProperty"
+ {:id "http://www.w3.org/2002/07/owl#bottomDataProperty",
+  :iri "http://www.w3.org/2002/07/owl#bottomDataProperty",
+  :type ["http://www.w3.org/2002/07/owl#DatatypeProperty"],
+  :rdfs/comment
+  "The data property that does not relate any individual to any data value.",
+  :rdfs/domain
+  [{:id "http://www.w3.org/2002/07/owl#Thing",
+    :iri "http://www.w3.org/2002/07/owl#Thing"}],
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "bottomDataProperty"},
+  :rdfs/range
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Literal",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Literal"}]},
+ "http://www.w3.org/2002/07/owl#intersectionOf"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Class",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Class"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "intersectionOf"},
+  :id "http://www.w3.org/2002/07/owl#intersectionOf",
+  :rdfs/comment
+               "The property that determines the collection of classes or data ranges that build an intersection.",
+  :iri "http://www.w3.org/2002/07/owl#intersectionOf",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#List",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#List",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"}]},
+ "http://www.w3.org/2002/07/owl#qualifiedCardinality"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#Restriction",
+                 :iri "http://www.w3.org/2002/07/owl#Restriction"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "qualifiedCardinality"},
+  :id "http://www.w3.org/2002/07/owl#qualifiedCardinality",
+  :rdfs/comment
+               "The property that determines the cardinality of an exact qualified cardinality restriction.",
+  :iri "http://www.w3.org/2002/07/owl#qualifiedCardinality",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+                 :iri "http://www.w3.org/2001/XMLSchema#nonNegativeInteger"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+                 :iri "http://www.w3.org/2001/XMLSchema#nonNegativeInteger"}]},
+ "http://www.w3.org/2002/07/owl#allValuesFrom"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#Restriction",
+                 :iri "http://www.w3.org/2002/07/owl#Restriction"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "allValuesFrom"},
+  :id "http://www.w3.org/2002/07/owl#allValuesFrom",
+  :rdfs/comment
+               "The property that determines the class that a universal property restriction refers to.",
+  :iri "http://www.w3.org/2002/07/owl#allValuesFrom",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Class",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Class"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Class",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Class"}]},
+ "http://www.w3.org/2002/07/owl#"
+ {:id "http://www.w3.org/2002/07/owl#",
+  :iri "http://www.w3.org/2002/07/owl#"},
+ "http://www.w3.org/2002/07/owl#maxCardinality"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#Restriction",
+                 :iri "http://www.w3.org/2002/07/owl#Restriction"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "maxCardinality"},
+  :id "http://www.w3.org/2002/07/owl#maxCardinality",
+  :rdfs/comment
+               "The property that determines the cardinality of a maximum cardinality restriction.",
+  :iri "http://www.w3.org/2002/07/owl#maxCardinality",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+                 :iri "http://www.w3.org/2001/XMLSchema#nonNegativeInteger"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+                 :iri "http://www.w3.org/2001/XMLSchema#nonNegativeInteger"}]},
+ "http://www.w3.org/2002/07/owl#AllDifferent"
+ {:id "http://www.w3.org/2002/07/owl#AllDifferent",
+  :iri "http://www.w3.org/2002/07/owl#AllDifferent",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/comment
+  "The class of collections of pairwise different individuals.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "AllDifferent"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}],
+  :class? true},
+ "http://www.w3.org/2002/07/owl#maxQualifiedCardinality"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#Restriction",
+                 :iri "http://www.w3.org/2002/07/owl#Restriction"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "maxQualifiedCardinality"},
+  :id "http://www.w3.org/2002/07/owl#maxQualifiedCardinality",
+  :rdfs/comment
+               "The property that determines the cardinality of a maximum qualified cardinality restriction.",
+  :iri "http://www.w3.org/2002/07/owl#maxQualifiedCardinality",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+                 :iri "http://www.w3.org/2001/XMLSchema#nonNegativeInteger"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+                 :iri "http://www.w3.org/2001/XMLSchema#nonNegativeInteger"}]},
+ "http://www.w3.org/2002/07/owl#DeprecatedProperty"
+ {:id "http://www.w3.org/2002/07/owl#DeprecatedProperty",
+  :iri "http://www.w3.org/2002/07/owl#DeprecatedProperty",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/comment "The class of deprecated properties.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "DeprecatedProperty"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+    :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"}],
+  :class? true},
+ "http://www.w3.org/2002/07/owl#InverseFunctionalProperty"
+ {:id "http://www.w3.org/2002/07/owl#InverseFunctionalProperty",
+  :iri "http://www.w3.org/2002/07/owl#InverseFunctionalProperty",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/comment "The class of inverse-functional properties.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "InverseFunctionalProperty"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/2002/07/owl#ObjectProperty",
+    :iri "http://www.w3.org/2002/07/owl#ObjectProperty"}],
+  :class? true},
+ "http://www.w3.org/2002/07/owl#Axiom"
+ {:id "http://www.w3.org/2002/07/owl#Axiom",
+  :iri "http://www.w3.org/2002/07/owl#Axiom",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/comment
+  "The class of annotated axioms for which the RDF serialization consists of an annotated subject, predicate and object.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "Axiom"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}],
+  :class? true},
+ "http://www.w3.org/2002/07/owl#equivalentProperty"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "equivalentProperty"},
+  :id "http://www.w3.org/2002/07/owl#equivalentProperty",
+  :rdfs/comment
+               "The property that determines that two given properties are equivalent.",
+  :iri "http://www.w3.org/2002/07/owl#equivalentProperty",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"}]},
+ "http://www.w3.org/2002/07/owl#minCardinality"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#Restriction",
+                 :iri "http://www.w3.org/2002/07/owl#Restriction"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "minCardinality"},
+  :id "http://www.w3.org/2002/07/owl#minCardinality",
+  :rdfs/comment
+               "The property that determines the cardinality of a minimum cardinality restriction.",
+  :iri "http://www.w3.org/2002/07/owl#minCardinality",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+                 :iri "http://www.w3.org/2001/XMLSchema#nonNegativeInteger"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+                 :iri "http://www.w3.org/2001/XMLSchema#nonNegativeInteger"}]},
+ "http://www.w3.org/2002/07/owl#Restriction"
+ {:id "http://www.w3.org/2002/07/owl#Restriction",
+  :iri "http://www.w3.org/2002/07/owl#Restriction",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/comment "The class of property restrictions.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "Restriction"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/2002/07/owl#Class",
+    :iri "http://www.w3.org/2002/07/owl#Class"}],
+  :class? true},
+ "http://www.w3.org/2002/07/owl#SymmetricProperty"
+ {:id "http://www.w3.org/2002/07/owl#SymmetricProperty",
+  :iri "http://www.w3.org/2002/07/owl#SymmetricProperty",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/comment "The class of symmetric properties.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "SymmetricProperty"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/2002/07/owl#ObjectProperty",
+    :iri "http://www.w3.org/2002/07/owl#ObjectProperty"}],
+  :class? true},
+ "http://www.w3.org/2002/07/owl#versionInfo"
+ {:id "http://www.w3.org/2002/07/owl#versionInfo",
+  :iri "http://www.w3.org/2002/07/owl#versionInfo",
+  :type ["http://www.w3.org/2002/07/owl#AnnotationProperty"],
+  :rdfs/comment
+  "The annotation property that provides version information for an ontology or another OWL construct.",
+  :rdfs/domain
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}],
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "versionInfo"},
+  :rdfs/range
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}]},
+ "http://www.w3.org/2002/07/owl#imports"
+ {:id "http://www.w3.org/2002/07/owl#imports",
+  :iri "http://www.w3.org/2002/07/owl#imports",
+  :type ["http://www.w3.org/2002/07/owl#OntologyProperty"],
+  :rdfs/comment
+  "The property that is used for importing other ontologies into a given ontology.",
+  :rdfs/domain
+  [{:id "http://www.w3.org/2002/07/owl#Ontology",
+    :iri "http://www.w3.org/2002/07/owl#Ontology"}],
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "imports"},
+  :rdfs/range
+  [{:id "http://www.w3.org/2002/07/owl#Ontology",
+    :iri "http://www.w3.org/2002/07/owl#Ontology"}]},
+ "http://www.w3.org/2002/07/owl#TransitiveProperty"
+ {:id "http://www.w3.org/2002/07/owl#TransitiveProperty",
+  :iri "http://www.w3.org/2002/07/owl#TransitiveProperty",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/comment "The class of transitive properties.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "TransitiveProperty"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/2002/07/owl#ObjectProperty",
+    :iri "http://www.w3.org/2002/07/owl#ObjectProperty"}],
+  :class? true},
+ "http://www.w3.org/2002/07/owl#datatypeComplementOf"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Datatype",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Datatype"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "datatypeComplementOf"},
+  :id "http://www.w3.org/2002/07/owl#datatypeComplementOf",
+  :rdfs/comment
+               "The property that determines that a given data range is the complement of another data range with respect to the data domain.",
+  :iri "http://www.w3.org/2002/07/owl#datatypeComplementOf",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Datatype",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Datatype"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Datatype",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Datatype"}]},
+ "http://www.w3.org/2002/07/owl#hasKey"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#Class",
+                 :iri "http://www.w3.org/2002/07/owl#Class"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "hasKey"},
+  :id "http://www.w3.org/2002/07/owl#hasKey",
+  :rdfs/comment
+               "The property that determines the collection of properties that jointly build a key.",
+  :iri "http://www.w3.org/2002/07/owl#hasKey",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#List",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#List",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"}]},
+ "http://www.w3.org/2002/07/owl#disjointUnionOf"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#Class",
+                 :iri "http://www.w3.org/2002/07/owl#Class"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "disjointUnionOf"},
+  :id "http://www.w3.org/2002/07/owl#disjointUnionOf",
+  :rdfs/comment
+               "The property that determines that a given class is equivalent to the disjoint union of a collection of other classes.",
+  :iri "http://www.w3.org/2002/07/owl#disjointUnionOf",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#List",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#List",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"}]},
+ "http://www.w3.org/2002/07/owl#targetValue"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#NegativePropertyAssertion",
+                 :iri "http://www.w3.org/2002/07/owl#NegativePropertyAssertion"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :string,
+  :rdfs/label {:en "targetValue"},
+  :id "http://www.w3.org/2002/07/owl#targetValue",
+  :rdfs/comment
+               "The property that determines the value of a negative data property assertion.",
+  :iri "http://www.w3.org/2002/07/owl#targetValue",
+  :rdfs/range
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Literal",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Literal"}]},
+ "http://www.w3.org/2002/07/owl#withRestrictions"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Datatype",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Datatype"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "withRestrictions"},
+  :id "http://www.w3.org/2002/07/owl#withRestrictions",
+  :rdfs/comment
+               "The property that determines the collection of facet-value pairs that define a datatype restriction.",
+  :iri "http://www.w3.org/2002/07/owl#withRestrictions",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#List",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#List",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"}]},
+ "http://www.w3.org/2002/07/owl#hasSelf"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#Restriction",
+                 :iri "http://www.w3.org/2002/07/owl#Restriction"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "hasSelf"},
+  :id "http://www.w3.org/2002/07/owl#hasSelf",
+  :rdfs/comment
+               "The property that determines the property that a self restriction refers to.",
+  :iri "http://www.w3.org/2002/07/owl#hasSelf",
+  :rdfs/range
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}]},
+ "http://www.w3.org/2002/07/owl#assertionProperty"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#NegativePropertyAssertion",
+                 :iri "http://www.w3.org/2002/07/owl#NegativePropertyAssertion"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "assertionProperty"},
+  :id "http://www.w3.org/2002/07/owl#assertionProperty",
+  :rdfs/comment
+               "The property that determines the predicate of a negative property assertion.",
+  :iri "http://www.w3.org/2002/07/owl#assertionProperty",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"}]},
+ "http://www.w3.org/2002/07/owl#equivalentClass"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Class",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Class"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "equivalentClass"},
+  :id "http://www.w3.org/2002/07/owl#equivalentClass",
+  :rdfs/comment
+               "The property that determines that two given classes are equivalent, and that is used to specify datatype definitions.",
+  :iri "http://www.w3.org/2002/07/owl#equivalentClass",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Class",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Class"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Class",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Class"}]},
+ "http://www.w3.org/2002/07/owl#DatatypeProperty"
+ {:id "http://www.w3.org/2002/07/owl#DatatypeProperty",
+  :iri "http://www.w3.org/2002/07/owl#DatatypeProperty",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/comment "The class of data properties.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "DatatypeProperty"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+    :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"}],
+  :class? true},
+ "http://www.w3.org/2002/07/owl#AllDisjointClasses"
+ {:id "http://www.w3.org/2002/07/owl#AllDisjointClasses",
+  :iri "http://www.w3.org/2002/07/owl#AllDisjointClasses",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/comment
+  "The class of collections of pairwise disjoint classes.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "AllDisjointClasses"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}],
+  :class? true},
+ "http://www.w3.org/2002/07/owl#topDataProperty"
+ {:id "http://www.w3.org/2002/07/owl#topDataProperty",
+  :iri "http://www.w3.org/2002/07/owl#topDataProperty",
+  :type ["http://www.w3.org/2002/07/owl#DatatypeProperty"],
+  :rdfs/comment
+  "The data property that relates every individual to every data value.",
+  :rdfs/domain
+  [{:id "http://www.w3.org/2002/07/owl#Thing",
+    :iri "http://www.w3.org/2002/07/owl#Thing"}],
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "topDataProperty"},
+  :rdfs/range
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Literal",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Literal"}]},
+ "http://www.w3.org/2002/07/owl#members"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "members"},
+  :id "http://www.w3.org/2002/07/owl#members",
+  :rdfs/comment
+               "The property that determines the collection of members in either a owl:AllDifferent, owl:AllDisjointClasses or owl:AllDisjointProperties axiom.",
+  :iri "http://www.w3.org/2002/07/owl#members",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#List",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#List",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"}]},
+ "http://www.w3.org/2002/07/owl#AnnotationProperty"
+ {:id "http://www.w3.org/2002/07/owl#AnnotationProperty",
+  :iri "http://www.w3.org/2002/07/owl#AnnotationProperty",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/comment "The class of annotation properties.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "AnnotationProperty"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+    :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"}],
+  :class? true},
+ "http://www.w3.org/2002/07/owl#unionOf"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Class",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Class"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "unionOf"},
+  :id "http://www.w3.org/2002/07/owl#unionOf",
+  :rdfs/comment
+               "The property that determines the collection of classes or data ranges that build a union.",
+  :iri "http://www.w3.org/2002/07/owl#unionOf",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#List",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#List",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"}]},
+ "http://www.w3.org/2002/07/owl#ObjectProperty"
+ {:id "http://www.w3.org/2002/07/owl#ObjectProperty",
+  :iri "http://www.w3.org/2002/07/owl#ObjectProperty",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/comment "The class of object properties.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "ObjectProperty"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+    :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"}],
+  :class? true},
+ "http://www.w3.org/2002/07/owl#complementOf"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#Class",
+                 :iri "http://www.w3.org/2002/07/owl#Class"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "complementOf"},
+  :id "http://www.w3.org/2002/07/owl#complementOf",
+  :rdfs/comment
+               "The property that determines that a given class is the complement of another class.",
+  :iri "http://www.w3.org/2002/07/owl#complementOf",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/2002/07/owl#Class",
+                 :iri "http://www.w3.org/2002/07/owl#Class"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/2002/07/owl#Class",
+                 :iri "http://www.w3.org/2002/07/owl#Class"}]},
+ "http://www.w3.org/2002/07/owl#onClass"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#Restriction",
+                 :iri "http://www.w3.org/2002/07/owl#Restriction"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "onClass"},
+  :id "http://www.w3.org/2002/07/owl#onClass",
+  :rdfs/comment
+               "The property that determines the class that a qualified object cardinality restriction refers to.",
+  :iri "http://www.w3.org/2002/07/owl#onClass",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/2002/07/owl#Class",
+                 :iri "http://www.w3.org/2002/07/owl#Class"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/2002/07/owl#Class",
+                 :iri "http://www.w3.org/2002/07/owl#Class"}]},
+ "http://www.w3.org/2002/07/owl#oneOf"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Class",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Class"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "oneOf"},
+  :id "http://www.w3.org/2002/07/owl#oneOf",
+  :rdfs/comment
+               "The property that determines the collection of individuals or data values that build an enumeration.",
+  :iri "http://www.w3.org/2002/07/owl#oneOf",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#List",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#List",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"}]},
+ "http://www.w3.org/2002/07/owl#onDataRange"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#Restriction",
+                 :iri "http://www.w3.org/2002/07/owl#Restriction"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "onDataRange"},
+  :id "http://www.w3.org/2002/07/owl#onDataRange",
+  :rdfs/comment
+               "The property that determines the data range that a qualified data cardinality restriction refers to.",
+  :iri "http://www.w3.org/2002/07/owl#onDataRange",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Datatype",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Datatype"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Datatype",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Datatype"}]},
+ "http://www.w3.org/2002/07/owl#annotatedSource"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "annotatedSource"},
+  :id "http://www.w3.org/2002/07/owl#annotatedSource",
+  :rdfs/comment
+               "The property that determines the subject of an annotated axiom or annotated annotation.",
+  :iri "http://www.w3.org/2002/07/owl#annotatedSource",
+  :rdfs/range
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}]},
+ "http://www.w3.org/2002/07/owl#Nothing"
+ {:id "http://www.w3.org/2002/07/owl#Nothing",
+  :iri "http://www.w3.org/2002/07/owl#Nothing",
+  :type ["http://www.w3.org/2002/07/owl#Class"],
+  :rdfs/comment "This is the empty class.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "Nothing"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/2002/07/owl#Thing",
+    :iri "http://www.w3.org/2002/07/owl#Thing"}],
+  :class? true},
+ "http://www.w3.org/2002/07/owl#onProperties"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#Restriction",
+                 :iri "http://www.w3.org/2002/07/owl#Restriction"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "onProperties"},
+  :id "http://www.w3.org/2002/07/owl#onProperties",
+  :rdfs/comment
+               "The property that determines the n-tuple of properties that a property restriction on an n-ary data range refers to.",
+  :iri "http://www.w3.org/2002/07/owl#onProperties",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#List",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#List",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"}]},
+ "http://www.w3.org/2002/07/owl#IrreflexiveProperty"
+ {:id "http://www.w3.org/2002/07/owl#IrreflexiveProperty",
+  :iri "http://www.w3.org/2002/07/owl#IrreflexiveProperty",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/comment "The class of irreflexive properties.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "IrreflexiveProperty"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/2002/07/owl#ObjectProperty",
+    :iri "http://www.w3.org/2002/07/owl#ObjectProperty"}],
+  :class? true},
+ "http://www.w3.org/2002/07/owl#DeprecatedClass"
+ {:id "http://www.w3.org/2002/07/owl#DeprecatedClass",
+  :iri "http://www.w3.org/2002/07/owl#DeprecatedClass",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/comment "The class of deprecated classes.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "DeprecatedClass"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Class",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Class"}],
+  :class? true},
+ "http://www.w3.org/2002/07/owl#disjointWith"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#Class",
+                 :iri "http://www.w3.org/2002/07/owl#Class"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "disjointWith"},
+  :id "http://www.w3.org/2002/07/owl#disjointWith",
+  :rdfs/comment
+               "The property that determines that two given classes are disjoint.",
+  :iri "http://www.w3.org/2002/07/owl#disjointWith",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/2002/07/owl#Class",
+                 :iri "http://www.w3.org/2002/07/owl#Class"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/2002/07/owl#Class",
+                 :iri "http://www.w3.org/2002/07/owl#Class"}]},
+ "http://www.w3.org/2002/07/owl#targetIndividual"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#NegativePropertyAssertion",
+                 :iri "http://www.w3.org/2002/07/owl#NegativePropertyAssertion"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "targetIndividual"},
+  :id "http://www.w3.org/2002/07/owl#targetIndividual",
+  :rdfs/comment
+               "The property that determines the object of a negative object property assertion.",
+  :iri "http://www.w3.org/2002/07/owl#targetIndividual",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/2002/07/owl#Thing",
+                 :iri "http://www.w3.org/2002/07/owl#Thing"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/2002/07/owl#Thing",
+                 :iri "http://www.w3.org/2002/07/owl#Thing"}]},
+ "http://www.w3.org/2002/07/owl#backwardCompatibleWith"
+ {:id "http://www.w3.org/2002/07/owl#backwardCompatibleWith",
+  :iri "http://www.w3.org/2002/07/owl#backwardCompatibleWith",
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#OntologyProperty"],
+  :rdfs/comment
+  "The annotation property that indicates that a given ontology is backward compatible with another ontology.",
+  :rdfs/domain
+  [{:id "http://www.w3.org/2002/07/owl#Ontology",
+    :iri "http://www.w3.org/2002/07/owl#Ontology"}],
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "backwardCompatibleWith"},
+  :rdfs/range
+  [{:id "http://www.w3.org/2002/07/owl#Ontology",
+    :iri "http://www.w3.org/2002/07/owl#Ontology"}]},
+ "http://www.w3.org/2002/07/owl#onProperty"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#Restriction",
+                 :iri "http://www.w3.org/2002/07/owl#Restriction"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "onProperty"},
+  :id "http://www.w3.org/2002/07/owl#onProperty",
+  :rdfs/comment
+               "The property that determines the property that a property restriction refers to.",
+  :iri "http://www.w3.org/2002/07/owl#onProperty",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"}]},
+ "http://www.w3.org/2002/07/owl#annotatedTarget"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "annotatedTarget"},
+  :id "http://www.w3.org/2002/07/owl#annotatedTarget",
+  :rdfs/comment
+               "The property that determines the object of an annotated axiom or annotated annotation.",
+  :iri "http://www.w3.org/2002/07/owl#annotatedTarget",
+  :rdfs/range
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}]},
+ "http://www.w3.org/2002/07/owl#someValuesFrom"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#Restriction",
+                 :iri "http://www.w3.org/2002/07/owl#Restriction"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "someValuesFrom"},
+  :id "http://www.w3.org/2002/07/owl#someValuesFrom",
+  :rdfs/comment
+               "The property that determines the class that an existential property restriction refers to.",
+  :iri "http://www.w3.org/2002/07/owl#someValuesFrom",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Class",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Class"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Class",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Class"}]},
+ "http://www.w3.org/2002/07/owl#incompatibleWith"
+ {:id "http://www.w3.org/2002/07/owl#incompatibleWith",
+  :iri "http://www.w3.org/2002/07/owl#incompatibleWith",
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#OntologyProperty"],
+  :rdfs/comment
+  "The annotation property that indicates that a given ontology is incompatible with another ontology.",
+  :rdfs/domain
+  [{:id "http://www.w3.org/2002/07/owl#Ontology",
+    :iri "http://www.w3.org/2002/07/owl#Ontology"}],
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "incompatibleWith"},
+  :rdfs/range
+  [{:id "http://www.w3.org/2002/07/owl#Ontology",
+    :iri "http://www.w3.org/2002/07/owl#Ontology"}]},
+ "http://www.w3.org/2002/07/owl#Annotation"
+ {:id "http://www.w3.org/2002/07/owl#Annotation",
+  :iri "http://www.w3.org/2002/07/owl#Annotation",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/comment
+  "The class of annotated annotations for which the RDF serialization consists of an annotated subject, predicate and object.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "Annotation"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}],
+  :class? true},
+ "http://www.w3.org/2002/07/owl#FunctionalProperty"
+ {:id "http://www.w3.org/2002/07/owl#FunctionalProperty",
+  :iri "http://www.w3.org/2002/07/owl#FunctionalProperty",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/comment "The class of functional properties.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "FunctionalProperty"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+    :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"}],
+  :class? true},
+ "http://www.w3.org/2002/07/owl#differentFrom"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#Thing",
+                 :iri "http://www.w3.org/2002/07/owl#Thing"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "differentFrom"},
+  :id "http://www.w3.org/2002/07/owl#differentFrom",
+  :rdfs/comment
+               "The property that determines that two given individuals are different.",
+  :iri "http://www.w3.org/2002/07/owl#differentFrom",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/2002/07/owl#Thing",
+                 :iri "http://www.w3.org/2002/07/owl#Thing"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/2002/07/owl#Thing",
+                 :iri "http://www.w3.org/2002/07/owl#Thing"}]},
+ "http://www.w3.org/2002/07/owl#propertyChainAxiom"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#ObjectProperty",
+                 :iri "http://www.w3.org/2002/07/owl#ObjectProperty"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "propertyChainAxiom"},
+  :id "http://www.w3.org/2002/07/owl#propertyChainAxiom",
+  :rdfs/comment
+               "The property that determines the n-tuple of properties that build a sub property chain of a given property.",
+  :iri "http://www.w3.org/2002/07/owl#propertyChainAxiom",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#List",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#List",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"}]},
+ "http://www.w3.org/2002/07/owl#sameAs"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#Thing",
+                 :iri "http://www.w3.org/2002/07/owl#Thing"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "sameAs"},
+  :id "http://www.w3.org/2002/07/owl#sameAs",
+  :rdfs/comment
+               "The property that determines that two given individuals are equal.",
+  :iri "http://www.w3.org/2002/07/owl#sameAs",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/2002/07/owl#Thing",
+                 :iri "http://www.w3.org/2002/07/owl#Thing"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/2002/07/owl#Thing",
+                 :iri "http://www.w3.org/2002/07/owl#Thing"}]},
+ "http://www.w3.org/2002/07/owl#topObjectProperty"
+ {:id "http://www.w3.org/2002/07/owl#topObjectProperty",
+  :iri "http://www.w3.org/2002/07/owl#topObjectProperty",
+  :type ["http://www.w3.org/2002/07/owl#ObjectProperty"],
+  :rdfs/comment
+  "The object property that relates every two individuals.",
+  :rdfs/domain
+  [{:id "http://www.w3.org/2002/07/owl#Thing",
+    :iri "http://www.w3.org/2002/07/owl#Thing"}],
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "topObjectProperty"},
+  :rdfs/range
+  [{:id "http://www.w3.org/2002/07/owl#Thing",
+    :iri "http://www.w3.org/2002/07/owl#Thing"}]},
+ "http://www.w3.org/2002/07/owl#distinctMembers"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#AllDifferent",
+                 :iri "http://www.w3.org/2002/07/owl#AllDifferent"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "distinctMembers"},
+  :id "http://www.w3.org/2002/07/owl#distinctMembers",
+  :rdfs/comment
+               "The property that determines the collection of pairwise different individuals in a owl:AllDifferent axiom.",
+  :iri "http://www.w3.org/2002/07/owl#distinctMembers",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#List",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#List",
+                 :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"}]},
+ "http://www.w3.org/2002/07/owl#onDatatype"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Datatype",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Datatype"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "onDatatype"},
+  :id "http://www.w3.org/2002/07/owl#onDatatype",
+  :rdfs/comment
+               "The property that determines the datatype that a datatype restriction refers to.",
+  :iri "http://www.w3.org/2002/07/owl#onDatatype",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Datatype",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Datatype"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Datatype",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Datatype"}]},
+ "http://www.w3.org/2002/07/owl#Class"
+ {:id "http://www.w3.org/2002/07/owl#Class",
+  :iri "http://www.w3.org/2002/07/owl#Class",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/comment "The class of OWL classes.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "Class"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Class",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Class"}],
+  :class? true},
+ "http://www.w3.org/2002/07/owl#annotatedProperty"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "annotatedProperty"},
+  :id "http://www.w3.org/2002/07/owl#annotatedProperty",
+  :rdfs/comment
+               "The property that determines the predicate of an annotated axiom or annotated annotation.",
+  :iri "http://www.w3.org/2002/07/owl#annotatedProperty",
+  :rdfs/range
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}]},
+ "http://www.w3.org/2002/07/owl#NamedIndividual"
+ {:id "http://www.w3.org/2002/07/owl#NamedIndividual",
+  :iri "http://www.w3.org/2002/07/owl#NamedIndividual",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/comment "The class of named individuals.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "NamedIndividual"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/2002/07/owl#Thing",
+    :iri "http://www.w3.org/2002/07/owl#Thing"}],
+  :class? true},
+ "http://www.w3.org/2002/07/owl#NegativePropertyAssertion"
+ {:id "http://www.w3.org/2002/07/owl#NegativePropertyAssertion",
+  :iri "http://www.w3.org/2002/07/owl#NegativePropertyAssertion",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/comment "The class of negative property assertions.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "NegativePropertyAssertion"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}],
+  :class? true},
+ "http://www.w3.org/2002/07/owl#hasValue"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#Restriction",
+                 :iri "http://www.w3.org/2002/07/owl#Restriction"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "hasValue"},
+  :id "http://www.w3.org/2002/07/owl#hasValue",
+  :rdfs/comment
+               "The property that determines the individual that a has-value restriction refers to.",
+  :iri "http://www.w3.org/2002/07/owl#hasValue",
+  :rdfs/range
+               [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+                 :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}]},
+ "http://www.w3.org/2002/07/owl#OntologyProperty"
+ {:id "http://www.w3.org/2002/07/owl#OntologyProperty",
+  :iri "http://www.w3.org/2002/07/owl#OntologyProperty",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/comment "The class of ontology properties.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "OntologyProperty"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+    :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"}],
+  :class? true},
+ "http://www.w3.org/2002/07/owl#deprecated"
+ {:id "http://www.w3.org/2002/07/owl#deprecated",
+  :iri "http://www.w3.org/2002/07/owl#deprecated",
+  :type ["http://www.w3.org/2002/07/owl#AnnotationProperty"],
+  :rdfs/comment
+  "The annotation property that indicates that a given entity has been deprecated.",
+  :rdfs/domain
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}],
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "deprecated"},
+  :rdfs/range
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}]},
+ "http://www.w3.org/2002/07/owl#priorVersion"
+ {:id "http://www.w3.org/2002/07/owl#priorVersion",
+  :iri "http://www.w3.org/2002/07/owl#priorVersion",
+  :type
+  ["http://www.w3.org/2002/07/owl#AnnotationProperty"
+   "http://www.w3.org/2002/07/owl#OntologyProperty"],
+  :rdfs/comment
+  "The annotation property that indicates the predecessor ontology of a given ontology.",
+  :rdfs/domain
+  [{:id "http://www.w3.org/2002/07/owl#Ontology",
+    :iri "http://www.w3.org/2002/07/owl#Ontology"}],
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "priorVersion"},
+  :rdfs/range
+  [{:id "http://www.w3.org/2002/07/owl#Ontology",
+    :iri "http://www.w3.org/2002/07/owl#Ontology"}]},
+ "http://www.w3.org/2002/07/owl#sourceIndividual"
+ {:rdfs/domain
+               [{:id "http://www.w3.org/2002/07/owl#NegativePropertyAssertion",
+                 :iri "http://www.w3.org/2002/07/owl#NegativePropertyAssertion"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+               [{:id "http://www.w3.org/2002/07/owl#",
+                 :iri "http://www.w3.org/2002/07/owl#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "sourceIndividual"},
+  :id "http://www.w3.org/2002/07/owl#sourceIndividual",
+  :rdfs/comment
+               "The property that determines the subject of a negative property assertion.",
+  :iri "http://www.w3.org/2002/07/owl#sourceIndividual",
+  :fluree/restrictCollection
+               [{:id "http://www.w3.org/2002/07/owl#Thing",
+                 :iri "http://www.w3.org/2002/07/owl#Thing"}],
+  :rdfs/range
+               [{:id "http://www.w3.org/2002/07/owl#Thing",
+                 :iri "http://www.w3.org/2002/07/owl#Thing"}]},
+ "http://www.w3.org/2002/07/owl#Thing"
+ {:id "http://www.w3.org/2002/07/owl#Thing",
+  :iri "http://www.w3.org/2002/07/owl#Thing",
+  :type ["http://www.w3.org/2002/07/owl#Class"],
+  :rdfs/comment "The class of OWL individuals.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "Thing"},
+  :class? true},
+ "http://www.w3.org/2002/07/owl#DataRange"
+ {:id "http://www.w3.org/2002/07/owl#DataRange",
+  :iri "http://www.w3.org/2002/07/owl#DataRange",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/comment
+  "The class of OWL data ranges, which are special kinds of datatypes. Note: The use of the IRI owl:DataRange has been deprecated as of OWL 2. The IRI rdfs:Datatype SHOULD be used instead.",
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2002/07/owl#",
+    :iri "http://www.w3.org/2002/07/owl#"}],
+  :rdfs/label {:en "DataRange"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Datatype",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Datatype"}],
+  :class? true}}

@@ -1,0 +1,247 @@
+{"http://www.w3.org/2000/01/rdf-schema#seeAlso"
+ {:rdfs/domain
+                [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+                [{:id "http://www.w3.org/2000/01/rdf-schema#",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "seeAlso"},
+  :id "http://www.w3.org/2000/01/rdf-schema#seeAlso",
+  :rdfs/comment "Further information about the subject resource.",
+  :iri "http://www.w3.org/2000/01/rdf-schema#seeAlso",
+  :rdfs/range
+                [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}]},
+ "http://www.w3.org/2000/01/rdf-schema#member"
+ {:rdfs/domain
+                [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+                [{:id "http://www.w3.org/2000/01/rdf-schema#",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "member"},
+  :id "http://www.w3.org/2000/01/rdf-schema#member",
+  :rdfs/comment "A member of the subject resource.",
+  :iri "http://www.w3.org/2000/01/rdf-schema#member",
+  :rdfs/range
+                [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}]},
+ "http://www.w3.org/2000/01/rdf-schema#Literal"
+ {:id "http://www.w3.org/2000/01/rdf-schema#Literal",
+  :iri "http://www.w3.org/2000/01/rdf-schema#Literal",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2000/01/rdf-schema#",
+    :iri "http://www.w3.org/2000/01/rdf-schema#"}],
+  :rdfs/label {:en "Literal"},
+  :rdfs/comment
+  "The class of literal values, eg. textual strings and integers.",
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}],
+  :class? true},
+ "http://www.w3.org/2000/01/rdf-schema#Resource"
+ {:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+  :iri "http://www.w3.org/2000/01/rdf-schema#Resource",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2000/01/rdf-schema#",
+    :iri "http://www.w3.org/2000/01/rdf-schema#"}],
+  :rdfs/label {:en "Resource"},
+  :rdfs/comment "The class resource, everything.",
+  :class? true},
+ "http://www.w3.org/2000/01/rdf-schema#Container"
+ {:id "http://www.w3.org/2000/01/rdf-schema#Container",
+  :iri "http://www.w3.org/2000/01/rdf-schema#Container",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2000/01/rdf-schema#",
+    :iri "http://www.w3.org/2000/01/rdf-schema#"}],
+  :rdfs/label {:en "Container"},
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}],
+  :rdfs/comment "The class of RDF containers.",
+  :class? true},
+ "http://www.w3.org/2000/01/rdf-schema#domain"
+ {:rdfs/domain
+                [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+                  :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+                [{:id "http://www.w3.org/2000/01/rdf-schema#",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "domain"},
+  :id "http://www.w3.org/2000/01/rdf-schema#domain",
+  :rdfs/comment "A domain of the subject property.",
+  :iri "http://www.w3.org/2000/01/rdf-schema#domain",
+  :fluree/restrictCollection
+                [{:id "http://www.w3.org/2000/01/rdf-schema#Class",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#Class"}],
+  :rdfs/range
+                [{:id "http://www.w3.org/2000/01/rdf-schema#Class",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#Class"}]},
+ "http://www.w3.org/2000/01/rdf-schema#subClassOf"
+ {:rdfs/domain
+                [{:id "http://www.w3.org/2000/01/rdf-schema#Class",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#Class"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+                [{:id "http://www.w3.org/2000/01/rdf-schema#",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "subClassOf"},
+  :id "http://www.w3.org/2000/01/rdf-schema#subClassOf",
+  :rdfs/comment "The subject is a subclass of a class.",
+  :iri "http://www.w3.org/2000/01/rdf-schema#subClassOf",
+  :fluree/restrictCollection
+                [{:id "http://www.w3.org/2000/01/rdf-schema#Class",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#Class"}],
+  :rdfs/range
+                [{:id "http://www.w3.org/2000/01/rdf-schema#Class",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#Class"}]},
+ "http://www.w3.org/2000/01/rdf-schema#isDefinedBy"
+ {:rdfs/domain
+                [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}],
+  :rdfs/subPropertyOf
+                [{:id "http://www.w3.org/2000/01/rdf-schema#seeAlso",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#seeAlso"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+                [{:id "http://www.w3.org/2000/01/rdf-schema#",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "isDefinedBy"},
+  :id "http://www.w3.org/2000/01/rdf-schema#isDefinedBy",
+  :rdfs/comment "The defininition of the subject resource.",
+  :iri "http://www.w3.org/2000/01/rdf-schema#isDefinedBy",
+  :rdfs/range
+                [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}]},
+ "http://www.w3.org/2000/01/rdf-schema#Datatype"
+ {:id "http://www.w3.org/2000/01/rdf-schema#Datatype",
+  :iri "http://www.w3.org/2000/01/rdf-schema#Datatype",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2000/01/rdf-schema#",
+    :iri "http://www.w3.org/2000/01/rdf-schema#"}],
+  :rdfs/label {:en "Datatype"},
+  :rdfs/comment "The class of RDF datatypes.",
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Class",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Class"}],
+  :class? true},
+ "http://www.w3.org/2000/01/rdf-schema#comment"
+ {:rdfs/domain
+                [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+                [{:id "http://www.w3.org/2000/01/rdf-schema#",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#"}],
+  :fluree/type :string,
+  :rdfs/label {:en "comment"},
+  :id "http://www.w3.org/2000/01/rdf-schema#comment",
+  :rdfs/comment "A description of the subject resource.",
+  :iri "http://www.w3.org/2000/01/rdf-schema#comment",
+  :rdfs/range
+                [{:id "http://www.w3.org/2000/01/rdf-schema#Literal",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#Literal"}]},
+ "http://www.w3.org/2000/01/rdf-schema#Class"
+ {:id "http://www.w3.org/2000/01/rdf-schema#Class",
+  :iri "http://www.w3.org/2000/01/rdf-schema#Class",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/isDefinedBy
+  [{:id "http://www.w3.org/2000/01/rdf-schema#",
+    :iri "http://www.w3.org/2000/01/rdf-schema#"}],
+  :rdfs/label {:en "Class"},
+  :rdfs/comment "The class of classes.",
+  :rdfs/subClassOf
+  [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+    :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}],
+  :class? true},
+ "http://www.w3.org/2000/01/rdf-schema#ContainerMembershipProperty"
+ {:id
+              "http://www.w3.org/2000/01/rdf-schema#ContainerMembershipProperty",
+  :iri
+              "http://www.w3.org/2000/01/rdf-schema#ContainerMembershipProperty",
+  :type ["http://www.w3.org/2000/01/rdf-schema#Class"],
+  :rdfs/isDefinedBy
+              [{:id "http://www.w3.org/2000/01/rdf-schema#",
+                :iri "http://www.w3.org/2000/01/rdf-schema#"}],
+  :rdfs/label {:en "ContainerMembershipProperty"},
+  :rdfs/comment
+              "The class of container membership properties, rdf:_1, rdf:_2, ...,\r\n                    all of which are sub-properties of 'member'.",
+  :rdfs/subClassOf
+              [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+                :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"}],
+  :class? true},
+ "http://www.w3.org/2000/01/rdf-schema#range"
+ {:rdfs/domain
+                [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+                  :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+                [{:id "http://www.w3.org/2000/01/rdf-schema#",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "range"},
+  :id "http://www.w3.org/2000/01/rdf-schema#range",
+  :rdfs/comment "A range of the subject property.",
+  :iri "http://www.w3.org/2000/01/rdf-schema#range",
+  :fluree/restrictCollection
+                [{:id "http://www.w3.org/2000/01/rdf-schema#Class",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#Class"}],
+  :rdfs/range
+                [{:id "http://www.w3.org/2000/01/rdf-schema#Class",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#Class"}]},
+ "http://www.w3.org/2000/01/rdf-schema#subPropertyOf"
+ {:rdfs/domain
+                [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+                  :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+                [{:id "http://www.w3.org/2000/01/rdf-schema#",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#"}],
+  :fluree/type :ref,
+  :rdfs/label {:en "subPropertyOf"},
+  :id "http://www.w3.org/2000/01/rdf-schema#subPropertyOf",
+  :rdfs/comment "The subject is a subproperty of a property.",
+  :iri "http://www.w3.org/2000/01/rdf-schema#subPropertyOf",
+  :fluree/restrictCollection
+                [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+                  :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"}],
+  :rdfs/range
+                [{:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property",
+                  :iri "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"}]},
+ "http://www.w3.org/2000/01/rdf-schema#label"
+ {:rdfs/domain
+                [{:id "http://www.w3.org/2000/01/rdf-schema#Resource",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#Resource"}],
+  :type ["http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"],
+  :rdfs/isDefinedBy
+                [{:id "http://www.w3.org/2000/01/rdf-schema#",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#"}],
+  :fluree/type :string,
+  :rdfs/label {:en "label"},
+  :id "http://www.w3.org/2000/01/rdf-schema#label",
+  :rdfs/comment "A human-readable name for the subject.",
+  :iri "http://www.w3.org/2000/01/rdf-schema#label",
+  :rdfs/range
+                [{:id "http://www.w3.org/2000/01/rdf-schema#Literal",
+                  :iri "http://www.w3.org/2000/01/rdf-schema#Literal"}]},
+ "http://www.w3.org/2000/01/rdf-schema#"
+ {:id "http://www.w3.org/2000/01/rdf-schema#",
+  :iri "http://www.w3.org/2000/01/rdf-schema#",
+  :type ["http://www.w3.org/2002/07/owl#Ontology"],
+  "http://purl.org/dc/elements/1.1/title"
+  [{"@value" "The RDF Schema vocabulary (RDFS)"}],
+  :rdfs/seeAlso
+  [{:id "http://www.w3.org/2000/01/rdf-schema-more",
+    :iri "http://www.w3.org/2000/01/rdf-schema-more"}]}}

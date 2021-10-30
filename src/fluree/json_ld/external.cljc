@@ -9,6 +9,8 @@
 (def vocab->file {"https://schema.org/"                        "org.schema.edn"
                   "http://schema.org/"                         "org.schema.edn"
                   "http://www.w3.org/2002/07/owl#"             "owl.edn"
+                  "http://www.w3.org/2000/01/rdf-schema#"      "rdfs.edn"
+                  "http://www.w3.org/2004/02/skos/core#"       "skos.edn"
                   "http://purl.org/dc/terms/"                  "org.purl.dc.terms.edn"
                   "https://w3id.org/openbadges#"               "org.w3id.openbadges.edn"
                   "https://purl.imsglobal.org/spec/clr/vocab#" "org.imsglobal.spec.clr.vocab.edn"})
@@ -68,6 +70,8 @@
   (iri "https://schema.org/Person")
 
   (iri "https://purl.imsglobal.org/spec/clr/vocab#dtExtensibleAchievementType")
+
+  (iri "http://www.w3.org/2000/01/rdf-schema#isDefinedBy")
 
   (context "https://purl.imsglobal.org/spec/clr/v1p0/context/clr_v1p0.jsonld")
   (get context->file "https://purl.imsglobal.org/spec/clr/v1p0/context/clr_v1p0.jsonld")
