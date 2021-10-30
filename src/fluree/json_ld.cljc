@@ -66,7 +66,7 @@
   (expand/iri compact-iri parsed-context))
 
 
-(defn expand-node
+(defn expand
   "Expands an entire JSON-LD node (JSON object), with optional parsed context
   provided. If node has a local context, will merge with provided parse-context.
 

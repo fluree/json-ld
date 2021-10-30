@@ -1,6 +1,7 @@
 (ns fluree.json-ld.expand
   (:require [fluree.json-ld.iri :as iri]
-            [fluree.json-ld.context :as context]))
+            [fluree.json-ld.context :as context]
+            [fluree.json-ld.util :refer [try-catchall]]))
 
 #?(:clj (set! *warn-on-reflection* true))
 
@@ -54,7 +55,8 @@
   (or (match-exact compact-iri context)
       (match-prefix compact-iri context)
       (match-default compact-iri context)
-      [compact-iri nil]))
+      [compact-iri (when (= \@ (first compact-iri))
+                     {:id compact-iri})]))
 
 
 (defn iri
@@ -65,87 +67,100 @@
   (first (details compact-iri context)))
 
 
-(defmulti parse-node-val (fn [k v ctx-k context]
-                             (cond
-                               (map? v) :map
-                               (sequential? v) :sequential
-                               (string? v) :string
-                               (number? v) :number
-                               :else (throw (ex-info (str "Values in payload must be strings, numbers, maps or vectors. "
-                                                          "Provided for key: " k " value: " v)
-                                                     {:status 400
-                                                      :error  :json-ld/invalid-context})))))
+(defmulti parse-node-val (fn [v _ _ idx]
+                           (cond
+                             (map? v) :map
+                             (sequential? v) :sequential
+                             (string? v) :string
+                             (number? v) :number
+                             :else (throw (ex-info (str "Values in payload must be strings, numbers, maps or vectors. "
+                                                        "Provided value: " v " at index: " idx ".")
+                                                   {:status 400
+                                                    :error  :json-ld/invalid-context})))))
 
 (defmethod parse-node-val :string
-  [k v ctx-k context]
-  (cond
-    (= :id k) (iri v context)
-    (= :type k) [(iri v context)]                         ;; always return @type as vector
-    :else (let [type (:type ctx-k)]                       ;; type may be defined in the @context
-            {:type  type
-             :value (if (= :id type)
-                      (iri v context)
-                      v)})))
+  [v v-info context idx]
+  (let [id (:id v-info)]
+    (cond
+      (= "@id" id) (iri v context)
+      (= "@type" id) [(iri v context)]                      ;; always return @type as vector
+      :else (let [type (:type v-info)]                      ;; type may be defined in the @context
+              {:value (if (= :id type)
+                        (iri v context)
+                        v)
+               :type  type
+               :idx   idx}))))
 
 (defmethod parse-node-val :number
-  [k v ctx-k context]
-  {:type  (:type ctx-k)                                   ;; type may be defined in the @context
-   :value v})
+  [v v-info _ idx]
+  {:value v
+   :type  (:type v-info)                                    ;; type may be defined in the @context
+   :idx   idx})
 
 (defmethod parse-node-val :map
-  [k v ctx-k context]
+  [v v-info context idx]
   (let [v*   (dissoc v "@context")
         ctx* (if-let [sub-ctx (get v "@context")]
-               (iri context sub-ctx)
+               (context/parse context sub-ctx)
                context)]
     (cond
       (contains? v "@list")
-      {:type  :list
-       :value (mapv #(node % ctx*) (get v "@list"))}
+      {:value (->> (get v "@list")
+                   (map-indexed #(node %2 ctx* (conj idx "@list" %1)))
+                   (into []))
+       :type  :list
+       :idx   idx}
 
       (contains? v "@value")
       (let [val  (get v "@value")
-            type (or (get v "@type")
-                     (:type ctx-k)                          ;; if type is defined only in the @context
-                     (if (string? val)
-                       :xsd/string
-                       :xsd/number))]
-        {:type  type
-         :value (if (= "@id" (get v "@type"))
+            type (if-let [explicit-type (get v "@type")]
+                   (iri explicit-type ctx*)
+                   (:type v-info))]                         ;; if type is defined only in the @context
+        {:value (if (= "@id" (get v "@type"))
                   (iri val ctx*)
-                  val)})
+                  val)
+         :type  type
+         :idx   idx})
 
       ;; single @id key
       (= '("@id") (keys v*))
-      {:type  :id
-       :value (iri (get v "@id") ctx*)}
+      {:value (iri (get v "@id") ctx*)
+       :type  :id
+       :idx   idx}
 
       ;; else a sub-value
       :else
-      (let [parsed (node v context)]
-        {:type  :id
-         :value parsed}))))
+      (let [parsed (node v ctx* idx)]
+        {:value parsed
+         :type  :id
+         :idx   idx}))))
 
 (defmethod parse-node-val :sequential
-  [k v ctx-k context]
-  (case k
-    :type (mapv #(if (string? %)
-                   (iri % context)
-                   (throw (ex-info (str "@type values must be strings or vectors of strings, provided: " v)
-                                   {:status 400 :error :json-ld/invalid-context})))
-                v)
-    :list {:type  :list
-           :value (mapv #(node % context) v)}
+  [v v-info context idx]
+  (case (:id v-info)
+    "@type" (mapv #(if (string? %)
+                     (iri % context)
+                     (throw (ex-info (str "@type values must be strings or vectors of strings, provided: "
+                                          v " at index: " idx ".")
+                                     {:status 400 :error :json-ld/invalid-context})))
+                  v)
+    "@list" {:value (->> v
+                         (map-indexed #(node %2 context (conj idx "@list" %1)))
+                         (into []))
+             :type  :list
+             :idx   (conj idx "@list")}
     ;; else
-    (mapv #(cond
-             (map? %) (node % context)
-             (sequential? %) (throw (ex-info (str "Json-ld sequential values within sequential"
-                                                  "values is not allowed. Provided key: " k
-                                                  " value: " v)
-                                             {:status 400 :error :json-ld/invalid-context}))
-             :else {:type (:type ctx-k)
-                    :value %})
-          v)))
+    (->> v
+         (map-indexed #(cond
+                         (map? %2) (node %2 context (conj idx %1))
+                         (sequential? %2) (throw (ex-info (str "Json-ld sequential values within sequential"
+                                                               "values is not allowed. Provided value: " v
+                                                               " at index: " (conj idx %1) ".")
+                                                          {:status 400 :error :json-ld/invalid-context}))
+                         :else {:value %2
+                                :type  (:type v-info)
+                                :idx   (conj idx %1)}))
+         (into []))))
 
 (defn node
   "Expands an entire JSON-LD node (JSON object), with optional parsed context
@@ -153,19 +168,29 @@
 
   Expands into child nodes."
   ([node-map] (node node-map {}))
-  ([node-map parsed-context]
-   (let [context (context/parse parsed-context (get node-map "@context"))]
-     (if-let [graph (get node-map "@graph")]
-       (mapv #(node % context) graph)
-       (reduce-kv
-         (fn [acc k v]
-           (let [[k* ctx-k] (details k context)
-                 k** (if (= \@ (first k*))
-                       (keyword (subs k* 1))
-                       k*)
-                 v*  (parse-node-val k** v ctx-k context)]
-             (assoc acc k** v*)))
-         {}
-         (dissoc node-map "@context"))))))
-
-
+  ([node-map parsed-context] (node node-map parsed-context []))
+  ([node-map parsed-context idx]
+   (try-catchall
+     (if (sequential? node-map)
+       (map-indexed #(node %2 parsed-context (conj idx %1)) node-map)
+       (let [context (context/parse parsed-context (get node-map "@context"))]
+         (if-let [graph (get node-map "@graph")]
+           (map-indexed #(node %2 context ["@graph" %1]) graph)
+           (reduce-kv
+             (fn [acc k v]
+               (let [[k* v-info] (details k context)
+                     k** (if (= \@ (first k*))
+                           (keyword (subs k* 1))
+                           k*)
+                     v*  (parse-node-val v v-info context (conj idx k))]
+                 (assoc acc k** v*)))
+             (if (empty? idx) {} {:idx idx})
+             (dissoc node-map "@context")))))
+     (catch e
+            (if (ex-data e)
+              (throw e)
+              (throw (ex-info (str "Invalid JSON-LD. Error occurred at JSON object index: " idx
+                                   " with error: " (ex-message e))
+                              {:status 400
+                               :error  :json-ld/invalid}
+                              e)))))))

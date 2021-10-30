@@ -37,11 +37,14 @@
                   "ical:location" "New Orleans Arena, New Orleans, Louisiana, USA",
                   "ical:dtstart"  "2011-04-09T20:00:00Z"})
            {"http://www.w3.org/2002/12/cal/ical#summary"
-            {:type nil, :value "Lady Gaga Concert"},
+            {:type  nil, :idx ["ical:summary"],
+             :value "Lady Gaga Concert"},
             "http://www.w3.org/2002/12/cal/ical#location"
-            {:type nil, :value "New Orleans Arena, New Orleans, Louisiana, USA"},
+            {:type  nil, :idx ["ical:location"],
+             :value "New Orleans Arena, New Orleans, Louisiana, USA"},
             "http://www.w3.org/2002/12/cal/ical#dtstart"
-            {:type "http://www.w3.org/2001/XMLSchema#dateTime", :value "2011-04-09T20:00:00Z"}})))
+            {:type  "http://www.w3.org/2001/XMLSchema#dateTime", :idx ["ical:dtstart"],
+             :value "2011-04-09T20:00:00Z"}})))
 
   (testing "Nested child with no @id but datatypes"
     (is (= (node {"@context"    {"name"        "http://schema.org/name",
@@ -59,16 +62,23 @@
                   "image"       "http://www.civil.usherbrooke.ca/cours/gci215a/empire-state-building.jpg",
                   "geo"         {"latitude" "40.75", "longitude" "73.98"}})
            {"http://schema.org/name"
-            {:type nil, :value "The Empire State Building"},
+            {:type  nil, :idx ["name"],
+             :value "The Empire State Building"},
             "http://schema.org/description"
-            {:type nil, :value "The Empire State Building is a 102-story landmark in New York City."},
+            {:type  nil, :idx ["description"],
+             :value "The Empire State Building is a 102-story landmark in New York City."},
             "http://schema.org/image"
-            {:type :id, :value "http://www.civil.usherbrooke.ca/cours/gci215a/empire-state-building.jpg"},
+            {:type  :id, :idx ["image"],
+             :value "http://www.civil.usherbrooke.ca/cours/gci215a/empire-state-building.jpg"},
             "http://schema.org/geo"
-            {:type :id, :value {"http://schema.org/latitude"
-                                {:type "http://www.w3.org/2001/XMLSchema#float", :value "40.75"},
-                                "http://schema.org/longitude"
-                                {:type "http://www.w3.org/2001/XMLSchema#float", :value "73.98"}}}})))
+            {:type  :id, :idx ["geo"],
+             :value {:idx                          ["geo"],
+                     "http://schema.org/latitude"  {:type  "http://www.w3.org/2001/XMLSchema#float",
+                                                    :idx   ["geo" "latitude"],
+                                                    :value "40.75"},
+                     "http://schema.org/longitude" {:type  "http://www.w3.org/2001/XMLSchema#float",
+                                                    :idx   ["geo" "longitude"],
+                                                    :value "73.98"}}}})))
 
   (testing "Nested children with datatypes in context using compact-iris"
     (is (= (node {"gr:includes"               {"@type"     ["gr:Individual" "pto:Vehicle"],
@@ -89,29 +99,40 @@
                   "gr:acceptedPaymentMethods" "gr:Cash",
                   "gr:hasBusinessFunction"    "gr:Sell",
                   "@type"                     "gr:Offering"})
+
            {:id   "http://example.org/cars/for-sale#tesla",
-            :type ["http://purl.org/goodrelations/v1#Offering"]
+            :type ["http://purl.org/goodrelations/v1#Offering"],
             "http://purl.org/goodrelations/v1#includes"
-                  {:type  :id,
-                   :value {:type ["http://purl.org/goodrelations/v1#Individual"
+                  {:type  :id, :idx ["gr:includes"],
+                   :value {:idx  ["gr:includes"],
+                           :type ["http://purl.org/goodrelations/v1#Individual"
                                   "http://www.productontology.org/id/Vehicle"],
                            "http://purl.org/goodrelations/v1#name"
-                                 {:type nil, :value "Tesla Roadster"},
+                                 {:type  nil, :idx ["gr:includes" "gr:name"],
+                                  :value "Tesla Roadster"},
                            "http://xmlns.com/foaf/0.1/page"
-                                 {:type :id, :value "http://www.teslamotors.com/roadster"}}},
+                                 {:type  :id, :idx ["gr:includes" "foaf:page"],
+                                  :value "http://www.teslamotors.com/roadster"}}},
             "http://purl.org/goodrelations/v1#description"
-                  {:type nil, :value "Need to sell fast and furiously"},
+                  {:type  nil, :idx ["gr:description"],
+                   :value "Need to sell fast and furiously"},
             "http://purl.org/goodrelations/v1#name"
-                  {:type nil, :value "Used Tesla Roadster"},
+                  {:type nil, :idx ["gr:name"], :value "Used Tesla Roadster"},
             "http://purl.org/goodrelations/v1#hasPriceSpecification"
-                  {:type :id, :value {"http://purl.org/goodrelations/v1#hasCurrencyValue"
-                                      {:type "http://www.w3.org/2001/XMLSchema#float", :value "85000"},
-                                      "http://purl.org/goodrelations/v1#hasCurrency"
-                                      {:type nil, :value "USD"}}},
+                  {:type  :id, :idx ["gr:hasPriceSpecification"],
+                   :value {:idx ["gr:hasPriceSpecification"],
+                           "http://purl.org/goodrelations/v1#hasCurrencyValue"
+                                {:type  "http://www.w3.org/2001/XMLSchema#float", :idx ["gr:hasPriceSpecification" "gr:hasCurrencyValue"],
+                                 :value "85000"},
+                           "http://purl.org/goodrelations/v1#hasCurrency"
+                                {:type  nil, :idx ["gr:hasPriceSpecification" "gr:hasCurrency"],
+                                 :value "USD"}}},
             "http://purl.org/goodrelations/v1#acceptedPaymentMethods"
-                  {:type :id, :value "http://purl.org/goodrelations/v1#Cash"},
+                  {:type  :id, :idx ["gr:acceptedPaymentMethods"],
+                   :value "http://purl.org/goodrelations/v1#Cash"},
             "http://purl.org/goodrelations/v1#hasBusinessFunction"
-                  {:type :id, :value "http://purl.org/goodrelations/v1#Sell"}})))
+                  {:type  :id, :idx ["gr:hasBusinessFunction"],
+                   :value "http://purl.org/goodrelations/v1#Sell"}})))
 
 
   (testing "Nested children in vector"
@@ -136,73 +157,95 @@
                                   {"step" 4, "description" "Fill the rest of glass with club soda, stir."}
                                   {"step" 5, "description" "Garnish with a lime wedge."}]})
            {"http://rdf.data-vocabulary.org/#name"
-            {:type nil, :value "Mojito"},
+            {:type nil, :idx ["name"], :value "Mojito"},
             "http://rdf.data-vocabulary.org/#ingredients"
-            [{:type nil, :value "12 fresh mint leaves"}
-             {:type nil, :value "1/2 lime, juiced with pulp"}
-             {:type nil, :value "1 tablespoons white sugar"}
-             {:type nil, :value "1 cup ice cubes"}
-             {:type nil, :value "2 fluid ounces white rum"}
-             {:type nil, :value "1/2 cup club soda"}],
+            [{:type nil, :idx ["ingredient" 0], :value "12 fresh mint leaves"}
+             {:type nil, :idx ["ingredient" 1], :value "1/2 lime, juiced with pulp"}
+             {:type nil, :idx ["ingredient" 2], :value "1 tablespoons white sugar"}
+             {:type nil, :idx ["ingredient" 3], :value "1 cup ice cubes"}
+             {:type nil, :idx ["ingredient" 4], :value "2 fluid ounces white rum"}
+             {:type nil, :idx ["ingredient" 5], :value "1/2 cup club soda"}],
             "http://rdf.data-vocabulary.org/#yield"
-            {:type nil, :value "1 cocktail"},
+            {:type nil, :idx ["yield"], :value "1 cocktail"},
             "http://rdf.data-vocabulary.org/#instructions"
-            [{"http://rdf.data-vocabulary.org/#step"
-              {:type "http://www.w3.org/2001/XMLSchema#integer", :value 1},
+            [{:idx ["instructions" 0],
+              "http://rdf.data-vocabulary.org/#step"
+                   {:type "http://www.w3.org/2001/XMLSchema#integer",
+                    :idx  ["instructions" 0 "step"], :value 1},
               "http://rdf.data-vocabulary.org/#description"
-              {:type nil, :value "Crush lime juice, mint and sugar together in glass."}}
-             {"http://rdf.data-vocabulary.org/#step"
-              {:type "http://www.w3.org/2001/XMLSchema#integer", :value 2},
+                   {:type  nil, :idx ["instructions" 0 "description"],
+                    :value "Crush lime juice, mint and sugar together in glass."}}
+             {:idx ["instructions" 1],
+              "http://rdf.data-vocabulary.org/#step"
+                   {:type "http://www.w3.org/2001/XMLSchema#integer",
+                    :idx  ["instructions" 1 "step"], :value 2},
               "http://rdf.data-vocabulary.org/#description"
-              {:type nil, :value "Fill glass to top with ice cubes."}}
-             {"http://rdf.data-vocabulary.org/#step"
-              {:type "http://www.w3.org/2001/XMLSchema#integer", :value 3},
+                   {:type  nil, :idx ["instructions" 1 "description"],
+                    :value "Fill glass to top with ice cubes."}}
+             {:idx ["instructions" 2],
+              "http://rdf.data-vocabulary.org/#step"
+                   {:type "http://www.w3.org/2001/XMLSchema#integer",
+                    :idx  ["instructions" 2 "step"], :value 3},
               "http://rdf.data-vocabulary.org/#description"
-              {:type nil, :value "Pour white rum over ice."}}
-             {"http://rdf.data-vocabulary.org/#step"
-              {:type "http://www.w3.org/2001/XMLSchema#integer", :value 4},
+                   {:type  nil, :idx ["instructions" 2 "description"],
+                    :value "Pour white rum over ice."}}
+             {:idx ["instructions" 3],
+              "http://rdf.data-vocabulary.org/#step"
+                   {:type "http://www.w3.org/2001/XMLSchema#integer",
+                    :idx  ["instructions" 3 "step"], :value 4},
               "http://rdf.data-vocabulary.org/#description"
-              {:type nil, :value "Fill the rest of glass with club soda, stir."}}
-             {"http://rdf.data-vocabulary.org/#step"
-              {:type "http://www.w3.org/2001/XMLSchema#integer", :value 5},
+                   {:type  nil, :idx ["instructions" 3 "description"],
+                    :value "Fill the rest of glass with club soda, stir."}}
+             {:idx ["instructions" 4],
+              "http://rdf.data-vocabulary.org/#step"
+                   {:type "http://www.w3.org/2001/XMLSchema#integer",
+                    :idx  ["instructions" 4 "step"], :value 5},
               "http://rdf.data-vocabulary.org/#description"
-              {:type nil, :value "Garnish with a lime wedge."}}]}))))
+                   {:type  nil, :idx ["instructions" 4 "description"],
+                    :value "Garnish with a lime wedge."}}]}))))
 
 (deftest node-graph-parse
   (testing "Parse node that is a graph"
-    (is (= (node {"@context" {"dc11"        "http://purl.org/dc/elements/1.1/",
-                              "ex"          "http://example.org/vocab#",
-                              "xsd"         "http://www.w3.org/2001/XMLSchema#",
-                              "ex:contains" {"@type" "@id"}},
-                  "@graph"   [{"@id"         "http://example.org/library",
-                               "@type"       "ex:Library",
-                               "ex:contains" "http://example.org/library/the-republic"}
-                              {"@id"          "http://example.org/library/the-republic",
-                               "@type"        "ex:Book",
-                               "dc11:creator" "Plato",
-                               "dc11:title"   "The Republic",
-                               "ex:contains"  "http://example.org/library/the-republic#introduction"}
-                              {"@id"              "http://example.org/library/the-republic#introduction",
-                               "@type"            "ex:Chapter",
-                               "dc11:description" "An introductory chapter on The Republic.",
-                               "dc11:title"       "The Introduction"}]})
-           [{:id   "http://example.org/library",
+    (is (= (into []
+                 (node {"@context" {"dc11"        "http://purl.org/dc/elements/1.1/",
+                                    "ex"          "http://example.org/vocab#",
+                                    "xsd"         "http://www.w3.org/2001/XMLSchema#",
+                                    "ex:contains" {"@type" "@id"}},
+                        "@graph"   [{"@id"         "http://example.org/library",
+                                     "@type"       "ex:Library",
+                                     "ex:contains" "http://example.org/library/the-republic"}
+                                    {"@id"          "http://example.org/library/the-republic",
+                                     "@type"        "ex:Book",
+                                     "dc11:creator" "Plato",
+                                     "dc11:title"   "The Republic",
+                                     "ex:contains"  "http://example.org/library/the-republic#introduction"}
+                                    {"@id"              "http://example.org/library/the-republic#introduction",
+                                     "@type"            "ex:Chapter",
+                                     "dc11:description" "An introductory chapter on The Republic.",
+                                     "dc11:title"       "The Introduction"}]}))
+           [{:idx ["@graph" 0],
+             :id "http://example.org/library",
              :type ["http://example.org/vocab#Library"],
              "http://example.org/vocab#contains"
-                   {:type :id, :value "http://example.org/library/the-republic"}}
-            {:id   "http://example.org/library/the-republic",
+             {:value "http://example.org/library/the-republic",
+              :type :id, :idx ["@graph" 0 "ex:contains"]}}
+            {:idx ["@graph" 1],
+             :id "http://example.org/library/the-republic",
              :type ["http://example.org/vocab#Book"],
              "http://purl.org/dc/elements/1.1/creator"
-                   {:type nil, :value "Plato"},
+             {:value "Plato", :type nil, :idx ["@graph" 1 "dc11:creator"]},
              "http://purl.org/dc/elements/1.1/title"
-                   {:type nil, :value "The Republic"},
+             {:value "The Republic", :type nil, :idx ["@graph" 1 "dc11:title"]},
              "http://example.org/vocab#contains"
-                   {:type :id, :value "http://example.org/library/the-republic#introduction"}}
-            {:id   "http://example.org/library/the-republic#introduction",
+             {:value "http://example.org/library/the-republic#introduction",
+              :type :id, :idx ["@graph" 1 "ex:contains"]}}
+            {:idx ["@graph" 2],
+             :id "http://example.org/library/the-republic#introduction",
              :type ["http://example.org/vocab#Chapter"],
              "http://purl.org/dc/elements/1.1/description"
-                   {:type nil, :value "An introductory chapter on The Republic."},
+             {:value "An introductory chapter on The Republic.",
+              :type nil, :idx ["@graph" 2 "dc11:description"]},
              "http://purl.org/dc/elements/1.1/title"
-                   {:type nil, :value "The Introduction"}}]))))
+             {:value "The Introduction", :type nil, :idx ["@graph" 2 "dc11:title"]}}]))))
 
 
