@@ -83,17 +83,15 @@
                                                     :error  :json-ld/invalid-context})))))
 
 (defmethod parse-node-val :string
-  [v v-info context idx]
-  (let [id (:id v-info)]
-    (cond
-      (= "@id" id) (iri v context)
-      (= "@type" id) [(iri v context)]                      ;; always return @type as vector
-      :else (let [type (:type v-info)]                      ;; type may be defined in the @context
-              {:value (if (= :id type)
-                        (iri v context)
-                        v)
-               :type  type
-               :idx   idx}))))
+  [v {:keys [id type] :as v-info} context idx]
+  (cond
+    (= "@id" id) (iri v context)
+    (= "@type" id) [(iri v context)]                        ;; always return @type as vector
+    (= :id type) {:id  (iri v context)
+                  :idx idx}
+    :else {:value v
+           :type  type
+           :idx   idx}))
 
 (defmethod parse-node-val :number
   [v v-info _ idx]
@@ -110,7 +108,7 @@
     (cond
       (contains? v "@list")
       {:list (-> (get v "@list")
-                  (parse-node-val v-info context (conj idx "@list")))}
+                 (parse-node-val v-info context (conj idx "@list")))}
 
       (contains? v "@set")                                  ;; set is the default container type, so just flatten to regular vector
       (-> (get v "@set")
@@ -127,18 +125,9 @@
          :type  type
          :idx   idx})
 
-      ;; single @id key
-      (= '("@id") (keys v*))
-      {:value (iri (get v "@id") ctx*)
-       :type  :id
-       :idx   idx}
-
       ;; else a sub-value
       :else
-      (let [parsed (node v ctx* idx)]
-        {:value parsed
-         :type  :id
-         :idx   idx}))))
+      (node v ctx* idx))))
 
 (defmethod parse-node-val :sequential
   [v v-info context idx]

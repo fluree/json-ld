@@ -62,23 +62,23 @@
                   "image"       "http://www.civil.usherbrooke.ca/cours/gci215a/empire-state-building.jpg",
                   "geo"         {"latitude" "40.75", "longitude" "73.98"}})
            {"http://schema.org/name"
-            {:type  nil, :idx ["name"],
-             :value "The Empire State Building"},
+            {:value "The Empire State Building", :type nil, :idx ["name"]},
             "http://schema.org/description"
-            {:type  nil, :idx ["description"],
-             :value "The Empire State Building is a 102-story landmark in New York City."},
+            {:value "The Empire State Building is a 102-story landmark in New York City.",
+             :type  nil, :idx ["description"]},
             "http://schema.org/image"
-            {:type  :id, :idx ["image"],
-             :value "http://www.civil.usherbrooke.ca/cours/gci215a/empire-state-building.jpg"},
+            {:id  "http://www.civil.usherbrooke.ca/cours/gci215a/empire-state-building.jpg",
+             :idx ["image"]},
             "http://schema.org/geo"
-            {:type  :id, :idx ["geo"],
-             :value {:idx                          ["geo"],
-                     "http://schema.org/latitude"  {:type  "http://www.w3.org/2001/XMLSchema#float",
-                                                    :idx   ["geo" "latitude"],
-                                                    :value "40.75"},
-                     "http://schema.org/longitude" {:type  "http://www.w3.org/2001/XMLSchema#float",
-                                                    :idx   ["geo" "longitude"],
-                                                    :value "73.98"}}}})))
+            {:idx ["geo"],
+             "http://schema.org/latitude"
+                  {:value "40.75",
+                   :type  "http://www.w3.org/2001/XMLSchema#float",
+                   :idx   ["geo" "latitude"]},
+             "http://schema.org/longitude"
+                  {:value "73.98",
+                   :type  "http://www.w3.org/2001/XMLSchema#float",
+                   :idx   ["geo" "longitude"]}}})))
 
   (testing "Nested children with datatypes in context using compact-iris"
     (is (= (node {"gr:includes"               {"@type"     ["gr:Individual" "pto:Vehicle"],
@@ -103,36 +103,34 @@
            {:id   "http://example.org/cars/for-sale#tesla",
             :type ["http://purl.org/goodrelations/v1#Offering"],
             "http://purl.org/goodrelations/v1#includes"
-                  {:type  :id, :idx ["gr:includes"],
-                   :value {:idx  ["gr:includes"],
-                           :type ["http://purl.org/goodrelations/v1#Individual"
-                                  "http://www.productontology.org/id/Vehicle"],
-                           "http://purl.org/goodrelations/v1#name"
-                                 {:type  nil, :idx ["gr:includes" "gr:name"],
-                                  :value "Tesla Roadster"},
-                           "http://xmlns.com/foaf/0.1/page"
-                                 {:type  :id, :idx ["gr:includes" "foaf:page"],
-                                  :value "http://www.teslamotors.com/roadster"}}},
+                  {:idx  ["gr:includes"],
+                   :type ["http://purl.org/goodrelations/v1#Individual"
+                          "http://www.productontology.org/id/Vehicle"],
+                   "http://purl.org/goodrelations/v1#name"
+                         {:value "Tesla Roadster", :type nil,
+                          :idx   ["gr:includes" "gr:name"]},
+                   "http://xmlns.com/foaf/0.1/page"
+                         {:id  "http://www.teslamotors.com/roadster",
+                          :idx ["gr:includes" "foaf:page"]}},
             "http://purl.org/goodrelations/v1#description"
-                  {:type  nil, :idx ["gr:description"],
-                   :value "Need to sell fast and furiously"},
+                  {:value "Need to sell fast and furiously",
+                   :type  nil, :idx ["gr:description"]},
             "http://purl.org/goodrelations/v1#name"
-                  {:type nil, :idx ["gr:name"], :value "Used Tesla Roadster"},
+                  {:value "Used Tesla Roadster", :type nil, :idx ["gr:name"]},
             "http://purl.org/goodrelations/v1#hasPriceSpecification"
-                  {:type  :id, :idx ["gr:hasPriceSpecification"],
-                   :value {:idx ["gr:hasPriceSpecification"],
-                           "http://purl.org/goodrelations/v1#hasCurrencyValue"
-                                {:type  "http://www.w3.org/2001/XMLSchema#float", :idx ["gr:hasPriceSpecification" "gr:hasCurrencyValue"],
-                                 :value "85000"},
-                           "http://purl.org/goodrelations/v1#hasCurrency"
-                                {:type  nil, :idx ["gr:hasPriceSpecification" "gr:hasCurrency"],
-                                 :value "USD"}}},
+                  {:idx ["gr:hasPriceSpecification"],
+                   "http://purl.org/goodrelations/v1#hasCurrencyValue"
+                        {:value "85000", :type "http://www.w3.org/2001/XMLSchema#float",
+                         :idx   ["gr:hasPriceSpecification" "gr:hasCurrencyValue"]},
+                   "http://purl.org/goodrelations/v1#hasCurrency"
+                        {:value "USD", :type nil,
+                         :idx   ["gr:hasPriceSpecification" "gr:hasCurrency"]}},
             "http://purl.org/goodrelations/v1#acceptedPaymentMethods"
-                  {:type  :id, :idx ["gr:acceptedPaymentMethods"],
-                   :value "http://purl.org/goodrelations/v1#Cash"},
+                  {:id  "http://purl.org/goodrelations/v1#Cash",
+                   :idx ["gr:acceptedPaymentMethods"]},
             "http://purl.org/goodrelations/v1#hasBusinessFunction"
-                  {:type  :id, :idx ["gr:hasBusinessFunction"],
-                   :value "http://purl.org/goodrelations/v1#Sell"}})))
+                  {:id  "http://purl.org/goodrelations/v1#Sell",
+                   :idx ["gr:hasBusinessFunction"]}})))
 
 
   (testing "Nested children in vector"
@@ -227,8 +225,7 @@
              :id   "http://example.org/library",
              :type ["http://example.org/vocab#Library"],
              "http://example.org/vocab#contains"
-                   {:value "http://example.org/library/the-republic",
-                    :type  :id, :idx ["@graph" 0 "ex:contains"]}}
+                   {:id "http://example.org/library/the-republic", :idx ["@graph" 0 "ex:contains"]}}
             {:idx  ["@graph" 1],
              :id   "http://example.org/library/the-republic",
              :type ["http://example.org/vocab#Book"],
@@ -237,16 +234,17 @@
              "http://purl.org/dc/elements/1.1/title"
                    {:value "The Republic", :type nil, :idx ["@graph" 1 "dc11:title"]},
              "http://example.org/vocab#contains"
-                   {:value "http://example.org/library/the-republic#introduction",
-                    :type  :id, :idx ["@graph" 1 "ex:contains"]}}
+                   {:id  "http://example.org/library/the-republic#introduction",
+                    :idx ["@graph" 1 "ex:contains"]}}
             {:idx  ["@graph" 2],
              :id   "http://example.org/library/the-republic#introduction",
              :type ["http://example.org/vocab#Chapter"],
              "http://purl.org/dc/elements/1.1/description"
-                   {:value "An introductory chapter on The Republic.",
-                    :type  nil, :idx ["@graph" 2 "dc11:description"]},
+                   {:value "An introductory chapter on The Republic.", :type nil,
+                    :idx   ["@graph" 2 "dc11:description"]},
              "http://purl.org/dc/elements/1.1/title"
-                   {:value "The Introduction", :type nil, :idx ["@graph" 2 "dc11:title"]}}]))))
+                   {:value "The Introduction", :type nil,
+                    :idx   ["@graph" 2 "dc11:title"]}}]))))
 
 
 (deftest list-type-values
