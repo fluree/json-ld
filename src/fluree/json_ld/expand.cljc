@@ -3,6 +3,10 @@
             [fluree.json-ld.context :as context]
             [fluree.json-ld.util :refer [try-catchall]]))
 
+;; TODO - differentiate resolution between @type: @id vs @type: @vocab
+;; TODO - support @container: @language indexed value
+;; TODO - support for @base - applies only to values, not @type or properties (or where explicit @type: @vocab used)
+
 #?(:clj (set! *warn-on-reflection* true))
 
 (declare node)
@@ -105,11 +109,12 @@
                context)]
     (cond
       (contains? v "@list")
-      {:value (->> (get v "@list")
-                   (map-indexed #(node %2 ctx* (conj idx "@list" %1)))
-                   (into []))
-       :type  :list
-       :idx   idx}
+      {:list (-> (get v "@list")
+                  (parse-node-val v-info context (conj idx "@list")))}
+
+      (contains? v "@set")                                  ;; set is the default container type, so just flatten to regular vector
+      (-> (get v "@set")
+          (parse-node-val v-info context (conj idx "@set")))
 
       (contains? v "@value")
       (let [val  (get v "@value")
@@ -137,30 +142,28 @@
 
 (defmethod parse-node-val :sequential
   [v v-info context idx]
-  (case (:id v-info)
-    "@type" (mapv #(if (string? %)
-                     (iri % context)
-                     (throw (ex-info (str "@type values must be strings or vectors of strings, provided: "
-                                          v " at index: " idx ".")
-                                     {:status 400 :error :json-ld/invalid-context})))
-                  v)
-    "@list" {:value (->> v
-                         (map-indexed #(node %2 context (conj idx "@list" %1)))
-                         (into []))
-             :type  :list
-             :idx   (conj idx "@list")}
-    ;; else
-    (->> v
-         (map-indexed #(cond
-                         (map? %2) (node %2 context (conj idx %1))
-                         (sequential? %2) (throw (ex-info (str "Json-ld sequential values within sequential"
-                                                               "values is not allowed. Provided value: " v
-                                                               " at index: " (conj idx %1) ".")
-                                                          {:status 400 :error :json-ld/invalid-context}))
-                         :else {:value %2
-                                :type  (:type v-info)
-                                :idx   (conj idx %1)}))
-         (into []))))
+  (println "SEQUENTIAL: " v v-info)
+  (if (= "@type" (:id v-info))
+    (mapv #(if (string? %)
+             (iri % context)
+             (throw (ex-info (str "@type values must be strings or vectors of strings, provided: "
+                                  v " at index: " idx ".")
+                             {:status 400 :error :json-ld/invalid-context})))
+          v)
+    (let [v* (->> v
+                  (map-indexed #(cond
+                                  (map? %2) (node %2 context (conj idx %1))
+                                  (sequential? %2) (throw (ex-info (str "Json-ld sequential values within sequential"
+                                                                        "values is not allowed. Provided value: " v
+                                                                        " at index: " (conj idx %1) ".")
+                                                                   {:status 400 :error :json-ld/invalid-context}))
+                                  :else {:value %2
+                                         :type  (:type v-info)
+                                         :idx   (conj idx %1)}))
+                  (into []))]
+      (if (= "@list" (:container v-info))
+        {:list v*}
+        v*))))
 
 (defn node
   "Expands an entire JSON-LD node (JSON object), with optional parsed context

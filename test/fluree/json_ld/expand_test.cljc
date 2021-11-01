@@ -223,29 +223,73 @@
                                      "@type"            "ex:Chapter",
                                      "dc11:description" "An introductory chapter on The Republic.",
                                      "dc11:title"       "The Introduction"}]}))
-           [{:idx ["@graph" 0],
-             :id "http://example.org/library",
+           [{:idx  ["@graph" 0],
+             :id   "http://example.org/library",
              :type ["http://example.org/vocab#Library"],
              "http://example.org/vocab#contains"
-             {:value "http://example.org/library/the-republic",
-              :type :id, :idx ["@graph" 0 "ex:contains"]}}
-            {:idx ["@graph" 1],
-             :id "http://example.org/library/the-republic",
+                   {:value "http://example.org/library/the-republic",
+                    :type  :id, :idx ["@graph" 0 "ex:contains"]}}
+            {:idx  ["@graph" 1],
+             :id   "http://example.org/library/the-republic",
              :type ["http://example.org/vocab#Book"],
              "http://purl.org/dc/elements/1.1/creator"
-             {:value "Plato", :type nil, :idx ["@graph" 1 "dc11:creator"]},
+                   {:value "Plato", :type nil, :idx ["@graph" 1 "dc11:creator"]},
              "http://purl.org/dc/elements/1.1/title"
-             {:value "The Republic", :type nil, :idx ["@graph" 1 "dc11:title"]},
+                   {:value "The Republic", :type nil, :idx ["@graph" 1 "dc11:title"]},
              "http://example.org/vocab#contains"
-             {:value "http://example.org/library/the-republic#introduction",
-              :type :id, :idx ["@graph" 1 "ex:contains"]}}
-            {:idx ["@graph" 2],
-             :id "http://example.org/library/the-republic#introduction",
+                   {:value "http://example.org/library/the-republic#introduction",
+                    :type  :id, :idx ["@graph" 1 "ex:contains"]}}
+            {:idx  ["@graph" 2],
+             :id   "http://example.org/library/the-republic#introduction",
              :type ["http://example.org/vocab#Chapter"],
              "http://purl.org/dc/elements/1.1/description"
-             {:value "An introductory chapter on The Republic.",
-              :type nil, :idx ["@graph" 2 "dc11:description"]},
+                   {:value "An introductory chapter on The Republic.",
+                    :type  nil, :idx ["@graph" 2 "dc11:description"]},
              "http://purl.org/dc/elements/1.1/title"
-             {:value "The Introduction", :type nil, :idx ["@graph" 2 "dc11:title"]}}]))))
+                   {:value "The Introduction", :type nil, :idx ["@graph" 2 "dc11:title"]}}]))))
 
 
+(deftest list-type-values
+  (testing "An @list can be used in context to specify all instances of the node are list items"
+    (is (= (node {"@context" {"nick" {"@id"        "http://xmlns.com/foaf/0.1/nick",
+                                      "@container" "@list"}}
+
+                  "@id"      "http://example.org/people#joebob",
+                  "nick"     ["joe", "bob", "jaybee"]})
+           {:id "http://example.org/people#joebob",
+            "http://xmlns.com/foaf/0.1/nick"
+                {:list [{:value "joe", :type nil, :idx ["nick" 0]}
+                        {:value "bob", :type nil, :idx ["nick" 1]}
+                        {:value "jaybee", :type nil, :idx ["nick" 2]}]}})))
+  (testing "An @list can also be used within the node itself"
+    (is (= (node {"@context"  {"foaf" "http://xmlns.com/foaf/0.1/"}
+                  "@id"       "http://example.org/people#joebob",
+                  "foaf:nick" {"@list" ["joe", "bob", "jaybee"]}})
+           {:id "http://example.org/people#joebob",
+            "http://xmlns.com/foaf/0.1/nick"
+                {:list [{:value "joe", :type nil, :idx ["foaf:nick" "@list" 0]}
+                        {:value "bob", :type nil, :idx ["foaf:nick" "@list" 1]}
+                        {:value "jaybee", :type nil, :idx ["foaf:nick" "@list" 2]}]}}))))
+
+
+(deftest set-type-values
+  (testing "An @set is the default list/vector container type, even if specified, flatten."
+    (is (= (node {"@context"  {"foaf" "http://xmlns.com/foaf/0.1/"}
+                  "@id"       "http://example.org/people#joebob",
+                  "foaf:nick" {"@set" ["joe", "bob", "jaybee"]}})
+           {:id "http://example.org/people#joebob",
+            "http://xmlns.com/foaf/0.1/nick"
+                [{:value "joe", :type nil, :idx ["foaf:nick" "@set" 0]}
+                 {:value "bob", :type nil, :idx ["foaf:nick" "@set" 1]}
+                 {:value "jaybee", :type nil, :idx ["foaf:nick" "@set" 2]}]})))
+  (testing "An @set can be used in context ensure all values presented in vector/array format."
+    (is (= (node {"@context" {"nick" {"@id"        "http://xmlns.com/foaf/0.1/nick",
+                                      "@container" "@set"}}
+
+                  "@id"      "http://example.org/people#joebob",
+                  "nick"     ["joe", "bob", "jaybee"]})
+           {:id "http://example.org/people#joebob",
+            "http://xmlns.com/foaf/0.1/nick"
+                [{:value "joe", :type nil, :idx ["nick" 0]}
+                 {:value "bob", :type nil, :idx ["nick" 1]}
+                 {:value "jaybee", :type nil, :idx ["nick" 2]}]}))))
