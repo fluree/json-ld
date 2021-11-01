@@ -142,7 +142,6 @@
 
 (defmethod parse-node-val :sequential
   [v v-info context idx]
-  (println "SEQUENTIAL: " v v-info)
   (if (= "@type" (:id v-info))
     (mapv #(if (string? %)
              (iri % context)
