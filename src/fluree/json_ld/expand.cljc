@@ -1,6 +1,7 @@
 (ns fluree.json-ld.expand
   (:require [fluree.json-ld.iri :as iri]
             [fluree.json-ld.context :as context]
+            [fluree.json-ld.external :as external]
             [fluree.json-ld.util :refer [try-catchall]]))
 
 ;; TODO - differentiate resolution between @type: @id vs @type: @vocab
@@ -71,7 +72,7 @@
   (first (details compact-iri context)))
 
 
-(defmulti parse-node-val (fn [v _ _ idx]
+(defmulti parse-node-val (fn [v _ _ _ idx]
                            (cond
                              (map? v) :map
                              (sequential? v) :sequential
@@ -83,7 +84,7 @@
                                                     :error  :json-ld/invalid-context})))))
 
 (defmethod parse-node-val :string
-  [v {:keys [id type] :as v-info} context idx]
+  [v {:keys [id type] :as v-info} context _ idx]
   (cond
     (= "@id" id) (iri v context)
     (= "@type" id) [(iri v context)]                        ;; always return @type as vector
@@ -94,25 +95,24 @@
            :idx   idx}))
 
 (defmethod parse-node-val :number
-  [v v-info _ idx]
+  [v v-info _ _ idx]
   {:value v
    :type  (:type v-info)                                    ;; type may be defined in the @context
    :idx   idx})
 
 (defmethod parse-node-val :map
-  [v v-info context idx]
-  (let [v*   (dissoc v "@context")
-        ctx* (if-let [sub-ctx (get v "@context")]
+  [v v-info context externals idx]
+  (let [ctx* (if-let [sub-ctx (get v "@context")]
                (context/parse context sub-ctx)
                context)]
     (cond
       (contains? v "@list")
       {:list (-> (get v "@list")
-                 (parse-node-val v-info context (conj idx "@list")))}
+                 (parse-node-val v-info context externals (conj idx "@list")))}
 
       (contains? v "@set")                                  ;; set is the default container type, so just flatten to regular vector
       (-> (get v "@set")
-          (parse-node-val v-info context (conj idx "@set")))
+          (parse-node-val v-info context externals (conj idx "@set")))
 
       (contains? v "@value")
       (let [val  (get v "@value")
@@ -127,10 +127,10 @@
 
       ;; else a sub-value
       :else
-      (node v ctx* idx))))
+      (node v ctx* externals idx))))
 
 (defmethod parse-node-val :sequential
-  [v v-info context idx]
+  [v v-info context externals idx]
   (if (= "@type" (:id v-info))
     (mapv #(if (string? %)
              (iri % context)
@@ -140,7 +140,7 @@
           v)
     (let [v* (->> v
                   (map-indexed #(cond
-                                  (map? %2) (node %2 context (conj idx %1))
+                                  (map? %2) (node %2 context externals (conj idx %1))
                                   (sequential? %2) (throw (ex-info (str "Json-ld sequential values within sequential"
                                                                         "values is not allowed. Provided value: " v
                                                                         " at index: " (conj idx %1) ".")
@@ -158,22 +158,22 @@
   provided. If node has a local context, will merge with provided parse-context.
 
   Expands into child nodes."
-  ([node-map] (node node-map {}))
-  ([node-map parsed-context] (node node-map parsed-context []))
-  ([node-map parsed-context idx]
+  ([node-map] (node node-map {} external/external-contexts []))
+  ([node-map parsed-context] (node node-map parsed-context external/external-contexts []))
+  ([node-map parsed-context externals idx]
    (try-catchall
      (if (sequential? node-map)
-       (map-indexed #(node %2 parsed-context (conj idx %1)) node-map)
+       (map-indexed #(node %2 parsed-context externals (conj idx %1)) node-map)
        (let [context (context/parse parsed-context (get node-map "@context"))]
          (if-let [graph (get node-map "@graph")]
-           (map-indexed #(node %2 context ["@graph" %1]) graph)
+           (map-indexed #(node %2 context externals ["@graph" %1]) graph)
            (reduce-kv
              (fn [acc k v]
                (let [[k* v-info] (details k context)
                      k** (if (= \@ (first k*))
                            (keyword (subs k* 1))
                            k*)
-                     v*  (parse-node-val v v-info context (conj idx k))]
+                     v*  (parse-node-val v v-info context externals (conj idx k))]
                  (assoc acc k** v*)))
              (if (empty? idx) {} {:idx idx})
              (dissoc node-map "@context")))))

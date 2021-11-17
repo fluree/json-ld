@@ -27,12 +27,13 @@
   {'nc'   'http://release.niem.gov/niem/niem-core/4.0/#'
    'name' 'nc:PersonName'}
   we ultimately want 'name' to map to http://release.niem.gov/niem/niem-core/4.0/#PersonName"
-  [orig-context default-vocab compact-iri]
+  [orig-context base-context default-vocab compact-iri]
   (cond
     (str/includes? compact-iri ":")
     (or (when-let [[prefix suffix] (iri/parse-prefix compact-iri)]
           (when-let [full-prefix (or (get orig-context prefix)
-                                     (get-in orig-context [prefix "@id"]))]
+                                     (get-in orig-context [prefix "@id"])
+                                     (get-in base-context [prefix :id]))]
             (str full-prefix suffix)))
         compact-iri)
 
@@ -75,7 +76,7 @@
 
 (defn- parse-value
   "Parses json-ld context value. If a map, iterates over keys."
-  [ctx-key ctx-val ctx-original]
+  [ctx-key ctx-val ctx-original ctx-base externals]
   (let [default-vocab (when-let [vocab (get ctx-original "@vocab")]
                         (or (get vocab "@id") vocab))
         ctx-val*      (if (string? ctx-val)
@@ -83,7 +84,7 @@
                         ctx-val)]
     (cond
       (string? ctx-val*)
-      {:id (parse-compact-iri-val ctx-original default-vocab ctx-val*)}
+      {:id (parse-compact-iri-val ctx-original ctx-base default-vocab ctx-val*)}
 
       (map? ctx-val*)
       (let [map-val (reduce-kv
@@ -93,16 +94,16 @@
                                           (= :type k*)
                                           (->> v
                                                (assert-string k)
-                                               (parse-compact-iri-val ctx-original default-vocab)
+                                               (parse-compact-iri-val ctx-original ctx-base default-vocab)
                                                keywordize-at-value)
 
                                           (#{:id :reverse} k*)
                                           (->> v
                                                (assert-string k)
-                                               (parse-compact-iri-val ctx-original default-vocab))
+                                               (parse-compact-iri-val ctx-original ctx-base default-vocab))
 
                                           (= :context k*)
-                                          (parse v)
+                                          (parse {} externals v)
 
                                           :else v))))
                       {} ctx-val*)]
@@ -110,12 +111,7 @@
         (if (or (contains? map-val :id)
                 (contains? map-val :reverse))
           map-val
-          (assoc map-val :id (parse-compact-iri-val ctx-original default-vocab ctx-key))))
-
-
-      (or (number? ctx-val*)                                ;; likely something like @version: 1.1 or @protected: true
-          (boolean? ctx-val*))
-      {:val ctx-val*}
+          (assoc map-val :id (parse-compact-iri-val ctx-original ctx-base default-vocab ctx-key))))
 
       :else
       (throw (ex-info (str "Invalid context provided. Context map values must be a scalars or map. "
@@ -131,12 +127,18 @@
   :id - @id value - the IRI, or IRI substring for the context item
   :vocab - @vocab value - if using a default vocabulary (effectively a blank term). There
            can only be one vocab value for the returned context."
-  [base-context context]
+  [base-context context externals]
   (reduce-kv
     (fn [acc k v]
-      (if (= "@vocab" k)
-        (assoc-in acc [:vocab :id] (iri/add-trailing-slash v))
-        (assoc acc k (parse-value k v context))))
+      (if (and (string? k) (= \@ (first k)))
+        (let [kw (keyword (subs k 1))]
+          (cond
+            (= :vocab kw)
+            (assoc-in acc [:vocab :id] (iri/add-trailing-slash v))
+
+            :else                                           ;; something like @protected: true or @version 1.1
+            (assoc acc kw v)))
+        (assoc acc k (parse-value k v context base-context externals))))
     base-context context))
 
 
@@ -148,23 +150,24 @@
   :id - @id value - the IRI, or IRI substring for the context item
   :vocab - @vocab value - if using a default vocabulary (effectively a blank term). There
            can only be one vocab value for the returned context."
-  ([context] (parse {} context))
-  ([base-context context]
+  ([context] (parse {} external/external-contexts context))
+  ([base-context context] (parse base-context external/external-contexts context))
+  ([base-context externals context]
    (cond
      (nil? context)
      base-context
 
-     ;; assume either an external context, or a default focab
+     ;; assume either an external context, or a default vocab
      (string? context)
-     (if (str/ends-with? context ".jsonld")
-       (external/context context)
+     (if (externals context)
+       (merge base-context (external/context context))
        (assoc base-context :vocab {:id (iri/add-trailing-slash context)}))
 
      (map? context)
-     (parse-map base-context context)
+     (parse-map base-context context externals)
 
      (sequential? context)
-     (reduce parse base-context context)
+     (reduce #(parse %1 externals %2) base-context context)
 
      :else
      (throw (ex-info (str "Invalid json-ld context provided: " context)

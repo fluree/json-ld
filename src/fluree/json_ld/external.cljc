@@ -19,7 +19,16 @@
                     "contexts/org/imsglobal/purl/spec/clr/v1p0/context/clr_v1p0.edn"
 
                     "https://www.w3.org/2018/credentials/v1"
-                    "contexts/org/w3/www/2018/credentials/v1.edn"})
+                    "contexts/org/w3/www/2018/credentials/v1.edn"
+
+                    "https://www.w3.org/ns/did/v1"
+                    "contexts/org/w3/www/ns/did/v1.edn"
+
+                    "https://w3id.org/security/v1"
+                    "contexts/org/w3id/security/v1.edn"})
+
+;; set of external context URLs that are available pre-parsed.
+(def external-contexts (set (keys context->file)))
 
 (def vocabs (->> vocab->file keys (sort-by count) reverse))
 
@@ -63,20 +72,3 @@
                            {:status 400 :error :json-ld/external-context}))
      :clj  (some-> (get context->file url)
                    util/read-resource)))
-
-
-(comment
-
-  (iri "https://schema.org/Person")
-
-  (iri "https://purl.imsglobal.org/spec/clr/vocab#dtExtensibleAchievementType")
-
-  (iri "http://www.w3.org/2000/01/rdf-schema#isDefinedBy")
-
-  (context "https://purl.imsglobal.org/spec/clr/v1p0/context/clr_v1p0.jsonld")
-  (get context->file "https://purl.imsglobal.org/spec/clr/v1p0/context/clr_v1p0.jsonld")
-
-  (fluree.json-ld.context/parse (context "https://purl.imsglobal.org/spec/clr/v1p0/context/clr_v1p0.jsonld"))
-
-  )
-

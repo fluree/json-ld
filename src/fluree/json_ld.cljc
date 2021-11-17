@@ -10,10 +10,16 @@
   "Parses a JSON-LD context and returns a Clojure map (or error if context invalid).
 
   If a base-context is provided, merges new context into base context. base-context
-  must already be a parsed context."
-  ([context] (context/parse {} context))
+  must already be a parsed context.
+
+  externals, if provided, is a set of external context URLs that are safe to load. Currently
+  will only load external contexts that are pre-parsed and saved locally with this library,
+  the default list of which is at fluree.json-ld.external/external-contexts"
+  ([context] (context/parse {} external/external-contexts context))
   ([base-context context]
-   (context/parse base-context context)))
+   (context/parse base-context external/external-contexts context))
+  ([base-context externals context]
+   (context/parse base-context externals context)))
 
 
 (defn external-vocab
