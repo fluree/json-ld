@@ -149,7 +149,7 @@
                                          :type  (:type v-info)
                                          :idx   (conj idx %1)}))
                   (into []))]
-      (if (= "@list" (:container v-info))
+      (if (= :list (:container v-info))
         {:list v*}
         v*))))
 

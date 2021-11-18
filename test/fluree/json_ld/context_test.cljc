@@ -17,7 +17,7 @@
 
   (testing "An explicitly defined default vocabulary with @vocab"
     (is (= (parse {"@vocab" "https://schema.org/"})
-           {:vocab {:id "https://schema.org/"}})))
+           {:vocab "https://schema.org/"})))
 
   (testing "References to default vocabulary should be concatenated"
     (is (= (parse {"@vocab"     "https://schema.org/"
@@ -25,7 +25,7 @@
                    "explicit"   "name"
                    "dontTouch"  "https://example.com/ns#42"
                    "id"         "@id"})
-           {:vocab       {:id "https://schema.org/"}
+           {:vocab       "https://schema.org/"
             "reverseRef" {:reverse "https://schema.org/isBasedOn"}
             "explicit"   {:id "https://schema.org/name"}
             "dontTouch"  {:id "https://example.com/ns#42"}
@@ -134,7 +134,7 @@
     (is (= (parse {"@vocab"       "https://schema.org/"
                    "title"        "https://schema.org/titleEIDR"
                    "derivedWorks" {"@reverse" "https://schema.org/isBasedOn"}})
-           {:vocab         {:id "https://schema.org/"},
+           {:vocab         "https://schema.org/",
             "title"        {:id "https://schema.org/titleEIDR"},
             "derivedWorks" {:reverse "https://schema.org/isBasedOn"}})))
 
@@ -157,3 +157,34 @@
             "ical:dtstart" {:type "http://www.w3.org/2001/XMLSchema#dateTime",
                             :id   "http://www.w3.org/2002/12/cal/ical#dtstart"}}))))
 
+(deftest blank-vocab
+  (testing "An empty string @vocab should default to @base value."
+    (is (= (parse {"@base"  "https://hub.flur.ee/some/ledger/"
+                   "@vocab" ""})
+           {:base  "https://hub.flur.ee/some/ledger/"
+            :vocab "https://hub.flur.ee/some/ledger/"}))))
+
+(deftest metadata-parses
+  (testing "@protected and @version properly parses"
+    (is (= (parse {"@version"   1.1,
+                   "@protected" true
+                   "schema"     "http://schema.org/"})
+           {:version   1.1
+            :protected true
+            "schema"   {:id "http://schema.org/"}}))))
+
+(deftest containers-parse
+  (testing "An @container value properly parses"
+    (is (= (parse {"schema" "http://schema.org/"
+                   "post"   {"@id"        "schema:blogPost",
+                             "@container" "@set"}})
+           {"schema" {:id "http://schema.org/"}
+            "post"   {:id        "http://schema.org/blogPost"
+                      :container :set}})))
+  (testing "Multiple @container values are allowed"
+    (is (= (parse {"schema" "http://schema.org/"
+                   "post"   {"@id"        "schema:blogPost",
+                             "@container" ["@index" "@set"]}})
+           {"schema" {:id "http://schema.org/"}
+            "post"   {:id        "http://schema.org/blogPost"
+                      :container [:index :set]}}))))

@@ -1,6 +1,6 @@
 (ns fluree.json-ld.context
   (:require [fluree.json-ld.iri :as iri]
-            [fluree.json-ld.util :as util]
+            [fluree.json-ld.util :refer [try-catchall]]
             [fluree.json-ld.external :as external]
             [clojure.string :as str]))
 
@@ -105,6 +105,15 @@
                                           (= :context k*)
                                           (parse {} externals v)
 
+                                          (= :container k*)
+                                          (try-catchall
+                                            (if (sequential? v)
+                                              (mapv keywordize-at-value v)
+                                              (keywordize-at-value v))
+                                            (catch e
+                                                   (throw (ex-info (str "@container values must be one or more strings that start with @. Provided: " v)
+                                                                   {:status 400 :error :json-ld/invalid-context} e))))
+
                                           :else v))))
                       {} ctx-val*)]
         ;; sometimes a context defines a compact-iri as the key and only includes @type - in this case we need to generate an @id
@@ -131,13 +140,20 @@
   (reduce-kv
     (fn [acc k v]
       (if (and (string? k) (= \@ (first k)))
-        (let [kw (keyword (subs k 1))]
-          (cond
-            (= :vocab kw)
-            (assoc-in acc [:vocab :id] (iri/add-trailing-slash v))
+        (let [kw (keyword (subs k 1))
+              v* (cond
+                   (= :vocab kw)
+                   (if (= "" v)                             ;; an empty string means use @base as @vocab
+                     (some-> (or (get context "@base")
+                                 (get base-context :base))
+                             iri/add-trailing-slash)
+                     (iri/add-trailing-slash v))
 
-            :else                                           ;; something like @protected: true or @version 1.1
-            (assoc acc kw v)))
+                   (string? v)
+                   (keywordize-at-value v)
+
+                   :else v)]
+          (assoc acc kw v*))
         (assoc acc k (parse-value k v context base-context externals))))
     base-context context))
 
