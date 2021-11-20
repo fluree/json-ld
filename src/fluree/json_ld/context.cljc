@@ -177,7 +177,7 @@
      (string? context)
      (if (externals context)
        (merge base-context (external/context context))
-       (assoc base-context :vocab {:id (iri/add-trailing-slash context)}))
+       (assoc base-context :vocab (iri/add-trailing-slash context)))
 
      (map? context)
      (if (contains? context "@context")

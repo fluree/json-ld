@@ -2,6 +2,7 @@
   (:require [clojure.tools.namespace.repl :as tn :refer [refresh refresh-all]]
             [fluree.json-ld :as json-ld]
             [fluree.json-ld.external :as external]
+            [fluree.json-ld.expand :as expand]
             [cheshire.core :as cheshire]
             [clojure.java.io :as io]
             [clojure.pprint :as pprint]))

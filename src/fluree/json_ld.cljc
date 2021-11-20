@@ -67,9 +67,15 @@
 (defn expand-iri
   "Expands a compacted iri string to full iri.
 
+  If vocab? is true, it will expand based on the value being a property/class (@type)
+  and utilize the context's :vocab value, if defined. If vocab? is falsey, will
+  treat compact-iri as an @id, and will utilize the context's :base value, if defined.
+
   If the iri is not compacted, returns original iri string."
-  [compact-iri parsed-context]
-  (expand/iri compact-iri parsed-context))
+  ([compact-iri parsed-context]
+   (expand/iri compact-iri parsed-context true))
+  ([compact-iri parsed-context vocab?]
+   (expand/iri compact-iri parsed-context vocab?)))
 
 
 (defn expand
@@ -87,10 +93,16 @@
   "Like expand, but returns two-tuple of expanded iri followed by
   a map of any context settings for that iri.
 
+  If vocab? is true, it will expand based on the value being a property/class (@type)
+  and utilize the context's :vocab value, if defined. If vocab? is falsey, will
+  treat compact-iri as an @id, and will utilize the context's :base value, if defined.
+
   If no match exists, returns original compact-iri as first element
   and nil for second."
-  [compact-iri parsed-context]
-  (expand/details compact-iri parsed-context))
+  ([compact-iri parsed-context]
+   (expand/details compact-iri parsed-context true))
+  ([compact-iri parsed-context vocab?]
+   (expand/details compact-iri parsed-context vocab?)))
 
 
 (defn json-ld?

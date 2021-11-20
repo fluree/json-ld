@@ -8,11 +8,11 @@
 
     ;; with trailing '/'
     (is (= (parse "https://schema.org/")
-           {:vocab {:id "https://schema.org/"}}))
+           {:vocab "https://schema.org/"}))
 
     ;; without trailing '/'
     (is (= (parse "https://schema.org")
-           {:vocab {:id "https://schema.org/"}})))
+           {:vocab "https://schema.org/"})))
 
 
   (testing "An explicitly defined default vocabulary with @vocab"
@@ -84,13 +84,13 @@
 
     ;; string based context, only one :vocab allowed, should pick last one
     (is (= (parse ["https://schema.org", "http://example.org/ns#"])
-           {:vocab {:id "http://example.org/ns#"}}))
+           {:vocab "http://example.org/ns#"}))
 
     ;; string and map
     (is (= (parse ["https://schema.org",
                    {"owl" "http://www.w3.org/2002/07/owl#",
                     "ex"  "http://example.org/ns#"}])
-           {:vocab {:id "https://schema.org/"}
+           {:vocab "https://schema.org/"
             "owl"  {:id "http://www.w3.org/2002/07/owl#"}
             "ex"   {:id "http://example.org/ns#"}}))
 

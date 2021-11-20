@@ -8,7 +8,6 @@
   (let [map-ctx (jsonld/parse-context {"schema"  "https://schema.org/"
                                        "REPLACE" "https://schema.org/Person"})
         str-ctx (jsonld/parse-context "https://schema.org")]
-
     (is (= "schema:name" (compact "https://schema.org/name" map-ctx)))
     (is (= "REPLACE" (compact "https://schema.org/Person" map-ctx)))
     (is (= "name" (compact "https://schema.org/name" str-ctx)))

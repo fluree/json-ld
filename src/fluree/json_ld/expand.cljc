@@ -41,11 +41,13 @@
   not look like a full iri (i.e. not https://schema.org/Movie) returns match.
   If successful returns two-tuple of [full-iri context-map-details].
   Else returns nil."
-  [compact-iri context]
-  (when-let [default-match (:vocab context)]
+  [compact-iri context vocab?]
+  (when-let [default-match (if vocab?
+                             (:vocab context)
+                             (:base context))]
     (when-not (or (iri/any-iri? compact-iri)
                   (= \@ (first compact-iri)))
-      (let [iri (str (:id default-match) compact-iri)]
+      (let [iri (str default-match compact-iri)]
         [iri {:id iri}]))))
 
 
@@ -56,10 +58,10 @@
 
   Used primarily with transactions, as if enough details are provided with the context
   we can auto-generate schemas."
-  [compact-iri context]
+  [compact-iri context vocab?]
   (or (match-exact compact-iri context)
       (match-prefix compact-iri context)
-      (match-default compact-iri context)
+      (match-default compact-iri context vocab?)
       [compact-iri (when (= \@ (first compact-iri))
                      {:id compact-iri})]))
 
@@ -68,8 +70,8 @@
   "Expands a compacted iri string to full iri.
 
   If the iri is not compacted, returns original iri string."
-  [compact-iri context]
-  (first (details compact-iri context)))
+  [compact-iri context vocab?]
+  (first (details compact-iri context vocab?)))
 
 
 (defmulti parse-node-val (fn [v _ _ _ idx]
@@ -86,9 +88,9 @@
 (defmethod parse-node-val :string
   [v {:keys [id type] :as v-info} context _ idx]
   (cond
-    (= "@id" id) (iri v context)
-    (= "@type" id) [(iri v context)]                        ;; always return @type as vector
-    (= :id type) {:id  (iri v context)
+    (= "@id" id) (iri v context false)
+    (= "@type" id) [(iri v context true)]                   ;; always return @type as vector
+    (= :id type) {:id  (iri v context false)
                   :idx idx}
     :else {:value v
            :type  type
@@ -117,13 +119,14 @@
       (contains? v "@value")
       (let [val  (get v "@value")
             type (if-let [explicit-type (get v "@type")]
-                   (iri explicit-type ctx*)
+                   (iri explicit-type ctx* true)
                    (:type v-info))]                         ;; if type is defined only in the @context
-        {:value (if (= "@id" (get v "@type"))
-                  (iri val ctx*)
-                  val)
-         :type  type
-         :idx   idx})
+        (if (= "@id" (get v "@type"))
+          {:id  (iri val ctx* false)
+           :idx idx}
+          {:value val
+           :type  type
+           :idx   idx}))
 
       ;; else a sub-value
       :else
@@ -133,7 +136,7 @@
   [v v-info context externals idx]
   (if (= "@type" (:id v-info))
     (mapv #(if (string? %)
-             (iri % context)
+             (iri % context true)
              (throw (ex-info (str "@type values must be strings or vectors of strings, provided: "
                                   v " at index: " idx ".")
                              {:status 400 :error :json-ld/invalid-context})))
@@ -145,9 +148,14 @@
                                                                         "values is not allowed. Provided value: " v
                                                                         " at index: " (conj idx %1) ".")
                                                                    {:status 400 :error :json-ld/invalid-context}))
-                                  :else {:value %2
-                                         :type  (:type v-info)
-                                         :idx   (conj idx %1)}))
+                                  :else
+                                  (let [type (:type v-info)]
+                                    (if (= :id type)
+                                      {:id  (iri %2 context false)
+                                       :idx (conj idx %1)}
+                                      {:value %2
+                                       :type  type
+                                       :idx   (conj idx %1)}))))
                   (into []))]
       (if (= :list (:container v-info))
         {:list v*}
@@ -169,7 +177,7 @@
            (map-indexed #(node %2 context externals ["@graph" %1]) graph)
            (reduce-kv
              (fn [acc k v]
-               (let [[k* v-info] (details k context)
+               (let [[k* v-info] (details k context true)
                      k** (if (= \@ (first k*))
                            (keyword (subs k* 1))
                            k*)

@@ -9,12 +9,16 @@
   Only includes context items that have an :id; i.e., @id.
   Excludes non-id context statements (e.g., @reverse)."
   [context]
-  (loop [[ci & r] context
+  (loop [[[prefix v] & r] context
          acc {}]
-    (if ci
-      (if-let [id (:id (val ci))]
-        (recur r (assoc acc id (key ci)))
-        (recur r acc))
+    (if prefix
+      (let [iri-fragment (:id v)
+            acc*         (cond
+                           iri-fragment (assoc acc iri-fragment prefix)
+                           (= :vocab prefix) (assoc acc v :vocab)
+                           (= :base prefix) (assoc acc v :base)
+                           :else acc)]
+        (recur r acc*))
       acc)))
 
 (defn compact-fn
@@ -30,7 +34,10 @@
               (let [prefix (get flipped iri-substr)
                     suffix (subs iri (count iri-substr))]
                 (cond
-                  (= :vocab prefix)                         ;; special vocabulary reference (default context)
+                  (= :vocab prefix)                         ;; default vocabulary
+                  (subs iri (count iri-substr))
+
+                  (= :base prefix)                          ;; base iri
                   (subs iri (count iri-substr))
 
                   (= "" suffix)                             ;; exact match, no prefix needed, just substitute

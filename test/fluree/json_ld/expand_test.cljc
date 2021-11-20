@@ -10,22 +10,22 @@
                                         "REPLACE" "https://schema.org/Person"})
         str-ctx (json-ld/parse-context "https://schema.org")]
 
-    (is (= "https://schema.org/name" (iri "schema:name" map-ctx)))
-    (is (= "https://schema.org/Person" (iri "REPLACE" map-ctx)))
-    (is (= "https://schema.org/name" (iri "name" str-ctx)))
+    (is (= "https://schema.org/name" (iri "schema:name" map-ctx true)))
+    (is (= "https://schema.org/Person" (iri "REPLACE" map-ctx true)))
+    (is (= "https://schema.org/name" (iri "name" str-ctx true)))
 
     ;; not a match, should return unaltered iri
-    (is (= "not:matching" (iri "not:matching" map-ctx)))
+    (is (= "not:matching" (iri "not:matching" map-ctx true)))
     ;; have a default vocab, but looks like an iri or compact iri
-    (is (= "not:matching" (iri "not:matching" str-ctx)))
-    (is (= "http://example.org/ns#Book" (iri "http://example.org/ns#Book" str-ctx)))))
+    (is (= "not:matching" (iri "not:matching" str-ctx true)))
+    (is (= "http://example.org/ns#Book" (iri "http://example.org/ns#Book" str-ctx true)))))
 
 
 (deftest expanding-reverse-iri
   (testing "Expanding a compacted IRI with context in various forms")
   (let [ctx (json-ld/parse-context {"schema" "https://schema.org/"
                                     "parent" {"@reverse" "schema:child"}})]
-    (is (= (details "parent" ctx)
+    (is (= (details "parent" ctx true)
            ["https://schema.org/child" {:reverse "https://schema.org/child"}]))))
 
 (deftest expanding-node
@@ -291,3 +291,21 @@
                 [{:value "joe", :type nil, :idx ["nick" 0]}
                  {:value "bob", :type nil, :idx ["nick" 1]}
                  {:value "jaybee", :type nil, :idx ["nick" 2]}]}))))
+
+
+(deftest base-and-vocab
+  (testing "An @base and a @vocab expand the correct iris"
+    (is (= (node {"@context"    {"@base"       "https://base.com/base/iri"
+                                 "@vocab"      "https://vocab.com/vocab/iri/"
+                                 "iriProperty" {"@type" "@id"}}
+                  "@id"         "#joebob",
+                  "@type"       "Joey"
+                  "name"        "Joe Bob"
+                  "iriProperty" "#a-relative-id"})
+           {:id   "https://base.com/base/iri#joebob",
+            :type ["https://vocab.com/vocab/iri/Joey"]
+            "https://vocab.com/vocab/iri/name"
+                  {:value "Joe Bob" :type nil :idx ["name"]}
+            "https://vocab.com/vocab/iri/iriProperty"
+                  {:id  "https://base.com/base/iri#a-relative-id"
+                   :idx ["iriProperty"]}}))))
