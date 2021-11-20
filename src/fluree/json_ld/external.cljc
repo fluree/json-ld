@@ -16,16 +16,24 @@
                   "https://purl.imsglobal.org/spec/clr/vocab#" "org.imsglobal.spec.clr.vocab.edn"})
 
 (def context->file {"https://purl.imsglobal.org/spec/clr/v1p0/context/clr_v1p0.jsonld"
-                    "contexts/org/imsglobal/purl/spec/clr/v1p0/context/clr_v1p0.edn"
+                    {:source "contexts/org/imsglobal/purl/spec/clr/v1p0/context/clr_v1p0.jsonld"
+                     :parsed "contexts/org/imsglobal/purl/spec/clr/v1p0/context/clr_v1p0.edn"}
 
                     "https://www.w3.org/2018/credentials/v1"
-                    "contexts/org/w3/www/2018/credentials/v1.edn"
+                    {:source "contexts/org/w3/www/2018/credentials/v1.jsonld"
+                     :parsed "contexts/org/w3/www/2018/credentials/v1.edn"}
 
                     "https://www.w3.org/ns/did/v1"
-                    "contexts/org/w3/www/ns/did/v1.edn"
+                    {:source "contexts/org/w3/www/ns/did/v1.jsonld"
+                     :parsed "contexts/org/w3/www/ns/did/v1.edn"}
 
                     "https://w3id.org/security/v1"
-                    "contexts/org/w3id/security/v1.edn"})
+                    {:source "contexts/org/w3id/security/v1.jsonld"
+                     :parsed "contexts/org/w3id/security/v1.edn"}
+
+                    "https://w3id.org/security/v2"
+                    {:source "contexts/org/w3id/security/v2.jsonld"
+                     :parsed "contexts/org/w3id/security/v2.edn"}})
 
 ;; set of external context URLs that are available pre-parsed.
 (def external-contexts (set (keys context->file)))
@@ -71,4 +79,5 @@
   #?(:cljs (throw (ex-info (str "Loading external contexts is not yet supported in Javascript.")
                            {:status 400 :error :json-ld/external-context}))
      :clj  (some-> (get context->file url)
+                   :parsed
                    util/read-resource)))

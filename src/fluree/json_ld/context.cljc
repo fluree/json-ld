@@ -180,7 +180,10 @@
        (assoc base-context :vocab {:id (iri/add-trailing-slash context)}))
 
      (map? context)
-     (parse-map base-context context externals)
+     (if (contains? context "@context")
+       ;; contexts, especially externally loaded, can have a single @context key with context embedded
+       (parse base-context (get context "@context" externals))
+       (parse-map base-context context externals))
 
      (sequential? context)
      (reduce #(parse %1 externals %2) base-context context)

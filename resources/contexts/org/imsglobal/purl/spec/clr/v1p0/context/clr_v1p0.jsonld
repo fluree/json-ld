@@ -1,0 +1,357 @@
+{
+  "@context": {
+    "id": "@id",
+    "type": "@type",
+    "clri": "https://purl.imsglobal.org/spec/clr/vocab#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dtAchievement": "clri:dtAchievement",
+    "dtAddress": "clri:dtAddress",
+    "dtAlignment": "clri:dtAlignment",
+    "dtArtifact": "clri:dtArtifact",
+    "dtAssertion": "clri:dtAssertion",
+    "dtAssociation": "clri:dtAssociation",
+    "dtClr": "clri:dtClr",
+    "dtCriteria": "clri:dtCriteria",
+    "dtCryptographicKey": "clri:dtCryptographicKey",
+    "dtEndorsement": "clri:dtEndorsement",
+    "dtEndorsementClaim": "clri:dtEndorsementClaim",
+    "dtEndorsementProfile": "clri:dtEndorsementProfile",
+    "dtEvidence": "clri:dtEvidence",
+    "dtExtensibleAchievementType": "clri:dtExtensibleAchievementType",
+    "dtExtensibleAlignmentTargetType": "clri:dtExtensibleAlignmentTargetType",
+    "dtExtensibleResultType": "clri:dtExtensibleResultType",
+    "dtExtensibleSystemIdentifierType": "clri:dtExtensibleSystemIdentifierType",
+    "dtIdentity": "clri:dtIdentity",
+    "dtProfile": "clri:dtProfile",
+    "dtResult": "clri:dtResult",
+    "dtResultDescription": "clri:dtResultDescription",
+    "dtRevocationList": "clri:dtRevocationList",
+    "dtRubricCriterionLevel": "clri:dtRubricCriterionLevel",
+    "dtSystemIdentifier": "clri:dtSystemIdentifier",
+    "dtVerification": "clri:dtVerification",
+    "dtCompactJws": {
+      "@id": "clri:dtCompactJws",
+      "@type": "xsd:string"
+    },
+    "dtEnumExtString": {
+      "@id": "clri:dtEnumExtString",
+      "@type": "xsd:string"
+    },
+    "dtIRI": {
+      "@id": "clri:dtIRI",
+      "@type": "xsd:normalizedString"
+    },
+    "dtMarkdown": {
+      "@id": "clri:dtMarkdown",
+      "@type": "xsd:string"
+    },
+    "dtUUID": {
+      "@id": "clri:dtUUID",
+      "@type": "xsd:string"
+    },
+    "achievedLevel": "clri:dtIRI",
+    "achievement": "clri:dtAchievement",
+    "achievementType": "clri:dtExtensibleAchievementType",
+    "achievements": {
+      "@id": "clri:dtAchievement",
+      "@container": "@set"
+    },
+    "activityEndDate": {
+      "@id": "clri:activityEndDate",
+      "@type": "xsd:dateTime"
+    },
+    "activityStartDate": {
+      "@id": "clri:activityStartDate",
+      "@type": "xsd:dateTime"
+    },
+    "address": "clri:dtAddress",
+    "addressCountry": {
+      "@id": "clri:addressCountry",
+      "@type": "xsd:string"
+    },
+    "addressLocality": {
+      "@id": "clri:addressLocality",
+      "@type": "xsd:string"
+    },
+    "addressRegion": {
+      "@id": "clri:addressRegion",
+      "@type": "xsd:string"
+    },
+    "allowedValues": {
+      "@id": "clri:allowedValues",
+      "@type": "xsd:string",
+      "@container": "@set"
+    },
+    "artifacts": {
+      "@id": "clri:dtArtifact",
+      "@container": "@set"
+    },
+    "assertions": {
+      "@id": "clri:dtAssertion",
+      "@container": "@set"
+    },
+    "associationType": "clri:AssociationTypeDType",
+    "associations": {
+      "@id": "clri:dtAssociation",
+      "@container": "@set"
+    },
+    "birthDate": {
+      "@id": "clri:birthDate",
+      "@type": "xsd:date"
+    },
+    "claim": "cred:claim",
+    "clr": "clri:dtClr",
+    "clrs": {
+      "@id": "clri:dtClr",
+      "@container": "@set"
+    },
+    "creditsAvailable": {
+      "@id": "clri:creditsAvailable",
+      "@type": "xsd:float"
+    },
+    "creditsEarned": {
+      "@id": "clri:creditsEarned",
+      "@type": "xsd:float"
+    },
+    "endorsementComment": "obi:endorsementComment",
+    "fieldOfStudy": {
+      "@id": "clri:fieldOfStudy",
+      "@type": "xsd:string"
+    },
+    "humanCode": {
+      "@id": "clri:humanCode",
+      "@type": "xsd:string"
+    },
+    "identifier": {
+      "@id": "clri:identifier",
+      "@type": "xsd:string"
+    },
+    "identifierType": "clri:dtExtensibleSystemIdentifierType",
+    "identifiers": {
+      "@id": "clri:dtSystemIdentifier",
+      "@container": "@set"
+    },
+    "image": {
+      "@id": "schema:image",
+      "@type": "@id"
+    },
+    "issuer": "obi:issuer",
+    "learner": {
+      "@id": "clri:learner",
+      "@type": "@id"
+    },
+    "level": {
+      "@id": "clri:level",
+      "@type": "xsd:string"
+    },
+    "licenseNumber": {
+      "@id": "clri:licenseNumber",
+      "@type": "xsd:string"
+    },
+    "narrative": "obi:narrative",
+    "official": {
+      "@id": "clri:official",
+      "@type": "xsd:string"
+    },
+    "owner": "sec:owner",
+    "parentOrg": "obi:Profile",
+    "partial": {
+      "@id": "clri:partial",
+      "@type": "xsd:boolean"
+    },
+    "points": {
+      "@id": "clri:points",
+      "@type": "xsd:string"
+    },
+    "postOfficeBoxNumber": {
+      "@id": "clri:postOfficeBoxNumber",
+      "@type": "xsd:string"
+    },
+    "postalCode": {
+      "@id": "clri:postalCode",
+      "@type": "xsd:string"
+    },
+    "publicKey": "sec:publicKey",
+    "publisher": {
+      "@id": "clri:publisher",
+      "@type": "@id"
+    },
+    "recipient": "obi:recipient",
+    "requiredLevel": "clri:dtIRI",
+    "requiredValue": {
+      "@id": "clri:requiredValue",
+      "@type": "xsd:string"
+    },
+    "requirement": "obi:criteria",
+    "resultDescription": "clri:dtIRI",
+    "resultDescriptions": {
+      "@id": "clri:dtResultDescription",
+      "@container": "@set"
+    },
+    "resultType": "clri:dtExtensibleResultType",
+    "results": {
+      "@id": "clri:dtResult",
+      "@container": "@set"
+    },
+    "role": {
+      "@id": "clri:role",
+      "@type": "xsd:string"
+    },
+    "rubricCriterionLevels": {
+      "@id": "clri:dtRubricCriterionLevel",
+      "@container": "@set"
+    },
+    "scopesOffered": {
+      "@id": "clri:scopesOffered",
+      "@type": "xsd:anyURI",
+      "@container": "@set"
+    },
+    "signedAssertions": {
+      "@id": "clri:dtCompactJws",
+      "@container": "@set"
+    },
+    "signedClr": "clri:dtCompactJws",
+    "signedClrs": {
+      "@id": "clri:dtCompactJws",
+      "@container": "@set"
+    },
+    "signedEndorsements": {
+      "@id": "clri:dtCompactJws",
+      "@container": "@set"
+    },
+    "source": "clri:dtProfile",
+    "sourcedId": {
+      "@id": "clri:sourcedId",
+      "@type": "xsd:string"
+    },
+    "specialization": {
+      "@id": "clri:specialization",
+      "@type": "xsd:string"
+    },
+    "status": "clri:ResultStatusTypeDType",
+    "streetAddress": {
+      "@id": "clri:streetAddress",
+      "@type": "xsd:string"
+    },
+    "studentId": {
+      "@id": "clri:studentId",
+      "@type": "xsd:string"
+    },
+    "targetId": "clri:dtIRI",
+    "targetType": "clri:dtExtensibleAlignmentTargetType",
+    "term": {
+      "@id": "clri:term",
+      "@type": "xsd:string"
+    },
+    "title": {
+      "@id": "clri:title",
+      "@type": "xsd:string"
+    },
+    "url": "schema:url",
+    "value": {
+      "@id": "clri:value",
+      "@type": "xsd:string"
+    },
+    "valueMax": {
+      "@id": "clri:valueMax",
+      "@type": "xsd:string"
+    },
+    "valueMin": {
+      "@id": "clri:valueMin",
+      "@type": "xsd:string"
+    },
+    "verification": "obi:verify",
+    "Achievement": "dtAchievement",
+    "Address": "dtAddress",
+    "Alignment": "dtAlignment",
+    "Artifact": "dtArtifact",
+    "Assertion": "dtAssertion",
+    "Association": "dtAssociation",
+    "Clr": "dtClr",
+    "Criteria": "dtCriteria",
+    "CryptographicKey": "dtCryptographicKey",
+    "Endorsement": "dtEndorsement",
+    "EndorsementClaim": "dtEndorsementClaim",
+    "EndorsementProfile": "dtEndorsementProfile",
+    "Evidence": "dtEvidence",
+    "ExtensibleAchievementType": "dtExtensibleAchievementType",
+    "ExtensibleAlignmentTargetType": "dtExtensibleAlignmentTargetType",
+    "ExtensibleResultType": "dtExtensibleResultType",
+    "ExtensibleSystemIdentifierType": "dtExtensibleSystemIdentifierType",
+    "Identity": "dtIdentity",
+    "Profile": "dtProfile",
+    "Result": "dtResult",
+    "ResultDescription": "dtResultDescription",
+    "RevocationList": "dtRevocationList",
+    "RubricCriterionLevel": "dtRubricCriterionLevel",
+    "SystemIdentifier": "dtSystemIdentifier",
+    "Verification": "obi:VerificationObject",
+    "CompactJws": "dtCompactJws",
+    "EnumExtString": "dtEnumExtString",
+    "IRI": "dtIRI",
+    "Markdown": "dtMarkdown",
+    "UUID": "dtUUID",
+    "cred": "https://w3id.org/credentials/",
+    "dc": "http://purl.org/dc/terms/",
+    "obi": "https://w3id.org/openbadges#",
+    "schema": "http://schema.org/",
+    "sec": "https://w3id.org/security#",
+    "additionalName": "schema:additionalName",
+    "alignments": "obi:alignment",
+    "allowedOrigins": "obi:allowedOrigins",
+    "audience": "obi:audience",
+    "authorizationUrl": {
+      "@id": "clri:authorizationUrl",
+      "@type": "@id"
+    },
+    "creator": "dc:creator",
+    "description": "schema:description",
+    "email": "schema:email",
+    "endorsements": "cred:credential",
+    "expires": {
+      "@id": "sec:expiration",
+      "@type": "xsd:dateTime"
+    },
+    "evidence": "obi:evidence",
+    "familyName": "schema:familyName",
+    "genre": "schema:genre",
+    "givenName": "schema:givenName",
+    "hashed": "obi:hashed",
+    "identity": "obi:identityHash",
+    "issuedOn": "obi:issueDate",
+    "name": "schema:name",
+    "privacyPolicyUrl": {
+      "@id": "clri:privacyPolicyUrl",
+      "@type": "@id"
+    },
+    "publicKeyPem": "sec:publicKeyPem",
+    "registrationUrl": {
+      "@id": "clri:registrationUrl",
+      "@type": "@id"
+    },
+    "revocationList": "obi:revocationList",
+    "revocationReason": "obi:revocationReason",
+    "revoked": "obi:revoked",
+    "revokedAssertions": "obi:revokedAssertions",
+    "salt": "obi:salt",
+    "startsWith": "obi:startsWith",
+    "tags": "schema:keywords",
+    "targetCode": "obi:targetCode",
+    "targetDescription": "schema:targetDescription",
+    "targetFramework": "schema:educationalFramework",
+    "targetName": "schema:targetName",
+    "targetUrl": "schema:targetUrl",
+    "telephone": "schema:telephone",
+    "termsOfServiceUrl": {
+      "@id": "clri:termsOfServiceUrl",
+      "@type": "@id"
+    },
+    "tokenUrl": {
+      "@id": "clri:tokenUrl",
+      "@type": "@id"
+    },
+    "verificationProperty": "obi:verificationProperty",
+    "Hosted": "obi:hosted",
+    "Signed": "obi:signed"
+  }
+}
