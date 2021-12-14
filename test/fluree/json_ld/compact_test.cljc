@@ -4,25 +4,35 @@
             [fluree.json-ld :as jsonld]))
 
 (deftest compacting-iri
-  (testing "Compacting a string IRI with context in various forms")
-  (let [map-ctx (jsonld/parse-context {"schema"  "http://schema.org/"
-                                       "REPLACE" "http://schema.org/Person"})
-        str-ctx (jsonld/parse-context "https://schema.org")]
-    (is (= "schema:name" (compact "http://schema.org/name" map-ctx)))
-    (is (= "REPLACE" (compact "http://schema.org/Person" map-ctx)))
-    (is (= "name" (compact "http://schema.org/name" str-ctx)))
+  (testing "Compacting a string IRI with context in various forms"
+    (let [map-ctx (jsonld/parse-context {"schema"  "http://schema.org/"
+                                         "REPLACE" "http://schema.org/Person"})
+          str-ctx (jsonld/parse-context "https://schema.org")]
+      (is (= "schema:name" (compact "http://schema.org/name" map-ctx)))
+      (is (= "REPLACE" (compact "http://schema.org/Person" map-ctx)))
+      (is (= "name" (compact "http://schema.org/name" str-ctx)))
 
-    ;; not a match, should return unaltered iri
-    (is (= "http://example.org/ns#blah" (compact "http://example.org/ns#blah" str-ctx)))
-    (is (= "http://example.org/ns#blah" (compact "http://example.org/ns#blah" map-ctx)))))
+      ;; not a match, should return unaltered iri
+      (is (= "http://example.org/ns#blah" (compact "http://example.org/ns#blah" str-ctx)))
+      (is (= "http://example.org/ns#blah" (compact "http://example.org/ns#blah" map-ctx))))))
 
 
 (deftest compacting-function
-  (testing "Generating a compacting function produces expected results")
-  (let [map-ctx (jsonld/parse-context {"schema"  "https://schema.org/"
-                                       "REPLACE" "https://schema.org/Person"})
-        compact-fn (compact-fn map-ctx)]
+  (testing "Generating a compacting function produces expected results"
+    (let [map-ctx    (jsonld/parse-context {"schema"  "https://schema.org/"
+                                            "REPLACE" "https://schema.org/Person"})
+          compact-fn (compact-fn map-ctx)]
 
-    (is (= "schema:name" (compact-fn "https://schema.org/name")))
-    (is (= "REPLACE" (compact-fn "https://schema.org/Person")))
-    (is (= "http://example.org/ns#blah" (compact-fn "http://example.org/ns#blah")))))
+      (is (= "schema:name" (compact-fn "https://schema.org/name")))
+      (is (= "REPLACE" (compact-fn "https://schema.org/Person")))
+      (is (= "http://example.org/ns#blah" (compact-fn "http://example.org/ns#blah"))))))
+
+
+(deftest compact-fn-for-compact
+  (testing "A compacting function can optionally be supplied as second param to compact"
+    (let [map-ctx    (jsonld/parse-context {"schema"  "https://schema.org/"
+                                            "REPLACE" "https://schema.org/Person"})
+          compact-fn (compact-fn map-ctx)]
+      (is (= "schema:name" (compact "https://schema.org/name" compact-fn)))
+      (is (= "REPLACE" (compact "https://schema.org/Person" compact-fn)))
+      (is (= "http://example.org/ns#blah" (compact "http://example.org/ns#blah" compact-fn))))))
