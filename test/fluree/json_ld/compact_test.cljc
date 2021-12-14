@@ -25,7 +25,25 @@
 
       (is (= "schema:name" (compact-fn "https://schema.org/name")))
       (is (= "REPLACE" (compact-fn "https://schema.org/Person")))
-      (is (= "http://example.org/ns#blah" (compact-fn "http://example.org/ns#blah"))))))
+      (is (= "http://example.org/ns#blah" (compact-fn "http://example.org/ns#blah")))))
+
+  (testing "Generating a compacting function with an atom returns used context items"
+    (let [map-ctx    (jsonld/parse-context {"schema"  "http://schema.org/"
+                                            "REPLACE" "http://schema.org/Person"})
+          used-atom  (atom {})
+          compact-fn (compact-fn map-ctx used-atom)]
+
+      (is (= "schema:name" (compact-fn "http://schema.org/name")))
+      (is (= {"schema" "http://schema.org/"}
+             @used-atom))
+      (is (= "REPLACE" (compact-fn "http://schema.org/Person")))
+      (is (= {"schema"  "http://schema.org/"
+              "REPLACE" "http://schema.org/Person"}
+             @used-atom))
+      (is (= "http://example.org/ns#blah" (compact-fn "http://example.org/ns#blah")))
+      (is (= {"schema"  "http://schema.org/"
+              "REPLACE" "http://schema.org/Person"}
+             @used-atom)))))
 
 
 (deftest compact-fn-for-compact
