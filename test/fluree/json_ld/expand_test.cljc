@@ -6,13 +6,13 @@
 
 (deftest expanding-iri
   (testing "Expanding a compacted IRI with context in various forms")
-  (let [map-ctx (json-ld/parse-context {"schema"  "https://schema.org/"
-                                        "REPLACE" "https://schema.org/Person"})
+  (let [map-ctx (json-ld/parse-context {"schema"  "http://schema.org/"
+                                        "REPLACE" "http://schema.org/Person"})
         str-ctx (json-ld/parse-context "https://schema.org")]
 
-    (is (= "https://schema.org/name" (iri "schema:name" map-ctx true)))
-    (is (= "https://schema.org/Person" (iri "REPLACE" map-ctx true)))
-    (is (= "https://schema.org/name" (iri "name" str-ctx true)))
+    (is (= "http://schema.org/name" (iri "schema:name" map-ctx true)))
+    (is (= "http://schema.org/Person" (iri "REPLACE" map-ctx true)))
+    (is (= "http://schema.org/name" (iri "name" str-ctx true)))
 
     ;; not a match, should return unaltered iri
     (is (= "not:matching" (iri "not:matching" map-ctx true)))
@@ -23,10 +23,10 @@
 
 (deftest expanding-reverse-iri
   (testing "Expanding a compacted IRI with context in various forms")
-  (let [ctx (json-ld/parse-context {"schema" "https://schema.org/"
+  (let [ctx (json-ld/parse-context {"schema" "http://schema.org/"
                                     "parent" {"@reverse" "schema:child"}})]
     (is (= (details "parent" ctx true)
-           ["https://schema.org/child" {:reverse "https://schema.org/child"}]))))
+           ["http://schema.org/child" {:reverse "http://schema.org/child"}]))))
 
 (deftest expanding-node
   (testing "Datatype in context using compact IRI as key"

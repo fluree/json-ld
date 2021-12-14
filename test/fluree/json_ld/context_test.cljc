@@ -4,17 +4,6 @@
 
 
 (deftest default-vocabularies
-  (testing "A context with a string should be a default vocabulary"
-
-    ;; with trailing '/'
-    (is (= (parse "https://schema.org/")
-           {:vocab "https://schema.org/"}))
-
-    ;; without trailing '/'
-    (is (= (parse "https://schema.org")
-           {:vocab "https://schema.org/"})))
-
-
   (testing "An explicitly defined default vocabulary with @vocab"
     (is (= (parse {"@vocab" "https://schema.org/"})
            {:vocab "https://schema.org/"})))
@@ -81,24 +70,10 @@
 
 (deftest multiple-contexts
   (testing "Context map parsing"
-
-    ;; string based context, only one :vocab allowed, should pick last one
-    (is (= (parse ["https://schema.org", "http://example.org/ns#"])
-           {:vocab "http://example.org/ns#"}))
-
-    ;; string and map
-    (is (= (parse ["https://schema.org",
+    (is (= (parse [{"schema" "http://schema.org/"},
                    {"owl" "http://www.w3.org/2002/07/owl#",
                     "ex"  "http://example.org/ns#"}])
-           {:vocab "https://schema.org/"
-            "owl"  {:id "http://www.w3.org/2002/07/owl#"}
-            "ex"   {:id "http://example.org/ns#"}}))
-
-    ;; multiple maps
-    (is (= (parse [{"schema" "https://schema.org/"},
-                   {"owl" "http://www.w3.org/2002/07/owl#",
-                    "ex"  "http://example.org/ns#"}])
-           {"schema" {:id "https://schema.org/"}
+           {"schema" {:id "http://schema.org/"}
             "owl"    {:id "http://www.w3.org/2002/07/owl#"}
             "ex"     {:id "http://example.org/ns#"}})))
 
@@ -114,37 +89,37 @@
   (testing "Context keys with map values."
 
     ;; custom full iri with type defined
-    (is (= (parse {"schema"       "https://schema.org/",
-                   "customScalar" {"@id"   "https://schema.org/name"
-                                   "@type" "https://schema.org/Text"}})
-           {"schema"       {:id "https://schema.org/"}
-            "customScalar" {:id   "https://schema.org/name"
-                            :type "https://schema.org/Text"}}))
+    (is (= (parse {"schema"       "http://schema.org/",
+                   "customScalar" {"@id"   "http://schema.org/name"
+                                   "@type" "http://schema.org/Text"}})
+           {"schema"       {:id "http://schema.org/"}
+            "customScalar" {:id   "http://schema.org/name"
+                            :type "http://schema.org/Text"}}))
 
-    (is (= (parse {"schema"      "https://schema.org/",
+    (is (= (parse {"schema"      "http://schema.org/",
                    "customClass" {"@id"   "schema:Book"
                                   "@type" "schema:CreativeWork"}})
-           {"schema"      {:id "https://schema.org/"}
-            "customClass" {:id   "https://schema.org/Book"
-                           :type "https://schema.org/CreativeWork"}}))))
+           {"schema"      {:id "http://schema.org/"}
+            "customClass" {:id   "http://schema.org/Book"
+                           :type "http://schema.org/CreativeWork"}}))))
 
 
 (deftest reverse-refs
   (testing "Reverse refs using full IRI"
-    (is (= (parse {"@vocab"       "https://schema.org/"
-                   "title"        "https://schema.org/titleEIDR"
-                   "derivedWorks" {"@reverse" "https://schema.org/isBasedOn"}})
-           {:vocab         "https://schema.org/",
-            "title"        {:id "https://schema.org/titleEIDR"},
-            "derivedWorks" {:reverse "https://schema.org/isBasedOn"}})))
+    (is (= (parse {"@vocab"       "http://schema.org/"
+                   "title"        "http://schema.org/titleEIDR"
+                   "derivedWorks" {"@reverse" "http://schema.org/isBasedOn"}})
+           {:vocab         "http://schema.org/",
+            "title"        {:id "http://schema.org/titleEIDR"},
+            "derivedWorks" {:reverse "http://schema.org/isBasedOn"}})))
 
   (testing "Reverse refs with compact-iri"
-    (is (= (parse {"schema"       "https://schema.org/"
+    (is (= (parse {"schema"       "http://schema.org/"
                    "title"        "schema:titleEIDR"
                    "derivedWorks" {"@reverse" "schema:isBasedOn"}})
-           {"schema"       {:id "https://schema.org/"},
-            "title"        {:id "https://schema.org/titleEIDR"},
-            "derivedWorks" {:reverse "https://schema.org/isBasedOn"}}))))
+           {"schema"       {:id "http://schema.org/"},
+            "title"        {:id "http://schema.org/titleEIDR"},
+            "derivedWorks" {:reverse "http://schema.org/isBasedOn"}}))))
 
 
 (deftest type-only
