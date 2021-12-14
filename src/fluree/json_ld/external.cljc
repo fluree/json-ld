@@ -15,7 +15,11 @@
                   "https://w3id.org/openbadges#"               "org.w3id.openbadges.edn"
                   "https://purl.imsglobal.org/spec/clr/vocab#" "org.imsglobal.spec.clr.vocab.edn"})
 
-(def context->file {"https://purl.imsglobal.org/spec/clr/v1p0/context/clr_v1p0.jsonld"
+(def context->file {"https://flur.ee/ns/block"
+                    {:source "contexts/fluree/block/v1.jsonld"
+                     :parsed "contexts/fluree/block/v1.edn"}
+
+                    "https://purl.imsglobal.org/spec/clr/v1p0/context/clr_v1p0.jsonld"
                     {:source "contexts/org/imsglobal/purl/spec/clr/v1p0/context/clr_v1p0.jsonld"
                      :parsed "contexts/org/imsglobal/purl/spec/clr/v1p0/context/clr_v1p0.edn"}
 
@@ -33,7 +37,16 @@
 
                     "https://w3id.org/security/v2"
                     {:source "contexts/org/w3id/security/v2.jsonld"
-                     :parsed "contexts/org/w3id/security/v2.edn"}})
+                     :parsed "contexts/org/w3id/security/v2.edn"}
+
+                    "https://schema.org"
+                    {:source "contexts/org/schema/latest.jsonld"
+                     :parsed "contexts/org/schema/latest.edn"}
+
+                    "https://geojson.org/geojson-ld/geojson-context.jsonld"
+                    {:source "contexts/org/geojson/geojson-ld/geojson-context.jsonld"
+                     :parsed "contexts/org/geojson/geojson-ld/geojson-context.edn"}
+                    })
 
 ;; set of external context URLs that are available pre-parsed.
 (def external-contexts (set (keys context->file)))
