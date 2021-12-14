@@ -309,3 +309,37 @@
             "https://vocab.com/vocab/iri/iriProperty"
                   {:id  "https://base.com/base/iri#a-relative-id"
                    :idx ["iriProperty"]}}))))
+
+(deftest type-sub-context
+  (testing "When @context has a sub-@context for specific types, ensure merged"
+    (is (= (node {"@context"         {"id"                   "@id",
+                                      "type"                 "@type",
+                                      "VerifiableCredential" {"@id"      "https://www.w3.org/2018/credentials#VerifiableCredential",
+                                                              "@context" {"id"               "@id",
+                                                                          "type"             "@type",
+                                                                          "cred"             "https://www.w3.org/2018/credentials#",
+                                                                          "sec"              "https://w3id.org/security#",
+                                                                          "xsd"              "http://www.w3.org/2001/XMLSchema#",
+                                                                          "credentialSchema" {"@id"      "cred:credentialSchema",
+                                                                                              "@type"    "@id",
+                                                                                              "@context" {"id"                      "@id",
+                                                                                                          "type"                    "@type",
+                                                                                                          "cred"                    "https://www.w3.org/2018/credentials#",
+                                                                                                          "JsonSchemaValidator2018" "cred:JsonSchemaValidator2018"}},
+                                                                          "issuer"           {"@id"   "cred:issuer"
+                                                                                              "@type" "@id"}}}}
+                  "id"               "#joebob",
+                  "type"             ["VerifiableCredential"]
+                  "issuer"           "did:for:some-issuer"
+                  "credentialSchema" {"id"   "#credSchema"
+                                      "cred" "Some Cred!"}})
+           {:id   "#joebob",
+            :type ["https://www.w3.org/2018/credentials#VerifiableCredential"]
+            "https://www.w3.org/2018/credentials#issuer"
+                  {:id "did:for:some-issuer" :idx ["issuer"]}
+            "https://www.w3.org/2018/credentials#credentialSchema"
+                  {:id                                    "#credSchema"
+                   :idx                                   ["credentialSchema"]
+                   "https://www.w3.org/2018/credentials#" {:value "Some Cred!"
+                                                           :type  nil
+                                                           :idx   ["credentialSchema" "cred"]}}}))))

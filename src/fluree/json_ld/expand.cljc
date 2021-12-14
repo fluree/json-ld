@@ -140,9 +140,9 @@
            :type  type
            :idx   idx}))
 
-      ;; else a sub-value
+      ;; else a sub-value. Top-level @context might have sub-contexts, if so merge
       :else
-      (node v ctx* externals idx))))
+      (node v (merge ctx* (:context v-info)) externals idx))))
 
 (defmethod parse-node-val :sequential
   [v v-info context externals idx]
@@ -173,6 +173,19 @@
         {:list v*}
         v*))))
 
+
+(defn- type-sub-context
+  "@context can define sub-contexts for certain @type values. Check if exists and merge."
+  [context types]
+  (reduce
+    (fn [context* type]
+      (if-let [type-context (get-in context [type :context])]
+        (merge context* type-context)
+        context*))
+    context
+    types))
+
+
 (defn node
   "Expands an entire JSON-LD node (JSON object), with optional parsed context
   provided. If node has a local context, will merge with provided parse-context.
@@ -187,16 +200,21 @@
        (let [context (context/parse parsed-context (get node-map "@context"))]
          (if-let [graph (get node-map "@graph")]
            (map-indexed #(node %2 context externals ["@graph" %1]) graph)
-           (reduce-kv
-             (fn [acc k v]
+           (loop [[[k v] & r] (dissoc node-map "@context")
+                  context context
+                  acc     (transient (if (empty? idx) {} {:idx idx}))]
+             (if k
                (let [[k* v-info] (details k context true)
                      k** (if (= \@ (first k*))
                            (keyword (subs k* 1))
                            k*)
                      v*  (parse-node-val v v-info context externals (conj idx k))]
-                 (assoc acc k** v*)))
-             (if (empty? idx) {} {:idx idx})
-             (dissoc node-map "@context")))))
+                 (recur r
+                        (if (= :type k**)
+                          (type-sub-context context v)
+                          context)
+                        (assoc! acc k** v*)))
+               (persistent! acc))))))
      (catch e
             (if (ex-data e)
               (throw e)
