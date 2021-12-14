@@ -80,10 +80,22 @@
                              (sequential? v) :sequential
                              (string? v) :string
                              (number? v) :number
+                             (boolean? v) :boolean
+                             (nil? v) :nil
                              :else (throw (ex-info (str "Values in payload must be strings, numbers, maps or vectors. "
                                                         "Provided value: " v " at index: " idx ".")
                                                    {:status 400
                                                     :error  :json-ld/invalid-context})))))
+
+(defmethod parse-node-val :nil
+  [v v-info context _ idx]
+  nil)
+
+(defmethod parse-node-val :boolean
+  [v v-info _ _ idx]
+  {:value v
+   :type  (:type v-info)                                    ;; type may be defined in the @context
+   :idx   idx})
 
 (defmethod parse-node-val :string
   [v {:keys [id type] :as v-info} context _ idx]
