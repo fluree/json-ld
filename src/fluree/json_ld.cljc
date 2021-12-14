@@ -51,17 +51,23 @@
 
 (defn compact
   "Returns compacted iri when provided parsed context."
-  [iri parsed-context]
-  (compact/compact iri parsed-context))
+  [iri parsed-context-or-fn]
+  (compact/compact iri parsed-context-or-fn))
 
 
 (defn compact-fn
   "Returns compacting fn based on the provided parsed context
   that takes a single argument string IRI and returns compacted IRI.
 
-  If IRI cannot be compacted, returns original IRI."
-  [parsed-context]
-  (compact/compact-fn parsed-context))
+  If IRI cannot be compacted, returns original IRI.
+
+  Optionally, a second param, used-atom (a Clojure atom), can be supplied which captures all
+  context items that were used. This is useful when a large context is present which only a
+  small subset will be used, and you want to know which subset were used."
+  ([parsed-context]
+   (compact/compact-fn parsed-context nil))
+  ([parsed-context used-atom]
+   (compact/compact-fn parsed-context used-atom)))
 
 
 (defn expand-iri
