@@ -2,6 +2,7 @@
   (:require [fluree.json-ld.context :as context]
             [fluree.json-ld.compact :as compact]
             [fluree.json-ld.expand :as expand]
+            [fluree.json-ld.normalize :as normalize]
             #?(:clj [fluree.json-ld.external :as external])))
 
 #?(:clj (set! *warn-on-reflection* true))
@@ -119,3 +120,13 @@
       (get x "@graph")
       (get-in x [0 "@context"])
       (get-in x [0 "@id"]))))
+
+(defn normalize-data
+  "Normalizes a Clojure data structure into a string based on provided options which
+  include
+  :algorithm - :basic or :URDNA2015 (not yet supported)
+  :format - what format to put data into :application/json (default) :application/n-quads (not yet supported)
+
+  Used to get a consistent format/hash for data regardless of input."
+  [data opts]
+  (normalize/normalize data opts))
