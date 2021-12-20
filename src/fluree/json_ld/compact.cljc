@@ -21,6 +21,58 @@
         (recur r acc*))
       acc)))
 
+
+(defn- add-match-to-used-atom
+  "If 'used' atom is provided to record all used context values, this
+  adds any matches to used atom.
+
+  'used' atom is to return a small context if desired of only matching values,
+  as opposed to, e.g. the entire schema.org context containing thousands of items
+  when only one might have been actually used."
+  [prefix-matched iri used-atom]
+  (let [key (case prefix-matched
+              :vocab "@vocab"
+              :base "@base"
+              ;;else
+              prefix-matched)]
+    (swap! used-atom assoc key iri)))
+
+
+(defn- partial-iri-match
+  "If the input iri is a match to a prefix value,
+  e.g. the input iri is http://example.com/ns#t
+  with a context of: {'ex' 'http://example.com/ns#'},
+  then will return: 'ex:t'.
+
+  Optionally records the usage of that prefix in the used-atom."
+  [iri flipped-ctx match-iris used-atom]
+  (some
+    (fn [iri-substr]
+      (when (str/starts-with? iri iri-substr)               ;; match
+        (let [prefix (get flipped-ctx iri-substr)
+              suffix (subs iri (count iri-substr))]
+          (when used-atom
+            (add-match-to-used-atom prefix iri-substr used-atom))
+          (case prefix
+            (:vocab :base) (subs iri (count iri-substr))
+            (str prefix ":" suffix)))))
+    match-iris))
+
+
+(defn- exact-iri-match
+  "If the input iri is an exact match to a context value,
+  e.g. the input iri is 'http://example.com/ns#t'
+  with a context of: {'t' 'http://example.com/ns#t'},
+  then will return: 't'.
+
+  Optionally records the usage of that prefix in the used-atom."
+  [iri flipped-ctx used-atom]
+  (when-let [exact (get flipped-ctx iri)]
+    (when used-atom
+      (add-match-to-used-atom exact iri used-atom))
+    exact))
+
+
 (defn compact-fn
   "Returns a single arity function based on the provided context that will compact any string iri.
 
@@ -29,37 +81,15 @@
   know which subset were used."
   ([context] (compact-fn context nil))
   ([context used-atom]
-   (let [flipped    (reverse-context context)               ;; flips context map
-         match-iris (->> flipped keys (sort-by #(* -1 (count %))))]
+   (let [flipped-ctx (reverse-context context)              ;; flips context map
+         match-iris  (->> flipped-ctx
+                          keys
+                          (filter #(#{\/ \#} (last %)))     ;; only match against iris ending with '#' or '/'
+                          (sort-by #(* -1 (count %))))]
      (fn [iri]
-       (or
-         (some
-           (fn [iri-substr]
-             (when (str/starts-with? iri iri-substr)        ;; match
-               (let [prefix (get flipped iri-substr)
-                     suffix (subs iri (count iri-substr))]
-                 (when used-atom
-                   ;; if used-items atom provided, record that a prefix was used.
-                   (let [key (case prefix
-                               :vocab "@vocab"
-                               :base "@base"
-                               ;;else
-                               prefix)]
-                     (swap! used-atom assoc key iri-substr)))
-                 (cond
-                   (= :vocab prefix)                        ;; default vocabulary
-                   (subs iri (count iri-substr))
-
-                   (= :base prefix)                         ;; base iri
-                   (subs iri (count iri-substr))
-
-                   (= "" suffix)                            ;; exact match, no prefix needed, just substitute
-                   prefix
-
-                   :else
-                   (str prefix ":" suffix)))))
-           match-iris)
-         iri)))))
+       (or (exact-iri-match iri flipped-ctx used-atom)
+           (partial-iri-match iri flipped-ctx match-iris used-atom)
+           iri)))))
 
 
 (defn compact

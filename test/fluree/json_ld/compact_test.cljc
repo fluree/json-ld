@@ -6,13 +6,17 @@
 (deftest compacting-iri
   (testing "Compacting a string IRI with context in various forms"
     (let [map-ctx (jsonld/parse-context {"schema"  "http://schema.org/"
-                                         "REPLACE" "http://schema.org/Person"})
+                                         "REPLACE" "http://schema.org/Person"
+                                         "x"       "schema:x"})
           str-ctx (jsonld/parse-context "https://schema.org")]
-      (is (= "schema:name" (compact "http://schema.org/name" map-ctx)))
+      (println "parsed: " map-ctx)
+      (is (= "x" (compact "http://schema.org/x" map-ctx)))
+      (is (= "schema:xyz" (compact "http://schema.org/xyz" map-ctx)))
       (is (= "REPLACE" (compact "http://schema.org/Person" map-ctx)))
       (is (= "name" (compact "http://schema.org/name" str-ctx)))
 
       ;; not a match, should return unaltered iri
+      (is (= "schemas" (compact "schemas" map-ctx)))
       (is (= "http://example.org/ns#blah" (compact "http://example.org/ns#blah" str-ctx)))
       (is (= "http://example.org/ns#blah" (compact "http://example.org/ns#blah" map-ctx))))))
 

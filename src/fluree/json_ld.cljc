@@ -121,6 +121,7 @@
       (get-in x [0 "@context"])
       (get-in x [0 "@id"]))))
 
+
 (defn normalize-data
   "Normalizes a Clojure data structure into a string based on provided options which
   include
@@ -128,5 +129,6 @@
   :format - what format to put data into :application/json (default) :application/n-quads (not yet supported)
 
   Used to get a consistent format/hash for data regardless of input."
-  [data opts]
-  (normalize/normalize data opts))
+  ([data] (normalize/normalize data))
+  ([data opts]
+   (normalize/normalize data opts)))
