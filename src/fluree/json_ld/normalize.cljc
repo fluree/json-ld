@@ -91,10 +91,14 @@
 
 
 (defn normalize
-  ([json-ld] (normalize json-ld {:algorithm :basic}))
+  ([json-ld] (normalize json-ld {:algorithm :basic
+                                 :format    :application/json}))
   ([json-ld {:keys [algorithm format] :or {algorithm :URDNA2015
                                            format    :application/n-quads}}]
    (when (not= algorithm :basic)
      (throw (ex-info (str "Algorithm: " algorithm " not yet implemented!")
+                     {:status 400 :error :json-ld/invalid-normalization})))
+   (when (not= format :application/json)
+     (throw (ex-info (str "Format: " format " not yet implemented!")
                      {:status 400 :error :json-ld/invalid-normalization})))
    (basic-normalize json-ld)))
