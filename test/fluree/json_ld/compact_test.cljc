@@ -9,7 +9,6 @@
                                          "REPLACE" "http://schema.org/Person"
                                          "x"       "schema:x"})
           str-ctx (jsonld/parse-context "https://schema.org")]
-      (println "parsed: " map-ctx)
       (is (= "x" (compact "http://schema.org/x" map-ctx)))
       (is (= "schema:xyz" (compact "http://schema.org/xyz" map-ctx)))
       (is (= "REPLACE" (compact "http://schema.org/Person" map-ctx)))

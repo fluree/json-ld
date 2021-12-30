@@ -1,17 +1,23 @@
-{"properties"         {:id "https://purl.org/geojson/vocab#properties"},
- "MultiLineString"    {:id "https://purl.org/geojson/vocab#MultiLineString"},
- "Feature"            {:id "https://purl.org/geojson/vocab#Feature"},
- "LineString"         {:id "https://purl.org/geojson/vocab#LineString"},
- "id"                 {:id "@id"},
- "coordinates"        {:container :list, :id "https://purl.org/geojson/vocab#coordinates"},
- "geometry"           {:id "https://purl.org/geojson/vocab#geometry"},
- "GeometryCollection" {:id "https://purl.org/geojson/vocab#GeometryCollection"},
- "bbox"               {:container :list, :id "https://purl.org/geojson/vocab#bbox"},
- "Point"              {:id "https://purl.org/geojson/vocab#Point"},
- "type"               {:id "@type"},
- "FeatureCollection"  {:id "https://purl.org/geojson/vocab#FeatureCollection"},
- "geojson"            {:id "https://purl.org/geojson/vocab#"},
- "Polygon"            {:id "https://purl.org/geojson/vocab#Polygon"},
- "MultiPolygon"       {:id "https://purl.org/geojson/vocab#MultiPolygon"},
- "features"           {:container :set, :id "https://purl.org/geojson/vocab#features"},
- "MultiPoint"         {:id "https://purl.org/geojson/vocab#MultiPoint"}}
+{"properties" {:id "https://purl.org/geojson/vocab#properties"},
+ "MultiLineString"
+ {:id "https://purl.org/geojson/vocab#MultiLineString"},
+ "Feature" {:id "https://purl.org/geojson/vocab#Feature"},
+ "LineString" {:id "https://purl.org/geojson/vocab#LineString"},
+ "id" {:id "@id"},
+ "coordinates"
+ {:container :list, :id "https://purl.org/geojson/vocab#coordinates"},
+ :type-key "type",
+ "geometry" {:id "https://purl.org/geojson/vocab#geometry"},
+ "GeometryCollection"
+ {:id "https://purl.org/geojson/vocab#GeometryCollection"},
+ "bbox" {:container :list, :id "https://purl.org/geojson/vocab#bbox"},
+ "Point" {:id "https://purl.org/geojson/vocab#Point"},
+ "type" {:id "@type", :type? true},
+ "FeatureCollection"
+ {:id "https://purl.org/geojson/vocab#FeatureCollection"},
+ "geojson" {:id "https://purl.org/geojson/vocab#"},
+ "Polygon" {:id "https://purl.org/geojson/vocab#Polygon"},
+ "MultiPolygon" {:id "https://purl.org/geojson/vocab#MultiPolygon"},
+ "features"
+ {:container :set, :id "https://purl.org/geojson/vocab#features"},
+ "MultiPoint" {:id "https://purl.org/geojson/vocab#MultiPoint"}}

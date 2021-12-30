@@ -37,14 +37,15 @@
                   "ical:location" "New Orleans Arena, New Orleans, Louisiana, USA",
                   "ical:dtstart"  "2011-04-09T20:00:00Z"})
            {"http://www.w3.org/2002/12/cal/ical#summary"
-            {:type  nil, :idx ["ical:summary"],
-             :value "Lady Gaga Concert"},
+                 {:type  nil, :idx ["ical:summary"],
+                  :value "Lady Gaga Concert"},
             "http://www.w3.org/2002/12/cal/ical#location"
-            {:type  nil, :idx ["ical:location"],
-             :value "New Orleans Arena, New Orleans, Louisiana, USA"},
+                 {:type  nil, :idx ["ical:location"],
+                  :value "New Orleans Arena, New Orleans, Louisiana, USA"},
             "http://www.w3.org/2002/12/cal/ical#dtstart"
-            {:type  "http://www.w3.org/2001/XMLSchema#dateTime", :idx ["ical:dtstart"],
-             :value "2011-04-09T20:00:00Z"}})))
+                 {:type  "http://www.w3.org/2001/XMLSchema#dateTime", :idx ["ical:dtstart"],
+                  :value "2011-04-09T20:00:00Z"}
+            :idx []})))
 
   (testing "Nested child with no @id but datatypes"
     (is (= (node {"@context"    {"name"        "http://schema.org/name",
@@ -62,23 +63,24 @@
                   "image"       "http://www.civil.usherbrooke.ca/cours/gci215a/empire-state-building.jpg",
                   "geo"         {"latitude" "40.75", "longitude" "73.98"}})
            {"http://schema.org/name"
-            {:value "The Empire State Building", :type nil, :idx ["name"]},
+                 {:value "The Empire State Building", :type nil, :idx ["name"]},
             "http://schema.org/description"
-            {:value "The Empire State Building is a 102-story landmark in New York City.",
-             :type  nil, :idx ["description"]},
+                 {:value "The Empire State Building is a 102-story landmark in New York City.",
+                  :type  nil, :idx ["description"]},
             "http://schema.org/image"
-            {:id  "http://www.civil.usherbrooke.ca/cours/gci215a/empire-state-building.jpg",
-             :idx ["image"]},
+                 {:id  "http://www.civil.usherbrooke.ca/cours/gci215a/empire-state-building.jpg",
+                  :idx ["image"]},
             "http://schema.org/geo"
-            {:idx ["geo"],
-             "http://schema.org/latitude"
-                  {:value "40.75",
-                   :type  "http://www.w3.org/2001/XMLSchema#float",
-                   :idx   ["geo" "latitude"]},
-             "http://schema.org/longitude"
-                  {:value "73.98",
-                   :type  "http://www.w3.org/2001/XMLSchema#float",
-                   :idx   ["geo" "longitude"]}}})))
+                 {:idx ["geo"],
+                  "http://schema.org/latitude"
+                       {:value "40.75",
+                        :type  "http://www.w3.org/2001/XMLSchema#float",
+                        :idx   ["geo" "latitude"]},
+                  "http://schema.org/longitude"
+                       {:value "73.98",
+                        :type  "http://www.w3.org/2001/XMLSchema#float",
+                        :idx   ["geo" "longitude"]}}
+            :idx []})))
 
   (testing "Nested children with datatypes in context using compact-iris"
     (is (= (node {"gr:includes"               {"@type"     ["gr:Individual" "pto:Vehicle"],
@@ -101,6 +103,7 @@
                   "@type"                     "gr:Offering"})
 
            {:id   "http://example.org/cars/for-sale#tesla",
+            :idx  [],
             :type ["http://purl.org/goodrelations/v1#Offering"],
             "http://purl.org/goodrelations/v1#includes"
                   {:idx  ["gr:includes"],
@@ -155,52 +158,53 @@
                                   {"step" 4, "description" "Fill the rest of glass with club soda, stir."}
                                   {"step" 5, "description" "Garnish with a lime wedge."}]})
            {"http://rdf.data-vocabulary.org/#name"
-            {:type nil, :idx ["name"], :value "Mojito"},
+                 {:type nil, :idx ["name"], :value "Mojito"},
             "http://rdf.data-vocabulary.org/#ingredients"
-            [{:type nil, :idx ["ingredient" 0], :value "12 fresh mint leaves"}
-             {:type nil, :idx ["ingredient" 1], :value "1/2 lime, juiced with pulp"}
-             {:type nil, :idx ["ingredient" 2], :value "1 tablespoons white sugar"}
-             {:type nil, :idx ["ingredient" 3], :value "1 cup ice cubes"}
-             {:type nil, :idx ["ingredient" 4], :value "2 fluid ounces white rum"}
-             {:type nil, :idx ["ingredient" 5], :value "1/2 cup club soda"}],
+                 [{:type nil, :idx ["ingredient" 0], :value "12 fresh mint leaves"}
+                  {:type nil, :idx ["ingredient" 1], :value "1/2 lime, juiced with pulp"}
+                  {:type nil, :idx ["ingredient" 2], :value "1 tablespoons white sugar"}
+                  {:type nil, :idx ["ingredient" 3], :value "1 cup ice cubes"}
+                  {:type nil, :idx ["ingredient" 4], :value "2 fluid ounces white rum"}
+                  {:type nil, :idx ["ingredient" 5], :value "1/2 cup club soda"}],
             "http://rdf.data-vocabulary.org/#yield"
-            {:type nil, :idx ["yield"], :value "1 cocktail"},
+                 {:type nil, :idx ["yield"], :value "1 cocktail"},
             "http://rdf.data-vocabulary.org/#instructions"
-            [{:idx ["instructions" 0],
-              "http://rdf.data-vocabulary.org/#step"
-                   {:type "http://www.w3.org/2001/XMLSchema#integer",
-                    :idx  ["instructions" 0 "step"], :value 1},
-              "http://rdf.data-vocabulary.org/#description"
-                   {:type  nil, :idx ["instructions" 0 "description"],
-                    :value "Crush lime juice, mint and sugar together in glass."}}
-             {:idx ["instructions" 1],
-              "http://rdf.data-vocabulary.org/#step"
-                   {:type "http://www.w3.org/2001/XMLSchema#integer",
-                    :idx  ["instructions" 1 "step"], :value 2},
-              "http://rdf.data-vocabulary.org/#description"
-                   {:type  nil, :idx ["instructions" 1 "description"],
-                    :value "Fill glass to top with ice cubes."}}
-             {:idx ["instructions" 2],
-              "http://rdf.data-vocabulary.org/#step"
-                   {:type "http://www.w3.org/2001/XMLSchema#integer",
-                    :idx  ["instructions" 2 "step"], :value 3},
-              "http://rdf.data-vocabulary.org/#description"
-                   {:type  nil, :idx ["instructions" 2 "description"],
-                    :value "Pour white rum over ice."}}
-             {:idx ["instructions" 3],
-              "http://rdf.data-vocabulary.org/#step"
-                   {:type "http://www.w3.org/2001/XMLSchema#integer",
-                    :idx  ["instructions" 3 "step"], :value 4},
-              "http://rdf.data-vocabulary.org/#description"
-                   {:type  nil, :idx ["instructions" 3 "description"],
-                    :value "Fill the rest of glass with club soda, stir."}}
-             {:idx ["instructions" 4],
-              "http://rdf.data-vocabulary.org/#step"
-                   {:type "http://www.w3.org/2001/XMLSchema#integer",
-                    :idx  ["instructions" 4 "step"], :value 5},
-              "http://rdf.data-vocabulary.org/#description"
-                   {:type  nil, :idx ["instructions" 4 "description"],
-                    :value "Garnish with a lime wedge."}}]}))))
+                 [{:idx ["instructions" 0],
+                   "http://rdf.data-vocabulary.org/#step"
+                        {:type "http://www.w3.org/2001/XMLSchema#integer",
+                         :idx  ["instructions" 0 "step"], :value 1},
+                   "http://rdf.data-vocabulary.org/#description"
+                        {:type  nil, :idx ["instructions" 0 "description"],
+                         :value "Crush lime juice, mint and sugar together in glass."}}
+                  {:idx ["instructions" 1],
+                   "http://rdf.data-vocabulary.org/#step"
+                        {:type "http://www.w3.org/2001/XMLSchema#integer",
+                         :idx  ["instructions" 1 "step"], :value 2},
+                   "http://rdf.data-vocabulary.org/#description"
+                        {:type  nil, :idx ["instructions" 1 "description"],
+                         :value "Fill glass to top with ice cubes."}}
+                  {:idx ["instructions" 2],
+                   "http://rdf.data-vocabulary.org/#step"
+                        {:type "http://www.w3.org/2001/XMLSchema#integer",
+                         :idx  ["instructions" 2 "step"], :value 3},
+                   "http://rdf.data-vocabulary.org/#description"
+                        {:type  nil, :idx ["instructions" 2 "description"],
+                         :value "Pour white rum over ice."}}
+                  {:idx ["instructions" 3],
+                   "http://rdf.data-vocabulary.org/#step"
+                        {:type "http://www.w3.org/2001/XMLSchema#integer",
+                         :idx  ["instructions" 3 "step"], :value 4},
+                   "http://rdf.data-vocabulary.org/#description"
+                        {:type  nil, :idx ["instructions" 3 "description"],
+                         :value "Fill the rest of glass with club soda, stir."}}
+                  {:idx ["instructions" 4],
+                   "http://rdf.data-vocabulary.org/#step"
+                        {:type "http://www.w3.org/2001/XMLSchema#integer",
+                         :idx  ["instructions" 4 "step"], :value 5},
+                   "http://rdf.data-vocabulary.org/#description"
+                        {:type  nil, :idx ["instructions" 4 "description"],
+                         :value "Garnish with a lime wedge."}}]
+            :idx []}))))
 
 (deftest node-graph-parse
   (testing "Parse node that is a graph"
@@ -254,20 +258,22 @@
 
                   "@id"      "http://example.org/people#joebob",
                   "nick"     ["joe", "bob", "jaybee"]})
-           {:id "http://example.org/people#joebob",
+           {:id  "http://example.org/people#joebob"
+            :idx []
             "http://xmlns.com/foaf/0.1/nick"
-                {:list [{:value "joe", :type nil, :idx ["nick" 0]}
-                        {:value "bob", :type nil, :idx ["nick" 1]}
-                        {:value "jaybee", :type nil, :idx ["nick" 2]}]}})))
+                 {:list [{:value "joe", :type nil, :idx ["nick" 0]}
+                         {:value "bob", :type nil, :idx ["nick" 1]}
+                         {:value "jaybee", :type nil, :idx ["nick" 2]}]}})))
   (testing "An @list can also be used within the node itself"
     (is (= (node {"@context"  {"foaf" "http://xmlns.com/foaf/0.1/"}
                   "@id"       "http://example.org/people#joebob",
                   "foaf:nick" {"@list" ["joe", "bob", "jaybee"]}})
-           {:id "http://example.org/people#joebob",
+           {:id  "http://example.org/people#joebob"
+            :idx []
             "http://xmlns.com/foaf/0.1/nick"
-                {:list [{:value "joe", :type nil, :idx ["foaf:nick" "@list" 0]}
-                        {:value "bob", :type nil, :idx ["foaf:nick" "@list" 1]}
-                        {:value "jaybee", :type nil, :idx ["foaf:nick" "@list" 2]}]}}))))
+                 {:list [{:value "joe", :type nil, :idx ["foaf:nick" "@list" 0]}
+                         {:value "bob", :type nil, :idx ["foaf:nick" "@list" 1]}
+                         {:value "jaybee", :type nil, :idx ["foaf:nick" "@list" 2]}]}}))))
 
 
 (deftest set-type-values
@@ -275,22 +281,24 @@
     (is (= (node {"@context"  {"foaf" "http://xmlns.com/foaf/0.1/"}
                   "@id"       "http://example.org/people#joebob",
                   "foaf:nick" {"@set" ["joe", "bob", "jaybee"]}})
-           {:id "http://example.org/people#joebob",
+           {:id  "http://example.org/people#joebob"
+            :idx []
             "http://xmlns.com/foaf/0.1/nick"
-                [{:value "joe", :type nil, :idx ["foaf:nick" "@set" 0]}
-                 {:value "bob", :type nil, :idx ["foaf:nick" "@set" 1]}
-                 {:value "jaybee", :type nil, :idx ["foaf:nick" "@set" 2]}]})))
+                 [{:value "joe", :type nil, :idx ["foaf:nick" "@set" 0]}
+                  {:value "bob", :type nil, :idx ["foaf:nick" "@set" 1]}
+                  {:value "jaybee", :type nil, :idx ["foaf:nick" "@set" 2]}]})))
   (testing "An @set can be used in context ensure all values presented in vector/array format."
     (is (= (node {"@context" {"nick" {"@id"        "http://xmlns.com/foaf/0.1/nick",
                                       "@container" "@set"}}
 
                   "@id"      "http://example.org/people#joebob",
                   "nick"     ["joe", "bob", "jaybee"]})
-           {:id "http://example.org/people#joebob",
+           {:id  "http://example.org/people#joebob"
+            :idx []
             "http://xmlns.com/foaf/0.1/nick"
-                [{:value "joe", :type nil, :idx ["nick" 0]}
-                 {:value "bob", :type nil, :idx ["nick" 1]}
-                 {:value "jaybee", :type nil, :idx ["nick" 2]}]}))))
+                 [{:value "joe", :type nil, :idx ["nick" 0]}
+                  {:value "bob", :type nil, :idx ["nick" 1]}
+                  {:value "jaybee", :type nil, :idx ["nick" 2]}]}))))
 
 
 (deftest base-and-vocab
@@ -302,7 +310,8 @@
                   "@type"       "Joey"
                   "name"        "Joe Bob"
                   "iriProperty" "#a-relative-id"})
-           {:id   "https://base.com/base/iri#joebob",
+           {:id   "https://base.com/base/iri#joebob"
+            :idx  []
             :type ["https://vocab.com/vocab/iri/Joey"]
             "https://vocab.com/vocab/iri/name"
                   {:value "Joe Bob" :type nil :idx ["name"]}
@@ -333,7 +342,30 @@
                   "issuer"           "did:for:some-issuer"
                   "credentialSchema" {"id"   "#credSchema"
                                       "cred" "Some Cred!"}})
-           {:id   "#joebob",
+           ;; even if 'type' is after other content results should be same
+           (node {"@context"         {"id"                   "@id",
+                                      "type"                 "@type",
+                                      "VerifiableCredential" {"@id"      "https://www.w3.org/2018/credentials#VerifiableCredential",
+                                                              "@context" {"id"               "@id",
+                                                                          "type"             "@type",
+                                                                          "cred"             "https://www.w3.org/2018/credentials#",
+                                                                          "sec"              "https://w3id.org/security#",
+                                                                          "xsd"              "http://www.w3.org/2001/XMLSchema#",
+                                                                          "credentialSchema" {"@id"      "cred:credentialSchema",
+                                                                                              "@type"    "@id",
+                                                                                              "@context" {"id"                      "@id",
+                                                                                                          "type"                    "@type",
+                                                                                                          "cred"                    "https://www.w3.org/2018/credentials#",
+                                                                                                          "JsonSchemaValidator2018" "cred:JsonSchemaValidator2018"}},
+                                                                          "issuer"           {"@id"   "cred:issuer"
+                                                                                              "@type" "@id"}}}}
+                  "id"               "#joebob",
+                  "issuer"           "did:for:some-issuer"
+                  "credentialSchema" {"id"   "#credSchema"
+                                      "cred" "Some Cred!"}
+                  "type"             ["VerifiableCredential"]})
+           {:id   "#joebob"
+            :idx  []
             :type ["https://www.w3.org/2018/credentials#VerifiableCredential"]
             "https://www.w3.org/2018/credentials#issuer"
                   {:id "did:for:some-issuer" :idx ["issuer"]}

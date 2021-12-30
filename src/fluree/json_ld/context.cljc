@@ -84,7 +84,9 @@
                         ctx-val)]
     (cond
       (string? ctx-val*)
-      {:id (parse-compact-iri-val ctx-original ctx-base default-vocab ctx-val*)}
+      (let [iri-v (parse-compact-iri-val ctx-original ctx-base default-vocab ctx-val*)]
+        (cond-> {:id iri-v}
+                (= "@type" iri-v) (assoc :type? true)))
 
       (map? ctx-val*)
       (let [map-val (reduce-kv
@@ -154,7 +156,9 @@
 
                    :else v)]
           (assoc acc kw v*))
-        (assoc acc k (parse-value k v context base-context externals))))
+        (let [parsed-v (parse-value k v context base-context externals)]
+          (cond-> (assoc acc k parsed-v)
+                  (true? (:type? parsed-v)) (assoc :type-key k)))))
     base-context context))
 
 
@@ -165,31 +169,41 @@
   Each context term is a key, and each value a map with term details within. The maps include:
   :id - @id value - the IRI, or IRI substring for the context item
   :vocab - @vocab value - if using a default vocabulary (effectively a blank term). There
-           can only be one vocab value for the returned context."
+           can only be one vocab value for the returned context.
+  :type-key - The key @type is mapped to (default is @type). If context includes
+              e.g. {'type' '@type'} then :type-key would be equal to 'type'.
+              It is important to know @type values prior to parsing as context
+              may include a sub-context specific to an @type - if those cannot be
+              checked easily up front, parsing will be done with the wrong context
+              (unless you are lucky and the @type is defined first)."
   ([context] (parse {} external/external-contexts context))
   ([base-context context] (parse base-context external/external-contexts context))
   ([base-context externals context]
-   (cond
-     (nil? context)
-     base-context
+   (let [base-context* (if (contains? base-context :type-key)
+                         base-context
+                         ;; :type-key will be replaced while parsing if overridden by context
+                         {:type-key "@type"})]
+     (cond
+       (nil? context)
+       base-context
 
-     ;; assume either an external context, or a default vocab
-     (string? context)
-     (if (externals context)
-       (merge base-context (external/context context))
-       (assoc base-context :vocab (iri/add-trailing-slash context)))
+       ;; assume either an external context, or a default vocab
+       (string? context)
+       (if (externals context)
+         (merge base-context (external/context context))
+         (assoc base-context* :vocab (iri/add-trailing-slash context)))
 
-     (map? context)
-     (if (contains? context "@context")
-       ;; contexts, especially externally loaded, can have a single @context key with context embedded
-       (parse base-context (get context "@context" externals))
-       (parse-map base-context context externals))
+       (map? context)
+       (if (contains? context "@context")
+         ;; contexts, especially externally loaded, can have a single @context key with context embedded
+         (parse base-context (get context "@context" externals))
+         (parse-map base-context* context externals))
 
-     (sequential? context)
-     (reduce #(parse %1 externals %2) base-context context)
+       (sequential? context)
+       (reduce #(parse %1 externals %2) base-context context)
 
-     :else
-     (throw (ex-info (str "Invalid json-ld context provided: " context)
-                     {:status  400
-                      :error   :json-ld/invalid-context
-                      :context context})))))
+       :else
+       (throw (ex-info (str "Invalid json-ld context provided: " context)
+                       {:status  400
+                        :error   :json-ld/invalid-context
+                        :context context}))))))

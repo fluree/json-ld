@@ -6,7 +6,8 @@
 (deftest default-vocabularies
   (testing "An explicitly defined default vocabulary with @vocab"
     (is (= (parse {"@vocab" "https://schema.org/"})
-           {:vocab "https://schema.org/"})))
+           {:type-key "@type"
+            :vocab    "https://schema.org/"})))
 
   (testing "References to default vocabulary should be concatenated"
     (is (= (parse {"@vocab"     "https://schema.org/"
@@ -14,7 +15,8 @@
                    "explicit"   "name"
                    "dontTouch"  "https://example.com/ns#42"
                    "id"         "@id"})
-           {:vocab       "https://schema.org/"
+           {:type-key    "@type"
+            :vocab       "https://schema.org/"
             "reverseRef" {:reverse "https://schema.org/isBasedOn"}
             "explicit"   {:id "https://schema.org/name"}
             "dontTouch"  {:id "https://example.com/ns#42"}
@@ -27,15 +29,17 @@
     ;; string based context
     (is (= (parse {"owl" "http://www.w3.org/2002/07/owl#",
                    "ex"  "http://example.org/ns#"})
-           {"owl" {:id "http://www.w3.org/2002/07/owl#"}
-            "ex"  {:id "http://example.org/ns#"}}))
+           {:type-key "@type"
+            "owl"     {:id "http://www.w3.org/2002/07/owl#"}
+            "ex"      {:id "http://example.org/ns#"}}))
 
 
     ;; keywords are retained
     (is (= (parse {:owl "http://www.w3.org/2002/07/owl#",
                    :ex  "http://example.org/ns#"})
-           {:owl {:id "http://www.w3.org/2002/07/owl#"}
-            :ex  {:id "http://example.org/ns#"}}))))
+           {:type-key "@type"
+            :owl      {:id "http://www.w3.org/2002/07/owl#"}
+            :ex       {:id "http://example.org/ns#"}}))))
 
 
 (deftest dependent-context
@@ -43,14 +47,16 @@
     (testing "One level deep"
       (is (= (parse {"nc"   "http://release.niem.gov/niem/niem-core/4.0/#",
                      "name" "nc:PersonName"})
-             {"nc"   {:id "http://release.niem.gov/niem/niem-core/4.0/#"}
-              "name" {:id "http://release.niem.gov/niem/niem-core/4.0/#PersonName"}})))
+             {:type-key "@type"
+              "nc"      {:id "http://release.niem.gov/niem/niem-core/4.0/#"}
+              "name"    {:id "http://release.niem.gov/niem/niem-core/4.0/#PersonName"}})))
     (testing "Two levels deep"
       ;; from CLR vocabulary
       (is (= (parse {"clri"      "https://purl.imsglobal.org/spec/clr/vocab#"
                      "Address"   "dtAddress",
                      "dtAddress" "clri:dtAddress"})
-             {"Address"   {:id "https://purl.imsglobal.org/spec/clr/vocab#dtAddress"}
+             {:type-key   "@type"
+              "Address"   {:id "https://purl.imsglobal.org/spec/clr/vocab#dtAddress"}
               "clri"      {:id "https://purl.imsglobal.org/spec/clr/vocab#"}
               "dtAddress" {:id "https://purl.imsglobal.org/spec/clr/vocab#dtAddress"}})))
     (testing "Two levels deep with map val"
@@ -60,12 +66,13 @@
                      "UUID"   "dtUUID"
                      "dtUUID" {"@id"   "clri:dtUUID",
                                "@type" "xsd:string"}})
-             {"UUID"   {:id   "https://purl.imsglobal.org/spec/clr/vocab#dtUUID"
-                        :type "http://www.w3.org/2001/XMLSchema#string"}
-              "clri"   {:id "https://purl.imsglobal.org/spec/clr/vocab#"}
-              "dtUUID" {:id   "https://purl.imsglobal.org/spec/clr/vocab#dtUUID"
-                        :type "http://www.w3.org/2001/XMLSchema#string"}
-              "xsd"    {:id "http://www.w3.org/2001/XMLSchema#"}})))))
+             {:type-key "@type"
+              "UUID"    {:id   "https://purl.imsglobal.org/spec/clr/vocab#dtUUID"
+                         :type "http://www.w3.org/2001/XMLSchema#string"}
+              "clri"    {:id "https://purl.imsglobal.org/spec/clr/vocab#"}
+              "dtUUID"  {:id   "https://purl.imsglobal.org/spec/clr/vocab#dtUUID"
+                         :type "http://www.w3.org/2001/XMLSchema#string"}
+              "xsd"     {:id "http://www.w3.org/2001/XMLSchema#"}})))))
 
 
 (deftest multiple-contexts
@@ -73,15 +80,17 @@
     (is (= (parse [{"schema" "http://schema.org/"},
                    {"owl" "http://www.w3.org/2002/07/owl#",
                     "ex"  "http://example.org/ns#"}])
-           {"schema" {:id "http://schema.org/"}
-            "owl"    {:id "http://www.w3.org/2002/07/owl#"}
-            "ex"     {:id "http://example.org/ns#"}})))
+           {:type-key "@type"
+            "schema"  {:id "http://schema.org/"}
+            "owl"     {:id "http://www.w3.org/2002/07/owl#"}
+            "ex"      {:id "http://example.org/ns#"}})))
 
   (testing "An second context may rely on definitions in the first"
     ;; this scenario happened with https://w3id.org/security/v1 -> https://w3id.org/security/v2
     (is (= (parse [{"sec" "https://w3id.org/security#"}
                    {"EcdsaSecp256k1VerificationKey2019" "sec:EcdsaSecp256k1VerificationKey2019"}])
-           {"sec"                               {:id "https://w3id.org/security#"},
+           {:type-key                           "@type"
+            "sec"                               {:id "https://w3id.org/security#"},
             "EcdsaSecp256k1VerificationKey2019" {:id "https://w3id.org/security#EcdsaSecp256k1VerificationKey2019"}}))))
 
 
@@ -92,14 +101,16 @@
     (is (= (parse {"schema"       "http://schema.org/",
                    "customScalar" {"@id"   "http://schema.org/name"
                                    "@type" "http://schema.org/Text"}})
-           {"schema"       {:id "http://schema.org/"}
+           {:type-key      "@type"
+            "schema"       {:id "http://schema.org/"}
             "customScalar" {:id   "http://schema.org/name"
                             :type "http://schema.org/Text"}}))
 
     (is (= (parse {"schema"      "http://schema.org/",
                    "customClass" {"@id"   "schema:Book"
                                   "@type" "schema:CreativeWork"}})
-           {"schema"      {:id "http://schema.org/"}
+           {:type-key     "@type"
+            "schema"      {:id "http://schema.org/"}
             "customClass" {:id   "http://schema.org/Book"
                            :type "http://schema.org/CreativeWork"}}))))
 
@@ -109,7 +120,8 @@
     (is (= (parse {"@vocab"       "http://schema.org/"
                    "title"        "http://schema.org/titleEIDR"
                    "derivedWorks" {"@reverse" "http://schema.org/isBasedOn"}})
-           {:vocab         "http://schema.org/",
+           {:type-key      "@type"
+            :vocab         "http://schema.org/",
             "title"        {:id "http://schema.org/titleEIDR"},
             "derivedWorks" {:reverse "http://schema.org/isBasedOn"}})))
 
@@ -117,7 +129,8 @@
     (is (= (parse {"schema"       "http://schema.org/"
                    "title"        "schema:titleEIDR"
                    "derivedWorks" {"@reverse" "schema:isBasedOn"}})
-           {"schema"       {:id "http://schema.org/"},
+           {:type-key      "@type"
+            "schema"       {:id "http://schema.org/"},
             "title"        {:id "http://schema.org/titleEIDR"},
             "derivedWorks" {:reverse "http://schema.org/isBasedOn"}}))))
 
@@ -127,7 +140,8 @@
     (is (= (parse {"ical"         "http://www.w3.org/2002/12/cal/ical#",
                    "xsd"          "http://www.w3.org/2001/XMLSchema#",
                    "ical:dtstart" {"@type" "xsd:dateTime"}})
-           {"ical"         {:id "http://www.w3.org/2002/12/cal/ical#"},
+           {:type-key      "@type"
+            "ical"         {:id "http://www.w3.org/2002/12/cal/ical#"},
             "xsd"          {:id "http://www.w3.org/2001/XMLSchema#"},
             "ical:dtstart" {:type "http://www.w3.org/2001/XMLSchema#dateTime",
                             :id   "http://www.w3.org/2002/12/cal/ical#dtstart"}}))))
@@ -136,15 +150,17 @@
   (testing "An empty string @vocab should default to @base value."
     (is (= (parse {"@base"  "https://hub.flur.ee/some/ledger/"
                    "@vocab" ""})
-           {:base  "https://hub.flur.ee/some/ledger/"
-            :vocab "https://hub.flur.ee/some/ledger/"}))))
+           {:type-key "@type"
+            :base     "https://hub.flur.ee/some/ledger/"
+            :vocab    "https://hub.flur.ee/some/ledger/"}))))
 
 (deftest metadata-parses
   (testing "@protected and @version properly parses"
     (is (= (parse {"@version"   1.1,
                    "@protected" true
                    "schema"     "http://schema.org/"})
-           {:version   1.1
+           {:type-key  "@type"
+            :version   1.1
             :protected true
             "schema"   {:id "http://schema.org/"}}))))
 
@@ -153,13 +169,15 @@
     (is (= (parse {"schema" "http://schema.org/"
                    "post"   {"@id"        "schema:blogPost",
                              "@container" "@set"}})
-           {"schema" {:id "http://schema.org/"}
-            "post"   {:id        "http://schema.org/blogPost"
-                      :container :set}})))
+           {:type-key "@type"
+            "schema"  {:id "http://schema.org/"}
+            "post"    {:id        "http://schema.org/blogPost"
+                       :container :set}})))
   (testing "Multiple @container values are allowed"
     (is (= (parse {"schema" "http://schema.org/"
                    "post"   {"@id"        "schema:blogPost",
                              "@container" ["@index" "@set"]}})
-           {"schema" {:id "http://schema.org/"}
-            "post"   {:id        "http://schema.org/blogPost"
-                      :container [:index :set]}}))))
+           {:type-key "@type"
+            "schema"  {:id "http://schema.org/"}
+            "post"    {:id        "http://schema.org/blogPost"
+                       :container [:index :set]}}))))
