@@ -47,6 +47,17 @@
                   :value "2011-04-09T20:00:00Z"}
             :idx []})))
 
+  (testing "Using a context mapped to use 'type' and 'id', but using @type and @id instead"
+    (is (= (node {"@context" "https://schema.org"
+                  "@id"      "https://www.wikidata.org/wiki/Q836821"
+                  "@type"    "Movie"
+                  "name"     "Hitchhiker's Guide to the Galaxy"})
+           {:id   "https://www.wikidata.org/wiki/Q836821"
+            :type ["http://schema.org/Movie"]
+            "http://schema.org/name"
+                  {:value "Hitchhiker's Guide to the Galaxy", :type nil, :idx ["name"]}
+            :idx  []})))
+
   (testing "Nested child with no @id but datatypes"
     (is (= (node {"@context"    {"name"        "http://schema.org/name",
                                  "description" "http://schema.org/description",

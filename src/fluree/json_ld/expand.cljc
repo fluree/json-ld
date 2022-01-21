@@ -99,8 +99,12 @@
 
 (defmethod parse-node-val :string
   [v {:keys [id type] :as v-info} context _ idx]
+  ;; TODO - for both here and :sequential case, we catch @type values if :type-key exists but used explicit anyhow
+  ;; TODO - can keep this, but could miss @type-specific context inclusion. Consider changing expansion to use
+  ;; TODO - :type-keys as a set and catch before this step as is designed. i.e. :type-keys #{'type' '@type'}
   (cond
     (= "@id" id) (iri v context false)
+    (= "@type" id) [(iri v context false)]                  ;; @type should have been picked up using :type-key, but in case explicitly defined regardless
     (= :id type) {:id  (iri v context false)
                   :idx idx}
     :else {:value v
@@ -154,9 +158,15 @@
                                                                  {:status 400 :error :json-ld/invalid-context}))
                                 :else
                                 (let [type (:type v-info)]
-                                  (if (= :id type)
+                                  (cond
+                                    (= "@type" (:id v-info))
+                                    (iri %2 context false)
+
+                                    (= :id type)
                                     {:id  (iri %2 context false)
                                      :idx (conj idx %1)}
+
+                                    :else
                                     {:value %2
                                      :type  type
                                      :idx   (conj idx %1)}))))
