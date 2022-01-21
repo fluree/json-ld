@@ -58,6 +58,25 @@
                   {:value "Hitchhiker's Guide to the Galaxy", :type nil, :idx ["name"]}
             :idx  []})))
 
+  (testing "Sequential values containing maps with @values"
+    (is (= (node {"@context"       {"gist" "https://ontologies.semanticarts.com/gist/",
+                                    "owl"  "http://www.w3.org/2002/07/owl#",
+                                    "skos" "http://www.w3.org/2004/02/skos/core#",
+                                    "xsd"  "http://www.w3.org/2001/XMLSchema#"},
+                  "@id"            "gist:CoherentUnit",
+                  "skos:scopeNote" [{"@type" "xsd:string", "@value" "Coherent unit is the physics term for this, informally you might think of it as the standard unit for a given dimension."}
+                                    {"@type" "xsd:string", "@value" "In principle, the CoherentUnit for a ProductUnit or RatioUnit can be inferred by recursively decomposing the products and ratios into their respective CoherentUnits, bottoming out in SimpleUnits"}],
+                  "@type"          "owl:Class"})
+           {:idx                                            [],
+            :type                                           ["http://www.w3.org/2002/07/owl#Class"],
+            :id                                             "https://ontologies.semanticarts.com/gist/CoherentUnit",
+            "http://www.w3.org/2004/02/skos/core#scopeNote" [{:value "Coherent unit is the physics term for this, informally you might think of it as the standard unit for a given dimension.",
+                                                              :type  "http://www.w3.org/2001/XMLSchema#string",
+                                                              :idx   ["skos:scopeNote" 0]}
+                                                             {:value "In principle, the CoherentUnit for a ProductUnit or RatioUnit can be inferred by recursively decomposing the products and ratios into their respective CoherentUnits, bottoming out in SimpleUnits",
+                                                              :type  "http://www.w3.org/2001/XMLSchema#string",
+                                                              :idx   ["skos:scopeNote" 1]}]})))
+
   (testing "Nested child with no @id but datatypes"
     (is (= (node {"@context"    {"name"        "http://schema.org/name",
                                  "description" "http://schema.org/description",

@@ -151,7 +151,10 @@
   [v v-info context externals idx]
   (let [v* (->> v
                 (map-indexed #(cond
-                                (map? %2) (node %2 context externals (conj idx %1))
+                                (map? %2) (if (contains? %2 "@value")
+                                            (parse-node-val %2 v-info context externals (conj idx %1))
+                                            (node %2 context externals (conj idx %1)))
+
                                 (sequential? %2) (throw (ex-info (str "Json-ld sequential values within sequential"
                                                                       "values is not allowed. Provided value: " v
                                                                       " at index: " (conj idx %1) ".")
