@@ -62,8 +62,12 @@
   (or (match-exact compact-iri context)
       (match-prefix compact-iri context)
       (match-default compact-iri context vocab?)
-      [compact-iri (when (= \@ (first compact-iri))
-                     {:id compact-iri})]))
+      [compact-iri (if (string? compact-iri)
+                     (if (= \@ (first compact-iri))
+                       {:id compact-iri}
+                       nil)                                 ;; nil means no match
+                     (throw (ex-info (str "Invalid compact-iri: " compact-iri)
+                                     {:status 400 :error :json-ld/invalid-iri})))]))
 
 
 (defn iri
@@ -158,7 +162,9 @@
                                 (sequential? %2) (throw (ex-info (str "Json-ld sequential values within sequential"
                                                                       "values is not allowed. Provided value: " v
                                                                       " at index: " (conj idx %1) ".")
-                                                                 {:status 400 :error :json-ld/invalid-context}))
+                                                                 {:status 400
+                                                                  :error  :json-ld/invalid-context
+                                                                  :idx    (conj idx %1)}))
                                 :else
                                 (let [type (:type v-info)]
                                   (cond
@@ -201,14 +207,31 @@
       (let [type-val*     (sequential type-val)
             ;; context may have type-dependent sub-context, update context if so
             context+types (type-sub-context context type-val*)
-            expanded      (mapv #(if (string? %)
+            expanded      (mapv #(try-catchall
                                    (iri % context true)
-                                   (throw (ex-info (str "@type values must be strings or vectors of strings, provided: "
-                                                        type-val " at index: " (conj (:idx base) (:type-key context)) ".")
-                                                   {:status 400 :error :json-ld/invalid-context})))
+                                   (catch e
+                                          (throw (ex-info (str "Error parsing @type value, provided: "
+                                                               type-val " at index: " (conj (:idx base) (:type-key context)) ".")
+                                                          {:status 400
+                                                           :error  :json-ld/invalid-context
+                                                           :idx    (conj (:idx base) (:type-key context))}))))
                                 type-val*)]
         [(assoc base :type expanded) context+types])
       [base context])))
+
+(defn wrap-error
+  "Wraps an error happening upstream with :idx value if not present.
+  Must be an ex-info formatted error."
+  [error idx]
+  (if-let [ex-data (ex-data error)]
+    (if (:idx ex-data)
+      (throw error)
+      (throw (ex-info (str (ex-message error) " Error at idx: " idx)
+                      (assoc ex-data :idx idx)
+                      error)))
+    (throw (ex-info (str "Unexpected error: " (ex-message error) " at idx: " idx ".")
+                    {:status 500 :error :json-ld/unexpected-error :idx idx}
+                    error))))
 
 
 (defn- node*
@@ -221,11 +244,15 @@
          acc     (transient base-result)]
     (if k
       (let [idx* (conj (:idx base-result) k)
-            [k* v-info] (details k context true)
+            [k* v-info] (try-catchall
+                          (details k context true)
+                          (catch e (wrap-error e idx*)))
             k**  (if (= \@ (first k*))
                    (keyword (subs k* 1))
                    k*)
-            v*   (parse-node-val v v-info context externals idx*)]
+            v*   (try-catchall
+                   (parse-node-val v v-info context externals idx*)
+                   (catch e (wrap-error e idx*)))]
         (recur r
                (if (= :type k**)
                  (type-sub-context context v)
@@ -245,11 +272,15 @@
    (try-catchall
      (if (sequential? node-map)
        (map-indexed #(node %2 parsed-context externals (conj idx %1)) node-map)
-       (let [context (context/parse parsed-context (get node-map "@context"))]
-         (if-let [graph (get node-map "@graph")]
-           (map-indexed #(node %2 context externals ["@graph" %1]) graph)
+       (let [context   (context/parse parsed-context (or (get node-map "@context")
+                                                         (:context node-map)))
+             graph-key (cond
+                         (contains? node-map "@graph") "@graph"
+                         (contains? node-map :graph) :graph)]
+         (if-let [graph (get node-map graph-key)]
+           (map-indexed #(node %2 context externals [graph-key %1]) graph)
            (let [[base-result context*] (parse-type node-map context idx)
-                 node-map* (dissoc node-map "@context" (:type-key context))]
+                 node-map* (dissoc node-map "@context" :context (:type-key context))]
              (node* node-map* base-result externals context*)))))
      (catch e
             (if (ex-data e)

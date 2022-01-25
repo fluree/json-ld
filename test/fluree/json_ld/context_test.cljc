@@ -181,3 +181,21 @@
             "schema"  {:id "http://schema.org/"}
             "post"    {:id        "http://schema.org/blogPost"
                        :container [:index :set]}}))))
+
+(deftest keyword-context
+  (testing "Using Clojure keywords in contexts"
+    (is (= (parse {:schema "http://schema.org/"})
+           {:type-key "@type"
+            :schema   {:id "http://schema.org/"}}))
+
+    (is (= (parse {:vocab "http://schema.org/"})
+           {:type-key "@type"
+            :vocab    {:id "http://schema.org/"}}))
+
+    (is (= (parse {:id     "@id"
+                   :type   "@type"
+                   :schema "http://schema.org/"})
+           {:type-key :type
+            :id       {:id "@id"}
+            :type     {:id "@type", :type? true}
+            :schema   {:id "http://schema.org/"}}))))

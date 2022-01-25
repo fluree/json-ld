@@ -57,3 +57,13 @@
       (is (= "schema:name" (compact "https://schema.org/name" compact-fn)))
       (is (= "REPLACE" (compact "https://schema.org/Person" compact-fn)))
       (is (= "http://example.org/ns#blah" (compact "http://example.org/ns#blah" compact-fn))))))
+
+
+(deftest compact-keyword-context
+  (testing "When Clojure keywords used in context, properly compact."
+    (let [map-ctx    (jsonld/parse-context {:schema  "https://schema.org/"
+                                            :replace "https://schema.org/Person"})
+          compact-fn (compact-fn map-ctx)]
+      (is (= :schema/name (compact "https://schema.org/name" compact-fn)))
+      (is (= :replace (compact "https://schema.org/Person" compact-fn)))
+      (is (= "http://example.org/ns#blah" (compact "http://example.org/ns#blah" compact-fn))))))

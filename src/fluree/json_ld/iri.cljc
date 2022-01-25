@@ -11,7 +11,9 @@
   Compact IRI must have only one colon (:) and no have a slash before
   or immediately after the colon which ensures it isn't a URL (i.e. https://schema.org)."
   [x]
-  (re-matches #"([^:/]+):([^/:][^:]*)" x))
+  (if (keyword? x)
+    [x (keyword (namespace x)) (name x)]
+    (re-matches #"([^:/]+):([^/:][^:]*)" x)))
 
 
 (defn any-iri?

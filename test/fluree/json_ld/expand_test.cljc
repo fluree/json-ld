@@ -3,7 +3,6 @@
             [fluree.json-ld.expand :refer :all]
             [fluree.json-ld :as json-ld]))
 
-
 (deftest expanding-iri
   (testing "Expanding a compacted IRI with context in various forms")
   (let [map-ctx (json-ld/parse-context {"schema"  "http://schema.org/"
@@ -405,3 +404,16 @@
                    "https://www.w3.org/2018/credentials#" {:value "Some Cred!"
                                                            :type  nil
                                                            :idx   ["credentialSchema" "cred"]}}}))))
+
+(deftest keyword-contexts
+  (testing "Clojure keyword contexts"
+    (is (= (node {:context {:id     "@id"
+                            :type   "@type"
+                            :schema "http://schema.org/"}
+                  :id "http://example.com/ns#item123"
+                  :type :schema/Movie
+                  :schema/name "My Movie"})
+           {:idx [],
+            :type ["http://schema.org/Movie"],
+            :id "http://example.com/ns#item123",
+            "http://schema.org/name" {:value "My Movie", :type nil, :idx [:schema/name]}}))))

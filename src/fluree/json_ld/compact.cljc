@@ -30,10 +30,12 @@
   as opposed to, e.g. the entire schema.org context containing thousands of items
   when only one might have been actually used."
   [prefix-matched iri used-atom]
-  (let [key (case prefix-matched
-              :vocab "@vocab"
-              :base "@base"
-              ;;else
+  (let [key (if (keyword? prefix-matched)
+              (case prefix-matched
+                :vocab "@vocab"
+                :base "@base"
+                ;;else
+                (name prefix-matched))
               prefix-matched)]
     (swap! used-atom assoc key iri)))
 
@@ -53,8 +55,10 @@
               suffix (subs iri (count iri-substr))]
           (when used-atom
             (add-match-to-used-atom prefix iri-substr used-atom))
-          (case prefix
-            (:vocab :base) (subs iri (count iri-substr))
+          (if (keyword? prefix)
+            (if (#{:vocab :base} prefix)
+              (subs iri (count iri-substr))
+              (keyword (name prefix) suffix))
             (str prefix ":" suffix)))))
     match-iris))
 
