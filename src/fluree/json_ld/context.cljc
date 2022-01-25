@@ -12,7 +12,7 @@
   "If a context key value starts with '@' (i.e. @type, @id), returns
   keywordized version of those keys (i.e. :type, :id)."
   [at-value]
-  (if (= \@ (first at-value))
+  (if (and (string? at-value) (= \@ (first at-value)))
     (keyword (subs at-value 1))
     at-value))
 
