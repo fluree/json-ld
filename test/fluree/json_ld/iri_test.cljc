@@ -1,5 +1,6 @@
 (ns fluree.json-ld.iri-test
-  (:require [clojure.test :refer :all]
+  (:require #?(:clj [clojure.test :as t :refer [deftest testing is]]
+               :cljs [cljs.test :as t :refer [deftest testing is] :include-macros true])
             [fluree.json-ld.iri :as iri]))
 
 (deftest prefix-parsing
