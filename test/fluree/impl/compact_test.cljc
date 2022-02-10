@@ -1,7 +1,7 @@
-(ns fluree.json-ld.compact-test
+(ns fluree.json-ld.impl.compact-test
   (:require #?(:clj [clojure.test :as t :refer [deftest testing is]]
                :cljs [cljs.test :as t :refer [deftest testing is] :include-macros true])
-            [fluree.json-ld.compact :as compact]
+            [fluree.json-ld.impl.compact :as compact]
             [fluree.json-ld :as jsonld]))
 
 (deftest compacting-iri

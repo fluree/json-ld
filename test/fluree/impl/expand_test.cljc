@@ -1,8 +1,8 @@
-(ns fluree.json-ld.expand-test
+(ns fluree.json-ld.impl.expand-test
   (:require #?(:clj [clojure.test :as t :refer [deftest testing is]]
                :cljs [cljs.test :as t :refer [deftest testing is] :include-macros true])
             [fluree.json-ld :as json-ld]
-            [fluree.json-ld.expand :as expand]))
+            [fluree.json-ld.impl.expand :as expand]))
 
 (deftest expanding-iri
   (testing "Expanding a compacted IRI with context in various forms")

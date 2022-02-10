@@ -1,7 +1,7 @@
-(ns fluree.json-ld.context-test
+(ns fluree.json-ld.impl.context-test
   (:require #?(:clj [clojure.test :as t :refer [deftest testing is]]
                :cljs [cljs.test :as t :refer [deftest testing is] :include-macros true])
-            [fluree.json-ld.context :as context]))
+            [fluree.json-ld.impl.context :as context]))
 
 
 (deftest default-vocabularies

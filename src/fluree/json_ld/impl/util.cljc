@@ -1,4 +1,4 @@
-(ns fluree.json-ld.util
+(ns fluree.json-ld.impl.util
   (:require #?(:clj [clojure.java.io :as io])
             #?(:clj [clojure.edn :as edn])))
 

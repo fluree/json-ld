@@ -1,6 +1,6 @@
-(ns fluree.json-ld.normalize-test
+(ns fluree.json-ld.impl.normalize-test
   (:require [clojure.test :refer [deftest is testing]]
-            [fluree.json-ld.normalize :as normalize]
+            [fluree.json-ld.impl.normalize :as normalize]
             [clojure.string :as str]))
 
 ;; basic normalization per JSON Canonicalization Scheme https://datatracker.ietf.org/doc/html/rfc8785

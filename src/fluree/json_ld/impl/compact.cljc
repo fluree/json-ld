@@ -1,4 +1,4 @@
-(ns fluree.json-ld.compact
+(ns fluree.json-ld.impl.compact
   (:require [clojure.string :as str]))
 
 #?(:clj (set! *warn-on-reflection* true))

@@ -1,9 +1,9 @@
 (ns fluree.json-ld
-  (:require [fluree.json-ld.context :as context]
-            [fluree.json-ld.compact :as compact]
-            [fluree.json-ld.expand :as expand]
-            [fluree.json-ld.normalize :as normalize]
-            #?(:clj [fluree.json-ld.external :as external])))
+  (:require [fluree.json-ld.impl.context :as context]
+            [fluree.json-ld.impl.compact :as compact]
+            [fluree.json-ld.impl.expand :as expand]
+            [fluree.json-ld.impl.normalize :as normalize]
+            [fluree.json-ld.impl.external :as external]))
 
 #?(:clj (set! *warn-on-reflection* true))
 
@@ -15,7 +15,7 @@
 
   externals, if provided, is a set of external context URLs that are safe to load. Currently
   will only load external contexts that are pre-parsed and saved locally with this library,
-  the default list of which is at fluree.json-ld.external/external-contexts"
+  the default list of which is at fluree.json-ld.impl.external/external-contexts"
   ([context] (context/parse {} external/external-contexts context))
   ([base-context context]
    (context/parse base-context external/external-contexts context))
