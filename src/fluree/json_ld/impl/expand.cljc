@@ -1,8 +1,8 @@
-(ns fluree.json-ld.expand
-  (:require [fluree.json-ld.iri :as iri]
-            [fluree.json-ld.context :as context]
-            [fluree.json-ld.external :as external]
-            [fluree.json-ld.util :refer [try-catchall sequential]]))
+(ns fluree.json-ld.impl.expand
+  (:require [fluree.json-ld.impl.iri :as iri]
+            [fluree.json-ld.impl.context :as context]
+            [fluree.json-ld.impl.external :as external]
+            [fluree.json-ld.impl.util :refer [try-catchall sequential]]))
 
 ;; TODO - differentiate resolution between @type: @id vs @type: @vocab
 ;; TODO - support @container: @language indexed value

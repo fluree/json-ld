@@ -1,4 +1,4 @@
-(ns fluree.json-ld.normalize
+(ns fluree.json-ld.impl.normalize
   (:require [clojure.string :as str]))
 
 ;; normalizing json-ld for hashing, cryptographic signatures, etc.

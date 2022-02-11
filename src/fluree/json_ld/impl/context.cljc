@@ -1,7 +1,7 @@
-(ns fluree.json-ld.context
-  (:require [fluree.json-ld.iri :as iri]
-            [fluree.json-ld.util :refer [try-catchall]]
-            [fluree.json-ld.external :as external]
+(ns fluree.json-ld.impl.context
+  (:require [fluree.json-ld.impl.iri :as iri]
+            [fluree.json-ld.impl.util :refer [try-catchall]]
+            [fluree.json-ld.impl.external :as external]
             [clojure.string :as str]))
 
 #?(:clj (set! *warn-on-reflection* true))

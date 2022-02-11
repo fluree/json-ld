@@ -1,6 +1,6 @@
-(ns fluree.json-ld.external
-  (:require [fluree.json-ld.iri :as iri]
-            [fluree.json-ld.util :as util]
+(ns fluree.json-ld.impl.external
+  (:require [fluree.json-ld.impl.iri :as iri]
+            [fluree.json-ld.impl.util :as util]
             [clojure.string :as str])
   (:refer-clojure :exclude [read]))
 
@@ -67,10 +67,10 @@
 
 (defn iri
   "Loads a supported external context and returns parsed (edn) format.
-  
+
   Currently will not execute an http request to load, only pre-parsed vocabularies
   that exist in the resources folder work.
-  
+
   Only supported on CLJ"
   [iri]
   #?(:cljs (throw (ex-info (str "Loading external vocabularies is not yet supported in Javascript.")

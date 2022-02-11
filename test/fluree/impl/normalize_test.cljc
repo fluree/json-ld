@@ -1,6 +1,6 @@
-(ns fluree.json-ld.normalize-test
+(ns fluree.json-ld.impl.normalize-test
   (:require [clojure.test :refer [deftest is testing]]
-            [fluree.json-ld.normalize :refer :all]
+            [fluree.json-ld.impl.normalize :as normalize]
             [clojure.string :as str]))
 
 ;; basic normalization per JSON Canonicalization Scheme https://datatracker.ietf.org/doc/html/rfc8785
@@ -13,7 +13,7 @@
                 "pêche" "but canonicalization MUST",
                 "sin"   "ignore locale"}]
       (is (= "{\"peach\":\"This sorting order\",\"péché\":\"is wrong according to French\",\"pêche\":\"but canonicalization MUST\",\"sin\":\"ignore locale\"}"
-             (normalize data {:algorithm :basic
+             (normalize/normalize data {:algorithm :basic
                               :format    :application/json})))))
 
   (testing "Map with line break as string and decimal to integer"
@@ -24,20 +24,20 @@
                 "111" [{"e" "yes", "E" "no"}],
                 "A"   {}}]
       (is (= "{\"\":\"empty\",\"1\":{\"\n\":56,\"f\":{\"F\":5,\"f\":\"hi\"}},\"10\":{},\"111\":[{\"E\":\"no\",\"e\":\"yes\"}],\"A\":{},\"a\":{}}"
-             (normalize data {:algorithm :basic
+             (normalize/normalize data {:algorithm :basic
                               :format    :application/json})))))
 
   (testing "Unicode in string"
     (let [data {"Unnormalized Unicode" "A\u030a"}]
       (is (= "{\"Unnormalized Unicode\":\"Å\"}"
-             (normalize data {:algorithm :basic
+             (normalize/normalize data {:algorithm :basic
                               :format    :application/json})))))
 
   (testing "Numbers in different formats and literals"
     (let [data {"numbers"  [333333333.33333329, 1E30, 4.50, 2e-3, 0.000000000000000000000000001],
                 "literals" [nil, true, false]}]
       (is (= "{\"literals\":[null,true,false],\"numbers\":[333333333.3333333,1e+30,4.5,0.002,1e-27]}"
-             (normalize data {:algorithm :basic
+             (normalize/normalize data {:algorithm :basic
                               :format    :application/json})))))
 
   ;; Note below fails but should not. Most unicode control set characters (< \u000f) should remain as is
@@ -58,38 +58,44 @@
                     "10" nil
                     "1"  []}]]
       (is (= "[56,{\"1\":[],\"10\":null,\"d\":true}]"
-             (normalize data {:algorithm :basic
+             (normalize/normalize data {:algorithm :basic
                               :format    :application/json}))))))
+
+(def utf8-bytes [0x7b 0x22 0x70 0x65 0x61 0x63 0x68 0x22 0x3a
+                 0x22 0x54 0x68 0x69 0x73 0x20 0x73 0x6f 0x72
+                 0x74 0x69 0x6e 0x67 0x20 0x6f 0x72 0x64 0x65
+                 0x72 0x22 0x2c 0x22 0x70 0xc3 0xa9 0x63 0x68
+                 0xc3 0xa9 0x22 0x3a 0x22 0x69 0x73 0x20 0x77
+                 0x72 0x6f 0x6e 0x67 0x20 0x61 0x63 0x63 0x6f
+                 0x72 0x64 0x69 0x6e 0x67 0x20 0x74 0x6f 0x20
+                 0x46 0x72 0x65 0x6e 0x63 0x68 0x22 0x2c 0x22
+                 0x70 0xc3 0xaa 0x63 0x68 0x65 0x22 0x3a 0x22
+                 0x62 0x75 0x74 0x20 0x63 0x61 0x6e 0x6f 0x6e
+                 0x69 0x63 0x61 0x6c 0x69 0x7a 0x61 0x74 0x69
+                 0x6f 0x6e 0x20 0x4d 0x55 0x53 0x54 0x22 0x2c
+                 0x22 0x73 0x69 0x6e 0x22 0x3a 0x22 0x69 0x67
+                 0x6e 0x6f 0x72 0x65 0x20 0x6c 0x6f 0x63 0x61
+                 0x6c 0x65 0x22 0x7d])
 
 (deftest roundtrip
   (testing "Using original UTF-8 bytes to construct json, parse, normalize, back to UTF-8"
     ;; {"peach":"This sorting order","péché":"is wrong according to French","pêche":"but canonicalization MUST","sin":"ignore locale"}
-    (let [utf-8      (byte-array [0x7b 0x22 0x70 0x65 0x61 0x63 0x68 0x22 0x3a
-                                  0x22 0x54 0x68 0x69 0x73 0x20 0x73 0x6f 0x72
-                                  0x74 0x69 0x6e 0x67 0x20 0x6f 0x72 0x64 0x65
-                                  0x72 0x22 0x2c 0x22 0x70 0xc3 0xa9 0x63 0x68
-                                  0xc3 0xa9 0x22 0x3a 0x22 0x69 0x73 0x20 0x77
-                                  0x72 0x6f 0x6e 0x67 0x20 0x61 0x63 0x63 0x6f
-                                  0x72 0x64 0x69 0x6e 0x67 0x20 0x74 0x6f 0x20
-                                  0x46 0x72 0x65 0x6e 0x63 0x68 0x22 0x2c 0x22
-                                  0x70 0xc3 0xaa 0x63 0x68 0x65 0x22 0x3a 0x22
-                                  0x62 0x75 0x74 0x20 0x63 0x61 0x6e 0x6f 0x6e
-                                  0x69 0x63 0x61 0x6c 0x69 0x7a 0x61 0x74 0x69
-                                  0x6f 0x6e 0x20 0x4d 0x55 0x53 0x54 0x22 0x2c
-                                  0x22 0x73 0x69 0x6e 0x22 0x3a 0x22 0x69 0x67
-                                  0x6e 0x6f 0x72 0x65 0x20 0x6c 0x6f 0x63 0x61
-                                  0x6c 0x65 0x22 0x7d])
-          to-str     (String. utf-8 "UTF-8")
+    (let [utf-8      #?(:clj (byte-array utf8-bytes)
+                        :cljs (js/Uint8Array. utf8-bytes))
+          to-str     #?(:clj (String. utf-8 "UTF-8")
+                        :cljs (reduce str (map js/String.fromCharCode utf-8)))
           ;; poor man's json parser - avoiding extra dependency, only works for simple map
           parsed     (-> to-str
-                         (subs 1 (dec (count to-str)))      ;; remove leading/ending '{}'
+                         (subs 1 (dec (count to-str))) ;; remove leading/ending '{}'
                          (str/replace #"\"" "")
                          (str/split #",")
                          (->> (mapv #(str/split % #":"))
                               (into {})))
-          normalized (normalize parsed {:algorithm :basic
-                                        :format    :application/json})
-          utf-8*     (.getBytes ^String normalized "UTF-8")]
+          normalized (normalize/normalize parsed {:algorithm :basic
+                                                  :format    :application/json})
+          ;; TODO: do this in cljs
+          utf-8*     #?(:clj (.getBytes ^String normalized "UTF-8")
+                        :cljs (map #(.getCharCodeAt %) normalized))]
       (is (= (vec utf-8)
              (vec utf-8*))))))
 

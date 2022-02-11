@@ -1,5 +1,5 @@
-(ns fluree.json-ld.iri
-  (:require [fluree.json-ld.util :refer [try-catchall]]
+(ns fluree.json-ld.impl.iri
+  (:require [fluree.json-ld.impl.util :refer [try-catchall]]
             [clojure.string :as str]))
 
 #?(:clj (set! *warn-on-reflection* true))

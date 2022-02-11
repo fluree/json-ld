@@ -9,3 +9,5 @@
 /.nrepl-port
 .hgignore
 .hg/
+.cljs_node_repl/
+.dir-locals.el
