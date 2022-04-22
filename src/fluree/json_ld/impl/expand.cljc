@@ -261,6 +261,20 @@
       (persistent! acc))))
 
 
+(defn- expand-nodes
+  "Expands a sequence of graph nodes (json objects), ensures any nil nodes removed."
+  [context externals idx nodes]
+  (loop [[json-node & r] nodes
+         i   0
+         acc []]
+    (if json-node
+      (recur r (inc i)
+             (conj acc (node json-node context externals (conj idx i))))
+      (if (empty? r)
+        acc
+        (recur r (inc i) acc)))))
+
+
 (defn node
   "Expands an entire JSON-LD node (JSON object), with optional parsed context
   provided. If node has a local context, will merge with provided parse-context.
@@ -271,14 +285,14 @@
   ([node-map parsed-context externals idx]
    (try-catchall
      (if (sequential? node-map)
-       (map-indexed #(node %2 parsed-context externals (conj idx %1)) node-map)
+       (expand-nodes parsed-context externals idx node-map)
        (let [context   (context/parse parsed-context (or (get node-map "@context")
                                                          (:context node-map)))
              graph-key (cond
                          (contains? node-map "@graph") "@graph"
                          (contains? node-map :graph) :graph)]
          (if-let [graph (get node-map graph-key)]
-           (map-indexed #(node %2 context externals [graph-key %1]) graph)
+           (expand-nodes parsed-context externals idx graph)
            (let [[base-result context*] (parse-type node-map context idx)
                  node-map* (dissoc node-map "@context" :context (:type-key context))]
              (node* node-map* base-result externals context*)))))
@@ -290,3 +304,22 @@
                               {:status 400
                                :error  :json-ld/invalid}
                               e)))))))
+
+
+(comment
+
+  (node {"@context"                  "https://schema.org",
+         "@id"                       "https://www.wikidata.org/wiki/Q836821",
+         "@type"                     "Movie",
+         "name"                      "HELLO The Hitchhiker's Guide to the Galaxy",
+         "disambiguatingDescription" "2005 British-American comic science fiction film directed by Garth Jennings",
+         "titleEIDR"                 "10.5240/B752-5B47-DBBE-E5D4-5A3F-N",
+         "isBasedOn"                 {"@id"    "https://www.wikidata.org/wiki/Q3107329",
+                                      "@type"  "Book",
+                                      "name"   "The Hitchhiker's Guide to the Galaxy",
+                                      "isbn"   "0-330-25864-8",
+                                      "author" {"@id"   "https://www.wikidata.org/wiki/Q42"
+                                                "@type" "Person"
+                                                "name"  "Douglas Adams"}}})
+
+  )
