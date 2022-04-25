@@ -292,7 +292,7 @@
                          (contains? node-map "@graph") "@graph"
                          (contains? node-map :graph) :graph)]
          (if-let [graph (get node-map graph-key)]
-           (expand-nodes parsed-context externals idx graph)
+           (expand-nodes context externals (conj idx "@graph") graph)
            (let [[base-result context*] (parse-type node-map context idx)
                  node-map* (dissoc node-map "@context" :context (:type-key context))]
              (node* node-map* base-result externals context*)))))
