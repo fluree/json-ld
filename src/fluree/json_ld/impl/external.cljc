@@ -15,9 +15,9 @@
                   "https://w3id.org/openbadges#"               "org.w3id.openbadges.edn"
                   "https://purl.imsglobal.org/spec/clr/vocab#" "org.imsglobal.spec.clr.vocab.edn"})
 
-(def context->file {"https://flur.ee/ns/block"
-                    {:source "contexts/fluree/block/v1.jsonld"
-                     :parsed "contexts/fluree/block/v1.edn"}
+(def context->file {"https://ns.flur.ee/ledger/v1"
+                    {:source "contexts/fluree/ledger/v1.jsonld"
+                     :parsed "contexts/fluree/ledger/v1.edn"}
 
                     "https://purl.imsglobal.org/spec/clr/v1p0/context/clr_v1p0.jsonld"
                     {:source "contexts/org/imsglobal/purl/spec/clr/v1p0/context/clr_v1p0.jsonld"

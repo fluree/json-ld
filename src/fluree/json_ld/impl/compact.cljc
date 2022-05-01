@@ -105,3 +105,17 @@
                    parsed-context-or-fn
                    (compact-fn parsed-context-or-fn))]
     (match-fn iri)))
+
+
+(comment
+  (fluree.json-ld.context/parse ["https://flur.ee/ns/block"
+                                 {:type-key "@type",
+                                  "schema" {:id "http://schema.org/"},
+                                  "wiki" {:id "https://www.wikidata.org/wiki/"}}])
+
+  (compact "http://schema.org/name" (fluree.json-ld.context/parse ["https://flur.ee/ns/block"
+                                                                   {:type-key "@type",
+                                                                    "schema" {:id "http://schema.org/"},
+                                                                    "wiki" {:id "https://www.wikidata.org/wiki/"}}]))
+
+  )
