@@ -7,24 +7,37 @@
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "skos": "http://www.w3.org/2008/05/skos#",
-    "Block": "fluree:Block",
+    "CommitProof": "fluree:CommitProof",
     "Commit": "fluree:Commit",
+    "DB": "fluree:DB",
     "time": "fluree:time",
     "updates": "fluree:updates",
-    "hash": "fluree:hash",
     "tag": "fluree:tag",
     "ledger": "fluree:ledger",
+    "alias": "fluree:alias",
     "tx": {
       "@id": "fluree:tx",
       "@type": "@id"
     },
-    "prev": {
-      "@id": "fluree:prev",
+    "prevDB": {
+      "@id": "fluree:prevDB",
+      "@type": "@id"
+    },
+    "prevCommit": {
+      "@id": "fluree:prevCommit",
       "@type": "@id"
     },
     "t": {
       "@id": "fluree:t",
       "@type": "xsd:long"
+    },
+    "v": {
+      "@id": "fluree:v",
+      "@type": "xsd:decimal"
+    },
+    "db": {
+      "@id": "fluree:db",
+      "@container": "@graph"
     },
     "assert": {
       "@id": "fluree:assert",
