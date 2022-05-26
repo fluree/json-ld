@@ -1,6 +1,8 @@
 (ns fluree.json-ld.impl.canonicalize-test
   (:require  [clojure.test :as t]
              [cheshire.core :as json]
+             [fluree.json-ld.impl.nquads :as nquads]
+             [fluree.json-ld.impl.canonicalize :as canon]
              [clojure.java.io :as io]
              [clojure.string :as str]))
 
@@ -33,7 +35,7 @@
       (t/testing (str "\"" id "\"")
         (println "Testing" test-name id (pr-str input))
         (t/is (= expect
-                 :TODO))))))
+                 (canon/canonicalize (nquads/parse input))))))))
 
 (t/deftest rdf-canonicalization-test
   (doseq [test-id (:test-ids tests)]
