@@ -35,7 +35,7 @@
       (t/testing (str "\"" id "\"")
         (println "Testing" test-name id (pr-str input))
         (t/is (= expect
-                 (canon/canonicalize (nquads/parse input))))))))
+                 (canon/canonicalize input)))))))
 
 (t/deftest rdf-canonicalization-test
   (doseq [test-id (:test-ids tests)]

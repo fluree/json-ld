@@ -74,33 +74,35 @@
    :datatype :lang-tag :graph-iri :graph-bnode])
 
 (defn ->quad
-  [match]
-  (let [{:keys [statement subject-iri subject-bnode predicate-iri
+  "Takes an N-Quad string and turns it into an RDF quad."
+  [statement]
+  (let [match (re-matches (reg/regex quad) statement)
+        {:keys [statement subject-iri subject-bnode predicate-iri
                 object-iri object-bnode object-literal datatype lang-tag
                 graph-iri graph-bnode]}
         (->> match
              (map (partial vector) capture-groups)
              (into {}))]
     {:statement statement
-     :subject   (cond subject-iri   {:type :named :value subject-iri}
-                      subject-bnode {:type :blank :value subject-bnode})
-     :predicate {:type :named :value predicate-iri}
+     :subject   (cond subject-iri   {:type :named :value subject-iri :term :subject}
+                      subject-bnode {:type :blank :value subject-bnode :term :subject})
+     :predicate {:type :named :value predicate-iri :term :predicate}
      :object    (cond object-iri
-                      {:type :named :value object-iri
+                      {:type :named :value object-iri :term :object
                        :datatype
                        (cond datatype {:type :named :value datatype}
                              lang-tag {:type :named :value RDF_LANGSTRING :language lang-tag}
                              :else    {:type :named :value XSD_STRING})}
 
                       object-bnode
-                      {:type :blank :value object-bnode
+                      {:type :blank :value object-bnode :term :object
                        :datatype
                        (cond datatype {:type :named :value datatype}
                              lang-tag {:type :named :value RDF_LANGSTRING :language lang-tag}
                              :else    {:type :named :value XSD_STRING})}
 
                       object-literal
-                      {:type :literal :value object-literal
+                      {:type :literal :term :object :value object-literal ;TODO: unescape?
                        :datatype
                        (cond datatype {:type :named :value datatype}
                              lang-tag {:type :named :value RDF_LANGSTRING :language lang-tag}
@@ -108,9 +110,34 @@
      :graph {:type  (cond graph-iri   :named
                           graph-bnode :blank
                           :else       :default)
+             :term :graph
              :value (or graph-iri graph-bnode "")}}))
 
+(defn ->statement
+  "Takes an RDF quad and turns it into an N-Quad string."
+  [{:keys [subject predicate object graph]}]
+  (let [s (condp = (:type subject)
+            :named (str "<" (:value subject) ">")
+            :blank (:value subject))
+        p (str "<" (:value predicate) ">")
+        o (condp = (:type object)
+            :named   (str "<" (:value object) ">")
+            :blank   (:value object)
+            :literal (str "\"" (:value object) "\""
+                          (condp = (:value (:datatype object))
+                            RDF_LANGSTRING (str "@" (:language (:datatype object)))
+                            XSD_STRING     ""
+                            ;; not xsd-string nor langstring
+                            (str "^^" (:value (:datatype object))))))
+        g (condp = (:type graph)
+            :named   (str "<" (:value graph) ">")
+            :blank   (:value graph)
+            :default nil)]
+
+    (str s " " p " " o " " g (when g " ") ".")))
+
 (defn parse
+  "Turn an n-quads document into quads."
   [doc]
   (loop [[line & lines] (str/split doc (reg/regex eol))
          dataset #{}]
@@ -121,8 +148,13 @@
           (recur lines dataset)
 
           (re-matches (reg/regex quad) line)
-          (let [quad (->quad (re-matches (reg/regex quad) line))]
+          (let [quad (->quad line)]
             (recur lines (conj dataset quad))))))
+
+(defn serialize
+  "Turn a sorted set of quads into an n-quads string."
+  [dataset]
+  (str/join "\n" (map ->statement dataset)))
 
 (comment
   #_(def parse-nquads (grammar/parser g1))
@@ -130,40 +162,67 @@
   (re-find (reg/regex string-literal-quote) "\"1\"")
 
 
-  (def in0 "<http://example.com> <http://example.com/label> \"test\"^^<http://example.com/t1> .")
-  (def in1 "<http://example.com> <http://example.com/label> \"test\"@en .")
-  (def in2 "<http://example.com> <http://example.com/count> \"1\" <http://example.com/graphname>.")
-  (def in3 "_:b0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/vocab#Foo> .")
-  (def in "<http://example.com> <http://example.com/label> \"test\"^^<http://example.com/t1> .
-<http://example.com> <http://example.com/label> \"test\"@en .
-<http://example.com> <http://example.com/count> \"1\" <http://example.com/graphname>.
-_:b0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/vocab#Foo> .")
+  (def in0 "<http://example.com/1> <http://example.com/label> \"test\"^^<http://example.com/t1> .")
+  (def in1 "<http://example.com/1> <http://example.com/label> \"test\"@en .")
+  (def in2 "<http://example.com/1> <http://example.com/friend> _:b1 .")
+  (def in3 "<http://example.com/2> <http://example.com/friend> <http://example.com/1> .")
+  (def in4 "_:b1 <http://example.com/friend> _:b0 _:b3 .")
+  (def in5"<http://example.com/2> <http://example.com/count> \"1\" <http://example.com/graphname> .")
+  (def in6 "_:b0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/vocab#Foo> .")
+  (def in (str/join "\n" [in0 in1 in2 in3 in4 in5 in6]))
 
-
-  {:subject {:type [:named :blank]
-             :value ""}
-   :predicate {:type :named
-               :value ""}
-   :object {:type [:named :blank :literal]
-            :value ""
-            :datatype {:type [:named "rdf-langstring" "xsd-string"]
-                       :value ""
-                       :language ""}}
-   :graph {:type [:named :blank :default]
-           :value ""}}
 
 
   (re-find (reg/regex [:*? rdf-comment]) "<a.com/foo#thing>  # comment")
+
+
+  (re-matches (reg/regex quad) in4)
+
+  ["<http://example.com/1> <http://example.com/friend> _:b1 ." "http://example.com/1" nil "http://example.com/friend" nil "_:b1" nil nil nil nil nil]
+  ["<http://example.com/1> <http://example.com/friend> _:b1 ." "http://example.com/1" nil "http://example.com/friend" nil "_:b1" nil nil nil nil nil]
+  nil
+  nil
+
+
+
+  (re-matches (reg/regex quad) "<a.com/foo> <a.com/foo> <a.com/foo> <a.com/foo> .")
+  nil
+  nil
+  nil
+  nil
+  nil
+  nil
+  nil
+  nil
+
+  ["_:b1 " nil "_:b1"]
+  ["_:b1 " nil "_:b1" nil nil nil]
+  ["<http://example.com/friend> " "http://example.com/friend"]
+  ["_:b1 " nil "_:b1"]
+
+
+  ["_:b1 " nil "_:b1"]
+  ["_:b1 " nil "_:b1" nil nil nil]
+  ["_:b1 " nil "_:b1"]
+  ["_:b1" "_:b1"]
 
   (->quad (re-matches (reg/regex quad) in0))
   (->quad (re-matches (reg/regex quad) in1))
   (->quad (re-matches (reg/regex quad) in2))
   (->quad (re-matches (reg/regex quad) in3))
 
+
   (re-find (reg/regex string-literal-quote) "\"hey\"")
 
 
   (parse in)
+  (map (partial filter (fn [q] (= :blank (:type (second q))))) (parse in))
+  (() ([:subject {:type :blank, :value "_:b0"}]) () ())
+  ([:subject {:type :blank, :value "_:b0"}])
+  (() ([:subject {:type :blank, :value "_:b0"}]) () ())
+
+
+
   #{{:statement "<http://example.com> <http://example.com/label> \"test\"@en .",
      :subject {:type :named, :value "http://example.com"},
      :predicate {:type :named, :value "http://example.com/label"},
@@ -175,6 +234,7 @@ _:b0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/vocab
        :value "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
        :language "en"}},
      :graph {:type :default, :value ""}}
+
     {:statement
      "_:b0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/vocab#Foo> .",
      :subject {:type :blank, :value "_:b0"},
