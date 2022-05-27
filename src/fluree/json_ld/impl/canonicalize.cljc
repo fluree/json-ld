@@ -25,12 +25,16 @@
       [issuer* id])))
 
 (defn relabel-bnode
+  "A quirk in the canonicalization spec requires renaming blank nodes during the hash-first-degree-quads
+  algorithm, see step 3.1.2."
   [reference-bnode node]
   (if (= reference-bnode (:value node))
     (assoc node :value "_:a")
     (assoc node :value "_:z")))
 
 (defn hash-first-degree-quads
+  "Given a bnode identifer `bnode` and the quads `quads` that reference it, return a
+  sha256 hash of the normalized quads."
   [quads bnode]
   (let [nquads (map (fn [q]
                       (-> q
@@ -43,16 +47,6 @@
          (reduce str)
          (crypto/sha2-256))))
 
-(defn hash-bnode-quads
-  [bnode->quads]
-  (reduce (fn [hash->bnodes bnode]
-            (update hash->bnodes
-                    (hash-first-degree-quads bnode->quads bnode)
-                    (fnil conj #{})
-                    bnode))
-          {}
-          (keys bnode->quads)))
-
 (defn bnode-quad-info
   "Create a map of bnode ids to the quads that contain them."
   [quads]
@@ -64,42 +58,90 @@
           {}
           quads))
 
-(defn aaaa
+(defn initialize-canonicalization-state
+  "Creat the initial canonicalization state:
+
+  bnode->quad-info: a map of each bnode identifier to a map of the `:quads` they appear in, as well
+  as the `:hash` of those quads.
+  ex. {\"_:b0\" {:quads #{...} :hash \"<sha256 of normalized quads>\"}}
+
+  hash->bnodes: a map of each quad hash to the bnodes that reference it.
+  ex. {\"<sha256 of normalized quads>\" #{\"_:b0\" \"_:b3\"}}
+
+  canonical-issuer: an issuer state, for tracking the issuance of canonical ids."
   [quads]
-  (let [bnode->quads (bnode-quad-info quads)
-        bnode->quads (reduce-kv (fn [bnode->quads bnode quads]
-                                  (assoc-in bnode->quads [bnode :hash] (hash-bnode-quads quads)))
+  (let [bnode->quad-info (bnode-quad-info quads)
+        bnode->quad-info* (reduce-kv (fn [bnode->quad-info bnode info]
+                                       (assoc-in bnode->quad-info [bnode :hash]
+                                                 (hash-first-degree-quads (:quads info))))
+                                     bnode->quad-info
+                                     bnode->quad-info)
+        hash->bnodes (reduce-kv (fn [hash->bnodes bnode info]
+                                  (update hash->bnodes
+                                          (:hash info)
+                                          (fnil conj #{})
+                                          bnode))
                                 {}
-                                bnode->quads)]))
+                                bnode->quad-info*)]
+    {:canonical-issuer (create-issuer "_:c14n")
+     :bnode->quad-info bnode->quad-info*
+     :hash->bnodes hash->bnodes}))
 
 (defn hash-related-bnode
-  [{:keys [canonical-issuer bnode->quads]} related-bnode quad issuer position]
+  [{:keys [canonical-issuer bnode->quad-info]} related-bnode quad issuer position]
   (let [id (get (:issued canonical-issuer) related-bnode
                 (get (:issued issuer) related-bnode
-                     (bnode->quads related-bnode)) )]))
+                     (get-in bnode->quad-info [related-bnode :hash])))
+        input (str position
+                   (when-not (= "g" position) "<" (:value (:predicate quad)) ">")
+                   id)]
+    (crypto/sha2-256 input)))
 
 (defn hash-n-degree-quads
-  [issuer bnode->quads bnode]
-  (let [quads (bnode->quads bnode)]
-    (reduce (fn [hash->rel-bnodes quad]
-              )
-            {}
-            quads)))
+  [{:keys [bnode->quad-info] :as canon-state} bnode temp-issuer]
+  (let [quads (:quads (bnode->quad-info bnode))
+        hash->rel-bnodes (reduce (fn [hash->rel-bnodes quad]
+                                   (reduce (fn [hash->rel-bnodes* [term component]]
+                                             (if (and (= :blank (:type component))
+                                                      (not= bnode (:value component)))
+                                               (update hash->rel-bnodes*
+                                                       (hash-related-bnode canon-state
+                                                                           (:value component)
+                                                                           quad
+                                                                           temp-issuer
+                                                                           (case term
+                                                                             :subject "s"
+                                                                             :object "o"
+                                                                             :graph "g"))
+                                                       (fnil conj #{})
+                                                       (:value component)))
+                                             hash->rel-bnodes*)
+                                           hash->rel-bnodes
+                                           quad))
+                                 {}
+                                 quads)
+        data-to-hash (reduce (fn [data-to-hash [rel-hash rel-bnodes]]
+                               (let [chosen-path ""
+                                     chosen-issuer nil]
+                                 (str data-to-hash rel-hash)))
+                             ""
+                             (sort-by first hash->rel-bnodes)
+                             ;; TODO: continue with 5. in hash-n-degree-quads
+                             )]))
 
 (defn assign-canonical-ids
   [{:keys [canonical-issuer hash->bnodes bnode->quads] :as canon-state}]
-  (let [{:keys [non-uniques canonical-issuer]}
+  (let [{:keys [non-uniques canonical-issuer*]}
         (->> (keys hash->bnodes)
              (sort)
-             (reduce (fn [{:keys [non-uniques canonical-issuer] :as state} hash]
-                       (let [bnodes (hash->bnodes hash)]
+             (reduce (fn [{:keys [non-uniques canonical-issuer*] :as state} hash]
+                       (let [bnodes (get hash->bnodes hash)]
                          (if (> (count bnodes) 1)
                            (update state :non-uniques conj bnodes)
-                           (let [[canonical-issuer* id] (issue-id canonical-issuer (first bnodes))]
-                             (assoc state :canonical-issuer canonical-issuer*)))))
-                     {:canonical-issuer canonical-issuer
+                           (let [[canonical-issuer** id] (issue-id canonical-issuer* (first bnodes))]
+                             (assoc state :canonical-issuer* canonical-issuer**)))))
+                     {:canonical-issuer* canonical-issuer
                       :non-uniques #{}}))]
-    (def zzz [non-uniques canonical-issuer])
     (map (fn [bnodes]
            (map (fn [bnode]
                   (let [temp-issuer (create-issuer "_:b")
@@ -121,14 +163,8 @@
 
 (defn canonicalize
   [quads]
-  (let [canonical-issuer (create-issuer "_:c14n")
-        bnode->quads (bnode-quad-info quads)
-        hash->bnodes (hash-bnode-quads bnode->quads)
-        canon-state {:canonical-issuer canonical-issuer
-                     :bnode->quads bnode->quads
-                     :hash->bnodes hash->bnodes}
-
-        canonical-ids (assign-canonical-ids canonical-issuer hash->bnodes bnode->quads)]
+  (let [canon-state (initialize-canonicalization-state quads)
+        canonical-ids (assign-canonical-ids canon-state)]
     canonical-ids))
 
 
