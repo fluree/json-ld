@@ -128,7 +128,7 @@
                             RDF_LANGSTRING (str "@" (:language (:datatype object)))
                             XSD_STRING     ""
                             ;; not xsd-string nor langstring
-                            (str "^^" (:value (:datatype object))))))
+                            (str "^^" "<" (:value (:datatype object)) ">"))))
         g (condp = (:type graph)
             :named   (str "<" (:value graph) ">")
             :blank   (:value graph)

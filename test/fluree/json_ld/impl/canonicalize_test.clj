@@ -35,13 +35,17 @@
       (t/testing (str "\"" id "\"")
         (println "Testing" test-name id (pr-str input))
         (t/is (= expect
-                 (canon/canonicalize input)))))))
+                 (canon/canonicalize (nquads/parse input))))))))
 
 (t/deftest rdf-canonicalization-test
   (doseq [test-id (:test-ids tests)]
     (run-test (get-test-def test-id))))
 
 (comment
+  (run-test (get-test-def "manifest-urdna2015#test019"))
+
+  (count (:test-ids tests))
+
   (first (get tests "entries"))
   {"id" "manifest-urdna2015#test001",
    "type" "rdfn:Urdna2015EvalTest",
