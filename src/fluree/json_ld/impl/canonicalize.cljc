@@ -46,18 +46,18 @@
   "Given a bnode identifer `bnode` and the quads `quads` that reference it, return a
   sha256 hash of the normalized quads."
   [quads bnode]
-  (let [nquads (map (fn [q]
-                      (-> q
-                          (update :subject (partial relabel-bnode bnode))
-                          (update :object (partial relabel-bnode bnode))
-                          (update :graph (partial relabel-bnode bnode))
-                          (nquads/->statement)))
-                    quads)]
-    (->> (sort nquads)
+  (let [tranformed-quads (map (fn [quad]
+                                (cond-> quad
+                                  (= :blank (:type :subject)) (update :subject (partial relabel-bnode bnode))
+                                  (= :blank (:type :object)) (update :object (partial relabel-bnode bnode))
+                                  (= :blank (:type :graph)) (update :graph (partial relabel-bnode bnode))))
+                              quads)]
+    (->> (map nquads/->statement tranformed-quads)
+         (sort)
          (reduce str)
          (crypto/sha2-256))))
 
-(defn bnode-quad-info
+(defn map-bnode-to-quad-info
   "Create a map of bnode ids to the quads that contain them."
   [quads]
   (reduce (fn [bnode->quads {:keys [subject object graph] :as quad}]
@@ -80,7 +80,7 @@
 
   canonical-issuer: an issuer state, for tracking the issuance of canonical ids."
   [quads]
-  (let [bnode->quad-info (bnode-quad-info quads)
+  (let [bnode->quad-info (map-bnode-to-quad-info quads)
         bnode->quad-info* (reduce-kv (fn [bnode->quad-info bnode info]
                                        (assoc-in bnode->quad-info [bnode :hash]
                                                  (hash-first-degree-quads (:quads info) bnode)))
@@ -109,11 +109,23 @@
 
 (defn map-hash-to-related-bnodes
   [{:keys [bnode->quad-info] :as canon-state} bnode temp-issuer]
-  (reduce (fn [hash->rel-bnodes quad]
-            (reduce (fn [hash->rel-bnodes* [term component]]
+  ;; 3) For each quad in quads:
+
+  ;; 3.1) For each component in quad, where component is the subject, object, or graph
+  ;; name, and it is a blank node that is not identified by identifier:
+
+  ;; 3.1.1) Set hash to the result of the Hash Related Blank Node algorithm, passing the
+  ;; blank node identifier for component as related, quad, path identifier issuer as
+  ;; issuer, and position as either s, o, or g based on whether component is a subject,
+  ;; object, graph name, respectively.
+
+  ;; 3.1.2) Add a mapping of hash to the blank node identifier for component to hash to
+  ;; related blank nodes map, adding an entry as necessary.
+  (reduce (fn [hash->related-bnodes quad]
+            (reduce (fn [hash->related-bnodes* [term component]]
                       (if (and (= :blank (:type component))
                                (not= bnode (:value component)))
-                        (update hash->rel-bnodes*
+                        (update hash->related-bnodes*
                                 (hash-related-bnode canon-state
                                                     (:value component)
                                                     quad
@@ -123,9 +135,9 @@
                                                       :object "o"
                                                       :graph "g"))
                                 (fnil conj #{})
-                                (:value component)))
-                      hash->rel-bnodes*)
-                    hash->rel-bnodes
+                                (:value component))
+                        hash->related-bnodes*))
+                    hash->related-bnodes
                     quad))
           {}
           (:quads (bnode->quad-info bnode))))
