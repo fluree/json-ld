@@ -319,14 +319,14 @@
 
                                         (let [state1** (reduce (fn [state2 related-bnode]
                                                                  ;; 5.4.5
-                                                                 (let [result (hash-n-degree-quads canon-state related-bnode
-                                                                                                   (:issuer-copy state1*))
-                                                                       [issuer* id] (issue-id (:issuer result) related-bnode)]
+                                                                 (let [{:keys [hash issuer]} (hash-n-degree-quads canon-state related-bnode
+                                                                                                                  (:issuer-copy state2))
+                                                                       [issuer* id] (issue-id issuer related-bnode)]
                                                                    (-> state2
                                                                        (update :path str id)
-                                                                       (update :path str "<" (:hash result) ">")
-                                                                       (assoc :issuer-copy (:issuer result)))))
-                                                               state1
+                                                                       (update :path str "<" hash ">")
+                                                                       (assoc :issuer-copy issuer*))))
+                                                               state1*
                                                                (:recursion-list state1*))]
                                           (if (next-permutation? (:chosen-path state1**) (:path state1**))
                                             state1**
@@ -335,8 +335,7 @@
                                               ;; 5.4.6
                                               (or (zero? (count (:chosen-path state1**)))
                                                   (lex-less-than? (:path state1**) (:chosen-path state1**)))
-                                              (-> state1**
-                                                  (assoc :chosen-path (:path state1**))
+                                              (-> (assoc :chosen-path (:path state1**))
                                                   (assoc :chosen-issuer (:issuer-copy state1**)))))))))
                                   (-> state0
                                       (assoc :path "")
@@ -406,7 +405,7 @@
                            (let [[canonical-issuer*] (issue-id canonical-issuer (first bnodes))]
                              (assoc state :canonical-issuer canonical-issuer*)))))
                      {:canonical-issuer canonical-issuer
-                      :non-uniques       #{}}))
+                      :non-uniques []}))
 
         hash-path-list                  ; 6
         (reduce (fn [hash-path-list bnode]
