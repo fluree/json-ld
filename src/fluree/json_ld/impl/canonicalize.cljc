@@ -99,9 +99,17 @@
 
 (defn hash-related-bnode
   [{:keys [canonical-issuer bnode->quad-info]} related-bnode quad issuer position]
-  (let [id (get (:issued canonical-issuer) related-bnode
-                (get (:issued issuer) related-bnode
-                     (get-in bnode->quad-info [related-bnode :hash])))
+  ;; 1) Set the identifier to use for related, preferring first the canonical identifier
+  ;; for related if issued, second the identifier issued by issuer if issued, and last,
+  ;; if necessary, the result of the Hash First Degree Quads algorithm, passing related.
+  ;; 2) Initialize a string input to the value of position.
+  ;; 3) If position is not g, append <, the value of the predicate in quad, and > to input.
+  ;; 4) Append identifier to input.
+  ;; 5) Return the hash that results from passing input through the hash algorithm.
+
+  (let [id (or (issued-id canonical-issuer related-bnode)
+               (issued-id issuer related-bnode)
+               (get-in bnode->quad-info [related-bnode :hash]))
         input (str position
                    (when-not (= "g" position) "<" (:value (:predicate quad)) ">")
                    id)]
@@ -130,10 +138,7 @@
                                                     (:value component)
                                                     quad
                                                     temp-issuer
-                                                    (case term
-                                                      :subject "s"
-                                                      :object "o"
-                                                      :graph "g"))
+                                                    (case term :subject "s" :object "o" :graph "g"))
                                 (fnil conj #{})
                                 (:value component))
                         hash->related-bnodes*))
@@ -157,141 +162,6 @@
   [chosen-path path]
   (and (pos? (count chosen-path))
        (not (lex-less-than? path chosen-path))))
-
-#_(defn build-hash-input
-  [canonical-issuer issuer hash->rel-bnodes ]
-  (reduce
-    (fn [state0 [rel-hash rel-bnodes]]
-      (let [rel-hash* rel-hash]
-        (reduce (fn [state1 rel-bnodes-perm]
-                  (let [state1* (reduce (fn [state2 rel-bnode]
-                                          ;; 5.4.4)
-                                          (if-let [canon-bnode-id (issued-id canonical-issuer rel-bnode)]
-                                            (update state2 :path str canon-bnode-id)
-                                            (if-let [issued-bnode-id (issued-id (:issuer-copy state2) rel-bnode)]
-                                              (update state2 :path str issued-bnode-id)
-                                              (let [[issuer* id] (issue-id (:issuer-copy state2) rel-bnode)]
-                                                (-> state2
-                                                    (assoc :issuer-copy issuer*)
-                                                    (update :path str id)
-                                                    (update :recursion-list conj bnode))))))
-                                        state1
-                                        rel-bnodes-perm)]
-                    (if (next-permutation? (:chosen-path state1*) (:path state1*))
-                      state1*
-
-                      (reduce (fn [state2 rel-bnode]
-                                (let []))
-                              state1
-                              (:recursion-list state1*))
-                      )
-
-                    ))
-                {:path ""
-                 :chosen-path ""
-                 :recursion-list []
-                 :issuer-copy issuer
-                 :next-perm false}
-                (combo/permutations rel-bnodes))
-        (update state0 :data-to-hash str rel-hash*)))
-    {:data-to-hash ""
-     :chosen-path ""
-     :chosen-issuer nil}
-    (sort-by first hash->rel-bnodes)))
-
-#_(defn hash-n-degree-quads
-  [{:keys [canonical-issuer bnode->quad-info] :as canon-state} bnode temp-issuer]
-  (let [hash->rel-bnodes (map-hash-to-related-bnodes canon-state bnode temp-issuer)
-
-        {:keys [data-to-hash]}
-        (reduce
-          (fn [state0 [rel-hash rel-bnodes]]
-            (let [state0* (reduce (fn [state1 rel-bnodes-perm]
-                                    (let [state1* (reduce (fn [state2 rel-bnode]
-                                                            ;; 5.4.4)
-                                                            (if-let [canon-bnode-id (issued-id canonical-issuer bnode)]
-                                                              (update state2 :path str canon-bnode-id)
-                                                              (if-let [issued-bnode-id (issued-id (:issuer-copy state2) bnode)]
-                                                                (update state2 :path str issued-bnode-id)
-                                                                (let [[issuer* id] (issue-id (:issuer-copy state2) bnode)]
-                                                                  (-> state2
-                                                                      (assoc :issuer-copy issuer*)
-                                                                      (update :path str id)
-                                                                      (update :recursion-list conj bnode))))))
-                                                          state1
-                                                          rel-bnodes-perm)]
-                                      (if (next-permutation? (:chosen-path state1*) (:path state1*))
-                                        state1*
-
-                                        (let [state1** (reduce (fn [state2 rel-bnode]
-                                                                 ;; 5.4.5
-                                                                 (let [result (hash-n-degree-quads canon-state rel-bnode
-                                                                                                   (:issuer-copy state1*))
-                                                                       [issuer* id] (issue-id (:issuer result) rel-bnode)]
-                                                                   (-> state2
-                                                                       (update :path str id)
-                                                                       (update :path str "<" (:hash result) ">")
-                                                                       (assoc :issuer-copy (:issuer result)))))
-                                                               state1
-                                                               (:recursion-list state1*))]
-                                          (if (next-permutation? (:chosen-path state1**) (:path state1**))
-                                            state1**
-                                            (cond-> state1**
-                                              (or (zero? (count (:chosen-path state1**)))
-                                                  (lex-less-than? (:path state1**) (:chosen-path state1**)))
-                                              (-> state1**
-                                                  (assoc :chosen-path (:path state1**))
-                                                  (assoc :chosen-issuer (:issuer-copy state1**)))))))))
-                                  (-> state0
-                                      (assoc :path "")
-                                      (assoc :recursion-list [])
-                                      (assoc :issuer-copy temp-issuer)
-                                      (assoc :next-perm false))
-                                  (combo/permutations rel-bnodes))]
-              (update state0* :data-to-hash str rel-hash*)))
-          {:data-to-hash ""
-           :chosen-path ""
-           :chosen-issuer nil}
-          (sort-by first hash->rel-bnodes))
-
-        data-to-hash (reduce
-                       (fn [data-to-hash [rel-hash rel-bnodes]]
-                         (let [chosen-path ""
-                               chosen-issuer nil
-                               permutations
-                               (loop [[rel-perm & permutations] (combo/permutations rel-bnodes)
-                                      path ""
-                                      next-permutation false
-                                      perm-issuer temp-issuer
-                                      recursion-list []]
-                                 (if rel-perm
-                                   (let [{path* :path
-                                          next-perm* :next-perm
-                                          perm-issuer* :perm-issuer
-                                          recursion-list* :recursion-list}
-                                         (reduce (fn [state rel-bnode]
-
-                                                   (if-let [next-path (get (:issued canonical-issuer) rel-bnode
-                                                                           (get (:issued perm-issuer) rel-bnode))]
-                                                     (-> state
-                                                         (update :path str next-path)
-                                                         (assoc :next-perm (next-permutation? chosen-path path)))
-                                                     (-> state
-                                                         (update :recursion-list conj rel-bnode)
-                                                         (assoc :next-perm (next-permutation? chosen-path path)))))
-                                                 {:path path
-                                                  :perm-issuer perm-issuer
-                                                  :recursion-list recursion-list
-                                                  :next-perm next-permutation}
-                                                 rel-perm)]
-                                     (recur permutations path* next-perm* perm-issuer* recursion-list*))
-                                   {:recursion-list recursion-list
-                                    :perm-issuer perm-issuer
-                                    :path path}))]
-
-                           (str data-to-hash rel-hash)))
-                       ""
-                       (sort-by first hash->rel-bnodes))]))
 
 (defn hash-n-degree-quads
   [{:keys [canonical-issuer bnode->quad-info] :as canon-state} bnode temp-issuer]
@@ -349,46 +219,7 @@
           {:data-to-hash ""
            :chosen-path ""
            :chosen-issuer nil}
-          (sort-by first hash->related-bnodes))
-
-        #_ #_data-to-hash (reduce
-                       (fn [data-to-hash [related-hash related-bnodes]]
-                         (let [chosen-path ""
-                               chosen-issuer nil
-                               permutations
-                               (loop [[rel-perm & permutations] (combo/permutations related-bnodes)
-                                      path ""
-                                      next-permutation false
-                                      perm-issuer temp-issuer
-                                      recursion-list []]
-                                 (if rel-perm
-                                   (let [{path* :path
-                                          next-perm* :next-perm
-                                          perm-issuer* :perm-issuer
-                                          recursion-list* :recursion-list}
-                                         (reduce (fn [state related-bnode]
-
-                                                   (if-let [next-path (get (:issued canonical-issuer) related-bnode
-                                                                           (get (:issued perm-issuer) related-bnode))]
-                                                     (-> state
-                                                         (update :path str next-path)
-                                                         (assoc :next-perm (next-permutation? chosen-path path)))
-                                                     (-> state
-                                                         (update :recursion-list conj related-bnode)
-                                                         (assoc :next-perm (next-permutation? chosen-path path)))))
-                                                 {:path path
-                                                  :perm-issuer perm-issuer
-                                                  :recursion-list recursion-list
-                                                  :next-perm next-permutation}
-                                                 rel-perm)]
-                                     (recur permutations path* next-perm* perm-issuer* recursion-list*))
-                                   {:recursion-list recursion-list
-                                    :perm-issuer perm-issuer
-                                    :path path}))]
-
-                           (str data-to-hash related-hash)))
-                       ""
-                       (sort-by first hash->related-bnodes))]
+          (sort-by first hash->related-bnodes))]
     {:hash data-to-hash :issuer chosen-issuer}))
 
 (defn assign-canonical-ids
