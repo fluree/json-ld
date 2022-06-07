@@ -48,13 +48,13 @@
   "Given a bnode identifer `bnode` and the quads `quads` that reference it, return a
   sha256 hash of the normalized quads."
   [quads bnode]
-  (let [tranformed-quads (map (fn [quad]
-                                (cond-> quad
-                                  (= :blank (:type :subject)) (update :subject (partial relabel-bnode bnode))
-                                  (= :blank (:type :object)) (update :object (partial relabel-bnode bnode))
-                                  (= :blank (:type :graph)) (update :graph (partial relabel-bnode bnode))))
-                              quads)]
-    (->> (map nquads/->statement tranformed-quads)
+  (let [transformed-quads (map (fn [{:keys [subject object graph] :as quad}]
+                                 (cond-> quad
+                                   (= :blank (:type subject)) (update :subject (partial relabel-bnode bnode))
+                                   (= :blank (:type object)) (update :object (partial relabel-bnode bnode))
+                                   (= :blank (:type graph)) (update :graph (partial relabel-bnode bnode))))
+                               quads)]
+    (->> (map nquads/->statement transformed-quads)
          (sort)
          (reduce str)
          (crypto/sha2-256))))
@@ -288,7 +288,7 @@
          (map (partial replace-bnodes canonical-issuer))
          (map nquads/->statement)
          (sort)
-         (reduce (fn [doc statement] (str doc statement "\n")) ""))))
+         (reduce str))))
 
 
 (comment

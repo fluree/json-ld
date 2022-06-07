@@ -41,7 +41,11 @@
   (doseq [test-id (:test-ids tests)]
     (run-test (get-test-def test-id))))
 
+
 (comment
+  (t/deftest individual-test
+    (run-test (get-test-def "manifest-urdna2015#test020")))
+
   (run-test (get-test-def "manifest-urdna2015#test019"))
 
   (count (:test-ids tests))
