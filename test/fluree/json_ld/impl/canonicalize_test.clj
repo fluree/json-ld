@@ -32,7 +32,7 @@
         input (when input-path (read-file input-path))
         expect (when expect-path (read-file expect-path))]
     (t/testing (str test-name ":")
-      (t/testing (str "\"" id "\"")
+      (t/testing id
         (println "Testing" test-name id (pr-str input))
         (t/is (= expect
                  (canon/canonicalize (nquads/parse input))))))))

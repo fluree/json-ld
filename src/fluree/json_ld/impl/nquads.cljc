@@ -1,4 +1,9 @@
 (ns fluree.json-ld.impl.nquads
+  "Deserialization of N-Quad strings to quads, represented as Clojure data, and
+  serialization back to N-Quad strings.
+
+  See https://dvcs.w3.org/hg/rdf/raw-file/default/nquads/drafts/n-quads/Overview.html
+  for the grammar specification."
   (:require [clojure.string :as str]
             [lambdaisland.regal :as reg]))
 
@@ -159,9 +164,6 @@
 (comment
   #_(def parse-nquads (grammar/parser g1))
 
-  (re-find (reg/regex string-literal-quote) "\"1\"")
-
-
   (def in0 "<http://example.com/1> <http://example.com/label> \"test\"^^<http://example.com/t1> .")
   (def in1 "<http://example.com/1> <http://example.com/label> \"test\"@en .")
   (def in2 "<http://example.com/1> <http://example.com/friend> _:b1 .")
@@ -171,98 +173,89 @@
   (def in6 "_:b0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/vocab#Foo> .")
   (def in (str/join "\n" [in0 in1 in2 in3 in4 in5 in6]))
 
-
-
   (re-find (reg/regex [:*? rdf-comment]) "<a.com/foo#thing>  # comment")
 
 
   (re-matches (reg/regex quad) in4)
 
-  ["<http://example.com/1> <http://example.com/friend> _:b1 ." "http://example.com/1" nil "http://example.com/friend" nil "_:b1" nil nil nil nil nil]
-  ["<http://example.com/1> <http://example.com/friend> _:b1 ." "http://example.com/1" nil "http://example.com/friend" nil "_:b1" nil nil nil nil nil]
-  nil
-  nil
-
-
-
-  (re-matches (reg/regex quad) "<a.com/foo> <a.com/foo> <a.com/foo> <a.com/foo> .")
-  nil
-  nil
-  nil
-  nil
-  nil
-  nil
-  nil
-  nil
-
-  ["_:b1 " nil "_:b1"]
-  ["_:b1 " nil "_:b1" nil nil nil]
-  ["<http://example.com/friend> " "http://example.com/friend"]
-  ["_:b1 " nil "_:b1"]
-
-
-  ["_:b1 " nil "_:b1"]
-  ["_:b1 " nil "_:b1" nil nil nil]
-  ["_:b1 " nil "_:b1"]
-  ["_:b1" "_:b1"]
-
-  (->quad (re-matches (reg/regex quad) in0))
-  (->quad (re-matches (reg/regex quad) in1))
-  (->quad (re-matches (reg/regex quad) in2))
-  (->quad (re-matches (reg/regex quad) in3))
-
+  (re-matches (reg/regex quad) "<h:a.com/foo> <h:a.com/foo> <h:a.com/foo> <h:a.com/foo> .")
 
   (re-find (reg/regex string-literal-quote) "\"hey\"")
 
-
   (parse in)
-  (map (partial filter (fn [q] (= :blank (:type (second q))))) (parse in))
-  (() ([:subject {:type :blank, :value "_:b0"}]) () ())
-  ([:subject {:type :blank, :value "_:b0"}])
-  (() ([:subject {:type :blank, :value "_:b0"}]) () ())
-
-
-
-  #{{:statement "<http://example.com> <http://example.com/label> \"test\"@en .",
-     :subject {:type :named, :value "http://example.com"},
-     :predicate {:type :named, :value "http://example.com/label"},
+  #{{:statement
+     "<http://example.com/2> <http://example.com/friend> <http://example.com/1> .",
+     :subject {:type :named, :value "http://example.com/2", :term :subject},
+     :predicate {:type :named, :value "http://example.com/friend", :term :predicate},
+     :object
+     {:type :named,
+      :value "http://example.com/1",
+      :term :object,
+      :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement
+     "_:b0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/vocab#Foo> .",
+     :subject {:type :blank, :value "_:b0", :term :subject},
+     :predicate
+     {:type :named,
+      :value "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+      :term :predicate},
+     :object
+     {:type :named,
+      :value "http://example.org/vocab#Foo",
+      :term :object,
+      :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "<http://example.com/1> <http://example.com/label> \"test\"@en .",
+     :subject {:type :named, :value "http://example.com/1", :term :subject},
+     :predicate {:type :named, :value "http://example.com/label", :term :predicate},
      :object
      {:type :literal,
+      :term :object,
       :value "test",
       :datatype
       {:type :named,
        :value "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString",
        :language "en"}},
-     :graph {:type :default, :value ""}}
-
+     :graph {:type :default, :term :graph, :value ""}}
     {:statement
-     "_:b0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/vocab#Foo> .",
-     :subject {:type :blank, :value "_:b0"},
-     :predicate
-     {:type :named, :value "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"},
-     :object
-     {:type :named,
-      :value "http://example.org/vocab#Foo",
-      :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
-     :graph {:type :default, :value ""}}
-    {:statement
-     "<http://example.com> <http://example.com/count> \"1\" <http://example.com/graphname>.",
-     :subject {:type :named, :value "http://example.com"},
-     :predicate {:type :named, :value "http://example.com/count"},
+     "<http://example.com/2> <http://example.com/count> \"1\" <http://example.com/graphname> .",
+     :subject {:type :named, :value "http://example.com/2", :term :subject},
+     :predicate {:type :named, :value "http://example.com/count", :term :predicate},
      :object
      {:type :literal,
+      :term :object,
       :value "1",
       :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
-     :graph {:type :named, :value "http://example.com/graphname"}}
+     :graph {:type :named, :term :graph, :value "http://example.com/graphname"}}
     {:statement
-     "<http://example.com> <http://example.com/label> \"test\"^^<http://example.com/t1> .",
-     :subject {:type :named, :value "http://example.com"},
-     :predicate {:type :named, :value "http://example.com/label"},
+     "<http://example.com/1> <http://example.com/label> \"test\"^^<http://example.com/t1> .",
+     :subject {:type :named, :value "http://example.com/1", :term :subject},
+     :predicate {:type :named, :value "http://example.com/label", :term :predicate},
      :object
      {:type :literal,
+      :term :object,
       :value "test",
       :datatype {:type :named, :value "http://example.com/t1"}},
-     :graph {:type :default, :value ""}}}
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b1 <http://example.com/friend> _:b0 _:b3 .",
+     :subject {:type :blank, :value "_:b1", :term :subject},
+     :predicate {:type :named, :value "http://example.com/friend", :term :predicate},
+     :object
+     {:type :blank,
+      :value "_:b0",
+      :term :object,
+      :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+     :graph {:type :blank, :term :graph, :value "_:b3"}}
+    {:statement "<http://example.com/1> <http://example.com/friend> _:b1 .",
+     :subject {:type :named, :value "http://example.com/1", :term :subject},
+     :predicate {:type :named, :value "http://example.com/friend", :term :predicate},
+     :object
+     {:type :blank,
+      :value "_:b1",
+      :term :object,
+      :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+     :graph {:type :default, :term :graph, :value ""}}}
 
 
   ,)

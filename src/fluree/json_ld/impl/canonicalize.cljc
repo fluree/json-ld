@@ -1,4 +1,6 @@
 (ns fluree.json-ld.impl.canonicalize
+  "An implementation of the standard RDF Dataset Canonicalization Algorithm:
+  https://json-ld.github.io/rdf-dataset-canonicalization/spec/"
   (:require [clojure.string :as str]
             [clojure.math.combinatorics :as combo]
             [instaparse.core :as grammar]
