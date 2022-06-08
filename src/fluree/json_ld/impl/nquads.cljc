@@ -139,7 +139,7 @@
             :blank   (:value graph)
             :default nil)]
 
-    (str s " " p " " o " " g (when g " ") ".")))
+    (str s " " p " " o " " g (when g " ") ".\n")))
 
 (defn parse
   "Turn an n-quads document into quads."
