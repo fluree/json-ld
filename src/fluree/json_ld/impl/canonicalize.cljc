@@ -222,7 +222,7 @@
            :chosen-path ""
            :chosen-issuer nil}
           (sort-by first hash->related-bnodes))]
-    {:hash data-to-hash :issuer chosen-issuer}))
+    {:hash (crypto/sha2-256 data-to-hash) :issuer (or chosen-issuer temp-issuer)}))
 
 (defn assign-canonical-ids
   "Takes the canonicalization state and maps each blank node identifier to a canonical
