@@ -175,15 +175,15 @@
             (let [state0* (reduce (fn [state1 related-bnodes-permutation]
                                     (let [state1* (reduce (fn [state2 related-bnode]
                                                             ;; 5.4.4)
-                                                            (if-let [canon-bnode-id (issued-id canonical-issuer bnode)]
+                                                            (if-let [canon-bnode-id (issued-id canonical-issuer related-bnode)]
                                                               (update state2 :path str canon-bnode-id)
-                                                              (if-let [issued-bnode-id (issued-id (:issuer-copy state2) bnode)]
+                                                              (if-let [issued-bnode-id (issued-id (:issuer-copy state2) related-bnode)]
                                                                 (update state2 :path str issued-bnode-id)
-                                                                (let [[issuer* id] (issue-id (:issuer-copy state2) bnode)]
+                                                                (let [[issuer* id] (issue-id (:issuer-copy state2) related-bnode)]
                                                                   (-> state2
                                                                       (assoc :issuer-copy issuer*)
                                                                       (update :path str id)
-                                                                      (update :recursion-list conj bnode))))))
+                                                                      (update :recursion-list conj related-bnode))))))
                                                           (-> state1
                                                               (assoc :path "")
                                                               (assoc :recursion-list [])
