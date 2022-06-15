@@ -179,11 +179,12 @@
             (update :path str id)
             (update :recursion-list conj related-bnode))))))
 
+(declare hash-n-degree-quads)
 (defn process-permutation-bnode2
   [canon-state {:keys [issuer-copy] :as hndq-state} related-bnode]
   ;; 5.4.5
   (println (:recurse-level hndq-state) "bnode2" related-bnode (pr-str hndq-state))
-  (let [{:keys [hash issuer]} (hash-n-degree-quads2 canon-state related-bnode issuer-copy (str (:recurse-level hndq-state) "-"))
+  (let [{:keys [hash issuer]} (hash-n-degree-quads canon-state related-bnode issuer-copy (str (:recurse-level hndq-state) "-"))
         [issuer* id] (issue-id issuer related-bnode)]
     (-> hndq-state
         (update :path str id)
@@ -227,7 +228,7 @@
     (println (:recurse-level hndq-state) "related-bnodes-end" (pr-str hndq-state))
     (update hndq-state :data-to-hash str related-hash (:chosen-path hndq-state))))
 
-(defn hash-n-degree-quads2
+(defn hash-n-degree-quads
   [{:keys [canonical-issuer bnode->quad-info] :as canon-state} bnode issuer & [recurse-level]]
   (let [recurse-level (str recurse-level)
         hash->related-bnodes (map-hash-to-related-bnodes canon-state bnode issuer)
@@ -239,85 +240,6 @@
                 (sort-by first hash->related-bnodes))]
     (println recurse-level "RESULT" data-to-hash (:issued chosen-issuer) (:issued issuer))
     {:hash (crypto/sha2-256 data-to-hash) :issuer (or chosen-issuer issuer)}))
-
-#_(defn hash-n-degree-quads
-  [{:keys [canonical-issuer bnode->quad-info] :as canon-state} bnode temp-issuer & [recurse-level]]
-  (let [recurse-level (str recurse-level)]
-    (println recurse-level "hndq" (pr-str bnode) (pr-str temp-issuer))
-    (let [hash->related-bnodes (map-hash-to-related-bnodes canon-state bnode temp-issuer)
-
-          {:keys [data-to-hash chosen-issuer]}
-          (reduce (fn [state0 [related-hash related-bnodes]]
-                    (let [state0* (reduce (fn [state1 related-bnodes-permutation]
-                                            (println recurse-level "permutation" related-bnodes-permutation)
-                                            (let [state1* (reduce (fn [state2 related-bnode]
-                                                                    (println recurse-level "related-perm" related-bnode)
-                                                                    (println recurse-level "canon?" (issued-id canonical-issuer related-bnode))
-                                                                    (println recurse-level "issue?" (issued-id (:issuer-copy state2) related-bnode))
-
-                                                                    ;; 5.4.4)
-                                                                    (if-let [canon-bnode-id (issued-id canonical-issuer related-bnode)]
-                                                                      (update state2 :path str canon-bnode-id)
-                                                                      (if-let [issued-bnode-id (issued-id (:issuer-copy state2) related-bnode)]
-                                                                        (update state2 :path str issued-bnode-id)
-                                                                        (let [[issuer* id] (issue-id (:issuer-copy state2) related-bnode)]
-                                                                          (println recurse-level "issuer0" (:issued (:issuer-copy state2)) (:issued issuer*))
-                                                                          (-> state2
-                                                                              (assoc :issuer-copy issuer*)
-                                                                              (update :path str id)
-                                                                              (update :recursion-list conj related-bnode))))))
-                                                                  ;; the problem is the issuer
-                                                                  (-> state1
-                                                                      (assoc :path "")
-                                                                      (assoc :recursion-list [])
-                                                                      #_(assoc :issuer-copy temp-issuer)
-                                                                      (assoc :next-perm false))
-                                                                  related-bnodes-permutation)]
-                                              (println recurse-level "path0" (:path state1*))
-                                              (if (next-permutation? state1*)
-                                                state1*
-
-                                                (let [state1** (reduce (fn [state2 related-bnode]
-                                                                         (println recurse-level "related-recurse" related-bnode)
-                                                                         ;; 5.4.5
-                                                                         (let [{:keys [hash issuer]}
-                                                                               (hash-n-degree-quads canon-state
-                                                                                                    related-bnode
-                                                                                                    (:issuer-copy state2)
-                                                                                                    (str recurse-level "-"))
-                                                                               [issuer* id] (issue-id issuer related-bnode)]
-                                                                           (println recurse-level "issuer1" (:issued issuer) (:issued issuer*))
-                                                                           (-> state2
-                                                                               (update :path str id)
-                                                                               (update :path str "<" hash ">")
-                                                                               (assoc :issuer-copy issuer*))))
-                                                                       state1*
-                                                                       (:recursion-list state1*))]
-                                                  (println recurse-level "path" (:path state1**))
-                                                  (println recurse-level "issuer2" (:issued (:issuer-copy state1**)))
-                                                  (if (next-permutation? state1**)
-                                                    state1**
-
-                                                    (cond-> state1**
-                                                      ;; 5.4.6
-                                                      (or (zero? (count (:chosen-path state1**)))
-                                                          (lex-less-than? (:path state1**) (:chosen-path state1**)))
-                                                      (-> (assoc :chosen-path (:path state1**))
-                                                          (assoc :chosen-issuer (:issuer-copy state1**)))))))))
-                                          (-> state0
-                                              (assoc :issuer-copy temp-issuer))
-                                          (combo/permutations related-bnodes))]
-                      (println recurse-level "chosen-path" (:chosen-path state0*))
-                      (println recurse-level "issuer3" (:issued (:issuer-copy state0*)))
-                      (-> state0*
-                          (update :data-to-hash str related-hash (:chosen-path state0*))
-                          #_(assoc :chosen-issuer (:issuer-copy state0*)))))
-            {:data-to-hash ""
-             :chosen-path ""
-             :chosen-issuer nil}
-            (sort-by first hash->related-bnodes))]
-      (println recurse-level "RESULT" data-to-hash (:issued chosen-issuer) (:issued temp-issuer))
-      {:hash (crypto/sha2-256 data-to-hash) :issuer (or chosen-issuer temp-issuer)})))
 
 (defn assign-canonical-ids
   "Takes the canonicalization state and maps each blank node identifier to a canonical
@@ -344,7 +266,7 @@
                                     (let [temp-issuer (create-issuer "_:b")
                                           [temp-issuer*] (issue-id temp-issuer bnode)]
                                       (conj hash-path-list
-                                            (hash-n-degree-quads2 {:canonical-issuer canonical-issuer
+                                            (hash-n-degree-quads {:canonical-issuer canonical-issuer
                                                                   :hash->bnodes hash->bnodes
                                                                   :bnode->quad-info bnode->quad-info}
                                                                  bnode
