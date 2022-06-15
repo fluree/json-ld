@@ -46,19 +46,18 @@
                  [:+ [:class ["a" "z"] ["A" "Z"] ["0" "9"]]]]]])
 (def datatype [:cat "^^" iri])
 
-(def hex [:alt [:class [\0 \9]] [:class [\A \F]] [:class [\a \f]]])
+(def hex [:class [\0 \9] [\A \F] [\a \f]])
 (def uchar [:alt
-            [:cat "\\u" hex hex hex hex]
-            [:cat "\\U" hex hex hex hex hex hex hex hex]])
+            [:cat "\\u" [:repeat hex 4]]
+            [:cat "\\U" [:repeat hex 8]]])
 (def echar [:alt :tab "\\b" :newline :return :form-feed])
-(def string-literal-quote [:cat
-                           "\""
-                           [:capture
-                            [:* [:alt
-                                 [:not \u0022 \u005C \u000A \u000D]
-                                 echar
-                                 uchar]]]
-                           "\""])
+(def string-literal-quote
+  [:cat "\""
+   [:capture
+    [:* [:not \u0022 \u005C \u000A \u000D]]
+    [:* "\\" :any
+     [:* [:not "\"\\"]]]]
+   "\""])
 
 (def literal [:cat string-literal-quote
               [:? [:alt datatype lang-tag]]])
@@ -77,6 +76,29 @@
   "These are the names, in order, of the capture groups in the `quad` regex."
   [:statement :subject-iri :subject-bnode :predicate-iri :object-iri :object-bnode :object-literal
    :datatype :lang-tag :graph-iri :graph-bnode])
+
+(def unescape-pattern
+  [:alt
+   [:cat "\\" [:capture [:class "t" "b" "n" "r" "f" "\"" "'" "\\"]]]
+   [:cat "\\u" [:capture [:repeat hex 4]]]
+   [:cat "\\U" [:capture [:repeat hex 8]]]])
+
+(defn unescape
+  "Unescape an N-Quads literal to string."
+  [s]
+  (str/replace s (reg/regex unescape-pattern) (fn [[match code u U]]
+                                                (cond code (case code
+                                                             "t" "\t"
+                                                             "b" "\b"
+                                                             "n" "\n"
+                                                             "r" "\r"
+                                                             "f" "\f"
+                                                             "\"" "\""
+                                                             "'" "'"
+                                                             "\\" "\\")
+                                                      u #?(:clj (Character/toString (Integer/parseInt u 16))
+                                                           :cljs (.fromCharCode js/String (js/parseInt u 16)))
+                                                      U (throw (ex-info "Unsupported U escape" {:U U :match match :s s}))))))
 
 (defn ->quad
   "Takes an N-Quad string and turns it into an RDF quad."
@@ -107,7 +129,7 @@
                              :else    {:type :named :value XSD_STRING})}
 
                       object-literal
-                      {:type :literal :term :object :value object-literal ;TODO: unescape?
+                      {:type :literal :term :object :value (unescape object-literal)
                        :datatype
                        (cond datatype {:type :named :value datatype}
                              lang-tag {:type :named :value RDF_LANGSTRING :language lang-tag}
@@ -117,6 +139,11 @@
                           :else       :default)
              :term :graph
              :value (or graph-iri graph-bnode "")}}))
+
+(defn escape
+  "Escape string to N-Quads literal."
+  [s]
+  (str/escape s {\\ "\\\\" \" "\\\"" \newline "\\n" \return "\\r"}))
 
 (defn ->statement
   "Takes an RDF quad and turns it into an N-Quad string."
@@ -128,7 +155,7 @@
         o (condp = (:type object)
             :named   (str "<" (:value object) ">")
             :blank   (:value object)
-            :literal (str "\"" (:value object) "\""
+            :literal (str "\"" (escape (:value object)) "\""
                           (condp = (:value (:datatype object))
                             RDF_LANGSTRING (str "@" (:language (:datatype object)))
                             XSD_STRING     ""
@@ -159,7 +186,7 @@
 (defn serialize
   "Turn a sorted set of quads into an n-quads string."
   [dataset]
-  (str/join "\n" (map ->statement dataset)))
+  (reduce str (map ->statement dataset)))
 
 (comment
   #_(def parse-nquads (grammar/parser g1))
