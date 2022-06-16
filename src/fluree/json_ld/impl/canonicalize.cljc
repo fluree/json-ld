@@ -22,8 +22,8 @@
   "Gets the new identifer for the given old identifier, generating it if
   necessary. Returns a tuple of the new issuer state and the issued id [issuer* id]."
   [{:keys [prefix counter issued] :as issuer} bnode]
-  (if (issued bnode)
-    [issuer bnode]
+  (if-let [id (issued bnode)]
+    [issuer id]
     (let [id (str prefix counter)
           issuer* (-> issuer
                       (update :issued assoc bnode id)
@@ -198,8 +198,9 @@
                            (-> hndq-state
                                (assoc :path "")
                                (assoc :recursion-list [])
-                               (assoc :issuer-copy (or (:issuer-copy hndq-state) issuer))
-                               (assoc :next-perm false))
+                               (assoc :next-perm false)
+                               ;; ???
+                               (assoc :issuer-copy (or (:issuer-copy hndq-state) issuer)))
                            related-bnodes-permutation)]
     (println (:recurse-level hndq-state) "permutation-1" (pr-str hndq-state))
     (if (next-permutation? hndq-state)
@@ -223,10 +224,13 @@
   [canon-state issuer hndq-state [related-hash related-bnodes]]
   (println (:recurse-level hndq-state) "related-bnodes-start" related-hash related-bnodes (pr-str hndq-state))
   (let [hndq-state (reduce (partial process-permutation canon-state issuer)
-                           hndq-state
+                           (-> hndq-state
+                               (assoc :chosen-path "")
+                               (assoc :chosen-issuer nil)
+                               (update :data-to-hash str related-hash))
                            (combo/permutations related-bnodes))]
     (println (:recurse-level hndq-state) "related-bnodes-end" (pr-str hndq-state))
-    (update hndq-state :data-to-hash str related-hash (:chosen-path hndq-state))))
+    (update hndq-state :data-to-hash str (:chosen-path hndq-state))))
 
 (defn hash-n-degree-quads
   [{:keys [canonical-issuer bnode->quad-info] :as canon-state} bnode issuer & [recurse-level]]
@@ -246,17 +250,15 @@
   blank id identifer, returning the canonical issuer in its final form."
   [{:keys [canonical-issuer hash->bnodes bnode->quad-info] :as canon-state}]
   (let [{:keys [non-uniques canonical-issuer]} ; 5.4
-        (->> (keys hash->bnodes)
-             (sort)
-             (reduce (fn [{:keys [non-uniques canonical-issuer] :as state} hash]
-                       (let [bnodes (get hash->bnodes hash)]
-                         (if (> (count bnodes) 1)
-                           (update state :non-uniques conj bnodes)
-                           (let [[canonical-issuer*] (issue-id canonical-issuer (first bnodes))]
-                             (assoc state :canonical-issuer canonical-issuer*)))))
-                     {:canonical-issuer canonical-issuer
-                      :non-uniques []}))
-        canonical-issuer                  ; 6
+        (->> (sort-by first hash->bnodes)
+             (reduce (fn [{:keys [non-uniques canonical-issuer] :as state} [_hash bnodes]]
+                          (if (> (count bnodes) 1)
+                            (update state :non-uniques conj bnodes)
+                            (let [[canonical-issuer*] (issue-id canonical-issuer (first bnodes))]
+                              (assoc state :canonical-issuer canonical-issuer*))))
+                        {:canonical-issuer canonical-issuer
+                         :non-uniques []}))
+        canonical-issuer                ; 6
         (reduce (fn [canonical-issuer bnodes]
                   (let [hash-path-list
                         (reduce (fn [hash-path-list bnode]
