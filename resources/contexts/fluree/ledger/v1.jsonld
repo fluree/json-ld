@@ -35,9 +35,17 @@
       "@id": "fluree:v",
       "@type": "xsd:decimal"
     },
+    "flakes": {
+      "@id": "fluree:flakes",
+      "@type": "xsd:long"
+    },
+    "size": {
+      "@id": "fluree:size",
+      "@type": "xsd:long"
+    },
     "db": {
       "@id": "fluree:db",
-      "@container": "@graph"
+      "@type": "@id"
     },
     "assert": {
       "@id": "fluree:assert",
