@@ -2,8 +2,19 @@
   (:require #?(:clj [clojure.java.io :as io])
             #?(:clj [clojure.edn :as edn]
                :cljs [cljs.reader :as edn])
-            #?(:cljs ["fs" :as fs]))
-  #?(:cljs (:require-macros [fluree.json-ld.impl.util :refer [try-catchall if-cljs]])))
+            #?(:cljs ["fs" :as fs])
+            #?(:cljs ["path" :as path]))
+  #?(:cljs (:require-macros [fluree.json-ld.impl.util :refer [try-catchall if-cljs inline-resource]])))
+
+#?(:clj
+   (defmacro inline-resource
+     "Macro allowing ClojureScript to inline a SMALL bundle of resource file(s) (< 1mb)
+  at compile time.  If inline content grows, need to consider publishing to
+  and downloading from a cdn."
+     [resource-path]
+     (slurp (io/resource resource-path))))
+
+
 
 #?(:cljs
    (defn node-env?
@@ -47,20 +58,58 @@
     x
     [x]))
 
+;; this is probably not a good approach for the browser, it makes for a very heavy dependency
+#?(:cljs
+   (do
+     (def files
+       {"contexts/fluree/ledger/v1.edn"
+        (inline-resource "contexts/fluree/ledger/v1.edn")
+
+        "contexts/org/imsglobal/purl/spec/clr/v1p0/context/clr_v1p0.edn"
+        (inline-resource "contexts/org/imsglobal/purl/spec/clr/v1p0/context/clr_v1p0.edn")
+
+        "contexts/org/w3/www/2018/credentials/v1.edn"
+        (inline-resource "contexts/org/w3/www/2018/credentials/v1.edn")
+
+        "contexts/org/w3/www/ns/did/v1.edn"
+        (inline-resource "contexts/org/w3/www/ns/did/v1.edn")
+
+        "contexts/org/w3id/security/v1.edn"
+        (inline-resource "contexts/org/w3id/security/v1.edn")
+
+        "contexts/org/w3id/security/v2.edn"
+        (inline-resource "contexts/org/w3id/security/v2.edn")
+
+        "contexts/org/schema/latest.edn"
+        (inline-resource "contexts/org/schema/latest.edn")
+
+        "contexts/org/geojson/geojson-ld/geojson-context.edn"
+        (inline-resource "contexts/org/geojson/geojson-ld/geojson-context.edn")
+
+        "org.schema.edn"
+        (inline-resource "org.schema.edn")
+        "owl.edn"
+        (inline-resource "owl.edn")
+        "rdfs.edn"
+        (inline-resource "rdfs.edn")
+        "skos.edn"
+        (inline-resource "skos.edn")
+        "org.purl.dc.terms.edn"
+        (inline-resource "org.purl.dc.terms.edn")
+        "org.w3id.openbadges.edn"
+        (inline-resource "org.w3id.openbadges.edn")
+        "org.imsglobal.spec.clr.vocab.edn"
+        (inline-resource "org.imsglobal.spec.clr.vocab.edn")})))
+
 
 (defn read-resource
   [filename]
   #?(:cljs
-     (if (node-env?)
-       (try-catchall
-         (some-> (fs.readFileSync (str "resources/" filename) "utf-8")
-                 (edn/read-string))
-         (catch e
-             (throw (ex-info (str "Invalid IRI, unable to read vocabulary from: " filename)
-                             {:status 400 :error :json-ld/external-resource}
-                             e))))
-       (throw (ex-info (str "Loading external resources is not yet supported in a browser runtime.")
-                       {:status 400 :error :json-ld/unsupported-runtime})))
+     (if-let [r (get files filename)]
+       (edn/read-string r)
+       (throw (ex-info (str "Invalid IRI, unable to read vocabulary from: " filename)
+                       {:status 400 :error :json-ld/external-resource})))
+
      :clj  (try
              (some-> filename
                      io/resource
@@ -82,17 +131,27 @@
   :cljs
   :clj
 
+  (fs/readdirSync (path/resolve js/__dirname (str "resources/")))
 
   (edn/read-string (fs.readFileSync "contexts/fluree/ledger/v1.edn" "utf-8"))
+
+  (println "path:" (path/resolve js/__dirname))
+  (println "resources:" (fs.readdirSync (path/resolve js/__dirname "resources/")))
+
+  (read-resource "contexts/fluree/ledger/v1.edn")
+
+
+
 
   (try-catchall
     (read-resource "contexts/fluree/ledger/v1.edn")
     (catch e
         (println e)))
 
-  (try (and js/Window true)
+  (try (and js/Window false)
        (catch js/Error e
-         false))
+         true))
+  (and js/Window false)
 
   (node-env?)
 
