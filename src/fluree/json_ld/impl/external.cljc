@@ -53,35 +53,24 @@
 
 (def vocabs (->> vocab->file keys (sort-by count) reverse))
 
-
 (defn vocab
   "Loads an entire vocabulary file, i.e. https://schema.org"
   [iri]
-  #?(:cljs (throw (ex-info (str "Loading external vocabularies is not yet supported in Javascript.")
-                           {:status 400 :error :json-ld/external-vocab}))
-     :clj  (->> iri
-                iri/add-trailing-slash
-                (get vocab->file)
-                util/read-resource)))
-
+  (->> iri
+       iri/add-trailing-slash
+       (get vocab->file)
+       util/read-resource))
 
 (defn iri
   "Loads a supported external context and returns parsed (edn) format.
 
   Currently will not execute an http request to load, only pre-parsed vocabularies
-  that exist in the resources folder work.
-
-  Only supported on CLJ"
+  that exist in the resources folder work."
   [iri]
-  #?(:cljs (throw (ex-info (str "Loading external vocabularies is not yet supported in Javascript.")
-                           {:status 400 :error :json-ld/external-vocab}))
-     :clj  (some #(when (str/starts-with? iri %)
-                    (-> (vocab %)
-                        (get iri)))
-                 vocabs)))
-
-
-
+  (some #(when (str/starts-with? iri %)
+           (-> (vocab %)
+               (get iri)))
+        vocabs))
 
 (defn context
   "JSON-ld @context can be an external .jsonld file, for which we have some locally.
@@ -89,8 +78,6 @@
 
   Returns nil if the context requested does not exist."
   [url]
-  #?(:cljs (throw (ex-info (str "Loading external contexts is not yet supported in Javascript.")
-                           {:status 400 :error :json-ld/external-context}))
-     :clj  (some-> (get context->file url)
-                   :parsed
-                   util/read-resource)))
+  (some-> (get context->file url)
+          :parsed
+          util/read-resource))

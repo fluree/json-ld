@@ -1,7 +1,17 @@
 (ns fluree.json-ld.impl.util
   (:require #?(:clj [clojure.java.io :as io])
-            #?(:clj [clojure.edn :as edn]))
+            #?(:clj [clojure.edn :as edn]
+               :cljs [cljs.reader :as edn])
+            #?(:cljs ["fs" :as fs]))
   #?(:cljs (:require-macros [fluree.json-ld.impl.util :refer [try-catchall if-cljs]])))
+
+#?(:cljs
+   (defn node-env?
+     "Returns true if the runtime is a nodejs environment, false if a browser runtime."
+     []
+     (try (and js/Window false)
+          (catch js/Error e
+            true))))
 
 #?(:clj (set! *warn-on-reflection* true))
 
@@ -40,8 +50,17 @@
 
 (defn read-resource
   [filename]
-  #?(:cljs (throw (ex-info (str "Loading external resources is not yet supported in Javascript.")
-                           {:status 400 :error :json-ld/external-resource}))
+  #?(:cljs
+     (if (node-env?)
+       (try-catchall
+         (some-> (fs.readFileSync (str "resources/" filename) "utf-8")
+                 (edn/read-string))
+         (catch e
+             (throw (ex-info (str "Invalid IRI, unable to read vocabulary from: " filename)
+                             {:status 400 :error :json-ld/external-resource}
+                             e))))
+       (throw (ex-info (str "Loading external resources is not yet supported in a browser runtime.")
+                       {:status 400 :error :json-ld/unsupported-runtime})))
      :clj  (try
              (some-> filename
                      io/resource
@@ -63,8 +82,19 @@
   :cljs
   :clj
 
-  nil
-  nil
 
-  (read-resource "foo")
-  )
+  (edn/read-string (fs.readFileSync "contexts/fluree/ledger/v1.edn" "utf-8"))
+
+  (try-catchall
+    (read-resource "contexts/fluree/ledger/v1.edn")
+    (catch e
+        (println e)))
+
+  (try (and js/Window true)
+       (catch js/Error e
+         false))
+
+  (node-env?)
+
+
+  ,)
