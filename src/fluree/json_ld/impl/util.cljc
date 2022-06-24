@@ -1,9 +1,7 @@
 (ns fluree.json-ld.impl.util
   (:require #?(:clj [clojure.java.io :as io])
             #?(:clj [clojure.edn :as edn]
-               :cljs [cljs.reader :as edn])
-            #?(:cljs ["fs" :as fs])
-            #?(:cljs ["path" :as path]))
+               :cljs [cljs.reader :as edn]))
   #?(:cljs (:require-macros [fluree.json-ld.impl.util :refer [try-catchall if-cljs inline-resource]])))
 
 #?(:clj
@@ -131,16 +129,8 @@
   :cljs
   :clj
 
-  (fs/readdirSync (path/resolve js/__dirname (str "resources/")))
-
-  (edn/read-string (fs.readFileSync "contexts/fluree/ledger/v1.edn" "utf-8"))
-
-  (println "path:" (path/resolve js/__dirname))
-  (println "resources:" (fs.readdirSync (path/resolve js/__dirname "resources/")))
 
   (read-resource "contexts/fluree/ledger/v1.edn")
-
-
 
 
   (try-catchall
