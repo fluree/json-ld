@@ -115,18 +115,10 @@
                       subject-bnode {:type :blank :value subject-bnode :term :subject})
      :predicate {:type :named :value predicate-iri :term :predicate}
      :object    (cond object-iri
-                      {:type :named :value object-iri :term :object
-                       :datatype
-                       (cond datatype {:type :named :value datatype}
-                             lang-tag {:type :named :value RDF_LANGSTRING :language lang-tag}
-                             :else    {:type :named :value XSD_STRING})}
+                      {:type :named :value object-iri :term :object}
 
                       object-bnode
-                      {:type :blank :value object-bnode :term :object
-                       :datatype
-                       (cond datatype {:type :named :value datatype}
-                             lang-tag {:type :named :value RDF_LANGSTRING :language lang-tag}
-                             :else    {:type :named :value XSD_STRING})}
+                      {:type :blank :value object-bnode :term :object}
 
                       object-literal
                       {:type :literal :term :object :value (unescape object-literal)
