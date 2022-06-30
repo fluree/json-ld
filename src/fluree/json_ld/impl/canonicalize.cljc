@@ -3,11 +3,8 @@
   https://json-ld.github.io/rdf-dataset-canonicalization/spec/"
   (:require [clojure.string :as str]
             [clojure.math.combinatorics :as combo]
-            [instaparse.core :as grammar]
             [clojure.java.io :as io]
             [lambdaisland.regal :as reg]
-            [lambdaisland.regal.parse :as reg-parse]
-            [lambdaisland.regal.generator :as reg-gen]
             [fluree.json-ld.impl.nquads :as nquads]
             [fluree.crypto :as crypto]))
 
@@ -78,7 +75,7 @@
   ex. {\"_:b0\" {:quads #{...} :hash \"<sha256 of normalized quads>\"}}
 
   hash->bnodes: a map of each quad hash to the bnodes that reference it.
-  ex. {\"<sha256 of normalized quads>\" #{\"_:b0\" \"_:b3\"}}
+  ex. {\"<sha256 of normalized quads>\" [\"_:b0\" \"_:b3\"]}
 
   canonical-issuer: an issuer state, for tracking the issuance of canonical ids."
   [quads]
@@ -252,12 +249,12 @@
   (let [{:keys [non-uniques canonical-issuer]} ; 5.4
         (->> (sort-by first hash->bnodes)
              (reduce (fn [{:keys [non-uniques canonical-issuer] :as state} [_hash bnodes]]
-                          (if (> (count bnodes) 1)
-                            (update state :non-uniques conj bnodes)
-                            (let [[canonical-issuer*] (issue-id canonical-issuer (first bnodes))]
-                              (assoc state :canonical-issuer canonical-issuer*))))
-                        {:canonical-issuer canonical-issuer
-                         :non-uniques []}))
+                       (if (> (count bnodes) 1)
+                         (update state :non-uniques conj bnodes)
+                         (let [[canonical-issuer*] (issue-id canonical-issuer (first bnodes))]
+                           (assoc state :canonical-issuer canonical-issuer*))))
+                     {:canonical-issuer canonical-issuer
+                      :non-uniques []}))
         canonical-issuer                ; 6
         (reduce (fn [canonical-issuer bnodes]
                   (let [hash-path-list
@@ -314,134 +311,1123 @@
          (sort)
          (reduce str))))
 
-
 (comment
-  (def in0 "<http://example.com/1> <http://example.com/label> \"test\"^^<http://example.com/t1> .")
-  (def in1 "<http://example.com/1> <http://example.com/label> \"test\"@en .")
-  (def in2 "<http://example.com/1> <http://example.com/friend> _:b1 .")
-  (def in3 "<http://example.com/2> <http://example.com/friend> <http://example.com/1> .")
-  (def in4 "_:b1 <http://example.com/friend> _:b0 _:b3 .")
-  (def in5"<http://example.com/2> <http://example.com/count> \"1\" <http://example.com/graphname> .")
-  (def in6 "_:b0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/vocab#Foo> .")
-  (def in7 "_:b3 <http://example.com/name> \"graph2\" _:b3 .")
-  (def in8 "_:b4 <http://example.com/name> _:b5 .")
-  (def in9 "_:b5 <http://example.com/name> _:b4 .")
-  (def in (str/join "\n" [in0 in1 in2 in3 in4 in5 in6 in7 in8 in9]))
+  zzz
+  #{{:statement "_:b4 <http://example.org/vocab#p> _:b1 .",
+     :subject {:type :blank, :value "_:b4", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b1", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b0 <http://example.org/vocab#p> _:b1 .",
+     :subject {:type :blank, :value "_:b0", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b1", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b1 <http://example.org/vocab#p> _:b3 .",
+     :subject {:type :blank, :value "_:b1", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b3", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b10 <http://example.org/vocab#p> _:b9 .",
+     :subject {:type :blank, :value "_:b10", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b9", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b7 <http://example.org/vocab#p> _:b6 .",
+     :subject {:type :blank, :value "_:b7", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b6", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b5 <http://example.org/vocab#p> _:b2 .",
+     :subject {:type :blank, :value "_:b5", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b2", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b10 <http://example.org/vocab#p> _:b8 .",
+     :subject {:type :blank, :value "_:b10", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b8", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b10 <http://example.org/vocab#p> _:b7 .",
+     :subject {:type :blank, :value "_:b10", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b7", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b7 <http://example.org/vocab#p> _:b10 .",
+     :subject {:type :blank, :value "_:b7", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b10", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b3 <http://example.org/vocab#p> _:b1 .",
+     :subject {:type :blank, :value "_:b3", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b1", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b3 <http://example.org/vocab#p> _:b5 .",
+     :subject {:type :blank, :value "_:b3", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b5", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b9 <http://example.org/vocab#p> _:b10 .",
+     :subject {:type :blank, :value "_:b9", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b10", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b3 <http://example.org/vocab#p> _:b0 .",
+     :subject {:type :blank, :value "_:b3", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b0", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b4 <http://example.org/vocab#p> _:b2 .",
+     :subject {:type :blank, :value "_:b4", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b2", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b6 <http://example.org/vocab#p> _:b7 .",
+     :subject {:type :blank, :value "_:b6", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b7", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b11 <http://example.org/vocab#p> _:b8 .",
+     :subject {:type :blank, :value "_:b11", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b8", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b8 <http://example.org/vocab#p> _:b11 .",
+     :subject {:type :blank, :value "_:b8", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b11", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b5 <http://example.org/vocab#p> _:b4 .",
+     :subject {:type :blank, :value "_:b5", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b4", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b1 <http://example.org/vocab#p> _:b0 .",
+     :subject {:type :blank, :value "_:b1", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b0", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b2 <http://example.org/vocab#p> _:b0 .",
+     :subject {:type :blank, :value "_:b2", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b0", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b9 <http://example.org/vocab#p> _:b6 .",
+     :subject {:type :blank, :value "_:b9", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b6", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b11 <http://example.org/vocab#p> _:b9 .",
+     :subject {:type :blank, :value "_:b11", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b9", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b5 <http://example.org/vocab#p> _:b3 .",
+     :subject {:type :blank, :value "_:b5", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b3", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b6 <http://example.org/vocab#p> _:b8 .",
+     :subject {:type :blank, :value "_:b6", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b8", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b8 <http://example.org/vocab#p> _:b6 .",
+     :subject {:type :blank, :value "_:b8", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b6", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b11 <http://example.org/vocab#p> _:b7 .",
+     :subject {:type :blank, :value "_:b11", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b7", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b2 <http://example.org/vocab#p> _:b4 .",
+     :subject {:type :blank, :value "_:b2", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b4", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b0 <http://example.org/vocab#p> _:b3 .",
+     :subject {:type :blank, :value "_:b0", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b3", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b7 <http://example.org/vocab#p> _:b11 .",
+     :subject {:type :blank, :value "_:b7", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b11", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b2 <http://example.org/vocab#p> _:b5 .",
+     :subject {:type :blank, :value "_:b2", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b5", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b8 <http://example.org/vocab#p> _:b10 .",
+     :subject {:type :blank, :value "_:b8", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b10", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b0 <http://example.org/vocab#p> _:b2 .",
+     :subject {:type :blank, :value "_:b0", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b2", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b6 <http://example.org/vocab#p> _:b9 .",
+     :subject {:type :blank, :value "_:b6", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b9", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b4 <http://example.org/vocab#p> _:b5 .",
+     :subject {:type :blank, :value "_:b4", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b5", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b9 <http://example.org/vocab#p> _:b11 .",
+     :subject {:type :blank, :value "_:b9", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b11", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}
+    {:statement "_:b1 <http://example.org/vocab#p> _:b4 .",
+     :subject {:type :blank, :value "_:b1", :term :subject},
+     :predicate {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+     :object {:type :blank, :value "_:b4", :term :object},
+     :graph {:type :default, :term :graph, :value ""}}}
 
 
-  (canonicalize (nquads/parse in))
-  (" <http://example.com/name>  ." " <http://example.com/name>  ." "<http://example.com/1> <http://example.com/friend> _:c14n1 ." "<http://example.com/1> <http://example.com/label> \"test\"@en ." "<http://example.com/1> <http://example.com/label> \"test\"^^http://example.com/t1 ." "<http://example.com/2> <http://example.com/count> \"1\" <http://example.com/graphname> ." "<http://example.com/2> <http://example.com/friend> <http://example.com/1> ." "_:c14n0 <http://example.com/name> \"graph2\" _:c14n0 ." "_:c14n1 <http://example.com/friend> _:c14n2 _:c14n0 ." "_:c14n2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/vocab#Foo> .")
-  {:prefix "_:c14n", :counter 3, :issued {"_:b3" "_:c14n0", "_:b1" "_:c14n1", "_:b0" "_:c14n2"}, :issued-order ["_:b3" "_:b1" "_:b0"]}
-  ({:hash "", :issuer nil} {:hash "", :issuer nil})
+  (mapv nquads/->statement zzz)
+  ["_:b5 <http://example.org/vocab#p> _:b2 .\n"
+   "_:b8 <http://example.org/vocab#p> _:b10 .\n"
+   "_:b4 <http://example.org/vocab#p> _:b2 .\n"
+   "_:b9 <http://example.org/vocab#p> _:b10 .\n"
+   "_:b0 <http://example.org/vocab#p> _:b3 .\n"
+   "_:b0 <http://example.org/vocab#p> _:b1 .\n"
+   "_:b0 <http://example.org/vocab#p> _:b2 .\n"
+   "_:b10 <http://example.org/vocab#p> _:b7 .\n"
+   "_:b9 <http://example.org/vocab#p> _:b6 .\n"
+   "_:b6 <http://example.org/vocab#p> _:b9 .\n"
+   "_:b6 <http://example.org/vocab#p> _:b7 .\n"
+   "_:b7 <http://example.org/vocab#p> _:b6 .\n"
+   "_:b11 <http://example.org/vocab#p> _:b9 .\n"
+   "_:b4 <http://example.org/vocab#p> _:b5 .\n"
+   "_:b1 <http://example.org/vocab#p> _:b3 .\n"
+   "_:b1 <http://example.org/vocab#p> _:b4 .\n"
+   "_:b6 <http://example.org/vocab#p> _:b8 .\n"
+   "_:b9 <http://example.org/vocab#p> _:b11 .\n"
+   "_:b4 <http://example.org/vocab#p> _:b1 .\n"
+   "_:b1 <http://example.org/vocab#p> _:b0 .\n"
+   "_:b11 <http://example.org/vocab#p> _:b8 .\n"
+   "_:b3 <http://example.org/vocab#p> _:b1 .\n"
+   "_:b8 <http://example.org/vocab#p> _:b11 .\n"
+   "_:b5 <http://example.org/vocab#p> _:b4 .\n"
+   "_:b8 <http://example.org/vocab#p> _:b6 .\n"
+   "_:b2 <http://example.org/vocab#p> _:b4 .\n"
+   "_:b3 <http://example.org/vocab#p> _:b0 .\n"
+   "_:b5 <http://example.org/vocab#p> _:b3 .\n"
+   "_:b11 <http://example.org/vocab#p> _:b7 .\n"
+   "_:b2 <http://example.org/vocab#p> _:b0 .\n"
+   "_:b2 <http://example.org/vocab#p> _:b5 .\n"
+   "_:b10 <http://example.org/vocab#p> _:b8 .\n"
+   "_:b10 <http://example.org/vocab#p> _:b9 .\n"
+   "_:b7 <http://example.org/vocab#p> _:b11 .\n"
+   "_:b7 <http://example.org/vocab#p> _:b10 .\n"
+   "_:b3 <http://example.org/vocab#p> _:b5 .\n"]
+
+  (def yyy (initialize-canonicalization-state zzz))
+  yyy
+  {:canonical-issuer {:prefix "_:c14n", :counter 0, :issued {}, :issued-order []},
+   :bnode->quad-info
+   {"_:b11"
+    {:quads
+     #{{:statement "_:b11 <http://example.org/vocab#p> _:b9 .",
+        :subject {:type :blank, :value "_:b11", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b9",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b9 <http://example.org/vocab#p> _:b11 .",
+        :subject {:type :blank, :value "_:b9", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b11",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b11 <http://example.org/vocab#p> _:b8 .",
+        :subject {:type :blank, :value "_:b11", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b8",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b8 <http://example.org/vocab#p> _:b11 .",
+        :subject {:type :blank, :value "_:b8", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b11",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b11 <http://example.org/vocab#p> _:b7 .",
+        :subject {:type :blank, :value "_:b11", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b7",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b7 <http://example.org/vocab#p> _:b11 .",
+        :subject {:type :blank, :value "_:b7", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b11",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}},
+     :hash "7215844358b318c724bd2de6ce59b01e6b8e2a4a24c8da82b77862448f8263fd"},
+    "_:b10"
+    {:quads
+     #{{:statement "_:b8 <http://example.org/vocab#p> _:b10 .",
+        :subject {:type :blank, :value "_:b8", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b10",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b9 <http://example.org/vocab#p> _:b10 .",
+        :subject {:type :blank, :value "_:b9", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b10",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b10 <http://example.org/vocab#p> _:b7 .",
+        :subject {:type :blank, :value "_:b10", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b7",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b10 <http://example.org/vocab#p> _:b8 .",
+        :subject {:type :blank, :value "_:b10", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b8",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b10 <http://example.org/vocab#p> _:b9 .",
+        :subject {:type :blank, :value "_:b10", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b9",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b7 <http://example.org/vocab#p> _:b10 .",
+        :subject {:type :blank, :value "_:b7", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b10",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}},
+     :hash "7215844358b318c724bd2de6ce59b01e6b8e2a4a24c8da82b77862448f8263fd"},
+    "_:b5"
+    {:quads
+     #{{:statement "_:b5 <http://example.org/vocab#p> _:b2 .",
+        :subject {:type :blank, :value "_:b5", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b2",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b4 <http://example.org/vocab#p> _:b5 .",
+        :subject {:type :blank, :value "_:b4", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b5",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b5 <http://example.org/vocab#p> _:b4 .",
+        :subject {:type :blank, :value "_:b5", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b4",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b5 <http://example.org/vocab#p> _:b3 .",
+        :subject {:type :blank, :value "_:b5", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b3",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b2 <http://example.org/vocab#p> _:b5 .",
+        :subject {:type :blank, :value "_:b2", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b5",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b3 <http://example.org/vocab#p> _:b5 .",
+        :subject {:type :blank, :value "_:b3", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b5",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}},
+     :hash "7215844358b318c724bd2de6ce59b01e6b8e2a4a24c8da82b77862448f8263fd"},
+    "_:b8"
+    {:quads
+     #{{:statement "_:b8 <http://example.org/vocab#p> _:b10 .",
+        :subject {:type :blank, :value "_:b8", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b10",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b6 <http://example.org/vocab#p> _:b8 .",
+        :subject {:type :blank, :value "_:b6", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b8",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b11 <http://example.org/vocab#p> _:b8 .",
+        :subject {:type :blank, :value "_:b11", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b8",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b8 <http://example.org/vocab#p> _:b11 .",
+        :subject {:type :blank, :value "_:b8", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b11",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b8 <http://example.org/vocab#p> _:b6 .",
+        :subject {:type :blank, :value "_:b8", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b6",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b10 <http://example.org/vocab#p> _:b8 .",
+        :subject {:type :blank, :value "_:b10", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b8",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}},
+     :hash "7215844358b318c724bd2de6ce59b01e6b8e2a4a24c8da82b77862448f8263fd"},
+    "_:b9"
+    {:quads
+     #{{:statement "_:b9 <http://example.org/vocab#p> _:b10 .",
+        :subject {:type :blank, :value "_:b9", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b10",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b9 <http://example.org/vocab#p> _:b6 .",
+        :subject {:type :blank, :value "_:b9", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b6",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b6 <http://example.org/vocab#p> _:b9 .",
+        :subject {:type :blank, :value "_:b6", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b9",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b11 <http://example.org/vocab#p> _:b9 .",
+        :subject {:type :blank, :value "_:b11", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b9",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b9 <http://example.org/vocab#p> _:b11 .",
+        :subject {:type :blank, :value "_:b9", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b11",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b10 <http://example.org/vocab#p> _:b9 .",
+        :subject {:type :blank, :value "_:b10", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b9",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}},
+     :hash "7215844358b318c724bd2de6ce59b01e6b8e2a4a24c8da82b77862448f8263fd"},
+    "_:b1"
+    {:quads
+     #{{:statement "_:b0 <http://example.org/vocab#p> _:b1 .",
+        :subject {:type :blank, :value "_:b0", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b1",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b1 <http://example.org/vocab#p> _:b3 .",
+        :subject {:type :blank, :value "_:b1", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b3",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b1 <http://example.org/vocab#p> _:b4 .",
+        :subject {:type :blank, :value "_:b1", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b4",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b4 <http://example.org/vocab#p> _:b1 .",
+        :subject {:type :blank, :value "_:b4", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b1",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b1 <http://example.org/vocab#p> _:b0 .",
+        :subject {:type :blank, :value "_:b1", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b0",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b3 <http://example.org/vocab#p> _:b1 .",
+        :subject {:type :blank, :value "_:b3", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b1",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}},
+     :hash "7215844358b318c724bd2de6ce59b01e6b8e2a4a24c8da82b77862448f8263fd"},
+    "_:b0"
+    {:quads
+     #{{:statement "_:b0 <http://example.org/vocab#p> _:b3 .",
+        :subject {:type :blank, :value "_:b0", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b3",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b0 <http://example.org/vocab#p> _:b1 .",
+        :subject {:type :blank, :value "_:b0", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b1",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b0 <http://example.org/vocab#p> _:b2 .",
+        :subject {:type :blank, :value "_:b0", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b2",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b1 <http://example.org/vocab#p> _:b0 .",
+        :subject {:type :blank, :value "_:b1", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b0",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b3 <http://example.org/vocab#p> _:b0 .",
+        :subject {:type :blank, :value "_:b3", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b0",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b2 <http://example.org/vocab#p> _:b0 .",
+        :subject {:type :blank, :value "_:b2", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b0",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}},
+     :hash "7215844358b318c724bd2de6ce59b01e6b8e2a4a24c8da82b77862448f8263fd"},
+    "_:b6"
+    {:quads
+     #{{:statement "_:b9 <http://example.org/vocab#p> _:b6 .",
+        :subject {:type :blank, :value "_:b9", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b6",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b6 <http://example.org/vocab#p> _:b9 .",
+        :subject {:type :blank, :value "_:b6", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b9",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b6 <http://example.org/vocab#p> _:b7 .",
+        :subject {:type :blank, :value "_:b6", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b7",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b7 <http://example.org/vocab#p> _:b6 .",
+        :subject {:type :blank, :value "_:b7", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b6",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b6 <http://example.org/vocab#p> _:b8 .",
+        :subject {:type :blank, :value "_:b6", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b8",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b8 <http://example.org/vocab#p> _:b6 .",
+        :subject {:type :blank, :value "_:b8", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b6",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}},
+     :hash "7215844358b318c724bd2de6ce59b01e6b8e2a4a24c8da82b77862448f8263fd"},
+    "_:b2"
+    {:quads
+     #{{:statement "_:b5 <http://example.org/vocab#p> _:b2 .",
+        :subject {:type :blank, :value "_:b5", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b2",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b4 <http://example.org/vocab#p> _:b2 .",
+        :subject {:type :blank, :value "_:b4", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b2",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b0 <http://example.org/vocab#p> _:b2 .",
+        :subject {:type :blank, :value "_:b0", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b2",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b2 <http://example.org/vocab#p> _:b4 .",
+        :subject {:type :blank, :value "_:b2", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b4",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b2 <http://example.org/vocab#p> _:b0 .",
+        :subject {:type :blank, :value "_:b2", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b0",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b2 <http://example.org/vocab#p> _:b5 .",
+        :subject {:type :blank, :value "_:b2", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b5",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}},
+     :hash "7215844358b318c724bd2de6ce59b01e6b8e2a4a24c8da82b77862448f8263fd"},
+    "_:b7"
+    {:quads
+     #{{:statement "_:b10 <http://example.org/vocab#p> _:b7 .",
+        :subject {:type :blank, :value "_:b10", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b7",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b6 <http://example.org/vocab#p> _:b7 .",
+        :subject {:type :blank, :value "_:b6", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b7",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b7 <http://example.org/vocab#p> _:b6 .",
+        :subject {:type :blank, :value "_:b7", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b6",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b11 <http://example.org/vocab#p> _:b7 .",
+        :subject {:type :blank, :value "_:b11", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b7",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b7 <http://example.org/vocab#p> _:b11 .",
+        :subject {:type :blank, :value "_:b7", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b11",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b7 <http://example.org/vocab#p> _:b10 .",
+        :subject {:type :blank, :value "_:b7", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b10",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}},
+     :hash "7215844358b318c724bd2de6ce59b01e6b8e2a4a24c8da82b77862448f8263fd"},
+    "_:b4"
+    {:quads
+     #{{:statement "_:b4 <http://example.org/vocab#p> _:b2 .",
+        :subject {:type :blank, :value "_:b4", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b2",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b4 <http://example.org/vocab#p> _:b5 .",
+        :subject {:type :blank, :value "_:b4", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b5",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b1 <http://example.org/vocab#p> _:b4 .",
+        :subject {:type :blank, :value "_:b1", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b4",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b4 <http://example.org/vocab#p> _:b1 .",
+        :subject {:type :blank, :value "_:b4", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b1",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b5 <http://example.org/vocab#p> _:b4 .",
+        :subject {:type :blank, :value "_:b5", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b4",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b2 <http://example.org/vocab#p> _:b4 .",
+        :subject {:type :blank, :value "_:b2", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b4",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}},
+     :hash "7215844358b318c724bd2de6ce59b01e6b8e2a4a24c8da82b77862448f8263fd"},
+    "_:b3"
+    {:quads
+     #{{:statement "_:b0 <http://example.org/vocab#p> _:b3 .",
+        :subject {:type :blank, :value "_:b0", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b3",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b1 <http://example.org/vocab#p> _:b3 .",
+        :subject {:type :blank, :value "_:b1", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b3",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b3 <http://example.org/vocab#p> _:b1 .",
+        :subject {:type :blank, :value "_:b3", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b1",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b3 <http://example.org/vocab#p> _:b0 .",
+        :subject {:type :blank, :value "_:b3", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b0",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b5 <http://example.org/vocab#p> _:b3 .",
+        :subject {:type :blank, :value "_:b5", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b3",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}
+       {:statement "_:b3 <http://example.org/vocab#p> _:b5 .",
+        :subject {:type :blank, :value "_:b3", :term :subject},
+        :predicate
+        {:type :named, :value "http://example.org/vocab#p", :term :predicate},
+        :object
+        {:type :blank,
+         :value "_:b5",
+         :term :object,
+         :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
+        :graph {:type :default, :term :graph, :value ""}}},
+     :hash "7215844358b318c724bd2de6ce59b01e6b8e2a4a24c8da82b77862448f8263fd"}},
+   :hash->bnodes
+   {"7215844358b318c724bd2de6ce59b01e6b8e2a4a24c8da82b77862448f8263fd"
+    ["_:b0"
+     "_:b1"
+     "_:b10"
+     "_:b11"
+     "_:b2"
+     "_:b3"
+     "_:b4"
+     "_:b5"
+     "_:b6"
+     "_:b7"
+     "_:b8"
+     "_:b9"]}}
+
+  ;; non-normalized
+  ;; ['_:b0','_:b1','_:b2','_:b3','_:b4','_:b5','_:b6','_:b7','_:b8','_:b9','_:b10','_:b11']
+
+  ["_:b0","_:b1","_:b2","_:b3","_:b4","_:b5","_:b6","_:b7","_:b8","_:b9","_:b10","_:b11"]
+
+  (:hash->bnodes (initialize-canonicalization-state zzz))
+  {"7215844358b318c724bd2de6ce59b01e6b8e2a4a24c8da82b77862448f8263fd"
+   ["_:b0" "_:b1" "_:b10" "_:b11" "_:b2" "_:b3" "_:b4" "_:b5" "_:b6" "_:b7" "_:b8" "_:b9"]}
+  {"7215844358b318c724bd2de6ce59b01e6b8e2a4a24c8da82b77862448f8263fd"
+   ["_:b0" "_:b1" "_:b2" "_:b3" "_:b4" "_:b5" "_:b6" "_:b7" "_:b8" "_:b9" "_:b10" "_:b11"]}
+
+  (sort '("_:b11" "_:b10" "_:b5" "_:b8" "_:b9" "_:b1" "_:b0" "_:b6" "_:b2" "_:b7" "_:b4" "_:b3"))
+
+  (defn to-tuple [s]
+    (let [[_ s 'd] (re-matches #"(a)(\d+)" s)]
+      [s '(Long/parseLong d)]))
+
+  [:cat [:capture "_:" ]]
+
+  ("_:b0" "_:b1" "_:b10" "_:b11" "_:b2" "_:b3" "_:b4" "_:b5" "_:b6" "_:b7" "_:b8" "_:b9")
+
+  (sort (keys (:bnode->quad-info yyy)))
+  '("_:b0" "_:b1" "_:b10" "_:b11" "_:b2" "_:b3" "_:b4" "_:b5" "_:b6" "_:b7" "_:b8" "_:b9")
+
+  '("_:b11" "_:b10" "_:b5" "_:b8" "_:b9" "_:b1" "_:b0" "_:b6" "_:b2" "_:b7" "_:b4" "_:b3")
+
+  "a0" "a1" "a2" "a3" "a4" "a9" "a10" "a11"
+  "a0" "a1" "a10" "a11" "a2" "a3" "a4" "a9"
 
 
+  (:canonical-issuer :bnode->quad-info :hash->bnodes)
 
-  ("_:b5" "_:b4")
-
-
-  {"c2005112b1fcc34131abf9b1b1f616b0c15cfa6e195119195502a530ffed7b7a" #{"_:b0"},
-   "af01ae21de1128b9e9047f01e47a5148925d3e7cabaa47d78bf9e53fd1564413" #{"_:b5" "_:b4"},
-   "b09d1d5ad10cd74aeb5838b9c15c9a8d45428f52d5ddc68754c26b88a06c0199" #{"_:b3"},
-   "c0d7c06e5bb3c19fbbefbccd225e7e7ac70606331aeed6326c071e45a63e6e1d" #{"_:b1"}}
-  {"_:b0"
-   #{{:statement
-      "_:b0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/vocab#Foo> .",
-      :subject {:type :blank, :value "_:b0", :term :subject},
-      :predicate
-      {:type :named,
-       :value "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
-       :term :predicate},
-      :object
-      {:type :named,
-       :value "http://example.org/vocab#Foo",
-       :term :object,
-       :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
-      :graph {:type :default, :term :graph, :value ""}}
-     {:statement "_:b1 <http://example.com/friend> _:b0 _:b3 .",
-      :subject {:type :blank, :value "_:b1", :term :subject},
-      :predicate {:type :named, :value "http://example.com/friend", :term :predicate},
-      :object
-      {:type :blank,
-       :value "_:b0",
-       :term :object,
-       :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
-      :graph {:type :blank, :term :graph, :value "_:b3"}}},
-   "_:b4"
-   #{{:statement "_:b4 <http://example.com/name> _:b5 .",
-      :subject {:type :blank, :value "_:b4", :term :subject},
-      :predicate {:type :named, :value "http://example.com/name", :term :predicate},
-      :object
-      {:type :blank,
-       :value "_:b5",
-       :term :object,
-       :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
-      :graph {:type :default, :term :graph, :value ""}}
-     {:statement "_:b5 <http://example.com/name> _:b4 .",
-      :subject {:type :blank, :value "_:b5", :term :subject},
-      :predicate {:type :named, :value "http://example.com/name", :term :predicate},
-      :object
-      {:type :blank,
-       :value "_:b4",
-       :term :object,
-       :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
-      :graph {:type :default, :term :graph, :value ""}}},
-   "_:b5"
-   #{{:statement "_:b4 <http://example.com/name> _:b5 .",
-      :subject {:type :blank, :value "_:b4", :term :subject},
-      :predicate {:type :named, :value "http://example.com/name", :term :predicate},
-      :object
-      {:type :blank,
-       :value "_:b5",
-       :term :object,
-       :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
-      :graph {:type :default, :term :graph, :value ""}}
-     {:statement "_:b5 <http://example.com/name> _:b4 .",
-      :subject {:type :blank, :value "_:b5", :term :subject},
-      :predicate {:type :named, :value "http://example.com/name", :term :predicate},
-      :object
-      {:type :blank,
-       :value "_:b4",
-       :term :object,
-       :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
-      :graph {:type :default, :term :graph, :value ""}}},
-   "_:b3"
-   #{{:statement "_:b3 <http://example.com/name> \"graph2\" _:b3 .",
-      :subject {:type :blank, :value "_:b3", :term :subject},
-      :predicate {:type :named, :value "http://example.com/name", :term :predicate},
-      :object
-      {:type :literal,
-       :term :object,
-       :value "graph2",
-       :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
-      :graph {:type :blank, :term :graph, :value "_:b3"}}
-     {:statement "_:b1 <http://example.com/friend> _:b0 _:b3 .",
-      :subject {:type :blank, :value "_:b1", :term :subject},
-      :predicate {:type :named, :value "http://example.com/friend", :term :predicate},
-      :object
-      {:type :blank,
-       :value "_:b0",
-       :term :object,
-       :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
-      :graph {:type :blank, :term :graph, :value "_:b3"}}},
-   "_:b1"
-   #{{:statement "_:b1 <http://example.com/friend> _:b0 _:b3 .",
-      :subject {:type :blank, :value "_:b1", :term :subject},
-      :predicate {:type :named, :value "http://example.com/friend", :term :predicate},
-      :object
-      {:type :blank,
-       :value "_:b0",
-       :term :object,
-       :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
-      :graph {:type :blank, :term :graph, :value "_:b3"}}
-     {:statement "<http://example.com/1> <http://example.com/friend> _:b1 .",
-      :subject {:type :named, :value "http://example.com/1", :term :subject},
-      :predicate {:type :named, :value "http://example.com/friend", :term :predicate},
-      :object
-      {:type :blank,
-       :value "_:b1",
-       :term :object,
-       :datatype {:type :named, :value "http://www.w3.org/2001/XMLSchema#string"}},
-      :graph {:type :default, :term :graph, :value ""}}}}
+  ;; if we're sorting by hash, and they all have the same hash, what's the next order?
+  {"7215844358b318c724bd2de6ce59b01e6b8e2a4a24c8da82b77862448f8263fd"
+   ["_:b0"
+    "_:b1"
+    "_:b2"
+    "_:b3"
+    "_:b4"
+    "_:b5"
+    "_:b6"
+    "_:b7"
+    "_:b8"
+    "_:b9"
+    "_:b10"
+    "_:b11"]}
 
 
-  )
+  (assign-canonical-ids yyy)
+  {:prefix "_:c14n",
+   :counter 12,
+   :issued
+   {"_:b11" "_:c14n10",
+    "_:b10" "_:c14n11",
+    "_:b5" "_:c14n0",
+    "_:b8" "_:c14n7",
+    "_:b9" "_:c14n8",
+    "_:b1" "_:c14n5",
+    "_:b0" "_:c14n4",
+    "_:b6" "_:c14n6",
+    "_:b2" "_:c14n1",
+    "_:b7" "_:c14n9",
+    "_:b4" "_:c14n2",
+    "_:b3" "_:c14n3"},
+   :issued-order
+   ["_:b5"
+    "_:b2"
+    "_:b4"
+    "_:b3"
+    "_:b0"
+    "_:b1"
+    "_:b6"
+    "_:b8"
+    "_:b9"
+    "_:b7"
+    "_:b11"
+    "_:b10"]}
+
+  {:prefix "_:c14n",
+   :counter 12,
+   :issued
+   {"_:b11" "_:c14n10",
+    "_:b10" "_:c14n6",
+    "_:b5" "_:c14n0",
+    "_:b8" "_:c14n7",
+    "_:b9" "_:c14n8",
+    "_:b1" "_:c14n5",
+    "_:b0" "_:c14n4",
+    "_:b6" "_:c14n11",
+    "_:b2" "_:c14n1",
+    "_:b7" "_:c14n9",
+    "_:b4" "_:c14n2",
+    "_:b3" "_:c14n3"},
+   :issued-order
+   ["_:b5"
+    "_:b2"
+    "_:b4"
+    "_:b3"
+    "_:b0"
+    "_:b1"
+    "_:b10"
+    "_:b8"
+    "_:b9"
+    "_:b7"
+    "_:b11"
+    "_:b6"]}
+
+  {
+   "_:b0" "_:c14n0",
+   "_:b2" "_:c14n1",
+   "_:b3" "_:c14n2",
+   "_:b1" "_:c14n3",
+   "_:b4" "_:c14n4",
+   "_:b5" "_:c14n5",
+   "_:b6" "_:c14n6",
+   "_:b7" "_:c14n7",
+   "_:b8" "_:c14n8",
+   "_:b9" "_:c14n9",
+   "_:b10" "_:c14n10",
+   "_:b11" "_:c14n11"}
+
+
+  ,)
