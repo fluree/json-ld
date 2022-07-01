@@ -46,7 +46,7 @@
   (t/deftest individual-test
     (run-test (get-test-def "manifest-urdna2015#test020")))
 
-  (run-test (get-test-def "manifest-urdna2015#test019"))
+  (run-test (get-test-def "manifest-urdna2015#test044"))
 
   (count (:test-ids tests))
 

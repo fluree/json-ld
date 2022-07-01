@@ -178,7 +178,7 @@
 (defn serialize
   "Turn a sorted set of quads into an n-quads string."
   [dataset]
-  (reduce str (map ->statement dataset)))
+  (reduce str (sort (map ->statement dataset))))
 
 (comment
   #_(def parse-nquads (grammar/parser g1))
