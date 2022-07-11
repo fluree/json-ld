@@ -46,7 +46,10 @@
   (t/deftest individual-test
     (run-test (get-test-def "manifest-urdna2015#test020")))
 
+  (reset! canon/issuer-id -1)
+  @canon/issuer-id
   (run-test (get-test-def "manifest-urdna2015#test044"))
+
 
   (count (:test-ids tests))
 

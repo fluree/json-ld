@@ -220,12 +220,11 @@
         (assoc :issuer-copy issuer)))) ; 5.4.5.4
 
 (defn process-permutation
-  [canon-state issuer hndq-state related-bnodes-permutation]
+  [canon-state hndq-state related-bnodes-permutation]
   #_(println (:recurse-level hndq-state) "permutation-0" related-bnodes-permutation issuer (pr-str hndq-state))
 
-  (let [issuer-copy (clone-issuer issuer)
-        ;; (or (:issuer-copy hndq-state) issuer) - TODO: is this `or` ok?
-        _ (println (:recurse-level hndq-state) "clone issuer-copy from" (:id issuer) "to" (:id issuer-copy) "issued" (:issued issuer-copy))
+  (let [issuer-copy (clone-issuer (:issuer hndq-state))
+        _ (println (:recurse-level hndq-state) "clone issuer-copy from" (:id (:issuer hndq-state)) "to" (:id issuer-copy))
         hndq-state (reduce (partial process-permutation-bnode1 canon-state) ; 5.4.4-5.4.4.2.2
                            (-> hndq-state
                                (assoc :issuer-copy issuer-copy) ; 5.4.1
@@ -241,28 +240,30 @@
                                hndq-state
                                (:recursion-list hndq-state)) ; 5.4.5
             ;; _ (println (:recurse-level hndq-state) "permutation-2" (pr-str hndq-state))
-            hndq-state (cond-> hndq-state
+            hndq-state* (cond-> hndq-state
                          ;; 5.4.6
                          (or (zero? (count (:chosen-path hndq-state)))
                              (lex-less-than? (:path hndq-state) (:chosen-path hndq-state)))
                          (-> (assoc :chosen-path (:path hndq-state))
                              (assoc :chosen-issuer (:issuer-copy hndq-state))))]
         #_(println (:recurse-level hndq-state) "permutation-3" (pr-str hndq-state))
-        (println (:recurse-level hndq-state) "replace chosenIssuer"  (:id (:chosen-issuer hndq-state)) "with issuerCopy" (:id (:issuer-copy hndq-state)))
-        hndq-state))))
+        (println (:recurse-level hndq-state) "replace chosenIssuer"  (:id (:chosen-issuer hndq-state)) "with issuerCopy" (:id (:issuer-copy hndq-state*)))
+        hndq-state*))))
 
 (defn process-related-bnodes
-  [canon-state issuer hndq-state [related-hash related-bnodes]]
+  [canon-state hndq-state [related-hash related-bnodes]]
   #_(println (:recurse-level hndq-state) "related-bnodes-start" related-hash related-bnodes (pr-str hndq-state))
   (println (:recurse-level hndq-state) "chosenIssuer initialized" nil)
-  (let [hndq-state (reduce (partial process-permutation canon-state issuer) ; 5.4.1-5.4.6
+  (let [permutations (combo/permutations (sort related-bnodes))
+        _ (println (:recurse-level hndq-state) "permutations of" related-bnodes permutations)
+        hndq-state (reduce (partial process-permutation canon-state) ; 5.4.1-5.4.6
                            (-> hndq-state
                                (update :data-to-hash str related-hash) ; 5.1
                                (assoc :chosen-path "")                 ; 5.2
                                (assoc :chosen-issuer nil))             ; 5.3
-                           (combo/permutations related-bnodes))]       ; 5.4
+                           permutations)]       ; 5.4
     #_(println (:recurse-level hndq-state) "related-bnodes-end" (pr-str hndq-state))
-    (println (:recurse-level hndq-state) "replace issuer" (:id issuer) "with chosenIssuer" (:id (:chosen-issuer hndq-state)))
+    (println (:recurse-level hndq-state) "replace issuer" (:id (:issuer hndq-state)) "with chosenIssuer" (:id (:chosen-issuer hndq-state)))
     (-> hndq-state
         (update :data-to-hash str (:chosen-path hndq-state))
         (assoc :issuer (:chosen-issuer hndq-state)))))
@@ -315,11 +316,12 @@
         _ (println recurse-level "hndq" (pr-str bnode) (:id issuer) (pr-str issuer))
         ;; _ (println recurse-level "hash->related-bnodes" (pr-str hash->related-bnodes))
         {:keys [data-to-hash issuer]}
-        (reduce (partial process-related-bnodes canon-state issuer) ; 4-
-                {:recurse-level recurse-level}
+        (reduce (partial process-related-bnodes canon-state) ; 4-
+                {:recurse-level recurse-level
+                 :issuer issuer}
                 (sort-by first hash->related-bnodes))] ; 5.
     (println recurse-level "RESULT" data-to-hash (pr-str issuer))
-    {:hash (crypto/sha2-256 data-to-hash) :issuer issuer})) ; 5.6, 6 ; TODO: replace by ref? do I need to mutate?
+    {:hash (crypto/sha2-256 data-to-hash) :issuer issuer})) ; 5.6, 6
 
 (defn assign-canonical-ids
   "Takes the canonicalization state and maps each blank node identifier to a canonical
@@ -389,8 +391,9 @@
   (def zzz quads)
   (let [canon-state (initialize-canonicalization-state quads) ; 1 - 5.3.2
         canonical-issuer (assign-canonical-ids canon-state)]  ; 5.4 - 6.3.1
-    (->> quads                                                ; 7
-         (map (partial replace-bnodes canonical-issuer))      ; 7.1, 7.2
+    (println "final canonicalization issuer" canonical-issuer)
+    (->> quads                                           ; 7
+         (map (partial replace-bnodes canonical-issuer)) ; 7.1, 7.2
          nquads/serialize)))                                  ; 8
 
 (comment
