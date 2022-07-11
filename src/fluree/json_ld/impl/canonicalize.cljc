@@ -143,7 +143,7 @@
     (crypto/sha2-256 input)))           ; 5
 
 (defn map-hash-to-related-bnodes
-  [{:keys [bnode->quad-info] :as canon-state} bnode temp-issuer]
+  [{:keys [bnode->quad-info] :as canon-state} bnode issuer]
   ;; 3) For each quad in quads:
 
   ;; 3.1) For each component in quad, where component is the subject, object, or graph
@@ -165,7 +165,7 @@
                                 (hash-related-bnode canon-state
                                                     (:value component)
                                                     quad
-                                                    temp-issuer
+                                                    issuer
                                                     (case term :subject "s" :object "o" :graph "g"))
                                 (fnil conj #{}) ; 3.1.2
                                 (:value component))
