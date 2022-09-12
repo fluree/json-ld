@@ -186,7 +186,7 @@
 
 
 (defn- type-sub-context
-  "@context can define sub-contexts for certain @type values. Check if exists and merge."
+  "The @context can define sub-contexts for certain @type values. Check if exists and merge."
   [context types]
   (reduce
     (fn [context* type]
