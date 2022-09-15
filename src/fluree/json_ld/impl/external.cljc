@@ -31,6 +31,10 @@
                     {:source "contexts/org/w3/www/ns/did/v1.jsonld"
                      :parsed "contexts/org/w3/www/ns/did/v1.edn"}
 
+                    "https://w3id.org/did/v1"
+                    {:source "contexts/org/w3/www/ns/did/v1.jsonld"
+                     :parsed "contexts/org/w3/www/ns/did/v1.edn"}
+
                     "https://w3id.org/security/v1"
                     {:source "contexts/org/w3id/security/v1.jsonld"
                      :parsed "contexts/org/w3id/security/v1.edn"}

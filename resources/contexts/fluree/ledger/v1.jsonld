@@ -9,8 +9,12 @@
     "skos": "http://www.w3.org/2008/05/skos#",
     "CommitProof": "fluree:CommitProof",
     "Commit": "fluree:Commit",
+    "Index": "fluree:Index",
     "DB": "fluree:DB",
+    "FNS": "fluree:FNS",
+    "address": "fluree:address",
     "time": "fluree:time",
+    "index": "fluree:index",
     "updates": "fluree:updates",
     "tag": "fluree:tag",
     "ledger": "fluree:ledger",
@@ -45,6 +49,10 @@
     },
     "db": {
       "@id": "fluree:db",
+      "@type": "@id"
+    },
+    "fns": {
+      "@id": "fluree:fns",
       "@type": "@id"
     },
     "assert": {

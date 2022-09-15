@@ -1,14 +1,18 @@
 {"message" {:id "https://ns.flur.ee/ledger#message"},
  "role" {:id "https://ns.flur.ee/ledger#role", :type :id},
+ "Index" {:id "https://ns.flur.ee/ledger#Index"},
+ "index" {:id "https://ns.flur.ee/ledger#index"},
  "opsTransact" {:id "https://ns.flur.ee/ledger#opsTransact"},
  "Context" {:id "https://ns.flur.ee/ledger#Context"},
  "updates" {:id "https://ns.flur.ee/ledger#updates"},
  "branch" {:id "https://ns.flur.ee/ledger#branch"},
+ "FNS" {:id "https://ns.flur.ee/ledger#FNS"},
  "DB" {:id "https://ns.flur.ee/ledger#DB"},
  "v"
  {:id "https://ns.flur.ee/ledger#v",
   :type "http://www.w3.org/2001/XMLSchema#decimal"},
  "id" {:id "@id"},
+ "fns" {:id "https://ns.flur.ee/ledger#fns", :type :id},
  "flakes"
  {:id "https://ns.flur.ee/ledger#flakes",
   :type "http://www.w3.org/2001/XMLSchema#long"},
@@ -19,6 +23,7 @@
  "tag" {:id "https://ns.flur.ee/ledger#tag"},
  "rules" {:id "https://ns.flur.ee/ledger#rules", :type :id},
  "context" {:id "https://ns.flur.ee/ledger#context"},
+ "address" {:id "https://ns.flur.ee/ledger#address"},
  "fluree" {:id "https://ns.flur.ee/ledger#"},
  "opsQuery" {:id "https://ns.flur.ee/ledger#opsQuery"},
  "retract"
