@@ -47,12 +47,12 @@
       "@id": "fluree:size",
       "@type": "xsd:long"
     },
-    "db": {
-      "@id": "fluree:db",
+    "data": {
+      "@id": "fluree:data",
       "@type": "@id"
     },
-    "fns": {
-      "@id": "fluree:fns",
+    "ns": {
+      "@id": "fluree:ns",
       "@type": "@id"
     },
     "assert": {

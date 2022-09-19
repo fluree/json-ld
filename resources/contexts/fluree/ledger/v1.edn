@@ -12,7 +12,6 @@
  {:id "https://ns.flur.ee/ledger#v",
   :type "http://www.w3.org/2001/XMLSchema#decimal"},
  "id" {:id "@id"},
- "fns" {:id "https://ns.flur.ee/ledger#fns", :type :id},
  "flakes"
  {:id "https://ns.flur.ee/ledger#flakes",
   :type "http://www.w3.org/2001/XMLSchema#long"},
@@ -41,7 +40,6 @@
  "tx" {:id "https://ns.flur.ee/ledger#tx", :type :id},
  "type" {:id "@type", :type? true},
  "DID" {:id "https://ns.flur.ee/ledger#DID"},
- "db" {:id "https://ns.flur.ee/ledger#db", :type :id},
  "alias" {:id "https://ns.flur.ee/ledger#alias"},
  "size"
  {:id "https://ns.flur.ee/ledger#size",
@@ -49,9 +47,11 @@
  "Function" {:id "https://ns.flur.ee/ledger#Function"},
  :version 1.1,
  "CommitProof" {:id "https://ns.flur.ee/ledger#CommitProof"},
+ "data" {:id "https://ns.flur.ee/ledger#data", :type :id},
  "skos" {:id "http://www.w3.org/2008/05/skos#"},
  "code" {:id "https://ns.flur.ee/ledger#code"},
  "assert" {:id "https://ns.flur.ee/ledger#assert", :container :graph},
+ "ns" {:id "https://ns.flur.ee/ledger#ns", :type :id},
  "ledger" {:id "https://ns.flur.ee/ledger#ledger"},
  "xsd" {:id "http://www.w3.org/2001/XMLSchema#"},
  "operations" {:id "https://ns.flur.ee/ledger#operations", :type :id}}
