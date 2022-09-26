@@ -23,12 +23,12 @@
       "@id": "fluree:tx",
       "@type": "@id"
     },
-    "prevDB": {
-      "@id": "fluree:prevDB",
+    "commit": {
+      "@id": "fluree:commit",
       "@type": "@id"
     },
-    "prevCommit": {
-      "@id": "fluree:prevCommit",
+    "previous": {
+      "@id": "fluree:previous",
       "@type": "@id"
     },
     "t": {
