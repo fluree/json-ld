@@ -83,6 +83,7 @@
                              (map? v) :map
                              (sequential? v) :sequential
                              (string? v) :string
+                             (keyword? v) :keyword
                              (number? v) :number
                              (boolean? v) :boolean
                              (nil? v) :nil
@@ -114,6 +115,20 @@
     :else {:value v
            :type  type
            :idx   idx}))
+
+;; keywords should only be used in values for IRIs
+(defmethod parse-node-val :keyword
+  [v {:keys [id type] :as v-info} context _ idx]
+  (cond
+    (= "@id" id) (iri v context false)
+    (= "@type" id) [(iri v context false)]                  ;; @type should have been picked up using :type-key, but in case explicitly defined regardless
+    (= :id type) {:id  (iri v context false)
+                  :idx idx}
+    :else (throw (ex-info (str "Clojure keyword context values can only be used where an expanded IRI "
+                               "is expected (e.g. an @id or @type value). Provided value: " v
+                               " for key: " id ".")
+                          {:status 400
+                           :error  :json-ld/invalid-context}))))
 
 (defmethod parse-node-val :number
   [v v-info _ _ idx]

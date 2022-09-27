@@ -408,13 +408,25 @@
 
 (deftest keyword-contexts
   (testing "Clojure keyword contexts"
-    (is (= (expand/node {:context {:id "@id"
-                                   :type "@type"
-                                   :schema "http://schema.org/"}
-                         :id "http://example.com/ns#item123"
-                         :type :schema/Movie
+    (is (= (expand/node {:context     {:id     "@id"
+                                       :type   "@type"
+                                       :schema "http://schema.org/"}
+                         :id          "http://example.com/ns#item123"
+                         :type        :schema/Movie
                          :schema/name "My Movie"})
-           {:idx [],
-            :type ["http://schema.org/Movie"],
-            :id "http://example.com/ns#item123",
+           {:idx                     [],
+            :type                    ["http://schema.org/Movie"],
+            :id                      "http://example.com/ns#item123",
+            "http://schema.org/name" {:value "My Movie", :type nil, :idx [:schema/name]}})))
+  (testing "Clojure keyword used as IRI value"
+    (is (= (expand/node {:context     {:id     "@id"
+                                       :type   "@type"
+                                       :schema "http://schema.org/"
+                                       :ex     "http://example.com/ns#"}
+                         :id          :ex/item123
+                         :type        :schema/Movie
+                         :schema/name "My Movie"})
+           {:idx                     [],
+            :type                    ["http://schema.org/Movie"],
+            :id                      "http://example.com/ns#item123",
             "http://schema.org/name" {:value "My Movie", :type nil, :idx [:schema/name]}}))))
