@@ -19,6 +19,10 @@
                     {:source "contexts/fluree/ledger/v1.jsonld"
                      :parsed "contexts/fluree/ledger/v1.edn"}
 
+                    "http://www.w3.org/ns/shacl"
+                    {:source "contexts/org/w3/www/ns/shacl/v1.jsonld"
+                     :parsed "contexts/org/w3/www/ns/shacl/v1.edn"}
+
                     "https://purl.imsglobal.org/spec/clr/v1p0/context/clr_v1p0.jsonld"
                     {:source "contexts/org/imsglobal/purl/spec/clr/v1p0/context/clr_v1p0.jsonld"
                      :parsed "contexts/org/imsglobal/purl/spec/clr/v1p0/context/clr_v1p0.edn"}

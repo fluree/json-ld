@@ -1,0 +1,104 @@
+{"zeroOrMorePath"
+ {:type :id, :id "http://www.w3.org/ns/shacl#zeroOrMorePath"},
+ "sourceConstraintComponent"
+ {:type :id,
+  :id "http://www.w3.org/ns/shacl#sourceConstraintComponent"},
+ "sparql" {:type :id, :id "http://www.w3.org/ns/shacl#sparql"},
+ "resultAnnotation"
+ {:type :id, :id "http://www.w3.org/ns/shacl#resultAnnotation"},
+ "targetClass"
+ {:type :id, :id "http://www.w3.org/ns/shacl#targetClass"},
+ "parameter" {:type :id, :id "http://www.w3.org/ns/shacl#parameter"},
+ "prefixes" {:type :id, :id "http://www.w3.org/ns/shacl#prefixes"},
+ "declare" {:type :id, :id "http://www.w3.org/ns/shacl#declare"},
+ "resultSeverity"
+ {:type :id, :id "http://www.w3.org/ns/shacl#resultSeverity"},
+ "not" {:type :id, :id "http://www.w3.org/ns/shacl#not"},
+ "minLength"
+ {:type "http://www.w3.org/2001/XMLSchema#integer",
+  :id "http://www.w3.org/ns/shacl#minLength"},
+ "languageIn"
+ {:container :list, :id "http://www.w3.org/ns/shacl#languageIn"},
+ "group" {:type :id, :id "http://www.w3.org/ns/shacl#group"},
+ "class" {:type :id, :id "http://www.w3.org/ns/shacl#class"},
+ "maxCount"
+ {:type "http://www.w3.org/2001/XMLSchema#integer",
+  :id "http://www.w3.org/ns/shacl#maxCount"},
+ "zeroOrOnePath"
+ {:type :id, :id "http://www.w3.org/ns/shacl#zeroOrOnePath"},
+ "rdf" {:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#"},
+ "minCount"
+ {:type "http://www.w3.org/2001/XMLSchema#integer",
+  :id "http://www.w3.org/ns/shacl#minCount"},
+ "derivedValues"
+ {:type :id, :id "http://www.w3.org/ns/shacl#derivedValues"},
+ "alternativePath"
+ {:type :id,
+  :container :list,
+  :id "http://www.w3.org/ns/shacl#alternativePath"},
+ "returnType" {:type :id, :id "http://www.w3.org/ns/shacl#returnType"},
+ "targetSubjectsOf"
+ {:type :id, :id "http://www.w3.org/ns/shacl#targetSubjectsOf"},
+ "detail" {:type :id, :id "http://www.w3.org/ns/shacl#detail"},
+ "path" {:type :id, :id "http://www.w3.org/ns/shacl#path"},
+ "targetObjectsOf"
+ {:type :id, :id "http://www.w3.org/ns/shacl#targetObjectsOf"},
+ "nodeKind" {:type :id, :id "http://www.w3.org/ns/shacl#nodeKind"},
+ "maxLength"
+ {:type "http://www.w3.org/2001/XMLSchema#integer",
+  :id "http://www.w3.org/ns/shacl#maxLength"},
+ :type-key "@type",
+ "lessThanOrEquals"
+ {:type :id, :id "http://www.w3.org/ns/shacl#lessThanOrEquals"},
+ "or"
+ {:type :id, :container :list, :id "http://www.w3.org/ns/shacl#or"},
+ :vocab "http://www.w3.org/ns/shacl#",
+ "resultPath" {:type :id, :id "http://www.w3.org/ns/shacl#resultPath"},
+ "propertyValidator"
+ {:type :id, :id "http://www.w3.org/ns/shacl#propertyValidator"},
+ "property" {:type :id, :id "http://www.w3.org/ns/shacl#property"},
+ "disjoint" {:type :id, :id "http://www.w3.org/ns/shacl#disjoint"},
+ "lessThan" {:type :id, :id "http://www.w3.org/ns/shacl#lessThan"},
+ "rdfs" {:id "http://www.w3.org/2000/01/rdf-schema#"},
+ "and"
+ {:type :id, :container :list, :id "http://www.w3.org/ns/shacl#and"},
+ "validator" {:type :id, :id "http://www.w3.org/ns/shacl#validator"},
+ "inversePath"
+ {:type :id, :id "http://www.w3.org/ns/shacl#inversePath"},
+ "target" {:type :id, :id "http://www.w3.org/ns/shacl#target"},
+ "datatype" {:type :id, :id "http://www.w3.org/ns/shacl#datatype"},
+ "annotationProperty"
+ {:type :id, :id "http://www.w3.org/ns/shacl#annotationProperty"},
+ "qualifiedValueShape"
+ {:type :id, :id "http://www.w3.org/ns/shacl#qualifiedValueShape"},
+ "sh" {:id "http://www.w3.org/ns/shacl#"},
+ "sourceShape"
+ {:type :id, :id "http://www.w3.org/ns/shacl#sourceShape"},
+ "qualifiedMinCount"
+ {:type "http://www.w3.org/2001/XMLSchema#integer",
+  :id "http://www.w3.org/ns/shacl#qualifiedMinCount"},
+ "namespace"
+ {:type "http://www.w3.org/2001/XMLSchema#anyURI",
+  :id "http://www.w3.org/ns/shacl#namespace"},
+ "comment" {:id "http://www.w3.org/2000/01/rdf-schema#comment"},
+ "ignoredProperties"
+ {:type :id,
+  :container :list,
+  :id "http://www.w3.org/ns/shacl#ignoredProperties"},
+ "nodeValidator"
+ {:type :id, :id "http://www.w3.org/ns/shacl#nodeValidator"},
+ "severity" {:type :id, :id "http://www.w3.org/ns/shacl#severity"},
+ "oneOrMorePath"
+ {:type :id, :id "http://www.w3.org/ns/shacl#oneOrMorePath"},
+ "equals" {:type :id, :id "http://www.w3.org/ns/shacl#equals"},
+ "shapesGraph"
+ {:type :id, :id "http://www.w3.org/ns/shacl#shapesGraph"},
+ "qualifiedMaxCount"
+ {:type "http://www.w3.org/2001/XMLSchema#integer",
+  :id "http://www.w3.org/ns/shacl#qualifiedMaxCount"},
+ "node" {:type :id, :id "http://www.w3.org/ns/shacl#node"},
+ "result" {:type :id, :id "http://www.w3.org/ns/shacl#result"},
+ "xsd" {:id "http://www.w3.org/2001/XMLSchema#"},
+ "in" {:container :list, :id "http://www.w3.org/ns/shacl#in"},
+ "xone"
+ {:type :id, :container :list, :id "http://www.w3.org/ns/shacl#xone"}}

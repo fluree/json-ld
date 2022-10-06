@@ -122,13 +122,8 @@
   (cond
     (= "@id" id) (iri v context false)
     (= "@type" id) [(iri v context false)]                  ;; @type should have been picked up using :type-key, but in case explicitly defined regardless
-    (= :id type) {:id  (iri v context false)
-                  :idx idx}
-    :else (throw (ex-info (str "Clojure keyword context values can only be used where an expanded IRI "
-                               "is expected (e.g. an @id or @type value). Provided value: " v
-                               " for key: " id ".")
-                          {:status 400
-                           :error  :json-ld/invalid-context}))))
+    :else {:id  (iri v context false)
+           :idx idx}))
 
 (defmethod parse-node-val :number
   [v v-info _ _ idx]
