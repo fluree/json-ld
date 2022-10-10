@@ -2,7 +2,8 @@
   (:require [fluree.json-ld.impl.iri :as iri]
             [fluree.json-ld.impl.util :as util]
             [clojure.string :as str])
-  (:refer-clojure :exclude [read]))
+  (:refer-clojure :exclude [read])
+  #?(:cljs (:require-macros [fluree.json-ld.impl.external :refer [inline-files]])))
 
 #?(:clj (set! *warn-on-reflection* true))
 
@@ -61,16 +62,35 @@
 
 (def vocabs (->> vocab->file keys (sort-by count) reverse))
 
+#?(:clj
+   (defmacro inline-files
+     "The classpath doesn't exist in javascript, so we need to inline all of our resources at
+  compile time so they are available to js applications at runtime."
+     []
+     (let [loaded-contexts (reduce (fn [l [k {:keys [parsed]}]]
+                                     (assoc l k (util/read-resource parsed)))
+                                   {}
+                                   context->file)
+           loaded (reduce (fn [l [k file]]
+                            (assoc l k (util/read-resource file)))
+                          loaded-contexts
+                          vocab->file)]
+       loaded)))
+
+#?(:cljs
+   (def inlined-files (inline-files)))
+
+#?(:cljs
+   (defn read-inlined-resource
+     [k]
+     (get inlined-files k)))
 
 (defn vocab
   "Loads an entire vocabulary file, i.e. https://schema.org"
   [iri]
-  #?(:cljs (throw (ex-info (str "Loading external vocabularies is not yet supported in Javascript.")
-                           {:status 400 :error :json-ld/external-vocab}))
-     :clj  (->> iri
-                iri/add-trailing-slash
-                (get vocab->file)
-                util/read-resource)))
+  (-> (get vocab->file (iri/add-trailing-slash iri))
+      #?(:clj util/read-resource
+         :cljs read-inlined-resource)))
 
 
 (defn iri
@@ -81,15 +101,10 @@
 
   Only supported on CLJ"
   [iri]
-  #?(:cljs (throw (ex-info (str "Loading external vocabularies is not yet supported in Javascript.")
-                           {:status 400 :error :json-ld/external-vocab}))
-     :clj  (some #(when (str/starts-with? iri %)
-                    (-> (vocab %)
-                        (get iri)))
-                 vocabs)))
-
-
-
+  (some #(when (str/starts-with? iri %)
+           (-> (vocab %)
+               (get iri)))
+        vocabs))
 
 (defn context
   "JSON-ld @context can be an external .jsonld file, for which we have some locally.
@@ -97,8 +112,7 @@
 
   Returns nil if the context requested does not exist."
   [url]
-  #?(:cljs (throw (ex-info (str "Loading external contexts is not yet supported in Javascript.")
-                           {:status 400 :error :json-ld/external-context}))
-     :clj  (some-> (get context->file url)
-                   :parsed
-                   util/read-resource)))
+  (some-> (get context->file url)
+          :parsed
+          #?(:clj util/read-resource
+             :cljs read-inlined-resource)))
