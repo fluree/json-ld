@@ -67,8 +67,8 @@
      "The classpath doesn't exist in javascript, so we need to inline all of our resources at
   compile time so they are available to js applications at runtime."
      []
-     (let [loaded-contexts (reduce (fn [l [k {:keys [parsed]}]]
-                                     (assoc l k (util/read-resource parsed)))
+     (let [loaded-contexts (reduce (fn [l [_ {:keys [parsed]}]]
+                                     (assoc l parsed (util/read-resource parsed)))
                                    {}
                                    context->file)
            loaded (reduce (fn [l [k file]]
