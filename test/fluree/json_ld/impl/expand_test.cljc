@@ -53,7 +53,7 @@
                          "@type"    "Movie"
                          "name"     "Hitchhiker's Guide to the Galaxy"})
            {:id   "https://www.wikidata.org/wiki/Q836821"
-            :type ["http://schema.org/Movie"]
+            :type "http://schema.org/Movie"
             "http://schema.org/name"
             {:value "Hitchhiker's Guide to the Galaxy", :type nil, :idx ["name"]}
             :idx  []})))
