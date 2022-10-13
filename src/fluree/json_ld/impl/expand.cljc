@@ -109,7 +109,7 @@
   ;; TODO - :type-keys as a set and catch before this step as is designed. i.e. :type-keys #{'type' '@type'}
   (cond
     (= "@id" id) (iri v context false)
-    (= "@type" id) [(iri v context false)]                  ;; @type should have been picked up using :type-key, but in case explicitly defined regardless
+    (= "@type" id) (iri v context false)                    ;; @type should have been picked up using :type-key, but in case explicitly defined regardless
     (= :id type) {:id  (iri v context false)
                   :idx idx}
     :else {:value v
