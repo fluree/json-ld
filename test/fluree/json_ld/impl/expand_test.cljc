@@ -439,3 +439,16 @@
             :id "http://example.com/ns#item123",
             "http://example.com/ns#favColor" [{:id "http://example.com/ns#red", :idx [:ex/favColor 0]}
                                               {:id "http://example.com/ns#green", :idx [:ex/favColor 1]}]}))))
+
+(comment
+  (expanding-iri)
+  (expanding-reverse-iri)
+  (expanding-node)
+  (node-graph-parse)
+  (list-type-values)
+  (set-type-values)
+  (base-and-vocab)
+  (type-sub-context)
+  (keyword-contexts)
+
+  ,)
