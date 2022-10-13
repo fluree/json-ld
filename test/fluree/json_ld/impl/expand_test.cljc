@@ -429,4 +429,13 @@
            {:idx                     [],
             :type                    ["http://schema.org/Movie"],
             :id                      "http://example.com/ns#item123",
-            "http://schema.org/name" {:value "My Movie", :type nil, :idx [:schema/name]}}))))
+            "http://schema.org/name" {:value "My Movie", :type nil, :idx [:schema/name]}})))
+  (testing "Clojure keyword used as IRI value in a vector"
+    (is (= (expand/node {:context     {:id     "@id"
+                                       :ex     "http://example.com/ns#"}
+                         :id          :ex/item123
+                         :ex/favColor [:ex/red :ex/green]})
+           {:idx [],
+            :id "http://example.com/ns#item123",
+            "http://example.com/ns#favColor" [{:id "http://example.com/ns#red", :idx [:ex/favColor 0]}
+                                              {:id "http://example.com/ns#green", :idx [:ex/favColor 1]}]}))))

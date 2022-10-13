@@ -176,19 +176,7 @@
                                                                   :error  :json-ld/invalid-context
                                                                   :idx    (conj idx %1)}))
                                 :else
-                                (let [type (:type v-info)]
-                                  (cond
-                                    (= "@type" (:id v-info))
-                                    (iri %2 context false)
-
-                                    (= :id type)
-                                    {:id  (iri %2 context false)
-                                     :idx (conj idx %1)}
-
-                                    :else
-                                    {:value %2
-                                     :type  type
-                                     :idx   (conj idx %1)}))))
+                                (parse-node-val %2 v-info context externals (conj idx %1))))
                 (into []))]
     (if (= :list (:container v-info))
       {:list v*}
