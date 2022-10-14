@@ -93,9 +93,8 @@
                               (into {})))
           normalized (normalize/normalize parsed {:algorithm :basic
                                                   :format    :application/json})
-          ;; TODO: do this in cljs
           utf-8*     #?(:clj (.getBytes ^String normalized "UTF-8")
-                        :cljs (map #(.getCharCodeAt %) normalized))]
+                        :cljs (map #(.charCodeAt %) normalized))]
       (is (= (vec utf-8)
              (vec utf-8*))))))
 
