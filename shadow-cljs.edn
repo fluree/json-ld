@@ -1,0 +1,13 @@
+
+{:deps {:aliases [:dev]}
+
+ :builds
+ {:nodejs-test                            ; runs the cljs tests on node
+  {:target :node-test
+   :output-to "test/nodejs/node-tests.js"
+   :autorun true
+   :compiler-options {:optimizations :simple}}
+
+  :browser-test                         ; runs the cljs tests in the browser via karma
+  {:target :karma
+   :output-to "test/browser/browser-tests.js"}}}
