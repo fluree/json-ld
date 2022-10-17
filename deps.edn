@@ -1,18 +1,19 @@
 {:paths ["src" "resources"]
 
- :deps {org.clojure/clojure       {:mvn/version "1.10.3"}
-        org.clojure/clojurescript {:mvn/version "1.10.866"}}
+ :deps {org.clojure/clojure       {:mvn/version "1.11.1"}
+        org.clojure/clojurescript {:mvn/version "1.11.60"}}
 
  :aliases
- {:mvn/group-id com.fluree
+ {:mvn/group-id    com.fluree
   :mvn/artifact-id json-ld
-  :mvn/version "0.1.0"
+  :mvn/version     "0.1.0"
 
   :dev
   {:extra-paths ["dev", "test"]
-   :extra-deps {org.clojure/tools.namespace {:mvn/version "1.1.0"}
-                cheshire/cheshire           {:mvn/version "5.10.1"}}
-   :main-opts ["-e" "(require,'user)"
+   :extra-deps  {org.clojure/tools.namespace {:mvn/version "1.1.0"}
+                 cheshire/cheshire           {:mvn/version "5.10.1"}
+                 thheller/shadow-cljs        {:mvn/version "2.20.5"}}
+   :main-opts   ["-e" "(require,'user)"
                "-e" "(in-ns,'user)"]}
 
   :test
@@ -24,12 +25,12 @@
 
   :jar
   {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.1.267"}}
-   :exec-fn hf.depstar/jar
-   :exec-args {:jar "target/fluree-json-ld.jar"
-               :group-id :mvn/group-id
-               :artifact-id :mvn/artifact-id
-               :version :mvn/version
-               :sync-pom true}}
+   :exec-fn      hf.depstar/jar
+   :exec-args    {:jar         "target/fluree-json-ld.jar"
+                  :group-id    :mvn/group-id
+                  :artifact-id :mvn/artifact-id
+                  :version     :mvn/version
+                  :sync-pom    true}}
 
   :install
   {:extra-deps {slipset/deps-deploy {:mvn/version "RELEASE"}}

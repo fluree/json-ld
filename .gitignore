@@ -11,3 +11,7 @@
 .hg/
 .cljs_node_repl/
 .dir-locals.el
+test/browser
+test/nodejs
+**node_modules
+.shadow-cljs
