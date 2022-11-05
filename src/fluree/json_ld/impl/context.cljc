@@ -64,13 +64,13 @@
     (recur compact-iri* ctx-original)
     compact-iri))
 
-(defn- assert-string
-  "Throws if provided value is not a string, original key provided for nicer error message"
+(defn- assert-kw-string
+  "Throws if provided value is not a keyword or string, original key provided for nicer error message"
   [k v]
-  (if (string? v)
+  (if (or (string? v) (keyword? v))
     v
     (throw (ex-info (str "Invalid @context value in json-ld. " k
-                         "must be a string value, provided: " v ".")
+                         " must be a string value, provided: " v ".")
                     {:status 400
                      :error  :json-ld/invalid-context}))))
 
@@ -95,13 +95,13 @@
                           (assoc acc k* (cond
                                           (= :type k*)
                                           (->> v
-                                               (assert-string k)
+                                               (assert-kw-string k)
                                                (parse-compact-iri-val ctx-original ctx-base default-vocab)
                                                keywordize-at-value)
 
                                           (#{:id :reverse} k*)
                                           (->> v
-                                               (assert-string k)
+                                               (assert-kw-string k)
                                                (parse-compact-iri-val ctx-original ctx-base default-vocab))
 
                                           (= :context k*)
