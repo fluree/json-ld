@@ -39,6 +39,10 @@
       "@id": "fluree:v",
       "@type": "xsd:decimal"
     },
+    "issuer":{
+      "@id": "fluree:issuer",
+      "@type": "@id"
+    },
     "flakes": {
       "@id": "fluree:flakes",
       "@type": "xsd:long"

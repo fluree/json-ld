@@ -1,5 +1,6 @@
 {"message" {:id "https://ns.flur.ee/ledger#message"},
  "role" {:id "https://ns.flur.ee/ledger#role", :type :id},
+ "issuer" {:id "https://ns.flur.ee/ledger#issuer"}
  "Index" {:id "https://ns.flur.ee/ledger#Index"},
  "index" {:id "https://ns.flur.ee/ledger#index"},
  "opsTransact" {:id "https://ns.flur.ee/ledger#opsTransact"},
