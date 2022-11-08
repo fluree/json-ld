@@ -6,7 +6,7 @@
                    (com.apicatalog.jsonld.document JsonDocument RdfDocument)
                    (java.io StringReader))))
 
-#?(:clojure (set! *warn-on-reflection* true))
+#?(:clj (set! *warn-on-reflection* true))
 
 #?(:clj
    (defn- ->json-document
@@ -127,19 +127,6 @@
      (-> json-ld
          (clj->js)
          (jldjs/toRDF #js {"format" "application/n-quads"}))))
-
-#?(:cljs
-   (comment
-     (-> commit
-         (clj->js)
-         (jldjs/expand)
-         (.then (fn [x] (println "result" (js->clj x)))))
-
-
-
-
-     ,))
-
 
 (comment
   (def context {"message"     "fluree:message",
