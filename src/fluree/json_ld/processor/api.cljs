@@ -36,58 +36,63 @@
       (clj->js)
       (jldjs/toRDF #js{"format" "application/n-quads"})))
 
+(defn canonize
+  [json-ld]
+  (-> (to-rdf json-ld)
+      (.then (fn [rdf]
+               (jldjs/canonize rdf #js {"algorithm" "URDNA2015" "inputFormat" "application/n-quads"})))))
+
 (comment
 
-
-  (def context {"message"     "fluree:message",
-                "role"        {"@id" "fluree:role", "@type" "@id"},
-                "Index"       "fluree:Index",
-                "index"       "fluree:index",
-                "opsTransact" "fluree:opsTransact",
-                "Context"     "fluree:Context",
-                "updates"     "fluree:updates",
-                "branch"      "fluree:branch",
-                "issuer"      {"@id" "fluree:issuer", "@type" "@id"},
-                "FNS"         "fluree:FNS",
-                "DB"          "fluree:DB",
-                "v"           {"@id" "fluree:v", "@type" "xsd:decimal"},
-                "id"          "@id",
-                "flakes"      {"@id" "fluree:flakes", "@type" "xsd:long"},
-                "Role"        "fluree:Role",
+  (def context {"@version"    1.1,
                 "Commit"      "fluree:Commit",
-                "allTypes"    "fluree:allTypes",
-                "tag"         "fluree:tag",
-                "commit"      {"@id" "fluree:commit", "@type" "@id"},
-                "@version"    1.1,
-                "rules"       {"@id" "fluree:rules", "@type" "@id"},
-                "context"     "fluree:context",
-                "address"     "fluree:address",
-                "previous"    {"@id" "fluree:previous", "@type" "@id"},
-                "fluree"      "https://ns.flur.ee/ledger#",
-                "opsQuery"    "fluree:opsQuery",
-                "retract"     {"@id" "fluree:retract", "@container" "@graph"},
-                "functions"   {"@id" "fluree:function", "@type" "@id"},
-                "time"        "fluree:time",
-                "t"           {"@id" "fluree:t", "@type" "xsd:long"},
-                "rdfs"        "http://www.w3.org/2000/01/rdf-schema#",
-                "opsAll"      "fluree:opsAll",
+                "CommitProof" "fluree:CommitProof",
+                "Context"     "fluree:Context",
+                "DB"          "fluree:DB",
+                "DID"         "fluree:DID",
+                "FNS"         "fluree:FNS",
+                "Function"    "fluree:Function",
+                "Index"       "fluree:Index",
+                "Role"        "fluree:Role",
                 "Rule"        "fluree:Rule",
+                "address"     "fluree:address",
+                "alias"       "fluree:alias",
+                "allTypes"    "fluree:allTypes",
+                "assert"      {"@id" "fluree:assert", "@container" "@graph"},
+                "branch"      "fluree:branch",
+                "code"        "fluree:code",
+                "commit"      {"@id" "fluree:commit", "@type" "@id"},
+                "context"     "fluree:context",
+                "cool"        {"@id" "fluree:cool" "@type" "xsd:boolean"}
+                "data"        {"@id" "fluree:data", "@type" "@id"},
+                "flakes"      {"@id" "fluree:flakes", "@type" "xsd:long"},
+                "fluree"      "https://ns.flur.ee/ledger#",
+                "functions"   {"@id" "fluree:function", "@type" "@id"},
+                "id"          "@id",
+                "index"       "fluree:index",
+                "issuer"      {"@id" "fluree:issuer", "@type" "@id"},
+                "ledger"      "fluree:ledger",
+                "ns"          {"@id" "fluree:ns", "@type" "@id"},
+                "operations"  {"@id" "fluree:operations", "@type" "@id"}
+                "opsAll"      "fluree:opsAll",
+                "opsQuery"    "fluree:opsQuery",
+                "opsTransact" "fluree:opsTransact",
+                "previous"    {"@id" "fluree:previous", "@type" "@id"},
+                "rdfs"        "http://www.w3.org/2000/01/rdf-schema#",
+                "retract"     {"@id" "fluree:retract", "@container" "@graph"},
+                "role"        {"@id" "fluree:role", "@type" "@id"},
+                "rules"       {"@id" "fluree:rules", "@type" "@id"},
+                "size"        {"@id" "fluree:size", "@type" "xsd:long"},
+                "skos"        "http://www.w3.org/2008/05/skos#",
+                "t"           {"@id" "fluree:t", "@type" "xsd:long"},
+                "tag"         "fluree:tag",
+                "time"        "fluree:time",
                 "tx"          {"@id" "fluree:tx", "@type" "@id"},
                 "type"        "@type",
-                "DID"         "fluree:DID",
-                "alias"       "fluree:alias",
-                "size"        {"@id" "fluree:size", "@type" "xsd:long"},
-                "Function"    "fluree:Function",
-                "CommitProof" "fluree:CommitProof",
-                "data"        {"@id" "fluree:data", "@type" "@id"},
-                "skos"        "http://www.w3.org/2008/05/skos#",
-                "code"        "fluree:code",
-                "assert"      {"@id" "fluree:assert", "@container" "@graph"},
-                "ns"          {"@id" "fluree:ns", "@type" "@id"},
-                "ledger"      "fluree:ledger",
+                "updates"     "fluree:updates",
+                "v"           {"@id" "fluree:v", "@type" "xsd:decimal"},
                 "xsd"         "http://www.w3.org/2001/XMLSchema#",
-                "operations"  {"@id" "fluree:operations", "@type" "@id"}
-                "cool" {"@id" "fluree:cool" "@type" "xsd:boolean"}})
+                "message"     "fluree:message", })
 
   (def commit
     {"@context" context
@@ -100,13 +105,14 @@
      "type"     ["Commit"],
      "alias"    {"@value" "test/db19" "@language" "en"},
      "data"
-     {"id"     "fluree:db:sha256:bb3u2hayr4pdwunsa5ijdp7txqrmmku5zlhj7dpozetdcr5g7r5n6",
-      "type"   ["DB"],
-      "t"      1,
-      "cool"   true
+     {"id"      "fluree:db:sha256:bb3u2hayr4pdwunsa5ijdp7txqrmmku5zlhj7dpozetdcr5g7r5n6",
+      "type"    ["DB"],
+      "t"       1,
+      "cool"    true
       "address" "fluree:memory://e2c8cf4429d7fcd6382fe2c890cf4c3fa2d8d0039b1981ff27e1ee2a05848569",
-      "flakes" 55,
-      "size"   5057}})
+      "flakes"  55,
+      "size"    5057}}
+    )
 
   (def rdf (atom nil))
   (-> (to-rdf commit)
@@ -119,6 +125,12 @@
       (.then #(do (reset! jld %) %)))
 
   @jld
+
+  (def canonized (atom nil))
+  (-> (canonize commit )
+      (.then #(do (reset! canonized %) %)))
+
+  @canonized
 
   (def expanded (atom nil))
   (-> (expand commit)
