@@ -1,11 +1,11 @@
 (ns fluree.json-ld.processor.api
   (:refer-clojure :exclude [flatten])
-  (:require [jsonista.core :as json]
-            [clojure.java.io :as io])
+  (:require [jsonista.core :as json])
   (:import (com.apicatalog.jsonld JsonLd)
            (com.apicatalog.jsonld.document JsonDocument RdfDocument)
-           (com.apicatalog.jsonld.api CompactionApi ExpansionApi FlatteningApi ToRdfApi FromRdfApi)
-           (javax.json Json JsonArray JsonObject JsonNumber JsonString JsonValue)))
+           (com.apicatalog.rdf RdfNQuad)
+           (io.setl.rdf.normalization RdfNormalize)
+           (java.io StringReader)))
 
 (set! *warn-on-reflection* true)
 
@@ -13,31 +13,31 @@
      (parsed [x]))
 
 (extend-protocol Parseable
-     ;; JsonArray
-     org.glassfish.json.JsonArrayBuilderImpl$JsonArrayImpl
-     (parsed [x]
-       (into [] (map parsed x)))
-     ;; JsonObject
-     org.glassfish.json.JsonObjectBuilderImpl$JsonObjectImpl
-     (parsed [x]
-       (into {} (map (fn [[k v]] [k (parsed v)]) x)))
-     org.glassfish.json.JsonNumberImpl
-     ;; JsonNumber
-     (parsed [x]
-       (if (.isIntegral x)
-         (.longValue x)
-         (.doubleValue x)))
-     ;; JsonString
-     org.glassfish.json.JsonStringImpl
-     (parsed [x]
-       (.getString x))
+  ;; JsonArray
+  org.glassfish.json.JsonArrayBuilderImpl$JsonArrayImpl
+  (parsed [x]
+    (into [] (map parsed x)))
+  ;; JsonObject
+  org.glassfish.json.JsonObjectBuilderImpl$JsonObjectImpl
+  (parsed [x]
+    (into {} (map (fn [[k v]] [k (parsed v)]) x)))
+  org.glassfish.json.JsonNumberImpl
+  ;; JsonNumber
+  (parsed [x]
+    (if (.isIntegral x)
+      (.longValue x)
+      (.doubleValue x)))
+  ;; JsonString
+  org.glassfish.json.JsonStringImpl
+  (parsed [x]
+    (.getString x))
 
-     jakarta.json.JsonValueImpl
-     (parsed [x]
-       (case (.toString x)
-         "true" true
-         "false" false
-         "null" nil)))
+  jakarta.json.JsonValueImpl
+  (parsed [x]
+    (case (.toString x)
+      "true" true
+      "false" false
+      "null" nil)))
 
 (defn- ->json-document
      [edn]
@@ -46,30 +46,21 @@
          (StringReader.)
          (JsonDocument/of)))
 
-(defn- ->rdf-document
-     [nquads]
-     (-> nquads
-         (StringReader.)
-         (RdfDocument/of)))
-
 (defn expand
   [json-ld]
   (parsed (.get (JsonLd/expand ^JsonDocument (->json-document json-ld)))))
 
 (defn compact
   [json-ld context]
-  (parsed (.get (JsonLd/compact ^JsonDocument (->json-document json-ld) ^JsonDocument (->json-document context)))))
+  (parsed (.get (JsonLd/compact ^JsonDocument (->json-document json-ld)
+                                ^JsonDocument (->json-document context)))))
 
 (defn flatten
   [json-ld]
   (parsed (.get (JsonLd/flatten ^JsonDocument (->json-document json-ld)))))
 
-#_(defn from-rdf
-  [n-quads]
-  (parsed (JsonLd/fromRdf ^RdfDocument (->rdf-document n-quads))))
-
-#_(defn- ->statement
-  [quad]
+(defn- ->statement
+  [^RdfNQuad quad]
   (str (let [subject (.getSubject quad)]
          (if (.isIRI subject)
            (str "<" (.toString subject) ">")
@@ -84,27 +75,38 @@
          (cond (.isIRI object)
                (str "<" (.toString object) ">")
                (.isLiteral object)
-               (let [datatype (.getDatatype object)
-                     lang (.getLanguage object)
-                     value (.getValue object)]
+               (let [literal  (.asLiteral object)
+                     datatype (.getDatatype literal)
+                     lang     (.getLanguage literal)
+                     value    (.getValue object)]
                  (str "\"" value "\""
                       (if (.isPresent lang)
                         (str "@" (.get lang))
                         (when (not= "http://www.w3.org/2001/XMLSchema#string" datatype)
                           (str "^^<" datatype ">")))))
-               :else
+               :else                    ; blank node
                (.toString object)))
        " ."))
 
-#_(defn to-rdf
+(defn- ->rdf-document
+    [nquads]
+    (-> nquads
+        (StringReader.)
+        (RdfDocument/of)))
+
+#_(defn from-rdf
+  [n-quads]
+  (parsed (.get (JsonLd/fromRdf ^RdfDocument (->rdf-document n-quads)))))
+
+(defn to-rdf
   [json-ld]
-  (-> json-ld
-      (->json-document)
-      (JsonLd/toRdf)
-      (.get)
-      (.toList)
-      (->> (map ->statement)
-           (reduce (fn [doc statement] (str doc statement "\n")) ""))))
+  (->> (.toList (.get (JsonLd/toRdf ^JsonDocument (->json-document json-ld))))
+       (reduce (fn [doc quad] (str doc (->statement quad) "\n")) "")))
+
+(defn canonize
+  [json-ld]
+  (->> (.toList (RdfNormalize/normalize (.get (JsonLd/toRdf ^JsonDocument (->json-document json-ld)))))
+       (reduce (fn [doc quad] (str doc (->statement quad) "\n")) "")))
 
 (comment
   (def context {"message"     "fluree:message",
@@ -175,14 +177,11 @@
       "address" "fluree:memory://e2c8cf4429d7fcd6382fe2c890cf4c3fa2d8d0039b1981ff27e1ee2a05848569",
       "flakes" 55,
       "size"   5057}})
-  )
 
-(comment
+  (def rdf (to-rdf commit))
 
-  #_(from-rdf (to-rdf commit))
+  #_(def jsonld (from-rdf rdf))
 
 
   (compact (expand commit) context)
-
-
-  ,)
+  )

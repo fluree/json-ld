@@ -6,6 +6,7 @@
         org.glassfish/jakarta.json      {:mvn/version "2.0.1"}
         org.glassfish/javax.json        {:mvn/version "1.1.4"}
         javax.json/javax.json-api       {:mvn/version "1.1.4"}
+        io.setl/rdf-urdna               {:mvn/version "1.2"}
         metosin/jsonista                {:mvn/version "0.3.6"}}
 
  :aliases
