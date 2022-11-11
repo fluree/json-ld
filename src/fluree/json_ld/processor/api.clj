@@ -40,24 +40,24 @@
       "null" nil)))
 
 (defn- ->json-document
-     [edn]
-     (-> edn
-         (json/write-value-as-string)
-         (StringReader.)
-         (JsonDocument/of)))
+  ^JsonDocument [edn]
+  (-> edn
+      (json/write-value-as-string)
+      (StringReader.)
+      (JsonDocument/of)))
 
 (defn expand
   [json-ld]
-  (parsed (.get (JsonLd/expand ^JsonDocument (->json-document json-ld)))))
+  (parsed (.get (JsonLd/expand (->json-document json-ld)))))
 
 (defn compact
   [json-ld context]
-  (parsed (.get (JsonLd/compact ^JsonDocument (->json-document json-ld)
-                                ^JsonDocument (->json-document context)))))
+  (parsed (.get (JsonLd/compact (->json-document json-ld)
+                                (->json-document context)))))
 
 (defn flatten
   [json-ld]
-  (parsed (.get (JsonLd/flatten ^JsonDocument (->json-document json-ld)))))
+  (parsed (.get (JsonLd/flatten (->json-document json-ld)))))
 
 (defn- ->statement
   [^RdfNQuad quad]
@@ -90,12 +90,12 @@
 
 (defn to-rdf
   [json-ld]
-  (->> (.toList (.get (JsonLd/toRdf ^JsonDocument (->json-document json-ld))))
+  (->> (.toList (.get (JsonLd/toRdf (->json-document json-ld))))
        (reduce (fn [doc quad] (str doc (->statement quad) "\n")) "")))
 
 (defn canonize
   [json-ld]
-  (->> (.toList (RdfNormalize/normalize (.get (JsonLd/toRdf ^JsonDocument (->json-document json-ld)))))
+  (->> (.toList (RdfNormalize/normalize (.get (JsonLd/toRdf (->json-document json-ld)))))
        (reduce (fn [doc quad] (str doc (->statement quad) "\n")) "")))
 
 (comment
