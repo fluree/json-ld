@@ -55,7 +55,7 @@
   (loadDocument [_ url options]
     (if-let [{path :source} (external/context->file (.toString url))]
       (-> (FileLoader.)
-          (.loadDocument (URI. (str "file://" (.getAbsolutePath (io/file "")) "/resources/" path))
+          (.loadDocument (.toURI (io/resource path))
                          (DocumentLoaderOptions.)))
       (throw (JsonLdError. JsonLdErrorCode/LOADING_REMOTE_CONTEXT_FAILED
                            (str "Unable to load static context: " (.toString url)))))))
