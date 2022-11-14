@@ -124,8 +124,13 @@
 
 (defn canonize
   [json-ld]
-  (->> (.toList (RdfNormalize/normalize (.get (JsonLd/toRdf (->json-document json-ld)))))
-       (reduce (fn [doc quad] (str doc (->statement quad) "\n")) "")))
+  (-> (->json-document json-ld)
+      (JsonLd/toRdf)
+      (.loader ^DocumentLoader (->StaticLoader))
+      (.get)
+      (RdfNormalize/normalize)
+      (.toList)
+      (->> (reduce (fn [doc quad] (str doc (->statement quad) "\n")) ""))))
 
 (comment
   ;; These work up to translating the resulting json-ld back into edn
