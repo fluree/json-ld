@@ -29,6 +29,10 @@
                   :sha     "b6b3193fcc42659d7e46ecd1884a228993441182"}}
    :main-opts   ["-m" "cognitect.test-runner"]}
 
+  :js-deps
+  {:extra-deps {com.timetraveltoaster/target-bundle-libs {:mvn/version "RELEASE"}}
+   :main-opts  ["-m" "target-bundle-libs.core"]}
+
   :jar
   {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.1.267"}}
    :exec-fn      hf.depstar/jar
