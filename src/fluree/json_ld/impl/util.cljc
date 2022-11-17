@@ -37,21 +37,23 @@
     x
     [x]))
 
-
-(defn read-resource
+(defn slurp-resource
   [filename]
   #?(:cljs (throw (ex-info (str "Loading external resources is not yet supported in Javascript.")
                            {:status 400 :error :json-ld/external-resource}))
      :clj  (try
              (some-> filename
                      io/resource
-                     slurp
-                     edn/read-string)
+                     slurp)
              (catch Exception e
                (throw (ex-info
                         (str "Invalid IRI, unable to read vocabulary from: " filename)
                         {:status 400 :error :json-ld/external-resource}
                         e))))))
+#?(:clj
+   (defn read-resource
+     [filename]
+     (edn/read-string (slurp-resource filename))))
 
 (comment
   (try-catchall
@@ -66,5 +68,5 @@
   nil
   nil
 
-  (read-resource "foo")
+  #_(read-resource "foo")
   )

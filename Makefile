@@ -2,8 +2,11 @@
 
 SOURCES := $(shell find src)
 
-target/fluree-jsonld.jar: pom.xml deps.edn $(SOURCES)
+target/fluree-json-ld.jar: pom.xml deps.edn src/deps.cljs $(SOURCES)
 	clojure -X:jar
+
+src/deps.cljs: package.json
+	clojure -M:js-deps
 
 pom.xml: deps.edn
 	clojure -Spom

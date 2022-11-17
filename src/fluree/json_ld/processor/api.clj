@@ -1,10 +1,14 @@
 (ns fluree.json-ld.processor.api
   (:refer-clojure :exclude [flatten])
-  (:require [jsonista.core :as json])
-  (:import (com.apicatalog.jsonld JsonLd)
+  (:require [jsonista.core :as json]
+            [fluree.json-ld.impl.external :as external]
+            [clojure.java.io :as io])
+  (:import (com.apicatalog.jsonld JsonLd JsonLdError JsonLdErrorCode)
            (com.apicatalog.jsonld.document JsonDocument)
+           (com.apicatalog.jsonld.loader DocumentLoader FileLoader DocumentLoaderOptions)
            (com.apicatalog.rdf RdfNQuad)
            (io.setl.rdf.normalization RdfNormalize)
+           (java.net URI)
            (java.io StringReader)))
 
 (set! *warn-on-reflection* true)
@@ -40,24 +44,45 @@
       "null" nil)))
 
 (defn- ->json-document
-     [edn]
-     (-> edn
-         (json/write-value-as-string)
-         (StringReader.)
-         (JsonDocument/of)))
+  ^JsonDocument [edn]
+  (-> edn
+      (json/write-value-as-string)
+      (StringReader.)
+      (JsonDocument/of)))
+
+(defrecord StaticLoader []
+  DocumentLoader
+  (loadDocument [_ url options]
+    (if-let [{path :source} (external/context->file (.toString url))]
+      (-> (FileLoader.)
+          (.loadDocument (.toURI (io/resource path))
+                         (DocumentLoaderOptions.)))
+      (throw (JsonLdError. JsonLdErrorCode/LOADING_REMOTE_CONTEXT_FAILED
+                           (str "Unable to load static context: " (.toString url)))))))
 
 (defn expand
   [json-ld]
-  (parsed (.get (JsonLd/expand ^JsonDocument (->json-document json-ld)))))
+  (-> (->json-document json-ld)
+      (JsonLd/expand)
+      (.loader ^DocumentLoader (->StaticLoader))
+      (.get)
+      (parsed)))
 
 (defn compact
   [json-ld context]
-  (parsed (.get (JsonLd/compact ^JsonDocument (->json-document json-ld)
-                                ^JsonDocument (->json-document context)))))
+  (-> (->json-document json-ld)
+      (JsonLd/compact (->json-document context))
+      (.loader ^DocumentLoader (->StaticLoader))
+      (.get)
+      (parsed)))
 
 (defn flatten
   [json-ld]
-  (parsed (.get (JsonLd/flatten ^JsonDocument (->json-document json-ld)))))
+  (-> (->json-document json-ld)
+      (JsonLd/flatten)
+      (.loader ^DocumentLoader (->StaticLoader))
+      (.get)
+      (parsed)))
 
 (defn- ->statement
   [^RdfNQuad quad]
@@ -90,13 +115,22 @@
 
 (defn to-rdf
   [json-ld]
-  (->> (.toList (.get (JsonLd/toRdf ^JsonDocument (->json-document json-ld))))
-       (reduce (fn [doc quad] (str doc (->statement quad) "\n")) "")))
+  (-> (->json-document json-ld)
+      (JsonLd/toRdf)
+      (.loader ^DocumentLoader (->StaticLoader))
+      (.get)
+      (.toList)
+      (->> (reduce (fn [doc quad] (str doc (->statement quad) "\n")) ""))))
 
 (defn canonize
   [json-ld]
-  (->> (.toList (RdfNormalize/normalize (.get (JsonLd/toRdf ^JsonDocument (->json-document json-ld)))))
-       (reduce (fn [doc quad] (str doc (->statement quad) "\n")) "")))
+  (-> (->json-document json-ld)
+      (JsonLd/toRdf)
+      (.loader ^DocumentLoader (->StaticLoader))
+      (.get)
+      (RdfNormalize/normalize)
+      (.toList)
+      (->> (reduce (fn [doc quad] (str doc (->statement quad) "\n")) ""))))
 
 (comment
   ;; These work up to translating the resulting json-ld back into edn

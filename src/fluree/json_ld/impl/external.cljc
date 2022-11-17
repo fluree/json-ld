@@ -3,7 +3,7 @@
             [fluree.json-ld.impl.util :as util]
             [clojure.string :as str])
   (:refer-clojure :exclude [read])
-  #?(:cljs (:require-macros [fluree.json-ld.impl.external :refer [inline-files]])))
+  #?(:cljs (:require-macros [fluree.json-ld.impl.external :refer [inline-files inline-json]])))
 
 #?(:clj (set! *warn-on-reflection* true))
 
@@ -77,8 +77,20 @@
                           vocab->file)]
        loaded)))
 
+#?(:clj
+   (defmacro inline-json
+     "The classpath doesn't exist in javascript, so we need to inline all of our resources at
+  compile time so they are available to js applications at runtime."
+     []
+     (reduce (fn [l [url {:keys [source]}]]
+               (assoc l url (util/slurp-resource source)))
+             {}
+             context->file)))
+
 #?(:cljs
    (def inlined-files (inline-files)))
+#?(:cljs
+   (def inlined-contexts (inline-json)))
 
 #?(:cljs
    (defn read-inlined-resource
