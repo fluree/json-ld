@@ -11,19 +11,19 @@ src/deps.cljs: package.json
 pom.xml: deps.edn
 	clojure -Spom
 
-test-clj:
+cljtest:
 	clojure -M:test
 
-test-nodejs:
+nodetest:
 	npx shadow-cljs release nodejs-test
 
-test-browser:
+browsertest:
 	npx shadow-cljs release browser-test
 	./node_modules/karma/bin/karma start --single-run
 
-test-cljs: test-nodejs test-browser
+cljstest: nodetest browsertest
 
-test: test-clj test-cljs
+test: cljtest cljstest
 
 jar: target/fluree-json-ld.jar
 
