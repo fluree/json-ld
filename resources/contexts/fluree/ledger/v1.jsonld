@@ -39,7 +39,7 @@
       "@id": "fluree:v",
       "@type": "xsd:decimal"
     },
-    "issuer":{
+    "issuer": {
       "@id": "fluree:issuer",
       "@type": "@id"
     },
@@ -70,7 +70,7 @@
     "message": "fluree:message",
     "branch": "fluree:branch",
     "context": "fluree:context",
-    "Rule": "fluree:Rule",
+    "Policy": "fluree:Policy",
     "Role": "fluree:Role",
     "Function": "fluree:Function",
     "Context": "fluree:Context",
@@ -84,17 +84,49 @@
       "@id": "fluree:function",
       "@type": "@id"
     },
-    "rules": {
-      "@id": "fluree:rules",
+    "action": {
+      "@id": "fluree:action",
       "@type": "@id"
     },
-    "operations": {
-      "@id": "fluree:operations",
+    "view": "fluree:view",
+    "modify": "fluree:modify",
+    "create": "fluree:create",
+    "update": "fluree:update",
+    "delete": "fluree:delete",
+    "allNodes": "fluree:allNodes",
+    "targetNode": {
+      "@id": "fluree:targetNode",
       "@type": "@id"
     },
-    "opsAll": "fluree:opsAll",
-    "opsQuery": "fluree:opsQuery",
-    "opsTransact": "fluree:opsTransact",
-    "allTypes": "fluree:allTypes"
+    "targetClass": {
+      "@id": "fluree:targetClass",
+      "@type": "@id"
+    },
+    "targetRole": {
+      "@id": "fluree:targetRole",
+      "@type": "@id"
+    },
+    "allow": {
+      "@id": "fluree:allow",
+      "@type": "@id"
+    },
+    "property": {
+      "@id": "fluree:property",
+      "@type": "@id"
+    },
+    "path": {
+      "@id": "fluree:path",
+      "@type": "@id"
+    },
+    "equals": {
+      "@id": "fluree:equals",
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "contains": {
+      "@id": "fluree:contains",
+      "@type": "@id",
+      "@container": "@list"
+    }
   }
 }
