@@ -77,6 +77,30 @@
   [compact-iri context vocab?]
   (first (details compact-iri context vocab?)))
 
+(defn list-item?
+  "Returns true if map is a @list.
+
+  A valid @list must be the only key in the map, or optionally can have an @index key"
+  [m]
+  (and (or (contains? m "@list")
+           (contains? m :list))
+       (or (= 1 (count m))
+           (and (= 2 (count m))
+                (or (contains? m "@index")
+                    (contains? m :index))))))
+
+(defn set-item?
+  "Returns true if map is a @set.
+
+  A valid @set must be the only key in the map, or optionally can have an @index key"
+  [m]
+  (and (or (contains? m "@set")
+           (contains? m :set))
+       (or (= 1 (count m))
+           (and (= 2 (count m))
+                (or (contains? m "@index")
+                    (contains? m :index))))))
+
 
 (defmulti parse-node-val (fn [v _ _ _ idx]
                            (cond
@@ -137,20 +161,24 @@
                (context/parse context sub-ctx)
                context)]
     (cond
-      (contains? v "@list")
-      {:list (-> (get v "@list")
+      (list-item? v)
+      {:list (-> (or (get v "@list")
+                     (:list v))
                  (parse-node-val v-info context externals (conj idx "@list")))}
 
-      (contains? v "@set")                                  ;; set is the default container type, so just flatten to regular vector
-      (-> (get v "@set")
+      (set-item? v)                                  ;; set is the default container type, so just flatten to regular vector
+      (-> (or (get v "@set")
+              (:set v))
           (parse-node-val v-info context externals (conj idx "@set")))
 
-      (contains? v "@value")
-      (let [val  (get v "@value")
-            type (if-let [explicit-type (get v "@type")]
+      (or (contains? v "@value")
+          (contains? v :value))
+      (let [val  (or (get v "@value")
+                     (:value v))
+            type (if-let [explicit-type (or (get v "@type") (:type v))]
                    (iri explicit-type ctx* true)
                    (:type v-info))]                         ;; if type is defined only in the @context
-        (if (= "@id" (get v "@type"))
+        (if (#{"@id" :id} (get v "@type"))
           {:id  (iri val ctx* false)
            :idx idx}
           {:value val
@@ -165,7 +193,8 @@
   [v v-info context externals idx]
   (let [v* (->> v
                 (map-indexed #(cond
-                                (map? %2) (if (contains? %2 "@value")
+                                (map? %2) (if (or (contains? %2 "@value")
+                                                  (contains? %2 :value))
                                             (parse-node-val %2 v-info context externals (conj idx %1))
                                             (node %2 context externals (conj idx %1)))
 
