@@ -46,7 +46,8 @@
   [json-ld]
   (-> json-ld
       (clj->js)
-      (jldjs/toRDF #js{"format" "application/n-quads"})))
+      (jldjs/expand #js{"documentLoader" static-loader})
+      (.then (fn [expanded] (jldjs/toRDF expanded #js{"format" "application/n-quads"})))))
 
 (defn canonize
   [json-ld]
