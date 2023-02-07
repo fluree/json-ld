@@ -73,6 +73,15 @@
                              result))
                       (done))))))
 
+(deftest to-rdf--remote-context
+  (async done
+         (-> (jld-processor/to-rdf {"@context" "https://ns.flur.ee/ledger/v1"
+                                    "address" ""})
+             (.then (fn [result]
+                      (is (= "_:b0 <https://ns.flur.ee/ledger#address> \"\" .\n"
+                             result))
+                      (done))))))
+
 (deftest from-rdf
   (async done
          (-> (jld-processor/to-rdf commit)
@@ -105,6 +114,14 @@
                              result))
                       (done))))))
 
+(deftest canonize--remote-context
+  (async done
+         (-> (jld-processor/canonize {"@context" "https://ns.flur.ee/ledger/v1"
+                                      "address" ""})
+             (.then (fn [result]
+                      (is (= "_:c14n0 <https://ns.flur.ee/ledger#address> \"\" .\n"
+                             result))
+                      (done))))))
 
 (comment
   (t/run-tests)
