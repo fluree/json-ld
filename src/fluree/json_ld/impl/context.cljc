@@ -186,7 +186,7 @@
      (cond
        ;; nil resets the context
        (nil? context)
-       active-context
+       {}
 
        ;; assume either an external context, or a default vocab
        (string? context)

@@ -92,7 +92,12 @@
                            {"EcdsaSecp256k1VerificationKey2019" "sec:EcdsaSecp256k1VerificationKey2019"}])
            {:type-key                           "@type"
             "sec"                               {:id "https://w3id.org/security#"},
-            "EcdsaSecp256k1VerificationKey2019" {:id "https://w3id.org/security#EcdsaSecp256k1VerificationKey2019"}}))))
+            "EcdsaSecp256k1VerificationKey2019" {:id "https://w3id.org/security#EcdsaSecp256k1VerificationKey2019"}})))
+  (testing "A nil context empties the context"
+    ;; this scenario happened with https://w3id.org/security/v1 -> https://w3id.org/security/v2
+    (is (= (context/parse [{"sec" "https://w3id.org/security#"}
+                           nil])
+           {}))))
 
 
 (deftest nested-context-details
