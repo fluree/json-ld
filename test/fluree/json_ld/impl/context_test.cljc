@@ -86,7 +86,7 @@
             "owl"     {:id "http://www.w3.org/2002/07/owl#"}
             "ex"      {:id "http://example.org/ns#"}})))
 
-  (testing "An second context may rely on definitions in the first"
+  (testing "A second context may rely on definitions in the first"
     ;; this scenario happened with https://w3id.org/security/v1 -> https://w3id.org/security/v2
     (is (= (context/parse [{"sec" "https://w3id.org/security#"}
                            {"EcdsaSecp256k1VerificationKey2019" "sec:EcdsaSecp256k1VerificationKey2019"}])

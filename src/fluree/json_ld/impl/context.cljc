@@ -138,7 +138,7 @@
   :id - @id value - the IRI, or IRI substring for the context item
   :vocab - @vocab value - if using a default vocabulary (effectively a blank term). There
            can only be one vocab value for the returned context."
-  [base-context context externals]
+  [base-context externals context]
   (reduce-kv
     (fn [acc k v]
       (if (and (string? k) (= \@ (first k)))
@@ -158,7 +158,7 @@
           (assoc acc kw v*))
         (let [parsed-v (parse-value k v context base-context externals)]
           (cond-> (assoc acc k parsed-v)
-                  (true? (:type? parsed-v)) (assoc :type-key k)))))
+            (true? (:type? parsed-v)) (assoc :type-key k)))))
     base-context context))
 
 
@@ -179,33 +179,37 @@
   ([context] (parse {} external/external-contexts context))
   ([base-context context] (parse base-context external/external-contexts context))
   ([base-context externals context]
-   (let [base-context* (if (contains? base-context :type-key)
-                         base-context
-                         ;; :type-key will be replaced while parsing if overridden by context
-                         {:type-key "@type"})]
+   (let [active-context (if (contains? base-context :type-key)
+                          base-context
+                          ;; :type-key will be replaced while parsing if overridden by context
+                          {:type-key "@type"})]
      (cond
+       ;; nil resets the context
        (nil? context)
-       base-context
+       active-context
 
        ;; assume either an external context, or a default vocab
        (string? context)
        (if (externals context)
-         (merge base-context (external/context context))
-         (assoc base-context* :vocab (iri/add-trailing-slash context)))
+         (merge active-context (external/context context))
+         (assoc active-context :vocab (iri/add-trailing-slash context)))
 
        (map? context)
        (if (contains? context "@context")
          ;; contexts, especially externally loaded, can have a single @context key with context embedded
-         (parse base-context (get context "@context" externals))
-         (parse-map base-context* context externals))
+         (parse active-context (get context "@context" externals))
+         (parse-map active-context externals context))
 
        (sequential? context)
-       (reduce #(parse %1 externals %2) base-context context)
+       (reduce (fn [active-context context]
+                 (parse active-context externals context))
+               active-context
+               context)
 
        :else
        (throw (ex-info (str "Invalid json-ld context provided: " context)
-                       {:status  400
-                        :error   :json-ld/invalid-context
+                       {:status 400
+                        :error :json-ld/invalid-context
                         :context context}))))))
 
 (comment
@@ -214,4 +218,4 @@
          ["https://ns.flur.ee/ledger/v1"]
          )
 
-  )
+  ,)
