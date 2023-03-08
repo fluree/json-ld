@@ -324,7 +324,7 @@
            (expand-nodes context externals (conj idx "@graph") graph)
            (let [[base-result context*] (parse-type node-map context idx)
                  {:keys [type-key]} context
-                 node-map* (dissoc node-map "@context" :context (:type-key context) (get-in context [type-key :id]))]
+                 node-map* (dissoc node-map "@context" :context type-key (get-in context [type-key :id]))]
              (node* node-map* base-result externals context*)))))
      (catch e
             (if (ex-data e)
