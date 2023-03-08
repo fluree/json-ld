@@ -53,7 +53,7 @@
                          "@type"    "Movie"
                          "name"     "Hitchhiker's Guide to the Galaxy"})
            {:id   "https://www.wikidata.org/wiki/Q836821"
-            :type "http://schema.org/Movie"
+            :type ["http://schema.org/Movie"]
             "http://schema.org/name"
             {:value "Hitchhiker's Guide to the Galaxy", :type nil, :idx ["name"]}
             :idx  []})))
@@ -439,6 +439,78 @@
             :id "http://example.com/ns#item123",
             "http://example.com/ns#favColor" [{:id "http://example.com/ns#red", :idx [:ex/favColor 0]}
                                               {:id "http://example.com/ns#green", :idx [:ex/favColor 1]}]}))))
+
+(deftest shacl-embedded-nodes
+    (testing "clojure kws"
+      (is (= {:idx [],
+              :type ["http://www.w3.org/ns/shacl#NodeShape"],
+              :id "http://example.org/ns/UserShape",
+              "http://www.w3.org/ns/shacl#targetClass"
+              {:id "http://example.org/ns/User",
+               :idx [:sh/targetClass]},
+              "http://www.w3.org/ns/shacl#property"
+              [{:idx [:sh/property 0],
+                "http://www.w3.org/ns/shacl#path"
+                {:id "http://schema.org/name",
+                 :idx [:sh/property 0 :sh/path]},
+                "http://www.w3.org/ns/shacl#datatype"
+                {:id "http://www.w3.org/2001/XMLSchema#string",
+                 :idx [:sh/property 0 :sh/datatype]}}]}
+
+             (expand/node
+              {:id :ex/UserShape,
+               :type [:sh/NodeShape],
+               :sh/targetClass :ex/User,
+               :sh/property [{:sh/path :schema/name,
+                              :sh/datatype :xsd/string}]}
+
+              {:schema {:id "http://schema.org/"},
+               :wiki {:id "https://www.wikidata.org/wiki/"},
+               :xsd {:id "http://www.w3.org/2001/XMLSchema#"},
+               :type {:id "@type",
+                      :type? true},
+               :rdfs {:id "http://www.w3.org/2000/01/rdf-schema#"},
+               :type-key :type,
+               :ex {:id "http://example.org/ns/"},
+               :id {:id "@id"},
+               :f {:id "https://ns.flur.ee/ledger#"},
+               :sh {:id "http://www.w3.org/ns/shacl#"},
+               :skos {:id "http://www.w3.org/2008/05/skos#"},
+               :rdf {:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#"}})){}))
+    (testing "string, with `:type-key` of 'type', but node uses @type"
+      (is (= {:idx [],
+              :id "http://example.org/ns/UserShape",
+              :type ["http://www.w3.org/ns/shacl#NodeShape"],
+              "http://www.w3.org/ns/shacl#targetClass"
+              {:id "http://example.org/ns/User", :idx ["sh:targetClass"]},
+              "http://www.w3.org/ns/shacl#property"
+              [{:idx ["sh:property" 0],
+                "http://www.w3.org/ns/shacl#datatype"
+                {:id "http://www.w3.org/2001/XMLSchema#string",
+                 :idx ["sh:property" 0 "sh:datatype"]},
+                "http://www.w3.org/ns/shacl#path"
+                {:id "http://schema.org/name", :idx ["sh:property" 0 "sh:path"]}}]}
+
+             (expand/node
+              {"@id" "ex:UserShape",
+               "@type" ["sh:NodeShape"],
+               "sh:targetClass" {"@id" "ex:User"},
+               "sh:property" [{"sh:datatype" {"@id" "xsd:string"},
+                               "sh:path" {"@id" "schema:name"}}]}
+
+              {"f" {:id "https://ns.flur.ee/ledger#"},
+               "rdf" {:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#"},
+               "schema" {:id "http://schema.org/"},
+               "id" {:id "@id"},
+               "wiki" {:id "https://www.wikidata.org/wiki/"},
+               :type-key "type",
+               "ex" {:id "http://example.org/ns/"},
+               "rdfs" {:id "http://www.w3.org/2000/01/rdf-schema#"},
+               "type" {:id "@type",
+                       :type? true},
+               "sh" {:id "http://www.w3.org/ns/shacl#"},
+               "skos" {:id "http://www.w3.org/2008/05/skos#"},
+               "xsd" {:id "http://www.w3.org/2001/XMLSchema#"}})))))
 
 (comment
   (expanding-iri)
