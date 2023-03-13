@@ -78,26 +78,32 @@
 
 (deftest multiple-contexts
   (testing "Context map parsing"
-    (is (= (context/parse [{"schema" "http://schema.org/"},
-                           {"owl" "http://www.w3.org/2002/07/owl#",
-                            "ex"  "http://example.org/ns#"}])
-           {:type-key "@type"
+    (is (= {:type-key "@type"
             "schema"  {:id "http://schema.org/"}
             "owl"     {:id "http://www.w3.org/2002/07/owl#"}
-            "ex"      {:id "http://example.org/ns#"}})))
+            "ex"      {:id "http://example.org/ns#"}}
+           (context/parse [{"schema" "http://schema.org/"},
+                           {"owl" "http://www.w3.org/2002/07/owl#",
+                            "ex"  "http://example.org/ns#"}]))))
 
   (testing "A second context may rely on definitions in the first"
     ;; this scenario happened with https://w3id.org/security/v1 -> https://w3id.org/security/v2
-    (is (= (context/parse [{"sec" "https://w3id.org/security#"}
-                           {"EcdsaSecp256k1VerificationKey2019" "sec:EcdsaSecp256k1VerificationKey2019"}])
-           {:type-key                           "@type"
+    (is (= {:type-key                           "@type"
             "sec"                               {:id "https://w3id.org/security#"},
-            "EcdsaSecp256k1VerificationKey2019" {:id "https://w3id.org/security#EcdsaSecp256k1VerificationKey2019"}})))
+            "EcdsaSecp256k1VerificationKey2019" {:id "https://w3id.org/security#EcdsaSecp256k1VerificationKey2019"}}
+           (context/parse [{"sec" "https://w3id.org/security#"}
+                           {"EcdsaSecp256k1VerificationKey2019" "sec:EcdsaSecp256k1VerificationKey2019"}]))))
   (testing "A nil context empties the context"
-    ;; this scenario happened with https://w3id.org/security/v1 -> https://w3id.org/security/v2
-    (is (= (context/parse [{"sec" "https://w3id.org/security#"}
-                           nil])
-           {}))))
+    (let [parsed {:type-key "@type", "sec" {:id "https://w3id.org/security#"}}]
+      (is (= parsed
+            (context/parse {"sec" "https://w3id.org/security#"}))
+          "a parsed context")
+      (is (= parsed
+             (context/parse parsed {}))
+          "an unmodified parsed context")
+      (is (= {}
+             (context/parse parsed nil))
+          "an empty context"))))
 
 
 (deftest nested-context-details
