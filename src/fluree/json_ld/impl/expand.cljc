@@ -229,8 +229,10 @@
   and a (possibly) updated context if there was a type-dependent sub-context present.
   Always return @type as a vector regardless of input."
   [node-map context idx]
-  (let [base (if (empty? idx) {:idx []} {:idx idx})]
-    (if-let [type-val (get node-map (:type-key context))]
+  (let [base (if (empty? idx) {:idx []} {:idx idx})
+        {:keys [type-key]} context]
+    (if-let [type-val (or (get node-map type-key)
+                          (get node-map (get-in context [type-key :id])))]
       (let [type-val*     (sequential type-val)
             ;; context may have type-dependent sub-context, update context if so
             context+types (type-sub-context context type-val*)
@@ -321,7 +323,8 @@
          (if-let [graph (get node-map graph-key)]
            (expand-nodes context externals (conj idx "@graph") graph)
            (let [[base-result context*] (parse-type node-map context idx)
-                 node-map* (dissoc node-map "@context" :context (:type-key context))]
+                 {:keys [type-key]} context
+                 node-map* (dissoc node-map "@context" :context type-key (get-in context [type-key :id]))]
              (node* node-map* base-result externals context*)))))
      (catch e
             (if (ex-data e)
