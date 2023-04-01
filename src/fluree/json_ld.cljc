@@ -22,6 +22,12 @@
   ([base-context externals context]
    (context/parse base-context externals context)))
 
+(defn un-parse-context 
+  "Takes a parsed context and returns it to a standard json-ld context
+  in the most compact form it can."
+  [parsed-context]
+  (context/un-parse parsed-context))
+
 
 (defn external-vocab
   "Loads a supported external vocabulary for a specific iri, which should be

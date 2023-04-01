@@ -1,5 +1,5 @@
 (ns fluree.json-ld.impl.context-test
-  (:require #?(:clj [clojure.test :as t :refer [deftest testing is]]
+  (:require #?(:clj  [clojure.test :as t :refer [deftest testing is]]
                :cljs [cljs.test :as t :refer [deftest testing is] :include-macros true])
             [fluree.json-ld.impl.context :as context]))
 
@@ -200,3 +200,19 @@
             :id       {:id "@id"}
             :type     {:id "@type", :type? true}
             :schema   {:id "http://schema.org/"}}))))
+
+(deftest un-parsing-context
+  (testing "A simple context parsed returns to its original form when unparsed"
+    (let [sample-ctx {"schema"     "http://schema.org"
+                      "ex"         "http://example.org/"
+                      "xsd"        "http://xsd/"
+                      "ex:favNumb" {"@type" "xsd:integer"}
+                      "ex:friend"  {"@type" "@id"}
+                      "blah"       {"@type" "xsd:hello"
+                                    "@id"   "http://flur.ee/wow"}
+                      "id"         "@id"
+                      "type"       "@type"}
+          parsed (context/parse sample-ctx)
+          un-parsed (context/un-parse parsed)]
+      (is (= sample-ctx
+             un-parsed)))))

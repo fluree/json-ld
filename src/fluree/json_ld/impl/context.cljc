@@ -2,11 +2,75 @@
   (:require [fluree.json-ld.impl.iri :as iri]
             [fluree.json-ld.impl.util :refer [try-catchall]]
             [fluree.json-ld.impl.external :as external]
+            [fluree.json-ld.impl.compact :as compact]
             [clojure.string :as str]))
 
 #?(:clj (set! *warn-on-reflection* true))
 
 (declare parse)
+
+(defn- stringify-ctx-kw
+  "If an item is a keyword, turns it back into a string with '@'
+  e.g. :id -> @id, :type -> @type"
+  [kw]
+  (if (keyword? kw)
+    (str "@" (name kw))
+    kw))
+
+
+(defn un-parse
+  "Takes the parsed context turns it back into a single map context.
+
+  This is designed to be as close to the likely provided context as possible
+  and sacrifices some speed to achieve that."
+  [{:keys [type-key] :as parsed-context}]
+  (reduce-kv
+    (fn [acc k v]
+      (cond
+        (= :type-key k)
+        acc
+
+        ;; just a single map entry with an :id
+        (and (= 1 (count v))
+             (get v :id))
+        (assoc acc k (:id v))
+
+        (and (= type-key k)
+             (= 2 (count v)))
+        (assoc acc k "@type")
+
+        :else
+        (let [v* (reduce-kv
+                   (fn [acc' k' v']
+                     (cond
+
+                       (= k' :id)
+                       (cond
+                         (and (string? k)
+                              (str/includes? k ":"))
+                         acc'
+
+                         (and (keyword? k)
+                              (namespace k))
+                         acc'
+
+                         :else
+                         (assoc acc' "@id" v'))
+
+                       (= k' :type)
+                       (assoc acc' "@type" (-> v'
+                                               (compact/compact parsed-context)
+                                               (stringify-ctx-kw)))
+
+                       :else
+                       (assoc acc' (stringify-ctx-kw k')
+                                   (if (keyword? v')
+                                     (stringify-ctx-kw v')
+                                     v'))))
+                   {} v)]
+          (assoc acc k v*))))
+    {}
+    parsed-context))
 
 (defn keywordize-at-value
   "If a context key value starts with '@' (i.e. @type, @id), returns
@@ -145,7 +209,7 @@
         (let [kw (keyword (subs k 1))
               v* (cond
                    (= :vocab kw)
-                   (if (= "" v)                             ;; an empty string means use @base as @vocab
+                   (if (= "" v) ;; an empty string means use @base as @vocab
                      (some-> (or (get context "@base")
                                  (get base-context :base))
                              iri/add-trailing-slash)
