@@ -315,16 +315,19 @@
    (try-catchall
      (if (sequential? node-map)
        (expand-nodes parsed-context externals idx node-map)
-       (let [context   (context/parse parsed-context (or (get node-map "@context")
-                                                         (:context node-map)))
+       (let [context   (or (get node-map "@context") (:context node-map) {})
+             parsed-context   (context/parse parsed-context context)
              graph-key (cond
                          (contains? node-map "@graph") "@graph"
-                         (contains? node-map :graph) :graph)]
+                         (contains? node-map :graph)   :graph)]
          (if-let [graph (get node-map graph-key)]
-           (expand-nodes context externals (conj idx "@graph") graph)
-           (let [[base-result context*] (parse-type node-map context idx)
-                 {:keys [type-key]} context
-                 node-map* (dissoc node-map "@context" :context type-key (get-in context [type-key :id]))]
+           (expand-nodes parsed-context externals (conj idx "@graph") graph)
+           (let [[base-result context*] (parse-type node-map parsed-context idx)
+                 {:keys [type-key]}     parsed-context
+                 node-map*              (dissoc node-map "@context"
+                                                         :context
+                                                         (:type-key parsed-context)
+                                                         (get-in context [type-key :id]))]
              (node* node-map* base-result externals context*)))))
      (catch e
             (if (ex-data e)

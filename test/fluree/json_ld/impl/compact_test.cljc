@@ -18,7 +18,16 @@
       ;; not a match, should return unaltered iri
       (is (= "schemas" (compact/compact "schemas" map-ctx)))
       (is (= "http://example.org/ns#blah" (compact/compact "http://example.org/ns#blah" str-ctx)))
-      (is (= "http://example.org/ns#blah" (compact/compact "http://example.org/ns#blah" map-ctx))))))
+      (is (= "http://example.org/ns#blah" (compact/compact "http://example.org/ns#blah" map-ctx)))))
+
+  (testing "A nil context clears the context"
+    (let [cleared-ctx (jsonld/parse-context [{"schema" "http://schema.org/"
+                                              "REPLACE" "http://schema.org/Person"
+                                              "x" "schema:x"}
+                                             nil])]
+      (is (= "http://schema.org/x" (compact/compact "http://schema.org/x" cleared-ctx)))
+      (is (= "http://schema.org/xyz" (compact/compact "http://schema.org/xyz" cleared-ctx)))
+      (is (= "http://schema.org/Person" (compact/compact "http://schema.org/Person" cleared-ctx))))))
 
 
 (deftest compacting-function
