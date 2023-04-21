@@ -12,7 +12,7 @@ pom.xml: deps.edn
 	clojure -Spom
 
 cljtest:
-	clojure -M:test
+	clojure -X:test
 
 nodetest:
 	npx shadow-cljs release nodejs-test

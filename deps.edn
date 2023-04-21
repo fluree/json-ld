@@ -27,7 +27,7 @@
    :extra-deps  {com.cognitect/test-runner
                  {:git/url "https://github.com/cognitect-labs/test-runner.git"
                   :sha     "b6b3193fcc42659d7e46ecd1884a228993441182"}}
-   :main-opts   ["-m" "cognitect.test-runner"]}
+   :exec-fn     cognitect.test-runner.api/test}
 
   :js-deps
   {:extra-deps {com.timetraveltoaster/target-bundle-libs {:mvn/version "RELEASE"}}
