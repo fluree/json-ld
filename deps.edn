@@ -2,12 +2,12 @@
 
  :deps {org.clojure/clojure             {:mvn/version "1.11.1"}
         org.clojure/clojurescript       {:mvn/version "1.11.60"}
-        com.apicatalog/titanium-json-ld {:mvn/version "1.3.1"}
+        com.apicatalog/titanium-json-ld {:mvn/version "1.3.2"}
         org.glassfish/jakarta.json      {:mvn/version "2.0.1"}
         org.glassfish/javax.json        {:mvn/version "1.1.4"}
         javax.json/javax.json-api       {:mvn/version "1.1.4"}
         io.setl/rdf-urdna               {:mvn/version "1.2"}
-        metosin/jsonista                {:mvn/version "0.3.6"}}
+        metosin/jsonista                {:mvn/version "0.3.7"}}
 
  :aliases
  {:mvn/group-id    com.fluree
@@ -16,9 +16,9 @@
 
   :dev
   {:extra-paths ["dev", "test"]
-   :extra-deps  {org.clojure/tools.namespace {:mvn/version "1.1.0"}
-                 cheshire/cheshire           {:mvn/version "5.10.1"}
-                 thheller/shadow-cljs        {:mvn/version "2.20.5"}}
+   :extra-deps  {org.clojure/tools.namespace {:mvn/version "1.4.4"}
+                 cheshire/cheshire           {:mvn/version "5.11.0"}
+                 thheller/shadow-cljs        {:mvn/version "2.23.1"}}
    :main-opts   ["-e" "(require,'user)"
                  "-e" "(in-ns,'user)"]}
 
@@ -26,7 +26,7 @@
   {:extra-paths ["test"]
    :extra-deps  {com.cognitect/test-runner
                  {:git/url "https://github.com/cognitect-labs/test-runner.git"
-                  :sha     "b6b3193fcc42659d7e46ecd1884a228993441182"}}
+                  :sha     "7284cda41fb9edc0f3bc6b6185cfb7138fc8a023"}}
    :exec-fn     cognitect.test-runner.api/test}
 
   :js-deps
@@ -34,7 +34,7 @@
    :main-opts  ["-m" "target-bundle-libs.core"]}
 
   :jar
-  {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.1.267"}}
+  {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.1.303"}}
    :exec-fn      hf.depstar/jar
    :exec-args    {:jar         "target/fluree-json-ld.jar"
                   :group-id    :mvn/group-id
@@ -57,8 +57,8 @@
 
   :build-edn-context
   {:extra-paths ["dev"]
-   :extra-deps {org.clojure/tools.namespace {:mvn/version "1.1.0"}
-                cheshire/cheshire           {:mvn/version "5.10.1"}}
+   :extra-deps {org.clojure/tools.namespace {:mvn/version "1.4.4"}
+                cheshire/cheshire           {:mvn/version "5.11.0"}}
    :exec-fn user/parse-context-file
    :exec-args {:source nil
                :dest   nil}}}}
