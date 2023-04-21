@@ -53,4 +53,12 @@
    :exec-fn    deps-deploy.deps-deploy/deploy
    :exec-args  {:installer      :remote
                 :sign-releases? false
-                :artifact       "target/fluree-json-ld.jar"}}}}
+                :artifact       "target/fluree-json-ld.jar"}}
+
+  :build-edn-context
+  {:extra-paths ["dev"]
+   :extra-deps {org.clojure/tools.namespace {:mvn/version "1.1.0"}
+                cheshire/cheshire           {:mvn/version "5.10.1"}}
+   :exec-fn user/parse-context-file
+   :exec-args {:source nil
+               :dest   nil}}}}

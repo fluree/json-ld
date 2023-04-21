@@ -1,4 +1,4 @@
-.PHONY: test jar install deploy clean
+.PHONY: test jar install deploy clean edn-contexts
 
 SOURCES := $(shell find src)
 
@@ -7,6 +7,14 @@ target/fluree-json-ld.jar: pom.xml deps.edn src/deps.cljs $(SOURCES)
 
 src/deps.cljs: package.json
 	clojure -M:js-deps
+
+resources/contexts/%.edn: resources/contexts/%.jsonld
+	clojure -X:build-edn-context :source '"$(subst resources/,,$<)"' :dest '"$(subst resources/,,$@)"'
+
+CONTEXTS := $(shell find resources/contexts -name '*.jsonld')
+EDN_CONTEXTS := $(CONTEXTS:.jsonld=.edn)
+
+edn-contexts: $(EDN_CONTEXTS)
 
 pom.xml: deps.edn
 	clojure -Spom
