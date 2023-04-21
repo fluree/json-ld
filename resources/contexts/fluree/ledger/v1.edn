@@ -32,7 +32,6 @@
  "tag" {:id "https://ns.flur.ee/ledger#tag"},
  "commit" {:id "https://ns.flur.ee/ledger#commit", :type :id},
  "modify" {:id "https://ns.flur.ee/ledger#modify"},
- "context" {:id "https://ns.flur.ee/ledger#context"},
  "address" {:id "https://ns.flur.ee/ledger#address"},
  "previous" {:id "https://ns.flur.ee/ledger#previous", :type :id},
  "fluree" {:id "https://ns.flur.ee/ledger#"},
@@ -60,6 +59,8 @@
  "Function" {:id "https://ns.flur.ee/ledger#Function"},
  :version 1.1,
  "CommitProof" {:id "https://ns.flur.ee/ledger#CommitProof"},
+ "defaultContext"
+ {:id "https://ns.flur.ee/ledger#defaultContext", :type :id},
  "data" {:id "https://ns.flur.ee/ledger#data", :type :id},
  "view" {:id "https://ns.flur.ee/ledger#view"},
  "equals"

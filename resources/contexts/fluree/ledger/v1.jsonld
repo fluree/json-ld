@@ -69,7 +69,10 @@
     },
     "message": "fluree:message",
     "branch": "fluree:branch",
-    "context": "fluree:context",
+    "defaultContext": {
+      "@id": "fluree:defaultContext",
+      "@type": "@id"
+    },
     "Policy": "fluree:Policy",
     "Role": "fluree:Role",
     "Function": "fluree:Function",
