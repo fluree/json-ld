@@ -1,27 +1,36 @@
 (ns user
-  (:require [clojure.tools.namespace.repl :as tn :refer [refresh refresh-all]]
+  (:require [clojure.java.io :as io]
+            [clojure.tools.namespace.repl :as tn :refer [refresh refresh-all]]
             [fluree.json-ld :as json-ld]
             [fluree.json-ld.impl.external :as external]
             [fluree.json-ld.impl.expand :as expand]
             [cheshire.core :as cheshire]
             [clojure.java.io :as io]
-            [clojure.pprint :as pprint]))
+            [clojure.pprint :as pprint])
+  (:import (clojure.lang ExceptionInfo)))
 
-
-(defn parse-context
-  "Parses a single context and saves to corresponding .edn file."
-  [context]
-  (let [{:keys [source parsed]} (get external/context->file context)
-        json (-> source io/resource slurp)]
+(defn parse-context-file
+  [{:keys [source dest]}]
+  (let [json (-> source io/resource slurp)]
     (when-not json
-      (throw (ex-info (str "Context " context " unable to be loaded from file: " source ".")
+      (throw (ex-info (str "Context unable to be loaded from file: " source ".")
                       {:status 400 :error :json-ld/invalid-context})))
     (->> json
          cheshire/parse-string
          json-ld/parse-context
          pprint/pprint
          with-out-str
-         (spit (io/file "resources" parsed)))))
+         (spit (io/file "resources" dest)))))
+
+(defn parse-context
+  "Parses a single context and saves to corresponding .edn file."
+  [context]
+  (let [{:keys [source] :as files} (get external/context->file context)]
+    (try
+      (parse-context-file files)
+      (catch ExceptionInfo _
+        (throw (ex-info (str "Unable to load context " context " from file: " source ".")
+                        {:status 400, :error :json-ld/invalid-context}))))))
 
 
 (defn re-parse-all-contexts
@@ -62,8 +71,8 @@
                    "credentialSubject" {"message" "Another commit"},
                    "id" "blah",
                    "issuanceDate" "2021-12-26T10:55:09.579350Z",
-                   "issuer" "did:fluree:TfCzWTrXqF16hvKGjcYiLxRoYJ1B8a6UMH6",
-                   })
+                   "issuer" "did:fluree:TfCzWTrXqF16hvKGjcYiLxRoYJ1B8a6UMH6",})
+
 
   (json-ld/parse-context "https://www.w3.org/2018/credentials/v1")
 
@@ -74,6 +83,4 @@
   (re-parse-all-contexts)
 
   (json-ld/parse-context ["https://flur.ee/ns/block"
-                          {"schema" "http://schema.org/"}])
-
-  )
+                          {"schema" "http://schema.org/"}]))
