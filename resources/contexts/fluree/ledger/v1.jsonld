@@ -7,6 +7,7 @@
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "skos": "http://www.w3.org/2008/05/skos#",
+    "creds": "https://www.w3.org/2018/credentials#",
     "CommitProof": "fluree:CommitProof",
     "Commit": "fluree:Commit",
     "Index": "fluree:Index",
@@ -40,7 +41,7 @@
       "@type": "xsd:decimal"
     },
     "issuer": {
-      "@id": "fluree:issuer",
+      "@id": "creds:issuer",
       "@type": "@id"
     },
     "flakes": {
