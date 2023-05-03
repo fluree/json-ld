@@ -9,12 +9,14 @@
  "Context" {:id "https://ns.flur.ee/ledger#Context"},
  "updates" {:id "https://ns.flur.ee/ledger#updates"},
  "branch" {:id "https://ns.flur.ee/ledger#branch"},
- "issuer" {:id "https://ns.flur.ee/ledger#issuer", :type :id},
+ "issuer"
+ {:id "https://www.w3.org/2018/credentials#issuer", :type :id},
  "contains"
  {:id "https://ns.flur.ee/ledger#contains",
   :type :id,
   :container :list},
  "FNS" {:id "https://ns.flur.ee/ledger#FNS"},
+ "creds" {:id "https://www.w3.org/2018/credentials#"},
  "path" {:id "https://ns.flur.ee/ledger#path", :type :id},
  "DB" {:id "https://ns.flur.ee/ledger#DB"},
  "v"
