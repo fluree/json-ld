@@ -1,7 +1,8 @@
 (ns fluree.json-ld.processor.api-test
   (:require [fluree.json-ld.processor.api :as jld-processor]
             [clojure.test :as t :refer [deftest is testing]]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [jsonista.core :as json]))
 
 (def context {"@version" 1.1,
               "address"  "fluree:address",
@@ -41,15 +42,30 @@
       (is (= expanded
              result))))
 
+  (testing "static context"
+    (is (= expanded
+           (jld-processor/expand (assoc commit "@context"
+                                        ["https://ns.flur.ee/ledger/v1"
+                                         {"cool" {"@id" "fluree:cool" "@type" "xsd:boolean"}}]))))
+
+    (is (= "Unable to load context: http://failure.foo"
+           (try (jld-processor/expand (assoc commit "@context" "http://failure.foo"))
+                (catch Exception e
+                  (:cause (Throwable->map e)))))))
+
   (testing "remote context"
-    (let [result (jld-processor/expand (assoc commit "@context"
-                                              [ "https://ns.flur.ee/ledger/v1"
-                                               {"cool" {"@id" "fluree:cool" "@type" "xsd:boolean"}}]))]
-      (is (= expanded
-             result))))
+    (let [test-docloader (fn [_ _] (json/write-value-as-string {"@context" {"foo" "http://example.com/foo#"}}))]
+      (is (= [{"http://example.com/foo#bar" [{"@value" 1}]}]
+             (jld-processor/expand {"@context" "foo:context" "foo:bar" 1}
+                                   {:document-loader test-docloader})))
+      (is (= "Unable to load context: foo:context"
+             (try (jld-processor/expand {"@context" "foo:context" "foo:bar" 1}
+                                        {:document-loader (fn [_ _] (throw (ex-info "borken loader" {})))})
+                  (catch Exception e
+                    (:cause (Throwable->map e))))))))
 
   (testing "remote context failure"
-    (is (= "Unable to load static context: http://failure.foo"
+    (is (= "Unable to load context: http://failure.foo"
            (try (jld-processor/expand (assoc commit "@context" "http://failure.foo"))
                 (catch Exception e
                   (:cause (Throwable->map e))))))))

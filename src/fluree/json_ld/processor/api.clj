@@ -50,39 +50,59 @@
       (StringReader.)
       (JsonDocument/of)))
 
-(defrecord StaticLoader []
+(defn ->document
+  "Takes a document-loader, which takes a url and options and returns a json string
+  context document (must have an \"@context\" key with a context as its value)."
+  [document-loader url options]
+  (let [url-string (.toString ^URI url)]
+    (try
+      (let [json-string (document-loader url-string options)]
+        (JsonDocument/of (io/input-stream (.getBytes ^String json-string))))
+      (catch Exception e
+        (throw (JsonLdError. JsonLdErrorCode/LOADING_REMOTE_CONTEXT_FAILED
+                             (str "Unable to load context: " url-string)))))))
+
+(defrecord PluggableLoader [document-loader]
   DocumentLoader
   (loadDocument [_ url options]
-    (if-let [{path :source} (external/context->file (.toString url))]
-      (-> (FileLoader.)
-          (.loadDocument (.toURI (io/resource path))
-                         (DocumentLoaderOptions.)))
-      (throw (JsonLdError. JsonLdErrorCode/LOADING_REMOTE_CONTEXT_FAILED
-                           (str "Unable to load static context: " (.toString url)))))))
+    (->document document-loader url options)))
+
+(defn static-loader
+  [url options]
+  (if-let [{path :source} (external/context->file url)]
+    (slurp (io/resource path))
+    (throw (ex-info (str "Unable to load static context: " url)
+                    {:url url}))))
 
 (defn expand
-  [json-ld]
-  (-> (->json-document json-ld)
-      (JsonLd/expand)
-      (.loader ^DocumentLoader (->StaticLoader))
-      (.get)
-      (parsed)))
+  ([json-ld]
+   (expand json-ld {:document-loader static-loader}))
+  ([json-ld opts]
+   (-> (->json-document json-ld)
+       (JsonLd/expand)
+       (.loader ^DocumentLoader (->PluggableLoader (:document-loader opts)))
+       (.get)
+       (parsed))))
 
 (defn compact
-  [json-ld context]
-  (-> (->json-document json-ld)
-      (JsonLd/compact (->json-document context))
-      (.loader ^DocumentLoader (->StaticLoader))
-      (.get)
-      (parsed)))
+  ([json-ld context]
+   (compact json-ld context {:document-loader static-loader}))
+  ([json-ld context opts]
+   (-> (->json-document json-ld)
+       (JsonLd/compact (->json-document context))
+       (.loader ^DocumentLoader (->PluggableLoader (:document-loader opts)))
+       (.get)
+       (parsed))))
 
 (defn flatten
-  [json-ld]
-  (-> (->json-document json-ld)
-      (JsonLd/flatten)
-      (.loader ^DocumentLoader (->StaticLoader))
-      (.get)
-      (parsed)))
+  ([json-ld]
+   (flatten json-ld {:document-loader static-loader}))
+  ([json-ld opts]
+   (-> (->json-document json-ld)
+       (JsonLd/flatten)
+       (.loader ^DocumentLoader (->PluggableLoader (:document-loader opts)))
+       (.get)
+       (parsed))))
 
 (defn- ->statement
   [^RdfNQuad quad]
@@ -114,23 +134,27 @@
        " ."))
 
 (defn to-rdf
-  [json-ld]
-  (-> (->json-document json-ld)
-      (JsonLd/toRdf)
-      (.loader ^DocumentLoader (->StaticLoader))
-      (.get)
-      (.toList)
-      (->> (reduce (fn [doc quad] (str doc (->statement quad) "\n")) ""))))
+  ([json-ld]
+   (to-rdf json-ld {:document-loader static-loader}))
+  ([json-ld opts]
+   (-> (->json-document json-ld)
+       (JsonLd/toRdf)
+       (.loader ^DocumentLoader (->PluggableLoader (:document-loader opts)))
+       (.get)
+       (.toList)
+       (->> (reduce (fn [doc quad] (str doc (->statement quad) "\n")) "")))))
 
 (defn canonize
-  [json-ld]
-  (-> (->json-document json-ld)
-      (JsonLd/toRdf)
-      (.loader ^DocumentLoader (->StaticLoader))
-      (.get)
-      (RdfNormalize/normalize)
-      (.toList)
-      (->> (reduce (fn [doc quad] (str doc (->statement quad) "\n")) ""))))
+  ([json-ld]
+   (canonize json-ld {:document-loader static-loader}))
+  ([json-ld opts]
+   (-> (->json-document json-ld)
+       (JsonLd/toRdf)
+       (.loader ^DocumentLoader (->PluggableLoader (:document-loader opts)))
+       (.get)
+       (RdfNormalize/normalize)
+       (.toList)
+       (->> (reduce (fn [doc quad] (str doc (->statement quad) "\n")) "")))))
 
 (comment
   ;; These work up to translating the resulting json-ld back into edn
