@@ -40,7 +40,7 @@
                              result))
                       (done))))))
 
-(deftest expansion--remote-context
+(deftest expansion--static-context
   (async done
          (-> (jld-processor/expand (assoc commit "@context"
                                           ["https://ns.flur.ee/ledger/v1"
@@ -49,13 +49,32 @@
                       (is (= expanded
                              result))
                       (done))))))
-
-(deftest expansion--remote-context-failure
+(deftest expansion--static-context-failure
   (async done
          (-> (jld-processor/expand (assoc commit "@context" "http://failure.foo"))
              (.catch (fn [error]
                        (is (not (nil? error)))
                        (done))))))
+
+(deftest expansion--remote-context
+  (async done
+         (-> (jld-processor/expand {"@context" "foo:context" "foo:bar" 1}
+                                   {:document-loader (fn [_ _]
+                                                       (->> {"@context" {"foo" "http://example.com/foo#"}}
+                                                            (clj->js)
+                                                            (.stringify js/JSON)))})
+             (.then (fn [result]
+                      (is (= [{"http://example.com/foo#bar" [{"@value" 1}]}]
+                             result))
+                      (done))))))
+
+(deftest expansion--remote-context-failure
+  (async done
+         (-> (jld-processor/expand {"@context" "foo:context" "foo:bar" 1}
+                                   {:document-loader (fn [_ _] (throw (ex-info "Broken loader" {})))})
+             (.catch (fn [error]
+                      (is (not (nil? error)))
+                      (done))))))
 
 (deftest compaction
   (async done
