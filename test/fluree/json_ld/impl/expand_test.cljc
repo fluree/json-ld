@@ -144,7 +144,11 @@
              :idx ["gr:acceptedPaymentMethods"]},
             "http://purl.org/goodrelations/v1#hasBusinessFunction"
             {:id  "http://purl.org/goodrelations/v1#Sell",
-             :idx ["gr:hasBusinessFunction"]}}
+             :idx ["gr:hasBusinessFunction"]}
+            "my:json"
+            {:value {"foo" {:bar [1 false 9.0 nil]}},
+             :type :json,
+             :idx ["my:json"]}}
 
            (expand/node {"gr:includes"               {"@type"     ["gr:Individual" "pto:Vehicle"],
                                                       "gr:name"   "Tesla Roadster",
@@ -156,13 +160,15 @@
                                                       "foaf:page"                 {"@type" "@id"},
                                                       "gr:acceptedPaymentMethods" {"@type" "@id"},
                                                       "gr:hasBusinessFunction"    {"@type" "@id"},
-                                                      "gr:hasCurrencyValue"       {"@type" "xsd:float"}},
+                                                      "gr:hasCurrencyValue"       {"@type" "xsd:float"}
+                                                      "my:json" {"@type" "@json"}},
                          "@id"                       "http://example.org/cars/for-sale#tesla",
                          "gr:description"            "Need to sell fast and furiously",
                          "gr:name"                   "Used Tesla Roadster",
                          "gr:hasPriceSpecification"  {"gr:hasCurrencyValue" "85000", "gr:hasCurrency" "USD"},
                          "gr:acceptedPaymentMethods" "gr:Cash",
                          "gr:hasBusinessFunction"    "gr:Sell",
+                         "my:json"                   {"foo" {:bar [1 false 9.0 nil]}}
                          "@type"                     "gr:Offering"}))))
 
 

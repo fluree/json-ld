@@ -102,8 +102,9 @@
                     (contains? m :index))))))
 
 
-(defmulti parse-node-val (fn [v _ _ _ idx]
+(defmulti parse-node-val (fn [v v-info _ _ idx]
                            (cond
+                             (= :json (:type v-info)) :json
                              (map? v) :map
                              (sequential? v) :sequential
                              (string? v) :string
@@ -120,10 +121,16 @@
   [v v-info context _ idx]
   nil)
 
+(defmethod parse-node-val :json
+  [v v-info _ _ idx]
+  {:value v
+   :type :json
+   :idx idx})
+
 (defmethod parse-node-val :boolean
   [v v-info _ _ idx]
   {:value v
-   :type  (:type v-info)                                    ;; type may be defined in the @context
+   :type  (:type v-info) ;; type may be defined in the @context
    :idx   idx})
 
 (defmethod parse-node-val :string
