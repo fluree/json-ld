@@ -167,7 +167,6 @@
                   (keywordize-at-value v)
 
                   :else v)]
-         (println "assoc k:" kw "v:" v*)
          (assoc acc kw v*))
        (let [parsed-v (parse-value k v context base-context externals)]
          (cond-> (assoc acc k parsed-v)
