@@ -6,7 +6,6 @@
 
 ;; TODO - differentiate resolution between @type: @id vs @type: @vocab
 ;; TODO - support @container: @language indexed value
-;; TODO - support for @base - applies only to values, not @type or properties (or where explicit @type: @vocab used)
 
 #?(:clj (set! *warn-on-reflection* true))
 
