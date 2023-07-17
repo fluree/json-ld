@@ -336,7 +336,7 @@
                          "nick" ["joe", "bob", "jaybee"]})))))
 
 
-(deftest base-and-vocab
+(deftest base-and-vocab-test
   (testing "An @base and a @vocab expand the correct iris"
     (is (= {:id   "https://base.com/base/iri#joebob"
             :idx  []
@@ -352,7 +352,6 @@
                          "@id"         "#joebob",
                          "@type"       "Joey"
                          "name"        "Joe Bob"
-                         "iriProperty" "#a-relative-id"})))))
                          "iriProperty" "#a-relative-id"}))))
   (testing "A absolute @base and a relative @vocab expand the correct iris"
     (let [context* {"@base"       "http://example.com/"
