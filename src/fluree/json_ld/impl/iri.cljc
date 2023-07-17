@@ -1,6 +1,7 @@
 (ns fluree.json-ld.impl.iri
   (:require [fluree.json-ld.impl.util :refer [try-catchall]]
-            [clojure.string :as str]))
+            [clojure.string :as str])
+  #?(:clj (:import (java.net URI))))
 
 #?(:clj (set! *warn-on-reflection* true))
 
@@ -45,3 +46,16 @@
                              {:status 400
                               :error  :json-ld/invalid-iri}
                              e)))))
+
+(defn join
+  "Returns an IRI string for string s relative to base IRI."
+  [base ^String s]
+  #?(:clj  (->> s (.resolve (URI/create base)) .toString)
+     :cljs (-> s (js/URL. base) .toString)))
+
+(defn absolute?
+  "Returns true if given IRI is absolute, false otherwise.
+  NB: A false return value does NOT imply that it is a valid relative IRI."
+  [iri]
+  #?(:clj  (try (-> iri URI/create .isAbsolute) (catch Exception _ false))
+     :cljs (boolean (try (js/URL. iri) (catch :default _ false)))))

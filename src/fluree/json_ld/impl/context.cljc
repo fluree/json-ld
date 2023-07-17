@@ -2,8 +2,7 @@
   (:require [fluree.json-ld.impl.iri :as iri]
             [fluree.json-ld.impl.util :refer [try-catchall]]
             [fluree.json-ld.impl.external :as external]
-            [clojure.string :as str])
-  (:import (java.net URI)))
+            [clojure.string :as str]))
 
 #?(:clj (set! *warn-on-reflection* true))
 
@@ -24,12 +23,10 @@
                  (get base-context :base))]
     (if (= "" vocab) ; empty string means use @base as @vocab
       (when base (iri/add-trailing-slash base))
-      (let [vocab-uri (URI/create vocab)]
-        (if (and base (-> vocab-uri .isAbsolute not)) ; @vocab relative to @base
-          (->> vocab-uri
-               (.resolve (URI/create base))
-               .toString)
-          (iri/add-trailing-slash vocab))))))
+      (if (and base (not (iri/absolute? vocab)))
+        ;; @vocab relative to @base
+        (iri/join base vocab)
+        (iri/add-trailing-slash vocab)))))
 
 (defn parse-compact-iri-val
   "A context's value may itself be a compact IRI which refers to
