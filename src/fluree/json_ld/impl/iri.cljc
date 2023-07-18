@@ -1,7 +1,6 @@
 (ns fluree.json-ld.impl.iri
   (:require [fluree.json-ld.impl.util :refer [try-catchall]]
-            [clojure.string :as str])
-  #?(:clj (:import (java.net URI))))
+            [clojure.string :as str]))
 
 #?(:clj (set! *warn-on-reflection* true))
 
@@ -48,14 +47,14 @@
                              e)))))
 
 (defn join
-  "Returns an IRI string for string s relative to base IRI."
-  [base ^String s]
-  #?(:clj  (->> s (.resolve (URI/create base)) .toString)
-     :cljs (-> s (js/URL. base) .toString)))
+  "Returns an IRI string for relative IRI `ri` relative to absolute `base` IRI.
+  Makes no attempt to correct trailing / leading character errors, so make sure
+  `base` ends in / or # and `ri` begins with neither."
+  [base ri]
+  (str base ri))
 
 (defn absolute?
-  "Returns true if given IRI is absolute, false otherwise.
-  NB: A false return value does NOT imply that it is a valid relative IRI."
+  "A very basic check if an IRI is absolute. NB: A false result does not imply
+  that it is a valid relative IRI."
   [iri]
-  #?(:clj  (try (-> iri URI/create .isAbsolute) (catch Exception _ false))
-     :cljs (boolean (try (js/URL. iri) (catch :default _ false)))))
+  (str/includes? iri ":"))
