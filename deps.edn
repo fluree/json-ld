@@ -24,10 +24,9 @@
 
   :test
   {:extra-paths ["test"]
-   :extra-deps  {com.cognitect/test-runner
-                 {:git/url "https://github.com/cognitect-labs/test-runner.git"
-                  :sha     "7284cda41fb9edc0f3bc6b6185cfb7138fc8a023"}}
-   :exec-fn     cognitect.test-runner.api/test}
+   :extra-deps  {lambdaisland/kaocha {:mvn/version "1.85.1342"}}
+   :exec-fn     kaocha.runner/exec-fn
+   :exec-args   {}}
 
   :js-deps
   {:extra-deps {com.timetraveltoaster/target-bundle-libs {:mvn/version "RELEASE"}}

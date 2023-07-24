@@ -336,7 +336,7 @@
                          "nick" ["joe", "bob", "jaybee"]})))))
 
 
-(deftest base-and-vocab
+(deftest base-and-vocab-test
   (testing "An @base and a @vocab expand the correct iris"
     (is (= {:id   "https://base.com/base/iri#joebob"
             :idx  []
@@ -352,7 +352,24 @@
                          "@id"         "#joebob",
                          "@type"       "Joey"
                          "name"        "Joe Bob"
-                         "iriProperty" "#a-relative-id"})))))
+                         "iriProperty" "#a-relative-id"}))))
+  (testing "A absolute @base and a relative @vocab expand the correct iris"
+    (let [context* {"@base"       "http://example.com/"
+                    "@vocab"      "ns/"
+                    "iriProperty" {"@type" "@id"}}
+          data     {"@id"         "#joebob"
+                    "@type"       "Joey"
+                    "name"        "Joe Bob"
+                    "iriProperty" "#a-relative-id"}]
+      (is (= {:idx                                []
+              :type                               ["http://example.com/ns/Joey"]
+              :id                                 "http://example.com/#joebob"
+              "http://example.com/ns/name"        {:value "Joe Bob"
+                                                   :type  nil
+                                                   :idx   ["name"]}
+              "http://example.com/ns/iriProperty" {:id  "http://example.com/#a-relative-id"
+                                                   :idx ["iriProperty"]}}
+             (expand/node (assoc data "@context" context*)))))))
 
 (deftest type-sub-context
   (testing "When @context has a sub-@context for specific types, ensure merged"

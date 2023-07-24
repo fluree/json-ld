@@ -16,6 +16,17 @@
     (keyword (subs at-value 1))
     at-value))
 
+(defn vocab
+  "Computes vocab prefix given provided base-context, context, & vocab"
+  [base-context context vocab]
+  (let [base (or (get context "@base")
+                 (get base-context :base))]
+    (if (= "" vocab) ; empty string means use @base as @vocab
+      (when base (iri/add-trailing-slash base))
+      (if (and base (not (iri/absolute? vocab)))
+        ;; @vocab relative to @base
+        (iri/join base vocab)
+        (iri/add-trailing-slash vocab)))))
 
 (defn parse-compact-iri-val
   "A context's value may itself be a compact IRI which refers to
@@ -77,52 +88,54 @@
 (defn- parse-value
   "Parses json-ld context value. If a map, iterates over keys."
   [ctx-key ctx-val ctx-original ctx-base externals]
-  (let [default-vocab (when-let [vocab (get ctx-original "@vocab")]
-                        (or (get vocab "@id") vocab))
-        ctx-val*      (if (string? ctx-val)
-                        (recursively-get-id ctx-val ctx-original)
-                        ctx-val)]
+  (let [default-vocab  (when-let [vocab (get ctx-original "@vocab")]
+                         (or (get vocab "@id") vocab))
+        default-vocab* (when default-vocab
+                         (vocab ctx-base ctx-original default-vocab))
+        ctx-val*       (if (string? ctx-val)
+                         (recursively-get-id ctx-val ctx-original)
+                         ctx-val)]
     (cond
       (string? ctx-val*)
-      (let [iri-v (parse-compact-iri-val ctx-original ctx-base default-vocab ctx-val*)]
+      (let [iri-v (parse-compact-iri-val ctx-original ctx-base default-vocab* ctx-val*)]
         (cond-> {:id iri-v}
                 (= "@type" iri-v) (assoc :type? true)))
 
       (map? ctx-val*)
       (let [map-val (reduce-kv
-                      (fn [acc k v]
-                        (let [k* (keywordize-at-value k)]
-                          (assoc acc k* (cond
-                                          (= :type k*)
-                                          (->> v
-                                               (assert-kw-string k)
-                                               (parse-compact-iri-val ctx-original ctx-base default-vocab)
-                                               keywordize-at-value)
+                     (fn [acc k v]
+                       (let [k* (keywordize-at-value k)]
+                         (assoc acc k* (cond
+                                         (= :type k*)
+                                         (->> v
+                                              (assert-kw-string k)
+                                              (parse-compact-iri-val ctx-original ctx-base default-vocab*)
+                                              keywordize-at-value)
 
-                                          (#{:id :reverse} k*)
-                                          (->> v
-                                               (assert-kw-string k)
-                                               (parse-compact-iri-val ctx-original ctx-base default-vocab))
+                                         (#{:id :reverse} k*)
+                                         (->> v
+                                              (assert-kw-string k)
+                                              (parse-compact-iri-val ctx-original ctx-base default-vocab*))
 
-                                          (= :context k*)
-                                          (parse {} externals v)
+                                         (= :context k*)
+                                         (parse {} externals v)
 
-                                          (= :container k*)
-                                          (try-catchall
-                                            (if (sequential? v)
-                                              (mapv keywordize-at-value v)
-                                              (keywordize-at-value v))
-                                            (catch e
-                                                   (throw (ex-info (str "@container values must be one or more strings that start with @. Provided: " v)
-                                                                   {:status 400 :error :json-ld/invalid-context} e))))
+                                         (= :container k*)
+                                         (try-catchall
+                                           (if (sequential? v)
+                                             (mapv keywordize-at-value v)
+                                             (keywordize-at-value v))
+                                           (catch e
+                                                  (throw (ex-info (str "@container values must be one or more strings that start with @. Provided: " v)
+                                                                  {:status 400 :error :json-ld/invalid-context} e))))
 
-                                          :else v))))
-                      {} ctx-val*)]
+                                         :else v))))
+                     {} ctx-val*)]
         ;; sometimes a context defines a compact-iri as the key and only includes @type - in this case we need to generate an @id
         (if (or (contains? map-val :id)
                 (contains? map-val :reverse))
           map-val
-          (assoc map-val :id (parse-compact-iri-val ctx-original ctx-base default-vocab ctx-key))))
+          (assoc map-val :id (parse-compact-iri-val ctx-original ctx-base default-vocab* ctx-key))))
 
       :else
       (throw (ex-info (str "Invalid context provided. Context map values must be a scalars or map. "
@@ -140,26 +153,22 @@
            can only be one vocab value for the returned context."
   [base-context externals context]
   (reduce-kv
-    (fn [acc k v]
-      (if (and (string? k) (= \@ (first k)))
-        (let [kw (keyword (subs k 1))
-              v* (cond
-                   (= :vocab kw)
-                   (if (= "" v)                             ;; an empty string means use @base as @vocab
-                     (some-> (or (get context "@base")
-                                 (get base-context :base))
-                             iri/add-trailing-slash)
-                     (iri/add-trailing-slash v))
+   (fn [acc k v]
+     (if (and (string? k) (= \@ (first k)))
+       (let [kw (keyword (subs k 1))
+             v* (cond
+                  (= :vocab kw)
+                  (vocab base-context context v)
 
-                   (string? v)
-                   (keywordize-at-value v)
+                  (string? v)
+                  (keywordize-at-value v)
 
-                   :else v)]
-          (assoc acc kw v*))
-        (let [parsed-v (parse-value k v context base-context externals)]
-          (cond-> (assoc acc k parsed-v)
-            (true? (:type? parsed-v)) (assoc :type-key k)))))
-    base-context context))
+                  :else v)]
+         (assoc acc kw v*))
+       (let [parsed-v (parse-value k v context base-context externals)]
+         (cond-> (assoc acc k parsed-v)
+                (true? (:type? parsed-v)) (assoc :type-key k)))))
+   base-context context))
 
 
 (defn parse
@@ -208,14 +217,11 @@
 
        :else
        (throw (ex-info (str "Invalid json-ld context provided: " context)
-                       {:status 400
-                        :error :json-ld/invalid-context
+                       {:status  400
+                        :error   :json-ld/invalid-context
                         :context context}))))))
 
 (comment
 
-  (parse nil
-         ["https://ns.flur.ee/ledger/v1"]
-         )
-
-  ,)
+ (parse nil
+        ["https://ns.flur.ee/ledger/v1"]),)

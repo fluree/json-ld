@@ -45,3 +45,16 @@
                              {:status 400
                               :error  :json-ld/invalid-iri}
                              e)))))
+
+(defn join
+  "Returns an IRI string for relative IRI `ri` relative to absolute `base` IRI.
+  Makes no attempt to correct trailing / leading character errors, so make sure
+  `base` ends in / or # and `ri` begins with neither."
+  [base ri]
+  (str base ri))
+
+(defn absolute?
+  "A very basic check if an IRI is absolute. NB: A false result does not imply
+  that it is a valid relative IRI."
+  [iri]
+  (str/includes? iri ":"))
