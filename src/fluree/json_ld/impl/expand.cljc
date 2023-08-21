@@ -100,7 +100,6 @@
                 (or (contains? m "@index")
                     (contains? m :index))))))
 
-
 (defmulti parse-node-val (fn [v v-info _ _ idx]
                            (cond
                              (= :json (:type v-info)) :json
@@ -183,13 +182,22 @@
                      (:value v))
             type (if-let [explicit-type (or (get v "@type") (:type v))]
                    (iri explicit-type ctx* true)
-                   (:type v-info))]                         ;; if type is defined only in the @context
-        (if (#{"@id" :id} (get v "@type"))
-          {:id  (iri val ctx* false)
-           :idx idx}
-          {:value val
-           :type  type
-           :idx   idx}))
+                   (:type v-info))] ; if type is defined only in the @context
+        (if-let [lang (or (get v "@language")
+                          (:language v))]
+          (if type
+            (throw (ex-info (str "@language can not be used for values with a specified @type")
+                            {:status 400
+                             :error  :json-ld/invalid-type}))
+            {:value    val
+             :language lang
+             :idx      idx})
+          (if (#{"@id" :id} type)
+            {:id  (iri val ctx* false)
+             :idx idx}
+            {:value val
+             :type  type
+             :idx   idx})))
 
       ;; else a sub-value. Top-level @context might have sub-contexts, if so merge
       :else

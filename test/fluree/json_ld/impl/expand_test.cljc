@@ -2,7 +2,8 @@
   (:require #?(:clj [clojure.test :as t :refer [deftest testing is]]
                :cljs [cljs.test :as t :refer [deftest testing is] :include-macros true])
             [fluree.json-ld :as json-ld]
-            [fluree.json-ld.impl.expand :as expand]))
+            [fluree.json-ld.impl.expand :as expand])
+  (:import (clojure.lang ExceptionInfo)))
 
 (deftest expanding-iri
   (testing "Expanding a compacted IRI with context in various forms")
@@ -540,6 +541,34 @@
                "sh" {:id "http://www.w3.org/ns/shacl#"},
                "skos" {:id "http://www.w3.org/2008/05/skos#"},
                "xsd" {:id "http://www.w3.org/2001/XMLSchema#"}})))))
+
+(deftest language-tag-test
+  (testing "expanding nodes with language tags"
+    (testing "in value maps"
+      (testing "with no specified type"
+        (let [jsonld {"@context"      {"ex" "http://example.com/vocab/"}
+                      "ex:name"       "Frank"
+                      "ex:occupation" {"@value"    "Ninja"
+                                       "@language" "en"}}]
+          (is (= {:idx                            [],
+                  "http://example.com/vocab/name" {:value "Frank", :type nil, :idx ["ex:name"]},
+                  "http://example.com/vocab/occupation"
+                  {:value    "Ninja"
+                   :language "en"
+                   :idx      ["ex:occupation"]}}
+                 (expand/node jsonld))
+              "includes the language tag")))
+      (testing "with a type specified"
+        (let [jsonld {"@context"      {"ex"  "http://example.com/vocab/"
+                                       "xsd" "http://www.w3.org/2001/XMLSchema#"}
+                      "ex:name"       "Frank"
+                      "ex:occupation" {"@value"    "Ninja"
+                                       "@type"     "xsd:string"
+                                       "@language" "en"}}]
+          (is (thrown-with-msg? ExceptionInfo
+                                #"@language can not be used for values with a specified @type"
+                                (expand/node jsonld))
+              "throws an ex-info indicating an invalid type"))))))
 
 (comment
   (expanding-iri)
