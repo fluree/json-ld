@@ -548,7 +548,7 @@
   (node-graph-parse)
   (list-type-values)
   (set-type-values)
-  (base-and-vocab)
+  (base-and-vocab-test)
   (type-sub-context)
   (keyword-contexts)
 
