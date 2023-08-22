@@ -566,9 +566,9 @@
                                        "@type"     "xsd:string"
                                        "@language" "en"}}]
           (is (thrown-with-msg? ExceptionInfo
-                                #"@language can not be used for values with a specified @type"
+                                #"@language cannot be used for values with a specified @type"
                                 (expand/node jsonld))
-              "throws an ex-info indicating an invalid type"))))
+              "throws an exception indicating an invalid type"))))
     (testing "in the context"
       (let [jsonld {"@context"      {"ex"        "http://example.com/vocab/"
                                      "@language" "en"}
@@ -583,7 +583,24 @@
                 "http://example.com/vocab/occupation"
                 {:value "Ninja", :language "en", :idx ["ex:occupation"]}}
                (expand/node jsonld))
-            "includes the language tag for all string values")))))
+            "includes the language tag for all string values")
+        (testing "cleared in an intervening context"
+          (let [jsonld* (-> jsonld
+                            (assoc-in ["@context" "ex:details" "@context"]
+                                      {"@language" nil})
+                            (dissoc "ex:occupation")
+                            (assoc-in ["ex:details" "ex:occupation"] "Ninja"))]
+            (is (= {:idx [],
+                    "http://example.com/vocab/name"
+                    {:value "Frank", :language "en", :idx ["ex:name"]},
+                    "http://example.com/vocab/age"
+                    {:value 33, :type nil, :idx ["ex:age"]},
+                    "http://example.com/vocab/details"
+                    {:idx ["ex:details"],
+                     "http://example.com/vocab/occupation"
+                     {:value "Ninja", :type nil, :idx ["ex:details" "ex:occupation"]}}}
+                   (expand/node jsonld*))
+                "does not include the language tag")))))))
 
 (comment
   (expanding-iri)

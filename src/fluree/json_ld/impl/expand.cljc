@@ -133,7 +133,7 @@
 
 (defn throw-invalid-language
   []
-  (throw (ex-info (str "@language can not be used for values with a specified @type")
+  (throw (ex-info (str "@language cannot be used for values with a specified @type")
                   {:status 400
                    :error  :json-ld/invalid-type})))
 
