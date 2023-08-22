@@ -568,7 +568,22 @@
           (is (thrown-with-msg? ExceptionInfo
                                 #"@language can not be used for values with a specified @type"
                                 (expand/node jsonld))
-              "throws an ex-info indicating an invalid type"))))))
+              "throws an ex-info indicating an invalid type"))))
+    (testing "in the context"
+      (let [jsonld {"@context"      {"ex"        "http://example.com/vocab/"
+                                     "@language" "en"}
+                    "ex:name"       "Frank"
+                    "ex:age"        33
+                    "ex:occupation" {"@value" "Ninja"}}]
+        (is (= {:idx [],
+                "http://example.com/vocab/name"
+                {:value "Frank", :language "en", :idx ["ex:name"]}
+                "http://example.com/vocab/age"
+                {:value 33, :type nil, :idx ["ex:age"]}
+                "http://example.com/vocab/occupation"
+                {:value "Ninja", :language "en", :idx ["ex:occupation"]}}
+               (expand/node jsonld))
+            "includes the language tag for all string values")))))
 
 (comment
   (expanding-iri)

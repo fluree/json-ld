@@ -131,19 +131,32 @@
    :type  (:type v-info) ;; type may be defined in the @context
    :idx   idx})
 
+(defn throw-invalid-language
+  []
+  (throw (ex-info (str "@language can not be used for values with a specified @type")
+                  {:status 400
+                   :error  :json-ld/invalid-type})))
+
 (defmethod parse-node-val :string
   [v {:keys [id type] :as v-info} context _ idx]
   ;; TODO - for both here and :sequential case, we catch @type values if :type-key exists but used explicit anyhow
   ;; TODO - can keep this, but could miss @type-specific context inclusion. Consider changing expansion to use
   ;; TODO - :type-keys as a set and catch before this step as is designed. i.e. :type-keys #{'type' '@type'}
   (cond
-    (= "@id" id) (iri v context false)
-    (= "@type" id) (iri v context false)                    ;; @type should have been picked up using :type-key, but in case explicitly defined regardless
-    (= :id type) {:id  (iri v context false)
-                  :idx idx}
-    :else {:value v
-           :type  type
-           :idx   idx}))
+    (= "@id" id)   (iri v context false)
+    (= "@type" id) (iri v context false) ; @type should have been picked up
+                                         ; using :type-key, but in case
+                                         ; explicitly defined regardless
+    (= :id type)   {:id  (iri v context false)
+                    :idx idx}
+    :else          (if-let [lang (and (nil? type)
+                                      (:language context))]
+                     {:value    v
+                      :language lang
+                      :idx      idx}
+                     {:value v
+                      :type  type
+                      :idx   idx})))
 
 ;; keywords should only be used in values for IRIs
 (defmethod parse-node-val :keyword
@@ -184,11 +197,10 @@
                    (iri explicit-type ctx* true)
                    (:type v-info))] ; if type is defined only in the @context
         (if-let [lang (or (get v "@language")
-                          (:language v))]
+                          (:language v)
+                          (:language context))]
           (if type
-            (throw (ex-info (str "@language can not be used for values with a specified @type")
-                            {:status 400
-                             :error  :json-ld/invalid-type}))
+            (throw-invalid-language)
             {:value    val
              :language lang
              :idx      idx})
