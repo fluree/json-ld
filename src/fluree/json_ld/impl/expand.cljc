@@ -150,7 +150,8 @@
     (= :id type)   [{:id  (iri v context false)
                      :idx idx}]
     :else          (if-let [lang (and (nil? type)
-                                      (:language context))]
+                                      (or (:language v-info)
+                                          (:language context)))]
                      [{:value    v
                        :language lang
                        :idx      idx}]

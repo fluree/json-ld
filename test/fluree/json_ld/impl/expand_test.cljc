@@ -602,7 +602,21 @@
                       "http://example.com/vocab/occupation"
                       [{:value "Ninja", :type nil, :idx ["ex:details" "occupation"]}]}]}
                    (expand/node jsonld*))
-                "does not include the language tag")))))))
+                "does not include the language tag")))
+        (testing "overridden by an expanded term definition"
+          (let [jsonld* (-> jsonld
+                            (assoc-in ["@context" "occupation_ja"]
+                                      {"@id" "ex:occupation", "@language" "ja"})
+                            (assoc "occupation_ja" "忍者"))]
+            (is (= {:idx [],
+                    "http://example.com/vocab/name"
+                    [{:value "Frank", :language "en", :idx ["ex:name"]}],
+                    "http://example.com/vocab/age" [{:value 33, :type nil, :idx ["ex:age"]}],
+                    "http://example.com/vocab/occupation"
+                    [{:value "Ninja", :language "en", :idx ["occupation"]}
+                     {:value "忍者", :language "ja", :idx ["occupation_ja"]}]}
+                   (expand/node jsonld*))
+                "includes the correct language tag on each entry")))))))
 
 (comment
   (expanding-iri)
