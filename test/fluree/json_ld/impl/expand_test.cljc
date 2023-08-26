@@ -616,7 +616,24 @@
                     [{:value "Ninja", :language "en", :idx ["occupation"]}
                      {:value "忍者", :language "ja", :idx ["occupation_ja"]}]}
                    (expand/node jsonld*))
-                "includes the correct language tag on each entry")))))))
+                "includes the correct language tag on each entry")))))
+    (testing "as keys in language maps"
+      (let [jsonld {"@context"
+                    {"ex" "http://example.com/vocab/",
+                     "occupation" {"@id" "ex:occupation", "@container" "@language"}},
+                    "ex:name" "Frank",
+                    "ex:age" 33,
+                    "occupation" {"en" {"@value" "Ninja"}
+                                  "ja" "忍者"}}]
+        (is (= {:idx [],
+                "http://example.com/vocab/name"
+                [{:value "Frank", :type nil, :idx ["ex:name"]}],
+                "http://example.com/vocab/age" [{:value 33, :type nil, :idx ["ex:age"]}],
+                "http://example.com/vocab/occupation"
+                [{:value "Ninja", :type nil, :idx ["occupation" "en"], :language "en"}
+                 {:value "忍者", :type nil, :idx ["occupation" "ja"], :language "ja"}]}
+               (expand/node jsonld))
+            "includes the correct language tag on each entry")))))
 
 (comment
   (expanding-iri)

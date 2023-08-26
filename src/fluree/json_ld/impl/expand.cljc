@@ -199,7 +199,7 @@
                    (:type v-info))] ; if type is defined only in the @context
         (if-let [lang (or (get v "@language")
                           (:language v)
-                          (:language context))]
+                          (:language ctx*))]
           (if type
             (throw-invalid-language)
             [{:value    val
@@ -211,6 +211,15 @@
             [{:value val
               :type  type
               :idx   idx}])))
+
+      (-> v-info :container #{:language})
+      (into []
+            (mapcat (fn [[lang v*]]
+                      (let [idx* (conj idx lang)]
+                        (map (fn [nv]
+                               (assoc nv :language lang))
+                             (parse-node-val v* v-info context externals idx*)))))
+            v)
 
       ;; else a sub-value. Top-level @context might have sub-contexts, if so merge
       :else
