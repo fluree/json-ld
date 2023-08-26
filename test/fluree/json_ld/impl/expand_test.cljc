@@ -2,8 +2,7 @@
   (:require #?(:clj [clojure.test :as t :refer [deftest testing is]]
                :cljs [cljs.test :as t :refer [deftest testing is] :include-macros true])
             [fluree.json-ld :as json-ld]
-            [fluree.json-ld.impl.expand :as expand])
-  (:import (clojure.lang ExceptionInfo)))
+            [fluree.json-ld.impl.expand :as expand]))
 
 (deftest expanding-iri
   (testing "Expanding a compacted IRI with context in various forms")
@@ -566,7 +565,8 @@
                       "ex:occupation" {"@value"    "Ninja"
                                        "@type"     "xsd:string"
                                        "@language" "en"}}]
-          (is (thrown-with-msg? ExceptionInfo
+          (is (thrown-with-msg? #?(:clj  clojure.lang.ExceptionInfo
+                                   :cljs js/Error)
                                 #"@language cannot be used for values with a specified @type"
                                 (expand/node jsonld))
               "throws an exception indicating an invalid type"))))
