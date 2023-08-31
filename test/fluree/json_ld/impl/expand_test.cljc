@@ -541,6 +541,12 @@
                "skos" {:id "http://www.w3.org/2008/05/skos#"},
                "xsd" {:id "http://www.w3.org/2001/XMLSchema#"}})))))
 
+(deftest false-value-test
+  (testing "false survives expansion"
+    (is (= {"bar" {:idx ["bar"], :type nil, :value false}, :id "foo", :idx []}
+           (expand/node {"@id" "foo"
+                         "bar" {"@value" false}})))))
+
 (comment
   (expanding-iri)
   (expanding-reverse-iri)
