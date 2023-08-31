@@ -161,6 +161,19 @@
    :type  (:type v-info)                                    ;; type may be defined in the @context
    :idx   idx})
 
+(defn- parse-node-value-map
+  [v-key v v-info ctx idx]
+  (let [val (get v v-key)
+        type (if-let [explicit-type (or (get v "@type") (:type v))]
+               (iri explicit-type ctx true)
+               (:type v-info))] ; if type is defined only in the @context
+    (if (#{"@id" :id} (get v "@type"))
+      {:id  (iri val ctx false)
+       :idx idx}
+      {:value val
+       :type  type
+       :idx   idx})))
+
 (defmethod parse-node-val :map
   [v v-info context externals idx]
   (let [ctx* (if-let [sub-ctx (get v "@context")]
@@ -177,19 +190,11 @@
               (:set v))
           (parse-node-val v-info context externals (conj idx "@set")))
 
-      (or (contains? v "@value")
-          (contains? v :value))
-      (let [val  (or (get v "@value")
-                     (:value v))
-            type (if-let [explicit-type (or (get v "@type") (:type v))]
-                   (iri explicit-type ctx* true)
-                   (:type v-info))]                         ;; if type is defined only in the @context
-        (if (#{"@id" :id} (get v "@type"))
-          {:id  (iri val ctx* false)
-           :idx idx}
-          {:value val
-           :type  type
-           :idx   idx}))
+      (contains? v "@value")
+      (parse-node-value-map "@value" v v-info ctx* idx)
+
+      (contains? v :value)
+      (parse-node-value-map :value v v-info ctx* idx)
 
       ;; else a sub-value. Top-level @context might have sub-contexts, if so merge
       :else
@@ -359,6 +364,4 @@
                                       "isbn"   "0-330-25864-8",
                                       "author" {"@id"   "https://www.wikidata.org/wiki/Q42"
                                                 "@type" "Person"
-                                                "name"  "Douglas Adams"}}})
-
-  )
+                                                "name"  "Douglas Adams"}}}))
