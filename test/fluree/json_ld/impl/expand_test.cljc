@@ -635,6 +635,12 @@
                (expand/node jsonld))
             "includes the correct language tag on each entry")))))
 
+(deftest false-value-test
+  (testing "false survives expansion"
+    (is (= {"bar" [{:idx ["bar"], :type nil, :value false}], :id "foo", :idx []}
+           (expand/node {"@id" "foo"
+                         "bar" {"@value" false}})))))
+
 (comment
   (expanding-iri)
   (expanding-reverse-iri)
