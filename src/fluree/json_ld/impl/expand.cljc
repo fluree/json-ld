@@ -100,7 +100,6 @@
                 (or (contains? m "@index")
                     (contains? m :index))))))
 
-
 (defmulti parse-node-val (fn [v v-info _ _ idx]
                            (cond
                              (= :json (:type v-info)) :json
@@ -118,19 +117,25 @@
 
 (defmethod parse-node-val :nil
   [v v-info context _ idx]
-  nil)
+  [])
 
 (defmethod parse-node-val :json
   [v v-info _ _ idx]
-  {:value v
-   :type :json
-   :idx idx})
+  [{:value v
+    :type :json
+    :idx idx}])
 
 (defmethod parse-node-val :boolean
   [v v-info _ _ idx]
-  {:value v
-   :type  (:type v-info) ;; type may be defined in the @context
-   :idx   idx})
+  [{:value v
+    :type  (:type v-info) ;; type may be defined in the @context
+    :idx   idx}])
+
+(defn throw-invalid-language
+  []
+  (throw (ex-info (str "@language cannot be used for values with a specified @type")
+                  {:status 400
+                   :error  :json-ld/invalid-type})))
 
 (defmethod parse-node-val :string
   [v {:keys [id type] :as v-info} context _ idx]
@@ -138,13 +143,21 @@
   ;; TODO - can keep this, but could miss @type-specific context inclusion. Consider changing expansion to use
   ;; TODO - :type-keys as a set and catch before this step as is designed. i.e. :type-keys #{'type' '@type'}
   (cond
-    (= "@id" id) (iri v context false)
-    (= "@type" id) (iri v context false)                    ;; @type should have been picked up using :type-key, but in case explicitly defined regardless
-    (= :id type) {:id  (iri v context false)
-                  :idx idx}
-    :else {:value v
-           :type  type
-           :idx   idx}))
+    (= "@id" id)   (iri v context false)
+    (= "@type" id) (iri v context false) ; @type should have been picked up
+                                         ; using :type-key, but in case
+                                         ; explicitly defined regardless
+    (= :id type)   [{:id  (iri v context false)
+                     :idx idx}]
+    :else          (if-let [lang (and (nil? type)
+                                      (or (:language v-info)
+                                          (:language context)))]
+                     [{:value    v
+                       :language lang
+                       :idx      idx}]
+                     [{:value v
+                       :type  type
+                       :idx   idx}])))
 
 ;; keywords should only be used in values for IRIs
 (defmethod parse-node-val :keyword
@@ -152,14 +165,14 @@
   (cond
     (= "@id" id) (iri v context false)
     (= "@type" id) [(iri v context false)]                  ;; @type should have been picked up using :type-key, but in case explicitly defined regardless
-    :else {:id  (iri v context false)
-           :idx idx}))
+    :else [{:id  (iri v context false)
+            :idx idx}]))
 
 (defmethod parse-node-val :number
   [v v-info _ _ idx]
-  {:value v
-   :type  (:type v-info)                                    ;; type may be defined in the @context
-   :idx   idx})
+  [{:value v
+    :type  (:type v-info)                                    ;; type may be defined in the @context
+    :idx   idx}])
 
 (defn- parse-node-value-map
   [v-key v v-info ctx idx]
@@ -167,12 +180,20 @@
         type (if-let [explicit-type (or (get v "@type") (:type v))]
                (iri explicit-type ctx true)
                (:type v-info))] ; if type is defined only in the @context
-    (if (#{"@id" :id} (get v "@type"))
-      {:id  (iri val ctx false)
-       :idx idx}
-      {:value val
-       :type  type
-       :idx   idx})))
+    (if-let [lang (or (get v "@language")
+                      (:language v)
+                      (:language ctx))]
+      (if type
+        (throw-invalid-language)
+        [{:value    val
+          :language lang
+          :idx      idx}])
+      (if (#{"@id" :id} type)
+        [{:id  (iri val ctx false)
+          :idx idx}]
+        [{:value val
+          :type  type
+          :idx   idx}]))))
 
 (defmethod parse-node-val :map
   [v v-info context externals idx]
@@ -181,9 +202,9 @@
                context)]
     (cond
       (list-item? v)
-      {:list (-> (or (get v "@list")
-                     (:list v))
-                 (parse-node-val v-info context externals (conj idx "@list")))}
+      [{:list (-> (or (get v "@list")
+                      (:list v))
+                  (parse-node-val v-info context externals (conj idx "@list")))}]
 
       (set-item? v)                                  ;; set is the default container type, so just flatten to regular vector
       (-> (or (get v "@set")
@@ -196,30 +217,40 @@
       (contains? v :value)
       (parse-node-value-map :value v v-info ctx* idx)
 
+      (-> v-info :container #{:language})
+      (into []
+            (mapcat (fn [[lang v*]]
+                      (let [idx* (conj idx lang)]
+                        (map (fn [nv]
+                               (assoc nv :language lang))
+                             (parse-node-val v* v-info context externals idx*)))))
+            v)
+
       ;; else a sub-value. Top-level @context might have sub-contexts, if so merge
       :else
-      (node v (merge ctx* (:context v-info)) externals idx))))
+      [(node v (merge ctx* (:context v-info)) externals idx)])))
 
 (defmethod parse-node-val :sequential
   [v v-info context externals idx]
-  (let [v* (->> v
-                (map-indexed #(cond
-                                (map? %2) (if (or (contains? %2 "@value")
-                                                  (contains? %2 :value))
-                                            (parse-node-val %2 v-info context externals (conj idx %1))
-                                            (node %2 context externals (conj idx %1)))
+  (let [v* (into []
+                 (comp (map-indexed #(cond
+                                       (map? %2) (if (or (contains? %2 "@value")
+                                                         (contains? %2 :value))
+                                                   (parse-node-val %2 v-info context externals (conj idx %1))
+                                                   [(node %2 context externals (conj idx %1))])
 
-                                (sequential? %2) (throw (ex-info (str "Json-ld sequential values within sequential"
-                                                                      "values is not allowed. Provided value: " v
-                                                                      " at index: " (conj idx %1) ".")
-                                                                 {:status 400
-                                                                  :error  :json-ld/invalid-context
-                                                                  :idx    (conj idx %1)}))
-                                :else
-                                (parse-node-val %2 v-info context externals (conj idx %1))))
-                (into []))]
+                                       (sequential? %2) (throw (ex-info (str "Json-ld sequential values within sequential"
+                                                                             "values is not allowed. Provided value: " v
+                                                                             " at index: " (conj idx %1) ".")
+                                                                        {:status 400
+                                                                         :error  :json-ld/invalid-context
+                                                                         :idx    (conj idx %1)}))
+                                       :else
+                                       (parse-node-val %2 v-info context externals (conj idx %1))))
+                       cat)
+                 v)]
     (if (= :list (:container v-info))
-      {:list v*}
+      [{:list v*}]
       v*)))
 
 
@@ -273,6 +304,13 @@
                     {:status 500 :error :json-ld/unexpected-error :idx idx}
                     error))))
 
+(def append
+  (fnil into []))
+
+(defn append-value!
+  [t-map k v]
+  (let [existing-value (get t-map k)]
+    (assoc! t-map k (append existing-value v))))
 
 (defn- node*
   "Does parsing of a node map once normalization happens during 'node' fn.
@@ -297,7 +335,11 @@
                (if (= :type k**)
                  (type-sub-context context v)
                  context)
-               (assoc! acc k** v*)))
+               (if (#{:type} k**)
+                 acc
+                 (if (#{:id} k**)
+                   (assoc! acc k** v*)
+                   (append-value! acc k** v*)))))
       (persistent! acc))))
 
 
