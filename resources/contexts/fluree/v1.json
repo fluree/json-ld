@@ -1,0 +1,73 @@
+{
+  "@context": {
+    "@protected": true,
+    "where": {
+      "@type": "@json",
+      "@id": "https://flur.ee/ns/where"
+    },
+    "groupBy": {
+      "@type": "@json",
+      "@id": "https://flur.ee/ns/groupBy"
+    },
+    "orderBy": {
+      "@type": "@json",
+      "@id": "https://flur.ee/ns/orderBy"
+    },
+    "having": {
+      "@type": "@json",
+      "@id": "https://flur.ee/ns/having"
+    },
+    "values": {
+      "@type": "@json",
+      "@id": "https://flur.ee/ns/values"
+    },
+    "select": {
+      "@type": "@json",
+      "@id": "https://flur.ee/ns/select"
+    },
+    "selectOne": {
+      "@type": "@json",
+      "@id": "https://flur.ee/ns/selectOne"
+    },
+    "selectDistinct": {
+      "@type": "@json",
+      "@id": "https://flur.ee/ns/selectDistinct"
+    },
+    "construct": {
+      "@type": "@json",
+      "@id": "https://flur.ee/ns/construct"
+    },
+    "delete": {
+      "@type": "@json",
+      "@id": "https://flur.ee/ns/delete"
+    },
+    "insert": {
+      "@type": "@json",
+      "@id": "https://flur.ee/ns/insert"
+    },
+    "upsert": {
+      "@type": "@json",
+      "@id": "https://flur.ee/ns/upsert"
+    },
+    "deleteData": {
+      "@type": "@json",
+      "@id": "https://flur.ee/ns/deleteData"
+    },
+    "insertData": {
+      "@type": "@json",
+      "@id": "https://flur.ee/ns/insertData"
+    },
+    "upsertData": {
+      "@type": "@json",
+      "@id": "https://flur.ee/ns/upsertData"
+    },
+    "opts": {
+      "@type": "@json",
+      "@id": "https://flur.ee/ns/opts"
+    },
+    "namedContext": {
+      "@type": "@json",
+      "@id": "https://flur.ee/ns/namedContext"
+    }
+  }
+}

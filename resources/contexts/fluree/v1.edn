@@ -1,0 +1,18 @@
+{:protected       true
+ "construct"      {:type :json :id "https://flur.ee/ns/construct"}
+ "delete"         {:type :json :id "https://flur.ee/ns/delete"}
+ "deleteData"     {:type :json :id "https://flur.ee/ns/deleteData"}
+ "groupBy"        {:type :json :id "https://flur.ee/ns/groupBy"}
+ "having"         {:type :json :id "https://flur.ee/ns/having"}
+ "insert"         {:type :json :id "https://flur.ee/ns/insert"}
+ "insertData"     {:type :json :id "https://flur.ee/ns/insertData"}
+ "namedContext"   {:type :json :id "https://flur.ee/ns/namedContext"}
+ "opts"           {:type :json :id "https://flur.ee/ns/opts"}
+ "orderBy"        {:type :json :id "https://flur.ee/ns/orderBy"}
+ "select"         {:type :json :id "https://flur.ee/ns/select"}
+ "selectDistinct" {:type :json :id "https://flur.ee/ns/selectDistinct"}
+ "selectOne"      {:type :json :id "https://flur.ee/ns/selectOne"}
+ "upsert"         {:type :json :id "https://flur.ee/ns/upsert"}
+ "upsertData"     {:type :json :id "https://flur.ee/ns/upsertData"}
+ "where"          {:type :json :id "https://flur.ee/ns/where"}
+ "values"         {:type :json :id "https://flur.ee/ns/values"}}
