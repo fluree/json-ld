@@ -1,6 +1,7 @@
 {
   "@context": {
     "@protected": true,
+    "ledger": {"@id": "https://flur.ee/ns#ledger"}
     "where": {
       "@type": "@json",
       "@id": "https://flur.ee/ns/where"

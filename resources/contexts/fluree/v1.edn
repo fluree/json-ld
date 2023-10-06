@@ -1,4 +1,5 @@
 {:protected       true
+ "ledger"         {:id "https://flur.ee/ns#ledger"}
  "construct"      {:type :json :id "https://flur.ee/ns/construct"}
  "delete"         {:type :json :id "https://flur.ee/ns/delete"}
  "deleteData"     {:type :json :id "https://flur.ee/ns/deleteData"}
