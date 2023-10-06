@@ -17,6 +17,8 @@
      (parsed [x]))
 
 (extend-protocol Parseable
+  jakarta.json.EmptyArray
+  (parsed [x] [])
   ;; JsonArray
   org.glassfish.json.JsonArrayBuilderImpl$JsonArrayImpl
   (parsed [x]
