@@ -1,74 +1,74 @@
 {
   "@context": {
     "@protected": true,
-    "ledger": {"@id": "https://flur.ee/ns#ledger"}
+    "ledger": {"@id": "https://ns.flur.ee/ledger#ledger"}
     "where": {
       "@type": "@json",
-      "@id": "https://flur.ee/ns/where"
+      "@id": "https://ns.flur.ee/ledger#where"
     },
     "groupBy": {
       "@type": "@json",
-      "@id": "https://flur.ee/ns/groupBy"
+      "@id": "https://ns.flur.ee/ledger#groupBy"
     },
     "orderBy": {
       "@type": "@json",
-      "@id": "https://flur.ee/ns/orderBy"
+      "@id": "https://ns.flur.ee/ledger#orderBy"
     },
     "having": {
       "@type": "@json",
-      "@id": "https://flur.ee/ns/having"
+      "@id": "https://ns.flur.ee/ledger#having"
     },
     "values": {
       "@type": "@json",
-      "@id": "https://flur.ee/ns/values"
+      "@id": "https://ns.flur.ee/ledger#values"
     },
     "select": {
       "@type": "@json",
-      "@id": "https://flur.ee/ns/select"
+      "@id": "https://ns.flur.ee/ledger#select"
     },
     "selectOne": {
       "@type": "@json",
-      "@id": "https://flur.ee/ns/selectOne"
+      "@id": "https://ns.flur.ee/ledger#selectOne"
     },
     "selectDistinct": {
       "@type": "@json",
-      "@id": "https://flur.ee/ns/selectDistinct"
+      "@id": "https://ns.flur.ee/ledger#selectDistinct"
     },
     "construct": {
       "@type": "@json",
-      "@id": "https://flur.ee/ns/construct"
+      "@id": "https://ns.flur.ee/ledger#construct"
     },
     "delete": {
       "@type": "@json",
-      "@id": "https://flur.ee/ns/delete"
+      "@id": "https://ns.flur.ee/ledger#delete"
     },
     "insert": {
       "@type": "@json",
-      "@id": "https://flur.ee/ns/insert"
+      "@id": "https://ns.flur.ee/ledger#insert"
     },
     "upsert": {
       "@type": "@json",
-      "@id": "https://flur.ee/ns/upsert"
+      "@id": "https://ns.flur.ee/ledger#upsert"
     },
     "deleteData": {
       "@type": "@json",
-      "@id": "https://flur.ee/ns/deleteData"
+      "@id": "https://ns.flur.ee/ledger#deleteData"
     },
     "insertData": {
       "@type": "@json",
-      "@id": "https://flur.ee/ns/insertData"
+      "@id": "https://ns.flur.ee/ledger#insertData"
     },
     "upsertData": {
       "@type": "@json",
-      "@id": "https://flur.ee/ns/upsertData"
+      "@id": "https://ns.flur.ee/ledger#upsertData"
     },
     "opts": {
       "@type": "@json",
-      "@id": "https://flur.ee/ns/opts"
+      "@id": "https://ns.flur.ee/ledger#opts"
     },
     "namedContext": {
       "@type": "@json",
-      "@id": "https://flur.ee/ns/namedContext"
+      "@id": "https://ns.flur.ee/ledger#namedContext"
     }
   }
 }
