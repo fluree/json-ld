@@ -10,37 +10,9 @@
       "@type": "@json",
       "@id": "https://ns.flur.ee/ledger#where"
     },
-    "groupBy": {
-      "@type": "@json",
-      "@id": "https://ns.flur.ee/ledger#groupBy"
-    },
-    "orderBy": {
-      "@type": "@json",
-      "@id": "https://ns.flur.ee/ledger#orderBy"
-    },
-    "having": {
-      "@type": "@json",
-      "@id": "https://ns.flur.ee/ledger#having"
-    },
     "values": {
       "@type": "@json",
       "@id": "https://ns.flur.ee/ledger#values"
-    },
-    "select": {
-      "@type": "@json",
-      "@id": "https://ns.flur.ee/ledger#select"
-    },
-    "selectOne": {
-      "@type": "@json",
-      "@id": "https://ns.flur.ee/ledger#selectOne"
-    },
-    "selectDistinct": {
-      "@type": "@json",
-      "@id": "https://ns.flur.ee/ledger#selectDistinct"
-    },
-    "construct": {
-      "@type": "@json",
-      "@id": "https://ns.flur.ee/ledger#construct"
     },
     "delete": {
       "@type": "@json",
@@ -50,29 +22,9 @@
       "@type": "@json",
       "@id": "https://ns.flur.ee/ledger#insert"
     },
-    "upsert": {
-      "@type": "@json",
-      "@id": "https://ns.flur.ee/ledger#upsert"
-    },
-    "deleteData": {
-      "@type": "@json",
-      "@id": "https://ns.flur.ee/ledger#deleteData"
-    },
-    "insertData": {
-      "@type": "@json",
-      "@id": "https://ns.flur.ee/ledger#insertData"
-    },
-    "upsertData": {
-      "@type": "@json",
-      "@id": "https://ns.flur.ee/ledger#upsertData"
-    },
     "opts": {
       "@type": "@json",
       "@id": "https://ns.flur.ee/ledger#opts"
-    },
-    "namedContext": {
-      "@type": "@json",
-      "@id": "https://ns.flur.ee/ledger#namedContext"
     }
   }
 }

@@ -1,20 +1,8 @@
 {:protected       true
  "ledger"         {:id "https://ns.flur.ee/ledger#ledger"}
  "defaultContext" {:type :json :id "https://ns.flur.ee/ledger#defaultContext" }
- "construct"      {:type :json :id "https://ns.flur.ee/ledger#construct"}
  "delete"         {:type :json :id "https://ns.flur.ee/ledger#delete"}
- "deleteData"     {:type :json :id "https://ns.flur.ee/ledger#deleteData"}
- "groupBy"        {:type :json :id "https://ns.flur.ee/ledger#groupBy"}
- "having"         {:type :json :id "https://ns.flur.ee/ledger#having"}
  "insert"         {:type :json :id "https://ns.flur.ee/ledger#insert"}
- "insertData"     {:type :json :id "https://ns.flur.ee/ledger#insertData"}
- "namedContext"   {:type :json :id "https://ns.flur.ee/ledger#namedContext"}
  "opts"           {:type :json :id "https://ns.flur.ee/ledger#opts"}
- "orderBy"        {:type :json :id "https://ns.flur.ee/ledger#orderBy"}
- "select"         {:type :json :id "https://ns.flur.ee/ledger#select"}
- "selectDistinct" {:type :json :id "https://ns.flur.ee/ledger#selectDistinct"}
- "selectOne"      {:type :json :id "https://ns.flur.ee/ledger#selectOne"}
- "upsert"         {:type :json :id "https://ns.flur.ee/ledger#upsert"}
- "upsertData"     {:type :json :id "https://ns.flur.ee/ledger#upsertData"}
  "where"          {:type :json :id "https://ns.flur.ee/ledger#where"}
  "values"         {:type :json :id "https://ns.flur.ee/ledger#values"}}
