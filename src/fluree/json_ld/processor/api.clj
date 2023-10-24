@@ -54,7 +54,10 @@
 
 (defn ->document
   "Takes a document-loader, which takes a url and options and returns a json string
-  context document (must have an \"@context\" key with a context as its value)."
+  context document (must have an \"@context\" key with a context as its value).
+
+  document-loader: [url options] => json-string
+  "
   [document-loader url options]
   (let [url-string (.toString ^URI url)]
     (try
