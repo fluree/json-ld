@@ -1,0 +1,30 @@
+{
+  "@context": {
+    "@protected": true,
+    "ledger": {"@id": "https://ns.flur.ee/ledger#ledger"},
+    "defaultContext": {
+      "@type": "@json",
+      "@id": "https://ns.flur.ee/ledger#defaultContext"
+    },
+    "where": {
+      "@type": "@json",
+      "@id": "https://ns.flur.ee/ledger#where"
+    },
+    "values": {
+      "@type": "@json",
+      "@id": "https://ns.flur.ee/ledger#values"
+    },
+    "delete": {
+      "@type": "@json",
+      "@id": "https://ns.flur.ee/ledger#delete"
+    },
+    "insert": {
+      "@type": "@json",
+      "@id": "https://ns.flur.ee/ledger#insert"
+    },
+    "opts": {
+      "@type": "@json",
+      "@id": "https://ns.flur.ee/ledger#opts"
+    }
+  }
+}
