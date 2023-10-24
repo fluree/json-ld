@@ -1,7 +1,11 @@
 {
   "@context": {
     "@protected": true,
-    "ledger": {"@id": "https://ns.flur.ee/ledger#ledger"}
+    "ledger": {"@id": "https://ns.flur.ee/ledger#ledger"},
+    "defaultContext": {
+      "@type": "@json",
+      "@id": "https://ns.flur.ee/ledger#defaultContext"
+    },
     "where": {
       "@type": "@json",
       "@id": "https://ns.flur.ee/ledger#where"

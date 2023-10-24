@@ -1,5 +1,6 @@
 {:protected       true
  "ledger"         {:id "https://ns.flur.ee/ledger#ledger"}
+ "defaultContext" {:type :json :id "https://ns.flur.ee/ledger#defaultContext" }
  "construct"      {:type :json :id "https://ns.flur.ee/ledger#construct"}
  "delete"         {:type :json :id "https://ns.flur.ee/ledger#delete"}
  "deleteData"     {:type :json :id "https://ns.flur.ee/ledger#deleteData"}
