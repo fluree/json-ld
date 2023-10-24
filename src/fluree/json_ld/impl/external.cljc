@@ -16,7 +16,7 @@
                   "https://w3id.org/openbadges#"               "org.w3id.openbadges.edn"
                   "https://purl.imsglobal.org/spec/clr/vocab#" "org.imsglobal.spec.clr.vocab.edn"})
 
-(def context->file {"https://flur.ee"
+(def context->file {"https://ns.flur.ee"
                     {:source "contexts/fluree/v1.json"
                      :parsed "contexts/fluree/v1.edn"}
 
