@@ -53,7 +53,7 @@
 
 (defmethod basic-normalize :map
   [node]
-  (let [sorted    (sort-by #(-> % first pr-str) (into [] node))
+  (let [sorted    (sort-by first (into [] node))
         ser-nodes (mapv (fn [[k v]]
                           (str "\"" k "\":" (basic-normalize v)))
                         sorted)]
