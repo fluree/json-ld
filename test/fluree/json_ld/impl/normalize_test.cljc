@@ -39,6 +39,11 @@
       (is (= "{\"literals\":[null,true,false],\"numbers\":[333333333.3333333,1e+30,4.5,0.002,1e-27]}"
              (normalize/normalize data {:algorithm :basic
                               :format    :application/json})))))
+  (testing "Symbol keys"
+    (let [data {"id" '?s '?p '?o}]
+      (is (= "{\"?p\":?o,\"id\":?s}"
+             (normalize/normalize data {:algorithm :basic
+                                        :format :application/json})))))
 
   ;; Note below fails but should not. Most unicode control set characters (< \u000f) should remain as is
   ;; but with lower case hex. Below, \u000F gets parsed but should instead output \u000f
