@@ -20,14 +20,8 @@
     "tag": "fluree:tag",
     "ledger": "fluree:ledger",
     "alias": "fluree:alias",
-    "author": {
-      "@id": "fluree:author",
-      "@type": "@id"
-    },
-    "txn": {
-      "@id": "fluree:txn",
-      "@type": "@json"
-    },
+    "author": "fluree:author",
+    "txn": "fluree:txn",
     "tx": {
       "@id": "fluree:tx",
       "@type": "@id"
