@@ -71,9 +71,15 @@
    'dtAddress': 'clri:dtAddress'
    ... }"
   [compact-iri ctx-original]
-  (if-let [compact-iri* (get ctx-original compact-iri)]
-    (recur compact-iri* ctx-original)
-    compact-iri))
+  (let [compact-iri* (get ctx-original compact-iri)]
+    (cond (= compact-iri* compact-iri)
+          (throw (ex-info "A local context contains a term that has an invalid or missing IRI mapping"
+                          {:status 400 :error :json-ld/invalid-iri-mapping :context ctx-original}))
+          compact-iri*
+          (recur compact-iri* ctx-original)
+
+          :else
+          compact-iri)))
 
 (defn- assert-kw-string
   "Throws if provided value is not a keyword or string, original key provided for nicer error message"
