@@ -390,20 +390,3 @@
                               {:status 400
                                :error  :json-ld/invalid}
                               e)))))))
-
-
-(comment
-
-  (node {"@context"                  "https://schema.org",
-         "@id"                       "https://www.wikidata.org/wiki/Q836821",
-         "@type"                     "Movie",
-         "name"                      "HELLO The Hitchhiker's Guide to the Galaxy",
-         "disambiguatingDescription" "2005 British-American comic science fiction film directed by Garth Jennings",
-         "titleEIDR"                 "10.5240/B752-5B47-DBBE-E5D4-5A3F-N",
-         "isBasedOn"                 {"@id"    "https://www.wikidata.org/wiki/Q3107329",
-                                      "@type"  "Book",
-                                      "name"   "The Hitchhiker's Guide to the Galaxy",
-                                      "isbn"   "0-330-25864-8",
-                                      "author" {"@id"   "https://www.wikidata.org/wiki/Q42"
-                                                "@type" "Person"
-                                                "name"  "Douglas Adams"}}}))

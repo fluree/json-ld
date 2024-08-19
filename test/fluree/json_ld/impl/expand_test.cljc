@@ -641,6 +641,22 @@
            (expand/node {"@id" "foo"
                          "bar" {"@value" false}})))))
 
+(deftest empty-colon-test
+  (testing "Testing context key of ':' expands properly."
+    (is (= {"http://somedomain.org/age"     [{:idx   [":age"]
+                                              :type  nil
+                                              :value 33}]
+            "http://example.com/vocab/name" [{:idx   ["ex:name"]
+                                              :type  nil
+                                              :value "Frank"}]
+            :idx                            []}
+           (expand/node {"@context"
+                         {"ex" "http://example.com/vocab/"
+                          ":"  "http://somedomain.org/"}
+                         "ex:name" "Frank"
+                         ":age"    33})))))
+
+
 (comment
   (expanding-iri)
   (expanding-reverse-iri)

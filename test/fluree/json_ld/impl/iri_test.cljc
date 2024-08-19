@@ -20,9 +20,9 @@
 
     (is (nil? (iri/parse-prefix "schema::name")))
 
-    (is (nil? (iri/parse-prefix ":schema:name")))
+    (is (= (iri/parse-prefix ":schema:name") [":" "schema:name"]))
 
-    (is (nil? (iri/parse-prefix ":schema")))
+    (is (= (iri/parse-prefix ":schema") [":" "schema"]))
 
     (is (nil? (iri/parse-prefix "schema:")))
 

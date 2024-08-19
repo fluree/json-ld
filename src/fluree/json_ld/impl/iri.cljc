@@ -13,8 +13,9 @@
   [x]
   (if (keyword? x)
     [x (keyword (namespace x)) (name x)]
-    (re-matches #"([^:/]+):([^/:][^:]*)" x)))
-
+    (if (= \: (first x))
+      [x ":" (subs x 1)] ;; prefix is ':'
+      (re-matches #"([^:/]+):([^/:][^:]*)" x))))
 
 (defn any-iri?
   "Returns true if string has a colon, indicating it is either a compact
