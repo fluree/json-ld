@@ -6,23 +6,29 @@
 (deftest prefix-parsing
   (testing "Prefix parsing returns prefix and suffix correctly"
 
-    (is (= (iri/parse-prefix "schema:name") ["schema" "name"]))
+    (is (= ["schema" "name"]
+           (iri/parse-prefix "schema:name")))
 
-    (is (= (iri/parse-prefix "fluree:some/namespace") ["fluree" "some/namespace"]))
+    (is (= ["fluree" "some/namespace"]
+           (iri/parse-prefix "fluree:some/namespace")))
 
-    (is (= (iri/parse-prefix "ex:a") ["ex" "a"]))
+    (is (= ["ex" "a"]
+           (iri/parse-prefix "ex:a")))
 
-    (is (= (iri/parse-prefix "a:b") ["a" "b"]))
+    (is (= ["a" "b"]
+           (iri/parse-prefix "a:b")))
+
+    (is (= [":" "schema:name"]
+           (iri/parse-prefix ":schema:name")))
+
+    (is (= [":" "schema"]
+           (iri/parse-prefix ":schema")))
 
     (is (nil? (iri/parse-prefix "fluree/some:namespace")))
 
     (is (nil? (iri/parse-prefix "fluree/cool")))
 
     (is (nil? (iri/parse-prefix "schema::name")))
-
-    (is (nil? (iri/parse-prefix ":schema:name")))
-
-    (is (nil? (iri/parse-prefix ":schema")))
 
     (is (nil? (iri/parse-prefix "schema:")))
 
