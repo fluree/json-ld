@@ -75,7 +75,8 @@
               "dtUUID"  {:id   "https://purl.imsglobal.org/spec/clr/vocab#dtUUID"
                          :type "http://www.w3.org/2001/XMLSchema#string"}
               "https://purl.imsglobal.org/spec/clr/vocab#dtUUID"
-              {:type "http://www.w3.org/2001/XMLSchema#string"}})))))
+              {:id   "https://purl.imsglobal.org/spec/clr/vocab#dtUUID"
+               :type "http://www.w3.org/2001/XMLSchema#string"}})))))
 
 
 (deftest multiple-contexts
@@ -120,7 +121,8 @@
             "customScalar" {:id   "http://schema.org/name"
                             :type "http://schema.org/Text"}
             "http://schema.org/name"
-            {:type "http://schema.org/Text"}}))
+            {:id   "http://schema.org/name"
+             :type "http://schema.org/Text"}}))
 
     (is (= (context/parse {"schema"      "http://schema.org/",
                            "customClass" {"@id"   "schema:Book"
@@ -130,7 +132,8 @@
             "customClass" {:id   "http://schema.org/Book"
                            :type "http://schema.org/CreativeWork"}
             "http://schema.org/Book"
-            {:type "http://schema.org/CreativeWork"}}))))
+            {:id   "http://schema.org/Book"
+             :type "http://schema.org/CreativeWork"}}))))
 
 
 (deftest reverse-refs
@@ -161,10 +164,11 @@
            {:type-key      "@type"
             "ical"         {:id "http://www.w3.org/2002/12/cal/ical#"},
             "xsd"          {:id "http://www.w3.org/2001/XMLSchema#"},
-            "ical:dtstart" {:type         "http://www.w3.org/2001/XMLSchema#dateTime",
-                            :id           "http://www.w3.org/2002/12/cal/ical#dtstart"}
+            "ical:dtstart" {:type "http://www.w3.org/2001/XMLSchema#dateTime",
+                            :id   "http://www.w3.org/2002/12/cal/ical#dtstart"}
             "http://www.w3.org/2002/12/cal/ical#dtstart"
-            {:type "http://www.w3.org/2001/XMLSchema#dateTime"}}))))
+            {:type "http://www.w3.org/2001/XMLSchema#dateTime"
+             :id   "http://www.w3.org/2002/12/cal/ical#dtstart"}}))))
 
 (deftest blank-vocab
   (testing "An empty string @vocab should default to @base value."
@@ -228,7 +232,8 @@
            {:type-key   "@type"
             "ex"        {:id "https://example.com/"}
             "xsd"       {:id "http://www.w3.org/2001/XMLSchema#"}
-            "ex:rating" {:id           "https://example.com/rating"
-                         :type         "http://www.w3.org/2001/XMLSchema#float"}
+            "ex:rating" {:id   "https://example.com/rating"
+                         :type "http://www.w3.org/2001/XMLSchema#float"}
             "https://example.com/rating"
-            {:type "http://www.w3.org/2001/XMLSchema#float"}}))))
+            {:id   "https://example.com/rating"
+             :type "http://www.w3.org/2001/XMLSchema#float"}}))))
