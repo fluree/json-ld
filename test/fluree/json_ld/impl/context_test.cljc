@@ -237,3 +237,15 @@
             "https://example.com/rating"
             {:id   "https://example.com/rating"
              :type "http://www.w3.org/2001/XMLSchema#float"}}))))
+
+#?(:clj
+   (deftest cyclic-context
+     (testing "compact iri uses itself as a term definition"
+       (let [result (try (context/parse {"foo" "foo"})
+                         (catch Exception e e))]
+         (is (= {:status 400,
+                 :error :json-ld/invalid-iri-mapping,
+                 :context {"foo" "foo"}}
+                (ex-data result)))
+         (is (= "A local context contains a term that has an invalid or missing IRI mapping"
+                (ex-message result)))))))
