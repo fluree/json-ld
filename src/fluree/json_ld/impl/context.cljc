@@ -142,6 +142,14 @@
                            "Error at value: " ctx-val)
                       {:status 400 :error :json-ld/invalid-context})))))
 
+(defn copy-to-full-iri
+  "When a compact IRI is used to set the default datatype (@type),
+  the data may also use the full IRI. This copies the options to the
+  full IRI such that the data can use either the compact or full IRI."
+  [context {:keys [id] :as parsed-v}]
+  ;; note if original context 'key' was already fully expanded, then
+  ;; k = id and it just overwrites with same value - no need to do a check
+  (assoc context id parsed-v))
 
 (defn parse-map
   "Parses json-ld context and returns clojure map.
@@ -167,7 +175,8 @@
          (assoc acc kw v*))
        (let [parsed-v (parse-value k v context base-context externals)]
          (cond-> (assoc acc k parsed-v)
-                (true? (:type? parsed-v)) (assoc :type-key k)))))
+                 (true? (:type? parsed-v)) (assoc :type-key k)
+                 (:type parsed-v) (copy-to-full-iri parsed-v)))))
    base-context context))
 
 
