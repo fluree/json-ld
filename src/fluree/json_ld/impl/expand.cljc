@@ -11,6 +11,11 @@
 
 (declare node)
 
+(defn variable?
+  [x]
+  (and (or (string? x) (symbol? x) (keyword? x))
+       (-> x name first (= \?))))
+
 (defn match-exact
   "Attempts to do an exact match with a compact-iri.
   If successful returns two-tuple of [full-iri context-map-details].
@@ -41,13 +46,15 @@
   If successful returns two-tuple of [full-iri context-map-details].
   Else returns nil."
   [compact-iri context vocab?]
-  (when-let [default-match (if vocab?
-                             (:vocab context)
-                             (:base context))]
-    (when-not (or (iri/any-iri? compact-iri)
-                  (= \@ (first compact-iri)))
-      (let [iri (str default-match compact-iri)]
-        [iri {:id iri}]))))
+  (if (variable? compact-iri)
+    [compact-iri {}]
+    (when-let [default-match (if vocab?
+                               (:vocab context)
+                               (:base context))]
+      (when-not (or (iri/any-iri? compact-iri)
+                    (= \@ (first compact-iri)))
+        (let [iri (str default-match compact-iri)]
+          [iri {:id iri}])))))
 
 
 (defn details

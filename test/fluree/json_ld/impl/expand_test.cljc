@@ -656,6 +656,20 @@
                          "ex:name" "Frank"
                          ":age"    33})))))
 
+(deftest variables
+  (testing "vars are not expanded by base/vocab"
+    (is (= {:idx [],
+            "https:example.com/ns/foo"
+            [{:idx ["foo"],
+              :id "?s",
+              "?p" [{:value "?o", :type nil, :idx ["foo" "?p"]}]}],
+            "https:example.com/ns/bar"
+            [{:idx ["bar"],
+              :id "https:example.com/me",
+              "https:example.com/ns/name" [{:value "Dan", :type nil, :idx ["bar" "name"]}]}]}
+           (expand/node {"@context" {"@base" "https:example.com/" "@vocab" "ns/"}
+                         "foo" {"@id" "?s" "?p" "?o"}
+                         "bar" {"@id" "me" "name" "Dan"}})))))
 
 (comment
   (expanding-iri)
