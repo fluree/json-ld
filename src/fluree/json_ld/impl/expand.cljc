@@ -240,20 +240,21 @@
 (defmethod parse-node-val :sequential
   [v v-info context externals idx]
   (let [v* (into []
-                 (comp (map-indexed #(cond
-                                       (map? %2) (if (or (contains? %2 "@value")
-                                                         (contains? %2 :value))
-                                                   (parse-node-val %2 v-info context externals (conj idx %1))
-                                                   [(expand-node %2 context externals (conj idx %1))])
+                 (comp (map-indexed (fn [i item]
+                                      (cond
+                                        (map? item) (if (or (contains? item "@value")
+                                                          (contains? item :value))
+                                                    (parse-node-val item v-info context externals (conj idx i))
+                                                    [(expand-node item context externals (conj idx i))])
 
-                                       (sequential? %2) (throw (ex-info (str "Json-ld sequential values within sequential"
-                                                                             "values is not allowed. Provided value: " v
-                                                                             " at index: " (conj idx %1) ".")
-                                                                        {:status 400
-                                                                         :error  :json-ld/invalid-context
-                                                                         :idx    (conj idx %1)}))
-                                       :else
-                                       (parse-node-val %2 v-info context externals (conj idx %1))))
+                                        (sequential? item) (throw (ex-info (str "Json-ld sequential values within sequential"
+                                                                              "values is not allowed. Provided value: " v
+                                                                              " at index: " (conj idx i) ".")
+                                                                         {:status 400
+                                                                          :error  :json-ld/invalid-context
+                                                                          :idx    (conj idx i)}))
+                                        :else
+                                        (parse-node-val item v-info context externals (conj idx i)))))
                        cat)
                  v)]
     (if (= :list (:container v-info))
