@@ -285,7 +285,8 @@
                                              {"@id"              "http://example.org/library/the-republic#introduction",
                                               "@type"            "ex:Chapter",
                                               "dc11:description" "An introductory chapter on The Republic.",
-                                              "dc11:title"       "The Introduction"}]})))))
+                                              "dc11:title"       "The Introduction"}]})))
+          "expands the graph as a sequence"))
     (testing "with a top level named graph"
       (is (= {:graph [{"http://example.org/vocab#contains" [{:id "http://example.org/library/the-republic",
                                                              :idx ["@graph" 0 "ex:contains"]}],
@@ -330,7 +331,8 @@
                                        {"@id"              "http://example.org/library/the-republic#introduction",
                                         "@type"            "ex:Chapter",
                                         "dc11:description" "An introductory chapter on The Republic.",
-                                        "dc11:title"       "The Introduction"}]}))))))
+                                        "dc11:title"       "The Introduction"}]}))
+          "retains the named graph's properties"))))
 
 
 (deftest list-type-values
