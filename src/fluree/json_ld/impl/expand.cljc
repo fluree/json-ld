@@ -350,18 +350,14 @@
       (persistent! acc))))
 
 
-(defn- expand-nodes
-  "Expands a sequence of graph nodes (json objects), ensures any nil nodes removed."
+(defn expand-nodes
   [context externals idx nodes]
-  (loop [[json-node & r] nodes
-         i   0
-         acc []]
-    (if json-node
-      (recur r (inc i)
-             (conj acc (node json-node context externals (conj idx i))))
-      (if (empty? r)
-        acc
-        (recur r (inc i) acc)))))
+  (into []
+        (comp (map-indexed (fn [i jsonld]
+                             (when jsonld
+                               (expand-node jsonld context externals (conj idx i)))))
+              (remove nil?))
+        nodes))
 
 
 (defn node
