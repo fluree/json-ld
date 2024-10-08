@@ -243,48 +243,94 @@
                                          {"step" 5, "description" "Garnish with a lime wedge."}]})))))
 
 (deftest node-graph-parse
-  (testing "Parse node that is a graph"
-    (is (= [{:idx  ["@graph" 0],
-             :id   "http://example.org/library",
-             :type ["http://example.org/vocab#Library"],
-             "http://example.org/vocab#contains"
-             [{:id "http://example.org/library/the-republic", :idx ["@graph" 0 "ex:contains"]}]}
-            {:idx  ["@graph" 1],
-             :id   "http://example.org/library/the-republic",
-             :type ["http://example.org/vocab#Book"],
-             "http://purl.org/dc/elements/1.1/creator"
-             [{:value "Plato", :type nil, :idx ["@graph" 1 "dc11:creator"]}],
-             "http://purl.org/dc/elements/1.1/title"
-             [{:value "The Republic", :type nil, :idx ["@graph" 1 "dc11:title"]}],
-             "http://example.org/vocab#contains"
-             [{:id  "http://example.org/library/the-republic#introduction",
-               :idx ["@graph" 1 "ex:contains"]}]}
-            {:idx  ["@graph" 2],
-             :id   "http://example.org/library/the-republic#introduction",
-             :type ["http://example.org/vocab#Chapter"],
-             "http://purl.org/dc/elements/1.1/description"
-             [{:value "An introductory chapter on The Republic.", :type nil,
-               :idx   ["@graph" 2 "dc11:description"]}],
-             "http://purl.org/dc/elements/1.1/title"
-             [{:value "The Introduction", :type nil,
-               :idx   ["@graph" 2 "dc11:title"]}]}]
-           (into []
-                 (expand/node {"@context" {"dc11"        "http://purl.org/dc/elements/1.1/",
-                                           "ex"          "http://example.org/vocab#",
-                                           "xsd"         "http://www.w3.org/2001/XMLSchema#",
-                                           "ex:contains" {"@type" "@id"}},
-                               "@graph"   [{"@id"         "http://example.org/library",
-                                            "@type"       "ex:Library",
-                                            "ex:contains" "http://example.org/library/the-republic"}
-                                           {"@id"          "http://example.org/library/the-republic",
-                                            "@type"        "ex:Book",
-                                            "dc11:creator" "Plato",
-                                            "dc11:title"   "The Republic",
-                                            "ex:contains"  "http://example.org/library/the-republic#introduction"}
-                                           {"@id"              "http://example.org/library/the-republic#introduction",
-                                            "@type"            "ex:Chapter",
-                                            "dc11:description" "An introductory chapter on The Republic.",
-                                            "dc11:title"       "The Introduction"}]}))))))
+  (testing "Parsing graph nodes"
+    (testing "with a top level default graph"
+      (is (= [{:idx  ["@graph" 0],
+               :id   "http://example.org/library",
+               :type ["http://example.org/vocab#Library"],
+               "http://example.org/vocab#contains"
+               [{:id "http://example.org/library/the-republic", :idx ["@graph" 0 "ex:contains"]}]}
+              {:idx  ["@graph" 1],
+               :id   "http://example.org/library/the-republic",
+               :type ["http://example.org/vocab#Book"],
+               "http://purl.org/dc/elements/1.1/creator"
+               [{:value "Plato", :type nil, :idx ["@graph" 1 "dc11:creator"]}],
+               "http://purl.org/dc/elements/1.1/title"
+               [{:value "The Republic", :type nil, :idx ["@graph" 1 "dc11:title"]}],
+               "http://example.org/vocab#contains"
+               [{:id  "http://example.org/library/the-republic#introduction",
+                 :idx ["@graph" 1 "ex:contains"]}]}
+              {:idx  ["@graph" 2],
+               :id   "http://example.org/library/the-republic#introduction",
+               :type ["http://example.org/vocab#Chapter"],
+               "http://purl.org/dc/elements/1.1/description"
+               [{:value "An introductory chapter on The Republic.", :type nil,
+                 :idx   ["@graph" 2 "dc11:description"]}],
+               "http://purl.org/dc/elements/1.1/title"
+               [{:value "The Introduction", :type nil,
+                 :idx   ["@graph" 2 "dc11:title"]}]}]
+             (into []
+                   (expand/node {"@context" {"dc11"        "http://purl.org/dc/elements/1.1/",
+                                             "ex"          "http://example.org/vocab#",
+                                             "xsd"         "http://www.w3.org/2001/XMLSchema#",
+                                             "ex:contains" {"@type" "@id"}},
+                                 "@graph"   [{"@id"         "http://example.org/library",
+                                              "@type"       "ex:Library",
+                                              "ex:contains" "http://example.org/library/the-republic"}
+                                             {"@id"          "http://example.org/library/the-republic",
+                                              "@type"        "ex:Book",
+                                              "dc11:creator" "Plato",
+                                              "dc11:title"   "The Republic",
+                                              "ex:contains"  "http://example.org/library/the-republic#introduction"}
+                                             {"@id"              "http://example.org/library/the-republic#introduction",
+                                              "@type"            "ex:Chapter",
+                                              "dc11:description" "An introductory chapter on The Republic.",
+                                              "dc11:title"       "The Introduction"}]})))))
+    (testing "with a top level named graph"
+      (is (= {:graph [{"http://example.org/vocab#contains" [{:id "http://example.org/library/the-republic",
+                                                             :idx ["@graph" 0 "ex:contains"]}],
+                       :id "http://example.org/library",
+                       :idx ["@graph" 0],
+                       :type ["http://example.org/vocab#Library"]}
+                      {"http://example.org/vocab#contains" [{:id "http://example.org/library/the-republic#introduction",
+                                                             :idx ["@graph" 1 "ex:contains"]}],
+                       "http://purl.org/dc/elements/1.1/creator" [{:idx ["@graph" 1 "dc11:creator"],
+                                                                   :type nil,
+                                                                   :value "Plato"}],
+                       "http://purl.org/dc/elements/1.1/title" [{:idx ["@graph" 1 "dc11:title"],
+                                                                 :type nil,
+                                                                 :value "The Republic"}],
+                       :id "http://example.org/library/the-republic",
+                       :idx ["@graph" 1],
+                       :type ["http://example.org/vocab#Book"]}
+                      {"http://purl.org/dc/elements/1.1/description" [{:idx ["@graph" 2 "dc11:description"],
+                                                                       :type nil,
+                                                                       :value "An introductory chapter on The Republic."}],
+                       "http://purl.org/dc/elements/1.1/title" [{:idx ["@graph" 2 "dc11:title"],
+                                                                 :type nil,
+                                                                 :value "The Introduction"}],
+                       :id "http://example.org/library/the-republic#introduction",
+                       :idx ["@graph" 2],
+                       :type ["http://example.org/vocab#Chapter"]}],
+              :id "http://example.org/vocab#alexandria",
+              :idx []}
+             (expand/node {"@context" {"dc11"        "http://purl.org/dc/elements/1.1/",
+                                       "ex"          "http://example.org/vocab#",
+                                       "xsd"         "http://www.w3.org/2001/XMLSchema#",
+                                       "ex:contains" {"@type" "@id"}},
+                           "@id"      "ex:alexandria",
+                           "@graph"   [{"@id"         "http://example.org/library",
+                                        "@type"       "ex:Library",
+                                        "ex:contains" "http://example.org/library/the-republic"}
+                                       {"@id"          "http://example.org/library/the-republic",
+                                        "@type"        "ex:Book",
+                                        "dc11:creator" "Plato",
+                                        "dc11:title"   "The Republic",
+                                        "ex:contains"  "http://example.org/library/the-republic#introduction"}
+                                       {"@id"              "http://example.org/library/the-republic#introduction",
+                                        "@type"            "ex:Chapter",
+                                        "dc11:description" "An introductory chapter on The Republic.",
+                                        "dc11:title"       "The Introduction"}]}))))))
 
 
 (deftest list-type-values
