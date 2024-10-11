@@ -360,6 +360,15 @@
               (remove nil?))
         nodes))
 
+(defn get-context
+  [node-map]
+  (cond (contains? node-map "@context")
+        (get node-map "@context")
+
+        (contains? node-map :context)
+        (get node-map :context)
+
+        :else {}))
 
 (defn expand-node
   "Expands an entire JSON-LD node (JSON object), with optional parsed context
@@ -370,8 +379,7 @@
    (try-catchall
      (if (sequential? node-map)
        (expand-nodes parsed-context externals idx node-map)
-       (let [context                (or (get node-map "@context")
-                                        (:context node-map) {})
+       (let [context                (get-context node-map)
              parsed-context         (context/parse parsed-context context)
              [base-result context*] (parse-type node-map parsed-context idx)
              {:keys [type-key]}     parsed-context
@@ -390,9 +398,9 @@
                               e)))))))
 
 (defn default-graph?
-  [node-map context-key graph-key]
+  [node-map graph-key]
   (and (some? (get node-map graph-key))
-       (-> node-map (dissoc context-key graph-key) empty?)))
+       (-> node-map (dissoc "@context" :context "@graph" :graph) empty?)))
 
 (defn node
   ([node-map]
@@ -403,15 +411,12 @@
    (let [idx []]
      (if (sequential? node-map)
        (expand-nodes parsed-context externals idx node-map)
-       (let [context-key (cond
-                           (contains? node-map "@context") "@context"
-                           (contains? node-map :context)   :context)
-             graph-key   (cond
+       (let [graph-key   (cond
                            (contains? node-map "@graph") "@graph"
                            (contains? node-map :graph)   :graph)]
-         (if (default-graph? node-map context-key graph-key)
-           (let [context        (get node-map context-key)
-                 parsed-context (context/parse parsed-context context)
-                 graph          (get node-map graph-key)]
-             (expand-nodes parsed-context externals (conj idx graph-key) graph))
+         (if (and graph-key (default-graph? node-map graph-key))
+           (let [context         (get-context node-map)
+                 parsed-context* (context/parse parsed-context context)
+                 graph           (get node-map graph-key)]
+             (expand-nodes parsed-context* externals (conj idx graph-key) graph))
            (expand-node node-map parsed-context externals idx)))))))
