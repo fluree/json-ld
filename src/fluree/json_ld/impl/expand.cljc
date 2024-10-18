@@ -9,7 +9,7 @@
 
 #?(:clj (set! *warn-on-reflection* true))
 
-(declare node)
+(declare expand-node)
 
 (defn variable?
   [x]
@@ -235,25 +235,26 @@
 
       ;; else a sub-value. Top-level @context might have sub-contexts, if so merge
       :else
-      [(node v (merge ctx* (:context v-info)) externals idx)])))
+      [(expand-node v (merge ctx* (:context v-info)) externals idx)])))
 
 (defmethod parse-node-val :sequential
   [v v-info context externals idx]
   (let [v* (into []
-                 (comp (map-indexed #(cond
-                                       (map? %2) (if (or (contains? %2 "@value")
-                                                         (contains? %2 :value))
-                                                   (parse-node-val %2 v-info context externals (conj idx %1))
-                                                   [(node %2 context externals (conj idx %1))])
+                 (comp (map-indexed (fn [i item]
+                                      (cond
+                                        (map? item) (if (or (contains? item "@value")
+                                                          (contains? item :value))
+                                                    (parse-node-val item v-info context externals (conj idx i))
+                                                    [(expand-node item context externals (conj idx i))])
 
-                                       (sequential? %2) (throw (ex-info (str "Json-ld sequential values within sequential"
-                                                                             "values is not allowed. Provided value: " v
-                                                                             " at index: " (conj idx %1) ".")
-                                                                        {:status 400
-                                                                         :error  :json-ld/invalid-context
-                                                                         :idx    (conj idx %1)}))
-                                       :else
-                                       (parse-node-val %2 v-info context externals (conj idx %1))))
+                                        (sequential? item) (throw (ex-info (str "Json-ld sequential values within sequential"
+                                                                              "values is not allowed. Provided value: " v
+                                                                              " at index: " (conj idx i) ".")
+                                                                         {:status 400
+                                                                          :error  :json-ld/invalid-context
+                                                                          :idx    (conj idx i)}))
+                                        :else
+                                        (parse-node-val item v-info context externals (conj idx i)))))
                        cat)
                  v)]
     (if (= :list (:container v-info))
@@ -350,45 +351,43 @@
       (persistent! acc))))
 
 
-(defn- expand-nodes
-  "Expands a sequence of graph nodes (json objects), ensures any nil nodes removed."
+(defn expand-nodes
   [context externals idx nodes]
-  (loop [[json-node & r] nodes
-         i   0
-         acc []]
-    (if json-node
-      (recur r (inc i)
-             (conj acc (node json-node context externals (conj idx i))))
-      (if (empty? r)
-        acc
-        (recur r (inc i) acc)))))
+  (into []
+        (comp (map-indexed (fn [i jsonld]
+                             (when jsonld
+                               (expand-node jsonld context externals (conj idx i)))))
+              (remove nil?))
+        nodes))
 
+(defn get-context
+  [node-map]
+  (cond (contains? node-map "@context")
+        (get node-map "@context")
 
-(defn node
+        (contains? node-map :context)
+        (get node-map :context)
+
+        :else {}))
+
+(defn expand-node
   "Expands an entire JSON-LD node (JSON object), with optional parsed context
   provided. If node has a local context, will merge with provided parse-context.
 
   Expands into child nodes."
-  ([node-map] (node node-map {} external/external-contexts []))
-  ([node-map parsed-context] (node node-map parsed-context external/external-contexts []))
   ([node-map parsed-context externals idx]
    (try-catchall
      (if (sequential? node-map)
        (expand-nodes parsed-context externals idx node-map)
-       (let [context   (or (get node-map "@context") (:context node-map) {})
-             parsed-context   (context/parse parsed-context context)
-             graph-key (cond
-                         (contains? node-map "@graph") "@graph"
-                         (contains? node-map :graph)   :graph)]
-         (if-let [graph (get node-map graph-key)]
-           (expand-nodes parsed-context externals (conj idx "@graph") graph)
-           (let [[base-result context*] (parse-type node-map parsed-context idx)
-                 {:keys [type-key]}     parsed-context
-                 node-map*              (dissoc node-map "@context"
-                                                         :context
-                                                         (:type-key parsed-context)
-                                                         (get-in context [type-key :id]))]
-             (node* node-map* base-result externals context*)))))
+       (let [context                (get-context node-map)
+             parsed-context         (context/parse parsed-context context)
+             [base-result context*] (parse-type node-map parsed-context idx)
+             {:keys [type-key]}     parsed-context
+             node-map*              (dissoc node-map "@context"
+                                            :context
+                                            (:type-key parsed-context)
+                                            (get-in context [type-key :id]))]
+         (node* node-map* base-result externals context*)))
      (catch e
             (if (ex-data e)
               (throw e)
@@ -397,3 +396,27 @@
                               {:status 400
                                :error  :json-ld/invalid}
                               e)))))))
+
+(defn default-graph?
+  [node-map graph-key]
+  (and (some? (get node-map graph-key))
+       (-> node-map (dissoc "@context" :context "@graph" :graph) empty?)))
+
+(defn node
+  ([node-map]
+   (node node-map {} external/external-contexts))
+  ([node-map parsed-context]
+   (node node-map parsed-context external/external-contexts))
+  ([node-map parsed-context externals]
+   (let [idx []]
+     (if (sequential? node-map)
+       (expand-nodes parsed-context externals idx node-map)
+       (let [graph-key   (cond
+                           (contains? node-map "@graph") "@graph"
+                           (contains? node-map :graph)   :graph)]
+         (if (and graph-key (default-graph? node-map graph-key))
+           (let [context         (get-context node-map)
+                 parsed-context* (context/parse parsed-context context)
+                 graph           (get node-map graph-key)]
+             (expand-nodes parsed-context* externals (conj idx graph-key) graph))
+           (expand-node node-map parsed-context externals idx)))))))
