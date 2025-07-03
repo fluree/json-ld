@@ -1,6 +1,6 @@
 (ns fluree.json-ld.impl.external
   (:require [fluree.json-ld.impl.iri :as iri]
-            #_{:clj-kondo/ignore [:unused-namespace]}
+            #_{:clj-kondo/ignore [:unused-namespace]} ; util is used inside inline-files and inline-json macros
             [fluree.json-ld.impl.util :as util]
             [clojure.string :as str])
   (:refer-clojure :exclude [read])
