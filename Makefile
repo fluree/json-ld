@@ -1,4 +1,4 @@
-.PHONY: test jar install deploy clean edn-contexts parse-all-contexts lint lint-ci fmt fmt-check
+.PHONY: test jar install deploy clean edn-contexts parse-all-contexts lint lint-ci fmt fmt-check docker-build docker-test
 
 SOURCES := $(shell find src)
 
@@ -68,3 +68,9 @@ clean:
 	rm -rf node_modules
 	rm -rf test/nodejs
 	rm -rf test/browser
+
+docker-build:
+	docker build -t fluree/json-ld:test .
+
+docker-test: docker-build
+	docker run --rm fluree/json-ld:test
