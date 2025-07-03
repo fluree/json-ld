@@ -5,7 +5,7 @@
             [clojure.java.io :as io])
   (:import (com.apicatalog.jsonld JsonLd JsonLdError JsonLdErrorCode)
            (com.apicatalog.jsonld.document JsonDocument)
-           (com.apicatalog.jsonld.loader DocumentLoader FileLoader DocumentLoaderOptions)
+           (com.apicatalog.jsonld.loader DocumentLoader)
            (com.apicatalog.rdf RdfNQuad)
            (io.setl.rdf.normalization RdfNormalize)
            (java.net URI)
@@ -14,11 +14,11 @@
 (set! *warn-on-reflection* true)
 
 (defprotocol Parseable
-     (parsed [x]))
+  (parsed [x]))
 
 (extend-protocol Parseable
   jakarta.json.EmptyArray
-  (parsed [x] [])
+  (parsed [_] [])
   ;; JsonArray
   org.glassfish.json.JsonArrayBuilderImpl$JsonArrayImpl
   (parsed [x]
@@ -63,7 +63,7 @@
     (try
       (let [json-string (document-loader url-string options)]
         (JsonDocument/of (io/input-stream (.getBytes ^String json-string))))
-      (catch Exception e
+      (catch Exception _
         (throw (JsonLdError. JsonLdErrorCode/LOADING_REMOTE_CONTEXT_FAILED
                              (str "Unable to load context: " url-string)))))))
 
@@ -73,7 +73,7 @@
     (->document document-loader url options)))
 
 (defn static-loader
-  [url options]
+  [url _]
   (if-let [{path :source} (external/context->file url)]
     (slurp (io/resource path))
     (throw (ex-info (str "Unable to load static context: " url)
@@ -160,17 +160,3 @@
        (RdfNormalize/normalize)
        (.toList)
        (->> (reduce (fn [doc quad] (str doc (->statement quad) "\n")) "")))))
-
-(comment
-  ;; These work up to translating the resulting json-ld back into edn
-  #_(defn- ->rdf-document
-      [nquads]
-      (-> nquads
-          (StringReader.)
-          (RdfDocument/of)))
-
-  #_(defn from-rdf
-      [n-quads]
-      ;; TODO: figure out parsing to edn
-      (parsed (.get (JsonLd/fromRdf ^RdfDocument (->rdf-document n-quads)))))
-  )

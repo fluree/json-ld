@@ -105,7 +105,7 @@
       (string? ctx-val*)
       (let [iri-v (parse-compact-iri-val ctx-original ctx-base default-vocab* ctx-val*)]
         (cond-> {:id iri-v}
-                (= "@type" iri-v) (assoc :type? true)))
+          (= "@type" iri-v) (assoc :type? true)))
 
       (map? ctx-val*)
       (let [map-val (reduce-kv
@@ -128,12 +128,12 @@
 
                                          (= :container k*)
                                          (try-catchall
-                                           (if (sequential? v)
-                                             (mapv keywordize-at-value v)
-                                             (keywordize-at-value v))
-                                           (catch e
-                                                  (throw (ex-info (str "@container values must be one or more strings that start with @. Provided: " v)
-                                                                  {:status 400 :error :json-ld/invalid-context} e))))
+                                          (if (sequential? v)
+                                            (mapv keywordize-at-value v)
+                                            (keywordize-at-value v))
+                                          (catch e
+                                                 (throw (ex-info (str "@container values must be one or more strings that start with @. Provided: " v)
+                                                                 {:status 400 :error :json-ld/invalid-context} e))))
 
                                          :else v))))
                      {} ctx-val*)]
@@ -175,8 +175,8 @@
          (assoc acc kw v*))
        (let [parsed-v (parse-value k v context base-context externals)]
          (cond-> (assoc acc k parsed-v)
-                 (true? (:type? parsed-v)) (assoc :type-key k)
-                 (:type parsed-v) (copy-to-full-iri parsed-v)))))
+           (true? (:type? parsed-v)) (assoc :type-key k)
+           (:type parsed-v) (copy-to-full-iri parsed-v)))))
    base-context context))
 
 

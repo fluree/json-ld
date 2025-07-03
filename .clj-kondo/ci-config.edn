@@ -1,0 +1,7 @@
+{:output {:include-files ["^src/" "^test/"]
+          :exclude-files []}
+ :linters {:unresolved-symbol {:level :error}
+           :unresolved-namespace {:level :error}
+           :unresolved-var {:level :error}
+           :unused-namespace {:level :warning}
+           :unused-private-var {:level :warning}}}

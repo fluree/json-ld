@@ -518,78 +518,78 @@
                          :ex/favColor [:ex/red :ex/green]})))))
 
 (deftest shacl-embedded-nodes
-    (testing "clojure kws"
-      (is (= {:idx [],
-              :type ["http://www.w3.org/ns/shacl#NodeShape"],
-              :id "http://example.org/ns/UserShape",
-              "http://www.w3.org/ns/shacl#targetClass"
-              [{:id "http://example.org/ns/User",
-                :idx [:sh/targetClass]}],
-              "http://www.w3.org/ns/shacl#property"
-              [{:idx [:sh/property 0],
-                "http://www.w3.org/ns/shacl#path"
-                [{:id "http://schema.org/name",
-                  :idx [:sh/property 0 :sh/path]}],
-                "http://www.w3.org/ns/shacl#datatype"
-                [{:id "http://www.w3.org/2001/XMLSchema#string",
-                  :idx [:sh/property 0 :sh/datatype]}]}]}
+  (testing "clojure kws"
+    (is (= {:idx [],
+            :type ["http://www.w3.org/ns/shacl#NodeShape"],
+            :id "http://example.org/ns/UserShape",
+            "http://www.w3.org/ns/shacl#targetClass"
+            [{:id "http://example.org/ns/User",
+              :idx [:sh/targetClass]}],
+            "http://www.w3.org/ns/shacl#property"
+            [{:idx [:sh/property 0],
+              "http://www.w3.org/ns/shacl#path"
+              [{:id "http://schema.org/name",
+                :idx [:sh/property 0 :sh/path]}],
+              "http://www.w3.org/ns/shacl#datatype"
+              [{:id "http://www.w3.org/2001/XMLSchema#string",
+                :idx [:sh/property 0 :sh/datatype]}]}]}
 
-             (expand/node
-              {:id :ex/UserShape,
-               :type [:sh/NodeShape],
-               :sh/targetClass :ex/User,
-               :sh/property [{:sh/path :schema/name,
-                              :sh/datatype :xsd/string}]}
+           (expand/node
+            {:id :ex/UserShape,
+             :type [:sh/NodeShape],
+             :sh/targetClass :ex/User,
+             :sh/property [{:sh/path :schema/name,
+                            :sh/datatype :xsd/string}]}
 
-              {:schema {:id "http://schema.org/"},
-               :wiki {:id "https://www.wikidata.org/wiki/"},
-               :xsd {:id "http://www.w3.org/2001/XMLSchema#"},
-               :type {:id "@type",
-                      :type? true},
-               :rdfs {:id "http://www.w3.org/2000/01/rdf-schema#"},
-               :type-key :type,
-               :ex {:id "http://example.org/ns/"},
-               :id {:id "@id"},
-               :f {:id "https://ns.flur.ee/ledger#"},
-               :sh {:id "http://www.w3.org/ns/shacl#"},
-               :skos {:id "http://www.w3.org/2008/05/skos#"},
-               :rdf {:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#"}})){}))
-    (testing "string, with `:type-key` of 'type', but node uses @type"
-      (is (= {:idx [],
-              :type ["http://www.w3.org/ns/shacl#NodeShape"],
-              :id "http://example.org/ns/UserShape",
-              "http://www.w3.org/ns/shacl#targetClass"
-              [{:id "http://example.org/ns/User",
-                :idx ["sh:targetClass"]}],
-              "http://www.w3.org/ns/shacl#property"
-              [{:idx ["sh:property" 0],
-                "http://www.w3.org/ns/shacl#path"
-                [{:id "http://schema.org/name",
-                  :idx ["sh:property" 0 "sh:path"]}],
-                "http://www.w3.org/ns/shacl#datatype"
-                [{:id "http://www.w3.org/2001/XMLSchema#string",
-                  :idx ["sh:property" 0 "sh:datatype"]}]}]}
+            {:schema {:id "http://schema.org/"},
+             :wiki {:id "https://www.wikidata.org/wiki/"},
+             :xsd {:id "http://www.w3.org/2001/XMLSchema#"},
+             :type {:id "@type",
+                    :type? true},
+             :rdfs {:id "http://www.w3.org/2000/01/rdf-schema#"},
+             :type-key :type,
+             :ex {:id "http://example.org/ns/"},
+             :id {:id "@id"},
+             :f {:id "https://ns.flur.ee/ledger#"},
+             :sh {:id "http://www.w3.org/ns/shacl#"},
+             :skos {:id "http://www.w3.org/2008/05/skos#"},
+             :rdf {:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#"}})) {}))
+  (testing "string, with `:type-key` of 'type', but node uses @type"
+    (is (= {:idx [],
+            :type ["http://www.w3.org/ns/shacl#NodeShape"],
+            :id "http://example.org/ns/UserShape",
+            "http://www.w3.org/ns/shacl#targetClass"
+            [{:id "http://example.org/ns/User",
+              :idx ["sh:targetClass"]}],
+            "http://www.w3.org/ns/shacl#property"
+            [{:idx ["sh:property" 0],
+              "http://www.w3.org/ns/shacl#path"
+              [{:id "http://schema.org/name",
+                :idx ["sh:property" 0 "sh:path"]}],
+              "http://www.w3.org/ns/shacl#datatype"
+              [{:id "http://www.w3.org/2001/XMLSchema#string",
+                :idx ["sh:property" 0 "sh:datatype"]}]}]}
 
-             (expand/node
-              {"@id" "ex:UserShape",
-               "@type" ["sh:NodeShape"],
-               "sh:targetClass" {"@id" "ex:User"},
-               "sh:property" [{"sh:datatype" {"@id" "xsd:string"},
-                               "sh:path" {"@id" "schema:name"}}]}
+           (expand/node
+            {"@id" "ex:UserShape",
+             "@type" ["sh:NodeShape"],
+             "sh:targetClass" {"@id" "ex:User"},
+             "sh:property" [{"sh:datatype" {"@id" "xsd:string"},
+                             "sh:path" {"@id" "schema:name"}}]}
 
-              {"f" {:id "https://ns.flur.ee/ledger#"},
-               "rdf" {:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#"},
-               "schema" {:id "http://schema.org/"},
-               "id" {:id "@id"},
-               "wiki" {:id "https://www.wikidata.org/wiki/"},
-               :type-key "type",
-               "ex" {:id "http://example.org/ns/"},
-               "rdfs" {:id "http://www.w3.org/2000/01/rdf-schema#"},
-               "type" {:id "@type",
-                       :type? true},
-               "sh" {:id "http://www.w3.org/ns/shacl#"},
-               "skos" {:id "http://www.w3.org/2008/05/skos#"},
-               "xsd" {:id "http://www.w3.org/2001/XMLSchema#"}})))))
+            {"f" {:id "https://ns.flur.ee/ledger#"},
+             "rdf" {:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#"},
+             "schema" {:id "http://schema.org/"},
+             "id" {:id "@id"},
+             "wiki" {:id "https://www.wikidata.org/wiki/"},
+             :type-key "type",
+             "ex" {:id "http://example.org/ns/"},
+             "rdfs" {:id "http://www.w3.org/2000/01/rdf-schema#"},
+             "type" {:id "@type",
+                     :type? true},
+             "sh" {:id "http://www.w3.org/ns/shacl#"},
+             "skos" {:id "http://www.w3.org/2008/05/skos#"},
+             "xsd" {:id "http://www.w3.org/2001/XMLSchema#"}})))))
 
 (deftest language-tag-test
   (testing "expanding nodes with language tags"
@@ -730,6 +730,4 @@
   (set-type-values)
   (base-and-vocab-test)
   (type-sub-context)
-  (keyword-contexts)
-
-  ,)
+  (keyword-contexts))

@@ -133,11 +133,11 @@
           (is person1 "person1 should exist")
           (is person2 "person2 should exist")
           ;; person1 knows person2 (as a reference)
-          (is (= [{"@id" "http://example.org/person/2"}] 
+          (is (= [{"@id" "http://example.org/person/2"}]
                  (get person1 "http://schema.org/knows"))
               "person1 should know person2")
           ;; person2 knows person3 (as a reference)
-          (is (= [{"@id" "http://example.org/person/3"}] 
+          (is (= [{"@id" "http://example.org/person/3"}]
                  (get person2 "http://schema.org/knows"))
               "person2 should know person3"))))))
 

@@ -14,7 +14,7 @@
                 "sin"   "ignore locale"}]
       (is (= "{\"peach\":\"This sorting order\",\"péché\":\"is wrong according to French\",\"pêche\":\"but canonicalization MUST\",\"sin\":\"ignore locale\"}"
              (normalize/normalize data {:algorithm :basic
-                              :format    :application/json})))))
+                                        :format    :application/json})))))
 
   (testing "Map with line break as string and decimal to integer"
     (let [data {"1"   {"f" {"f" "hi", "F" 5}, "\n" 56.0},   ;; note 56.0 should become "56"
@@ -25,20 +25,20 @@
                 "A"   {}}]
       (is (= "{\"\":\"empty\",\"1\":{\"\n\":56,\"f\":{\"F\":5,\"f\":\"hi\"}},\"10\":{},\"111\":[{\"E\":\"no\",\"e\":\"yes\"}],\"A\":{},\"a\":{}}"
              (normalize/normalize data {:algorithm :basic
-                              :format    :application/json})))))
+                                        :format    :application/json})))))
 
   (testing "Unicode in string"
     (let [data {"Unnormalized Unicode" "A\u030a"}]
       (is (= "{\"Unnormalized Unicode\":\"Å\"}"
              (normalize/normalize data {:algorithm :basic
-                              :format    :application/json})))))
+                                        :format    :application/json})))))
 
   (testing "Numbers in different formats and literals"
     (let [data {"numbers"  [333333333.33333329, 1E30, 4.50, 2e-3, 0.000000000000000000000000001],
                 "literals" [nil, true, false]}]
       (is (= "{\"literals\":[null,true,false],\"numbers\":[333333333.3333333,1e+30,4.5,0.002,1e-27]}"
              (normalize/normalize data {:algorithm :basic
-                              :format    :application/json})))))
+                                        :format    :application/json})))))
   (testing "Symbol keys"
     (let [data {"id" '?s '?p '?o}]
       (is (= "{\"?p\":?o,\"id\":?s}"
@@ -64,7 +64,7 @@
                     "1"  []}]]
       (is (= "[56,{\"1\":[],\"10\":null,\"d\":true}]"
              (normalize/normalize data {:algorithm :basic
-                              :format    :application/json}))))))
+                                        :format    :application/json}))))))
 
 (def utf8-bytes [0x7b 0x22 0x70 0x65 0x61 0x63 0x68 0x22 0x3a
                  0x22 0x54 0x68 0x69 0x73 0x20 0x73 0x6f 0x72
@@ -142,5 +142,4 @@
                                 0x61 0x67 0x65 0x73 0x68 0x22 0x7d])
             to-str (String. utf-8 "UTF-8")]
         (is (= to-str
-               (normalize data {:algorithm :basic})))
-        )))
+               (normalize data {:algorithm :basic}))))))

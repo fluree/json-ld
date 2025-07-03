@@ -40,12 +40,12 @@
 (defn parse-prefix
   [s]
   (try-catchall
-    (when-let [[_ prefix suffix] (parse-compact-iri s)]
-      [prefix suffix])
-    (catch e (throw (ex-info (str "Error attempting to parse iri: " s)
-                             {:status 400
-                              :error  :json-ld/invalid-iri}
-                             e)))))
+   (when-let [[_ prefix suffix] (parse-compact-iri s)]
+     [prefix suffix])
+   (catch e (throw (ex-info (str "Error attempting to parse iri: " s)
+                            {:status 400
+                             :error  :json-ld/invalid-iri}
+                            e)))))
 
 (defn join
   "Returns an IRI string for relative IRI `ri` relative to absolute `base` IRI.

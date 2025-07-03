@@ -73,8 +73,8 @@
          (-> (jld-processor/expand {"@context" "foo:context" "foo:bar" 1}
                                    {:document-loader (fn [_ _] (throw (ex-info "Broken loader" {})))})
              (.catch (fn [error]
-                      (is (not (nil? error)))
-                      (done))))))
+                       (is (not (nil? error)))
+                       (done))))))
 
 (deftest compaction
   (async done
@@ -149,8 +149,4 @@
                        (done))))))
 
 (comment
-  (t/run-tests)
-
-
-
-  )
+  (t/run-tests))

@@ -1,4 +1,4 @@
-.PHONY: test jar install deploy clean edn-contexts parse-all-contexts
+.PHONY: test jar install deploy clean edn-contexts parse-all-contexts lint lint-ci fmt fmt-check
 
 SOURCES := $(shell find src)
 
@@ -37,6 +37,18 @@ browsertest:
 cljstest: nodetest browsertest
 
 test: cljtest cljstest
+
+lint:
+	clj-kondo --lint src test
+
+lint-ci:
+	clj-kondo --config .clj-kondo/ci-config.edn --lint src test
+
+fmt:
+	clojure -M:fmt fix
+
+fmt-check:
+	clojure -M:fmt check
 
 jar: target/fluree-json-ld.jar
 
