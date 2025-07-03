@@ -32,27 +32,26 @@
   {:extra-deps {com.timetraveltoaster/target-bundle-libs {:mvn/version "RELEASE"}}
    :main-opts  ["-m" "target-bundle-libs.core"]}
 
+  :build
+  {:deps {io.github.clojure/tools.build {:mvn/version "0.9.6"}
+          slipset/deps-deploy {:mvn/version "0.2.0"}}
+   :ns-default build}
+
   :jar
-  {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.1.303"}}
-   :exec-fn      hf.depstar/jar
-   :exec-args    {:jar         "target/fluree-json-ld.jar"
-                  :group-id    :mvn/group-id
-                  :artifact-id :mvn/artifact-id
-                  :version     :mvn/version
-                  :sync-pom    true}}
+  {:deps {io.github.clojure/tools.build {:mvn/version "0.9.6"}}
+   :ns-default build
+   :exec-fn jar}
 
   :install
-  {:extra-deps {slipset/deps-deploy {:mvn/version "RELEASE"}}
-   :exec-fn    deps-deploy.deps-deploy/deploy
-   :exec-args  {:installer :local
-                :artifact  "target/fluree-json-ld.jar"}}
+  {:deps {io.github.clojure/tools.build {:mvn/version "0.9.6"}}
+   :ns-default build
+   :exec-fn install}
 
   :deploy
-  {:extra-deps {slipset/deps-deploy {:mvn/version "RELEASE"}}
-   :exec-fn    deps-deploy.deps-deploy/deploy
-   :exec-args  {:installer      :remote
-                :sign-releases? false
-                :artifact       "target/fluree-json-ld.jar"}}
+  {:deps {io.github.clojure/tools.build {:mvn/version "0.9.6"}
+          slipset/deps-deploy {:mvn/version "0.2.0"}}
+   :ns-default build
+   :exec-fn deploy}
 
   :build-edn-context
   {:extra-paths ["dev"]

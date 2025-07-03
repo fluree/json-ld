@@ -2,8 +2,8 @@
 
 SOURCES := $(shell find src)
 
-target/fluree-json-ld.jar: pom.xml deps.edn src/deps.cljs $(SOURCES)
-	clojure -X:jar
+target/json-ld-0.1.0.jar: deps.edn src/deps.cljs $(SOURCES)
+	clojure -T:build jar
 
 src/deps.cljs: package.json
 	clojure -M:js-deps
@@ -34,7 +34,10 @@ browsertest:
 	npx shadow-cljs release browser-test
 	./node_modules/karma/bin/karma start --single-run
 
-cljstest: nodetest browsertest
+node_modules: package.json
+	npm install
+
+cljstest: node_modules nodetest browsertest
 
 test: cljtest cljstest
 
@@ -50,15 +53,15 @@ fmt:
 fmt-check:
 	clojure -M:fmt check
 
-jar: target/fluree-json-ld.jar
+jar: target/json-ld-0.1.0.jar
 
-install: target/fluree-json-ld.jar
-	clojure -X:install
+install: target/json-ld-0.1.0.jar
+	clojure -T:build install
 
 # You'll need to set the env vars CLOJARS_USERNAME & CLOJARS_PASSWORD
 # (which must be a Clojars deploy token now) to use this.
-deploy: target/fluree-json-ld.jar
-	clojure -X:deploy
+deploy: target/json-ld-0.1.0.jar
+	clojure -T:build deploy
 
 clean:
 	rm -rf target
