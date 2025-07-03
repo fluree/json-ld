@@ -75,7 +75,7 @@
 
   (json-ld/parse-context "https://www.w3.org/2018/credentials/v1")
 
-  (parse-context "https://ns.flur.ee/ledger/v1")
+  (parse-context "https://ns.flur.ee/ledger#")
 
   (parse-context "https://geojson.org/geojson-ld/geojson-context.jsonld")
 

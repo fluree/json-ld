@@ -235,8 +235,3 @@
                        {:status  400
                         :error   :json-ld/invalid-context
                         :context context}))))))
-
-(comment
-
- (parse nil
-        ["https://ns.flur.ee/ledger/v1"]),)
