@@ -203,13 +203,32 @@ Access them directly:
 
 ## Development
 
+### Prerequisites
+
+ClojureScript tests require Node.js and npm. The Makefile will automatically install npm dependencies when running tests.
+
+### Testing
+
 Run the project's tests:
 
 ```bash
-$ make test        # Run all tests
+$ make test        # Run all tests  
 $ make cljtest     # Run Clojure tests only
-$ make cljstest    # Run ClojureScript tests only
+$ make cljstest    # Run ClojureScript tests only (auto-installs npm deps)
 ```
+
+### Code Quality
+
+Lint and format code:
+
+```bash
+$ make lint        # Run clj-kondo linter
+$ make lint-ci     # Run stricter CI linting  
+$ make fmt         # Auto-format code
+$ make fmt-check   # Check formatting without changing files
+```
+
+### Building
 
 Build a deployable jar:
 
@@ -228,6 +247,8 @@ Deploy to Clojars (requires `CLOJARS_USERNAME` and `CLOJARS_PASSWORD` environmen
 ```bash
 $ make deploy
 ```
+
+### Development Tools
 
 Re-parse all external contexts:
 
