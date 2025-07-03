@@ -55,18 +55,3 @@
    (defn read-resource
      [filename]
      (edn/read-string (slurp-resource filename))))
-
-(comment
-  (try-catchall
-   (/ 1 0)
-   (catch e
-          (println e)))
-
-  (if-cljs :cljs :clj)
-  :cljs
-  :clj
-
-  nil
-  nil
-
-  #_(read-resource "foo"))
