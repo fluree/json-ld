@@ -8,7 +8,7 @@ help: ## Describe available tasks
 
 .DEFAULT_GOAL := help
 
-target/json-ld-0.1.0.jar: deps.edn src/deps.cljs $(SOURCES)
+target/fluree-json-ld.jar: deps.edn src/deps.cljs $(SOURCES)
 	clojure -T:build jar
 
 src/deps.cljs: package.json
@@ -59,14 +59,14 @@ fmt: ## Fix code formatting with cljfmt
 fmt-check: ## Check code formatting with cljfmt
 	clojure -M:fmt check
 
-jar: target/json-ld-0.1.0.jar ## Build JAR file
+jar: target/fluree-json-ld.jar ## Build JAR file
 
-install: target/json-ld-0.1.0.jar ## Install JAR to local repository
+install: target/fluree-json-ld.jar ## Install JAR to local repository
 	clojure -T:build install
 
 # You'll need to set the env vars CLOJARS_USERNAME & CLOJARS_PASSWORD
 # (which must be a Clojars deploy token now) to use this.
-deploy: target/json-ld-0.1.0.jar ## Deploy JAR to Clojars
+deploy: target/fluree-json-ld.jar ## Deploy JAR to Clojars
 	clojure -T:build deploy
 
 clean: ## Remove build artifacts
