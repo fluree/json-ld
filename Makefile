@@ -27,17 +27,17 @@ pom.xml: deps.edn
 cljtest:
 	clojure -X:test
 
-nodetest:
+cljs-node-test:
 	npx shadow-cljs release nodejs-test
 
-browsertest:
+cljs-browser-test:
 	npx shadow-cljs release browser-test
 	./node_modules/karma/bin/karma start --single-run
 
 node_modules: package.json
 	npm install
 
-cljstest: node_modules nodetest browsertest
+cljstest: node_modules cljs-node-test cljs-browser-test
 
 test: cljtest cljstest
 
@@ -73,4 +73,4 @@ docker-build:
 	docker build -t fluree/json-ld:test .
 
 docker-test: docker-build
-	docker run --rm fluree/json-ld:test
+	docker run --rm --security-opt seccomp=docker-chrome-seccomp.json fluree/json-ld:test

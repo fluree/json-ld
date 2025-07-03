@@ -11,3 +11,4 @@ test/browser/
 test/nodejs/
 .nrepl-port
 .nrepl-history
+!docker-chrome-seccomp.json

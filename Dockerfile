@@ -38,7 +38,10 @@ RUN clojure -P && \
 # Copy source code
 COPY --chown=app:app . .
 
+# Copy Chrome seccomp profile for browser tests
+COPY --chown=app:app docker-chrome-seccomp.json ./
+
 # Note: Browser tests may fail in Docker due to Chrome sandbox restrictions.
-# Run with: docker run --cap-add=SYS_ADMIN to enable Chrome sandbox
-# Or run only non-browser tests: make cljtest nodetest
+# Run with: docker run --security-opt seccomp=docker-chrome-seccomp.json fluree/json-ld:test
+# Or run only non-browser tests: make cljtest cljs-node-test
 CMD ["make", "test"]

@@ -22,11 +22,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Install clj-kondo
-        run: |
-          curl -sLO https://raw.githubusercontent.com/clj-kondo/clj-kondo/master/script/install-clj-kondo
-          chmod +x install-clj-kondo
-          sudo ./install-clj-kondo
+      - uses: DeLaGuardo/setup-clojure@12.5
+        with:
+          clj-kondo: 'latest'
           
       - name: Run clj-kondo
         run: make lint-ci
@@ -136,7 +134,7 @@ jobs:
             make cljstest
           else
             echo "Skipping browser tests due to missing Chrome"
-            make nodetest
+            make cljs-node-test
           fi
 
   # This job ensures all tests pass
