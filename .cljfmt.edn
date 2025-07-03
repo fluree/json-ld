@@ -1,0 +1,3 @@
+{:remove-consecutive-blank-lines? false
+ :insert-missing-whitespace? true
+ :remove-trailing-whitespace? true}

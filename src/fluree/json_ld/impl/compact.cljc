@@ -49,18 +49,18 @@
   Optionally records the usage of that prefix in the used-atom."
   [iri flipped-ctx match-iris used-atom]
   (some
-    (fn [iri-substr]
-      (when (str/starts-with? iri iri-substr)               ;; match
-        (let [prefix (get flipped-ctx iri-substr)
-              suffix (subs iri (count iri-substr))]
-          (when used-atom
-            (add-match-to-used-atom prefix iri-substr used-atom))
-          (if (keyword? prefix)
-            (if (#{:vocab :base} prefix)
-              (subs iri (count iri-substr))
-              (keyword (name prefix) suffix))
-            (str prefix ":" suffix)))))
-    match-iris))
+   (fn [iri-substr]
+     (when (str/starts-with? iri iri-substr)               ;; match
+       (let [prefix (get flipped-ctx iri-substr)
+             suffix (subs iri (count iri-substr))]
+         (when used-atom
+           (add-match-to-used-atom prefix iri-substr used-atom))
+         (if (keyword? prefix)
+           (if (#{:vocab :base} prefix)
+             (subs iri (count iri-substr))
+             (keyword (name prefix) suffix))
+           (str prefix ":" suffix)))))
+   match-iris))
 
 
 (defn- exact-iri-match
@@ -101,17 +101,3 @@
                    parsed-context-or-fn
                    (compact-fn parsed-context-or-fn))]
     (match-fn iri)))
-
-
-(comment
-  (fluree.json-ld.context/parse ["https://flur.ee/ns/block"
-                                 {:type-key "@type",
-                                  "schema" {:id "http://schema.org/"},
-                                  "wiki" {:id "https://www.wikidata.org/wiki/"}}])
-
-  (compact "http://schema.org/name" (fluree.json-ld.context/parse ["https://flur.ee/ns/block"
-                                                                   {:type-key "@type",
-                                                                    "schema" {:id "http://schema.org/"},
-                                                                    "wiki" {:id "https://www.wikidata.org/wiki/"}}]))
-
-  )

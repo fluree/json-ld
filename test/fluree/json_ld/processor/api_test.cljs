@@ -73,8 +73,8 @@
          (-> (jld-processor/expand {"@context" "foo:context" "foo:bar" 1}
                                    {:document-loader (fn [_ _] (throw (ex-info "Broken loader" {})))})
              (.catch (fn [error]
-                      (is (not (nil? error)))
-                      (done))))))
+                       (is (not (nil? error)))
+                       (done))))))
 
 (deftest compaction
   (async done
@@ -129,19 +129,19 @@
                        (done))))))
 
 #_(deftest flatten-test
-  (testing "flatten nested structures"
-    (async done
-      (let [nested-doc {"@context" context
-                        "@id" "http://example.org/person/1"
-                        "address" "123 Main St"}]
-        (-> (jld-processor/flatten nested-doc)
-            (.then (fn [result]
+    (testing "flatten nested structures"
+      (async done
+             (let [nested-doc {"@context" context
+                               "@id" "http://example.org/person/1"
+                               "address" "123 Main St"}]
+               (-> (jld-processor/flatten nested-doc)
+                   (.then (fn [result]
                      ;; Just verify the function works without detailed assertions
-                     (is (or (vector? result) (map? result)))
-                     (done)))
-            (.catch (fn [error]
-                      (is false (str "Test failed with error: " error))
-                      (done))))))))
+                            (is (or (vector? result) (map? result)))
+                            (done)))
+                   (.catch (fn [error]
+                             (is false (str "Test failed with error: " error))
+                             (done))))))))
 
 (deftest canonize
   (async done
@@ -164,8 +164,4 @@
                        (done))))))
 
 (comment
-  (t/run-tests)
-
-
-
-  )
+  (t/run-tests))

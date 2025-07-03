@@ -25,8 +25,8 @@
     (let [iri (or (:id exact-match)
                   (:reverse exact-match)
                   (throw (ex-info
-                           (str "Matching value in context does not contain an @id or @reverse: " compact-iri)
-                           {:status 400 :error :json-ld/invalid-iri})))]
+                          (str "Matching value in context does not contain an @id or @reverse: " compact-iri)
+                          {:status 400 :error :json-ld/invalid-iri})))]
       [iri exact-match])))
 
 
@@ -123,11 +123,11 @@
                                                     :error  :json-ld/invalid-context})))))
 
 (defmethod parse-node-val :nil
-  [v v-info context _ idx]
+  [_ _ _ _ _]
   [])
 
 (defmethod parse-node-val :json
-  [v v-info _ _ idx]
+  [v _ _ _ idx]
   [{:value v
     :type :json
     :idx idx}])
@@ -168,7 +168,7 @@
 
 ;; keywords should only be used in values for IRIs
 (defmethod parse-node-val :keyword
-  [v {:keys [id type] :as v-info} context _ idx]
+  [v {:keys [id]} context _ idx]
   (cond
     (= "@id" id) (iri v context false)
     (= "@type" id) [(iri v context false)]                  ;; @type should have been picked up using :type-key, but in case explicitly defined regardless
@@ -243,16 +243,16 @@
                  (comp (map-indexed (fn [i item]
                                       (cond
                                         (map? item) (if (or (contains? item "@value")
-                                                          (contains? item :value))
-                                                    (parse-node-val item v-info context externals (conj idx i))
-                                                    [(expand-node item context externals (conj idx i))])
+                                                            (contains? item :value))
+                                                      (parse-node-val item v-info context externals (conj idx i))
+                                                      [(expand-node item context externals (conj idx i))])
 
                                         (sequential? item) (throw (ex-info (str "Json-ld sequential values within sequential"
-                                                                              "values is not allowed. Provided value: " v
-                                                                              " at index: " (conj idx i) ".")
-                                                                         {:status 400
-                                                                          :error  :json-ld/invalid-context
-                                                                          :idx    (conj idx i)}))
+                                                                                "values is not allowed. Provided value: " v
+                                                                                " at index: " (conj idx i) ".")
+                                                                           {:status 400
+                                                                            :error  :json-ld/invalid-context
+                                                                            :idx    (conj idx i)}))
                                         :else
                                         (parse-node-val item v-info context externals (conj idx i)))))
                        cat)
@@ -266,12 +266,12 @@
   "The @context can define sub-contexts for certain @type values. Check if exists and merge."
   [context types]
   (reduce
-    (fn [context* type]
-      (if-let [type-context (get-in context [type :context])]
-        (merge context* type-context)
-        context*))
-    context
-    types))
+   (fn [context* type]
+     (if-let [type-context (get-in context [type :context])]
+       (merge context* type-context)
+       context*))
+   context
+   types))
 
 
 (defn parse-type
@@ -287,13 +287,13 @@
             ;; context may have type-dependent sub-context, update context if so
             context+types (type-sub-context context type-val*)
             expanded      (mapv #(try-catchall
-                                   (iri % context true)
-                                   (catch e
-                                          (throw (ex-info (str "Error parsing @type value, provided: "
-                                                               type-val " at index: " (conj (:idx base) (:type-key context)) ".")
-                                                          {:status 400
-                                                           :error  :json-ld/invalid-context
-                                                           :idx    (conj (:idx base) (:type-key context))}))))
+                                  (iri % context true)
+                                  (catch e
+                                         (throw (ex-info (str "Error parsing @type value, provided: "
+                                                              type-val " at index: " (conj (:idx base) (:type-key context)) ".")
+                                                         {:status 400
+                                                          :error  :json-ld/invalid-context
+                                                          :idx    (conj (:idx base) (:type-key context))}))))
                                 type-val*)]
         [(assoc base :type expanded) context+types])
       [base context])))
@@ -331,14 +331,14 @@
     (if k
       (let [idx* (conj (:idx base-result) k)
             [k* v-info] (try-catchall
-                          (details k context true)
-                          (catch e (wrap-error e idx*)))
+                         (details k context true)
+                         (catch e (wrap-error e idx*)))
             k**  (if (= \@ (first k*))
                    (keyword (subs k* 1))
                    k*)
             v*   (try-catchall
-                   (parse-node-val v v-info context externals idx*)
-                   (catch e (wrap-error e idx*)))]
+                  (parse-node-val v v-info context externals idx*)
+                  (catch e (wrap-error e idx*)))]
         (recur r
                (if (= :type k**)
                  (type-sub-context context v)
@@ -377,25 +377,25 @@
   Expands into child nodes."
   ([node-map parsed-context externals idx]
    (try-catchall
-     (if (sequential? node-map)
-       (expand-nodes parsed-context externals idx node-map)
-       (let [context                (get-context node-map)
-             parsed-context         (context/parse parsed-context context)
-             [base-result context*] (parse-type node-map parsed-context idx)
-             {:keys [type-key]}     parsed-context
-             node-map*              (dissoc node-map "@context"
-                                            :context
-                                            (:type-key parsed-context)
-                                            (get-in context [type-key :id]))]
-         (node* node-map* base-result externals context*)))
-     (catch e
-            (if (ex-data e)
-              (throw e)
-              (throw (ex-info (str "Invalid JSON-LD. Error occurred at JSON object index: " idx
-                                   " with error: " (ex-message e))
-                              {:status 400
-                               :error  :json-ld/invalid}
-                              e)))))))
+    (if (sequential? node-map)
+      (expand-nodes parsed-context externals idx node-map)
+      (let [context                (get-context node-map)
+            parsed-context         (context/parse parsed-context context)
+            [base-result context*] (parse-type node-map parsed-context idx)
+            {:keys [type-key]}     parsed-context
+            node-map*              (dissoc node-map "@context"
+                                           :context
+                                           (:type-key parsed-context)
+                                           (get-in context [type-key :id]))]
+        (node* node-map* base-result externals context*)))
+    (catch e
+           (if (ex-data e)
+             (throw e)
+             (throw (ex-info (str "Invalid JSON-LD. Error occurred at JSON object index: " idx
+                                  " with error: " (ex-message e))
+                             {:status 400
+                              :error  :json-ld/invalid}
+                             e)))))))
 
 (defn default-graph?
   [node-map graph-key]

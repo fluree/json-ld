@@ -1,5 +1,6 @@
 (ns fluree.json-ld.impl.external
   (:require [fluree.json-ld.impl.iri :as iri]
+            #_{:clj-kondo/ignore [:unused-namespace]}
             [fluree.json-ld.impl.util :as util]
             [clojure.string :as str])
   (:refer-clojure :exclude [read])
@@ -58,8 +59,7 @@
 
                     "https://geojson.org/geojson-ld/geojson-context.jsonld"
                     {:source "contexts/org/geojson/geojson-ld/geojson-context.jsonld"
-                     :parsed "contexts/org/geojson/geojson-ld/geojson-context.edn"}
-                    })
+                     :parsed "contexts/org/geojson/geojson-ld/geojson-context.edn"}})
 
 ;; set of external context URLs that are available pre-parsed.
 (def external-contexts (set (keys context->file)))

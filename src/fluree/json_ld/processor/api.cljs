@@ -12,18 +12,18 @@
   [document-loader]
   (fn [url options]
     (js/Promise.
-      (fn [resolve reject]
-        (try
-          (let [json-string (document-loader url options)]
-            (resolve #js{"contextUrl" nil, "document" json-string, "documentUrl" url}))
-          (catch js/Error e
-            (reject (throw #js{"name" "jsonld.LoadDocumentError"
-                               "message" (str "Unable to load static context: " url)
-                               "details" {"code" "loading remote context failed"
-                                          "url" url}}))))))))
+     (fn [resolve reject]
+       (try
+         (let [json-string (document-loader url options)]
+           (resolve #js{"contextUrl" nil, "document" json-string, "documentUrl" url}))
+         (catch js/Error _
+           (reject (throw #js{"name" "jsonld.LoadDocumentError"
+                              "message" (str "Unable to load static context: " url)
+                              "details" {"code" "loading remote context failed"
+                                         "url" url}}))))))))
 
 (defn static-loader
-  [url options]
+  [url _]
   (get external/inlined-contexts url))
 
 (defn compact

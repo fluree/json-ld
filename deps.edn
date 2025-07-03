@@ -60,4 +60,8 @@
                 cheshire/cheshire           {:mvn/version "5.11.0"}}
    :exec-fn user/parse-context-file
    :exec-args {:source nil
-               :dest   nil}}}}
+               :dest   nil}}
+
+  :fmt
+  {:extra-deps {cljfmt/cljfmt {:mvn/version "0.9.2"}}
+   :main-opts  ["-m" "cljfmt.main"]}}}

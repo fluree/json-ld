@@ -65,7 +65,7 @@
     (str "[" (str/join "," ser-items) "]")))
 
 (defmethod basic-normalize :nil
-  [node]
+  [_]
   "null")
 
 (defmethod basic-normalize :number

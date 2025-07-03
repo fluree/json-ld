@@ -118,10 +118,10 @@
   "Returns true if the document appears to be JSON-LD (has @graph, @context, or @id)."
   [x]
   (boolean
-    (or
-      (get x "@graph")
-      (get-in x [0 "@context"])
-      (get-in x [0 "@id"]))))
+   (or
+    (get x "@graph")
+    (get-in x [0 "@context"])
+    (get-in x [0 "@id"]))))
 
 
 (defn normalize-data

@@ -1,0 +1,3 @@
+{:linters {:unresolved-symbol {:exclude [(fluree.json-ld.impl.util/try-catchall)]}
+           :unused-namespace {:exclude [cljs.test]}
+           :unused-referred-var {:exclude {cljs.test [is deftest testing]}}}}

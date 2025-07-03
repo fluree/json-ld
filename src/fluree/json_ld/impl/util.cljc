@@ -23,12 +23,12 @@
    Does not (yet) support finally, and does not need or want an exception class."
      [& body]
      (let [try-body (butlast body)
-           [catch sym & catch-body :as catch-form] (last body)]
+           [catch sym & catch-body] (last body)]
        (assert (= catch 'catch))
        (assert (symbol? sym))
        `(if-cljs
-            (try ~@try-body (~'catch js/Object ~sym ~@catch-body))
-            (try ~@try-body (~'catch Throwable ~sym ~@catch-body))))))
+         (try ~@try-body (~'catch js/Object ~sym ~@catch-body))
+         (try ~@try-body (~'catch Throwable ~sym ~@catch-body))))))
 
 (defn sequential
   "Takes any value and if not sequential?, wraps it in a vector."
@@ -38,6 +38,7 @@
     [x]))
 
 (defn slurp-resource
+  #_{:clj-kondo/ignore [:unused-binding]}
   [filename]
   #?(:cljs (throw (ex-info (str "Loading external resources is not yet supported in Javascript.")
                            {:status 400 :error :json-ld/external-resource}))
@@ -47,9 +48,9 @@
                      slurp)
              (catch Exception e
                (throw (ex-info
-                        (str "Invalid IRI, unable to read vocabulary from: " filename)
-                        {:status 400 :error :json-ld/external-resource}
-                        e))))))
+                       (str "Invalid IRI, unable to read vocabulary from: " filename)
+                       {:status 400 :error :json-ld/external-resource}
+                       e))))))
 #?(:clj
    (defn read-resource
      [filename]
@@ -57,9 +58,9 @@
 
 (comment
   (try-catchall
-    (/ 1 0)
-    (catch e
-        (println e)))
+   (/ 1 0)
+   (catch e
+          (println e)))
 
   (if-cljs :cljs :clj)
   :cljs
@@ -68,5 +69,4 @@
   nil
   nil
 
-  #_(read-resource "foo")
-  )
+  #_(read-resource "foo"))

@@ -99,7 +99,7 @@
   (testing "A nil context empties the context"
     (let [parsed {:type-key "@type", "sec" {:id "https://w3id.org/security#"}}]
       (is (= parsed
-            (context/parse {"sec" "https://w3id.org/security#"}))
+             (context/parse {"sec" "https://w3id.org/security#"}))
           "a parsed context")
       (is (= parsed
              (context/parse parsed {}))
