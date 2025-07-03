@@ -11,6 +11,10 @@
 ;; delay to defer side effects (artifact downloads)
 (def basis (delay (b/create-basis {:project "deps.edn"})))
 
+(defn file-exists?
+  [file]
+  (-> file b/resolve-path .exists))
+
 (defn clean
   "Delete the build target directory"
   [_]
@@ -46,31 +50,29 @@
 (defn install
   "Install the JAR locally"
   [_]
-  (let [jar-file' (b/resolve-path jar-file)]
-    (if (.exists jar-file')
-      (do
-        (println "\nInstalling" jar-file "to local Maven repository...")
-        (b/install {:basis @basis
-                    :lib lib
-                    :version version
-                    :jar-file jar-file
-                    :class-dir class-dir}))
-      (do
-        (println "JAR file not found. Building...")
-        (jar nil)
-        (install nil)))))
+  (if (file-exists? jar-file)
+    (do
+      (println "\nInstalling" jar-file "to local Maven repository...")
+      (b/install {:basis @basis
+                  :lib lib
+                  :version version
+                  :jar-file jar-file
+                  :class-dir class-dir}))
+    (do
+      (println "JAR file not found. Building...")
+      (jar nil)
+      (install nil))))
 
 (defn deploy
   "Deploy the JAR to Clojars"
   [_]
-  (let [jar-file' (b/resolve-path jar-file)]
-    (if (.exists jar-file')
-      (do
-        (println "\nDeploying" jar-file "to Clojars...")
-        (dd/deploy {:installer :remote
-                    :artifact (b/resolve-path jar-file)
-                    :pom-file (b/pom-path {:lib lib :class-dir class-dir})}))
-      (do
-        (println "JAR file not found. Building...")
-        (jar nil)
-        (deploy nil)))))
+  (if (file-exists? jar-file)
+    (do
+      (println "\nDeploying" jar-file "to Clojars...")
+      (dd/deploy {:installer :remote
+                  :artifact (b/resolve-path jar-file)
+                  :pom-file (b/pom-path {:lib lib :class-dir class-dir})}))
+    (do
+      (println "JAR file not found. Building...")
+      (jar nil)
+      (deploy nil))))
