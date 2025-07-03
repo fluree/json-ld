@@ -38,6 +38,38 @@
       ;; Test with non-existent IRI
       (is (nil? (json-ld/external-iri "http://example.com/nonexistent"))))))
 
+(deftest details-function-test
+  (testing "details function"
+    (testing "returns expanded IRI with context settings"
+      (let [ctx (json-ld/parse-context {"@context" {"schema" "http://schema.org/"}})
+            [expanded-iri settings] (json-ld/details "schema:name" ctx)]
+        (is (= "http://schema.org/name" expanded-iri))
+        (is (map? settings))
+        (is (= "http://schema.org/" (:id settings))))
+      
+      ;; Test with vocab? false
+      (let [ctx (json-ld/parse-context {"@context" {"myapp" "https://myapp.com/ns#"}})
+            [expanded-iri settings] (json-ld/details "myapp:userId" ctx false)]
+        (is (= "https://myapp.com/ns#userId" expanded-iri))
+        (is (map? settings))))))
+
+(deftest json-ld-detection-test
+  (testing "json-ld? function"
+    (testing "detects JSON-LD documents"
+      ;; Documents with @graph
+      (is (json-ld/json-ld? {"@graph" []}))
+      
+      ;; Documents with @context in array
+      (is (json-ld/json-ld? [{"@context" {}}]))
+      
+      ;; Documents with @id in array
+      (is (json-ld/json-ld? [{"@id" "http://example.org"}]))
+      
+      ;; Non JSON-LD documents
+      (is (false? (json-ld/json-ld? {"name" "John"})))
+      (is (false? (json-ld/json-ld? [])))
+      (is (false? (json-ld/json-ld? nil))))))
+
 (deftest readme-example-tests
   (testing "README examples work as documented"
     

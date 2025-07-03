@@ -8,14 +8,13 @@
 #?(:clj (set! *warn-on-reflection* true))
 
 (defn parse-context
-  "Parses a JSON-LD context and returns a Clojure map (or error if context invalid).
-
-  If a base-context is provided, merges new context into base context. base-context
-  must already be a parsed context.
-
-  externals, if provided, is a set of external context URLs that are safe to load. Currently
-  will only load external contexts that are pre-parsed and saved locally with this library,
-  the default list of which is at fluree.json-ld.impl.external/external-contexts"
+  "Parses a JSON-LD context and returns a parsed context with an internal 
+   representation to make repeated expansion/compaction more efficient
+   for use in other API calls.
+  
+  Optional parameters:
+  - base-context: Previously parsed context to merge into the new un-parsed context
+  - externals: Set of allowed external context URLs (defaults to pre-loaded contexts)"
   ([context] (context/parse {} external/external-contexts context))
   ([base-context context]
    (context/parse base-context external/external-contexts context))
@@ -24,47 +23,46 @@
 
 
 (defn external-vocab
-  "Loads a supported external vocabulary for a specific iri, which should be
-  a class or predicate.
-
-  The vocab will include information beyond a context mapping, i.e. rdfs:subClassOf."
+  "Returns vocabulary information for a specific IRI including relationships
+  like rdfs:subClassOf.
+  
+  Returns nil if not found."
   [iri]
   (external/vocab iri))
 
 (defn external-iri
-  "Loads a supported external vocabulary for a specific iri, which should be
-  a class or predicate.
-
-  The vocab will include information beyond a context mapping, i.e. rdfs:subClassOf."
+  "Returns IRI information for a specific IRI if available in pre-loaded vocabularies.
+  
+  Returns nil if not found."
   [iri]
   (external/iri iri))
 
 
 (defn external-context
-  "Loads a pre-fetched, parsed context based on URL that may be used as a @context value.
-  Note this is not a vocabulary, but just a context mapping. It may end up using many different
-  vocabularies as part of its mapping..
-
-  Returns nil if context not pre-fetched."
+  "Returns a pre-loaded parsed context for the given URL.
+  
+  Returns nil if not available."
   [url]
   (external/context url))
 
 
 (defn compact
-  "Returns compacted iri when provided parsed context."
+  "Compacts an expanded IRI using the provided parsed context or compact function."
   [iri parsed-context-or-fn]
   (compact/compact iri parsed-context-or-fn))
 
 
 (defn compact-fn
-  "Returns compacting fn based on the provided parsed context
-  that takes a single argument string IRI and returns compacted IRI.
-
-  If IRI cannot be compacted, returns original IRI.
-
-  Optionally, a second param, used-atom (a Clojure atom), can be supplied which captures all
-  context items that were used. This is useful when a large context is present which only a
-  small subset will be used, and you want to know which subset were used."
+  "Returns a single-arity function that compacts expanded IRIs using the parsed context.
+  
+  The returned function will attempt to compact an IRI by:
+  - First checking for exact matches in the context
+  - Then checking for partial matches to create prefixed forms (e.g., \"schema:name\")
+  - Returning the original IRI if no match is found
+  
+  Optional used-atom parameter (a Clojure atom) captures all context terms that were
+  actually used during compaction. This is useful when working with large contexts
+  (like schema.org) to identify which subset of terms were actually needed."
   ([parsed-context]
    (compact/compact-fn parsed-context nil))
   ([parsed-context used-atom]
@@ -72,13 +70,9 @@
 
 
 (defn expand-iri
-  "Expands a compacted iri string to full iri.
-
-  If vocab? is true, it will expand based on the value being a property/class (@type)
-  and utilize the context's :vocab value, if defined. If vocab? is falsey, will
-  treat compact-iri as an @id, and will utilize the context's :base value, if defined.
-
-  If the iri is not compacted, returns original iri string."
+  "Expands a compact IRI to its full form using the parsed context.
+  
+  vocab? true (default) uses @vocab for properties/classes, false uses @base for @id values."
   ([compact-iri parsed-context]
    (expand/iri compact-iri parsed-context true))
   ([compact-iri parsed-context vocab?]
@@ -86,10 +80,24 @@
 
 
 (defn expand
-  "Expands an entire JSON-LD node (JSON object), with optional parsed context
-  provided. If node has a local context, will merge with provided parse-context.
-
-  Expands into child nodes."
+  "Expands a JSON-LD document to its full form with all context applied.
+  
+  Takes a JSON-LD node (map) and optional parsed context. If the node contains
+  a local @context, it will be merged with any provided parsed context.
+  
+  Returns an expanded document where:
+  - Compact IRIs are expanded to full IRIs
+  - JSON-LD keywords (@id, @type, @graph, @list, @value) become Clojure keywords 
+    (:id, :type, :graph, :list, :value)
+  - Values include metadata:
+    - :idx - Path in the original document using get-in syntax (useful for error reporting)
+    - :value - The actual value
+    - :type - The datatype IRI (if specified)
+    - :language - Language tag (if specified)
+    - :list - Ordered list values (for @list containers)
+  - @graph returns a vector of expanded nodes
+  
+  Recursively expands into child nodes."
   ([node-map]
    (expand/node node-map {}))
   ([node-map parsed-context]
@@ -97,15 +105,9 @@
 
 
 (defn details
-  "Like expand, but returns two-tuple of expanded iri followed by
-  a map of any context settings for that iri.
-
-  If vocab? is true, it will expand based on the value being a property/class (@type)
-  and utilize the context's :vocab value, if defined. If vocab? is falsey, will
-  treat compact-iri as an @id, and will utilize the context's :base value, if defined.
-
-  If no match exists, returns original compact-iri as first element
-  and nil for second."
+  "Expands an IRI and returns [expanded-iri context-settings].
+  
+  vocab? true (default) uses @vocab for properties/classes, false uses @base for @id values."
   ([compact-iri parsed-context]
    (expand/details compact-iri parsed-context true))
   ([compact-iri parsed-context vocab?]
@@ -113,7 +115,7 @@
 
 
 (defn json-ld?
-  "Returns true if the provided document looks like json-ld."
+  "Returns true if the document appears to be JSON-LD (has @graph, @context, or @id)."
   [x]
   (boolean
     (or
@@ -123,12 +125,11 @@
 
 
 (defn normalize-data
-  "Normalizes a Clojure data structure into a string based on provided options which
-  include
-  :algorithm - :basic or :URDNA2015 (not yet supported)
-  :format - what format to put data into :application/json (default) :application/n-quads (not yet supported)
-
-  Used to get a consistent format/hash for data regardless of input."
+  "Normalizes JSON-LD data to a consistent string format for comparison/hashing.
+  
+  Options:
+  - :algorithm - :basic (default) or :URDNA2015 (not yet supported)
+  - :format - :application/json (default) or :application/n-quads (not yet supported)"
   ([data] (normalize/normalize data))
   ([data opts]
    (normalize/normalize data opts)))

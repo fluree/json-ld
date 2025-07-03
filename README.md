@@ -4,7 +4,7 @@ A JSON-LD processing library for Clojure and ClojureScript that provides core JS
 
 ## Features
 
-- **JSON-LD Processing**: Expand, compact, flatten, and normalize JSON-LD documents
+- **JSON-LD Processing**: Expand, compact, flatten*, and normalize JSON-LD documents (*flatten has limited ClojureScript support)
 - **Cross-platform**: Works in both Clojure (JVM) and ClojureScript (JS) environments
 - **External Context Support**: Pre-loaded contexts for common vocabularies (Schema.org, W3C, Fluree, etc.)
 - **RDF Conversion**: Convert between JSON-LD and RDF formats (N-Quads)
@@ -20,12 +20,19 @@ com.fluree/json-ld {:mvn/version "0.1.0"}
 
 ## API Overview
 
-The library provides two main namespaces:
+The library provides the `fluree.json-ld` namespace with JSON-LD operations including:
 
-- `fluree.json-ld` - Main API for JSON-LD operations
-- `fluree.json-ld.processor.api` - Processor API with additional features
+- Context parsing and manipulation
+- IRI expansion and compaction
+- Document expansion
+- Data normalization
+- External context and vocabulary support
 
 ## Basic Usage
+
+**Note:** Most operations in this library require a parsed context. Parsing contexts once and reusing them makes expansion and compaction operations more efficient, especially when processing multiple documents with the same context.
+
+**JSON-LD Keywords:** When expanding documents, special JSON-LD keywords (like `@id`, `@type`, `@graph`, `@list`, `@value`) are converted to Clojure keywords (`:id`, `:type`, `:graph`, `:list`, `:value`) in the resulting data structure.
 
 ### Context Parsing
 
@@ -56,8 +63,37 @@ Expand JSON-LD to its full form:
   {"@context" {"name" "http://schema.org/name"}
    "@id" "http://example.org/person/1"
    "name" "John Doe"})
-;; => [{"@id" "http://example.org/person/1"
-;;      "http://schema.org/name" [{"@value" "John Doe"}]}]
+;; => {:id "http://example.org/person/1"
+;;     :idx []
+;;     "http://schema.org/name" [{:value "John Doe" 
+;;                                :type nil 
+;;                                :idx ["name"]}]}
+
+;; The :idx metadata tracks the path in the original document,
+;; useful for error reporting. For nested structures:
+(json-ld/expand
+  {"@context" {"knows" "http://schema.org/knows"}
+   "@id" "http://example.org/person/1"
+   "knows" {"@id" "http://example.org/person/2"
+            "knows" {"@id" "http://example.org/person/3"}}})
+;; => Nested structure with :idx paths like ["knows"] and ["knows" "knows"]
+
+;; Special JSON-LD terms (@id, @type, @graph, etc.) are converted to keywords
+(json-ld/expand
+  {"@context" {"nick" {"@id" "http://xmlns.com/foaf/0.1/nick"
+                       "@container" "@list"}}
+   "@id" "http://example.org/people#joebob"
+   "nick" ["joe" "bob" "jaybee"]})
+;; => {:id "http://example.org/people#joebob"
+;;     :idx []
+;;     "http://xmlns.com/foaf/0.1/nick" 
+;;     [{:list [{:value "joe" :type nil :idx ["nick" 0]}
+;;              {:value "bob" :type nil :idx ["nick" 1]}
+;;              {:value "jaybee" :type nil :idx ["nick" 2]}]}]}
+
+;; @graph returns a vector of expanded nodes
+(json-ld/expand {"@graph" [{"@id" "http://example.org/1" "name" "John"}]})
+;; => [{:id "http://example.org/1" :idx ["@graph" 0] ...}]
 
 ;; Expand a single IRI
 (json-ld/expand-iri "schema:name" parsed-context)
@@ -94,46 +130,40 @@ Normalize JSON-LD for consistent comparison and hashing:
 ;; => Returns normalized JSON string
 ```
 
-## Processor API
+#### Details Function
 
-The processor API provides additional functionality:
+Get expanded IRI with context settings:
 
 ```clojure
-(require '[fluree.json-ld.processor.api :as jld-processor])
+;; Get expansion details including context settings
+(json-ld/details "schema:name" parsed-context)
+;; => ["http://schema.org/name" {:id "schema:name", ...}]
 
-;; Expand with custom document loader
-(jld-processor/expand 
-  {"@context" "https://schema.org"
-   "@type" "Person"
-   "name" "Jane Doe"})
+;; Control vocabulary expansion
+(json-ld/details "myapp:userId" parsed-context false)
+;; => Expands as @id rather than vocabulary term
+```
 
-;; Compact
-(jld-processor/compact
-  [{"http://schema.org/name" [{"@value" "Jane Doe"}]}]
-  {"@context" {"name" "http://schema.org/name"}})
-;; => {"@context" {"name" "http://schema.org/name"}
-;;     "name" "Jane Doe"}
+#### JSON-LD Detection
 
-;; Flatten nested structures
-(jld-processor/flatten
-  {"@context" {"knows" "http://schema.org/knows"}
-   "@id" "http://example.org/person/1"
-   "knows" {"@id" "http://example.org/person/2"
-            "knows" {"@id" "http://example.org/person/3"}}})
+```clojure
+;; Check if a document appears to be JSON-LD
+(json-ld/json-ld? {"@context" {...} "@id" "..."}) 
+;; => true
 
-;; Convert to RDF (N-Quads format)
-(jld-processor/to-rdf
-  {"@context" {"name" "http://schema.org/name"}
-   "@id" "http://example.org/person/1"
-   "name" "John Doe"})
-;; => "<http://example.org/person/1> <http://schema.org/name> \"John Doe\" .\n"
+(json-ld/json-ld? {"name" "John"}) 
+;; => false
+```
 
-;; Canonize for consistent output
-(jld-processor/canonize
-  {"@context" {"name" "http://schema.org/name"}
-   "@id" "http://example.org/person/1"
-   "name" "John Doe"})
-;; => Returns canonicalized N-Quads
+#### External IRI and Vocabulary Functions
+
+```clojure
+;; Load external IRIs with additional vocabulary information
+(json-ld/external-iri "http://schema.org/Person")
+;; => Returns IRI information
+
+(json-ld/external-vocab "http://schema.org/name") 
+;; => Returns vocabulary details including rdfs:subClassOf relationships
 ```
 
 ## ClojureScript Support
@@ -142,15 +172,12 @@ The library works identically in ClojureScript:
 
 ```clojure
 (ns my-app.core
-  (:require [fluree.json-ld :as json-ld]
-            [fluree.json-ld.processor.api :as jld-processor]))
+  (:require [fluree.json-ld :as json-ld]))
 
 ;; All the same functions work in ClojureScript
-(def expanded (json-ld/expand my-json-ld-doc))
-
-;; Async operations in ClojureScript return promises
-(.then (jld-processor/expand my-doc)
-       (fn [result] (println "Expanded:" result)))
+(def ctx (json-ld/parse-context {"@context" {...}}))
+(def expanded (json-ld/expand my-json-ld-doc ctx))
+(def compacted-iri (json-ld/compact "http://schema.org/name" ctx))
 ```
 
 ## Pre-loaded External Contexts
@@ -207,6 +234,7 @@ Re-parse all external contexts:
 ```bash
 $ make parse-all-contexts
 ```
+
 
 ## License
 

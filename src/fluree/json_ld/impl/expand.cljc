@@ -403,6 +403,8 @@
        (-> node-map (dissoc "@context" :context "@graph" :graph) empty?)))
 
 (defn node
+  "Internal implementation of JSON-LD expansion.
+  See fluree.json-ld/expand for public API."
   ([node-map]
    (node node-map {} external/external-contexts))
   ([node-map parsed-context]

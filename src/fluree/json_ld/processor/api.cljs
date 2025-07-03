@@ -45,6 +45,11 @@
        (.then (fn [result] (js->clj result))))))
 
 (defn flatten
+  "Flattens JSON-LD documents into a single array with node references.
+  
+  NOTE: This function may not work reliably in ClojureScript due to 
+  compatibility issues with the underlying JavaScript JSON-LD library.
+  Consider using the Clojure version for flatten operations."
   ([json-ld]
    (flatten json-ld {:document-loader static-loader}))
   ([json-ld opts]
