@@ -1,9 +1,15 @@
-.PHONY: test jar install deploy clean edn-contexts parse-all-contexts lint lint-ci fmt fmt-check
+.PHONY: help test jar install deploy clean edn-contexts parse-all-contexts lint lint-ci fmt fmt-check cljtest cljstest nodetest browsertest
 
 SOURCES := $(shell find src)
 
-target/fluree-json-ld.jar: pom.xml deps.edn src/deps.cljs $(SOURCES)
-	clojure -X:jar
+.PHONY: help
+help: ## Describe available tasks
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+
+.DEFAULT_GOAL := help
+
+target/json-ld-0.1.0.jar: deps.edn src/deps.cljs $(SOURCES)
+	clojure -T:build jar
 
 src/deps.cljs: package.json
 	clojure -M:js-deps
@@ -14,53 +20,56 @@ resources/contexts/%.edn: resources/contexts/%.jsonld
 CONTEXTS := $(shell find resources/contexts -name '*.jsonld')
 EDN_CONTEXTS := $(CONTEXTS:.jsonld=.edn)
 
-edn-contexts: $(EDN_CONTEXTS)
+edn-contexts: $(EDN_CONTEXTS) ## Build EDN versions of JSON-LD context files
 
 # Re-parse all JSON-LD contexts from external.cljc
-parse-all-contexts:
+parse-all-contexts: ## Re-parse all JSON-LD contexts from external sources
 	@echo "Re-parsing all JSON-LD contexts..."
 	@clojure -M:dev scripts/parse-contexts.clj
 
 pom.xml: deps.edn
 	clojure -Spom
 
-cljtest:
+cljtest: ## Run Clojure tests
 	clojure -X:test
 
-nodetest:
+nodetest: ## Run ClojureScript Node.js tests
 	npx shadow-cljs release nodejs-test
 
-browsertest:
+browsertest: ## Run ClojureScript browser tests with Karma
 	npx shadow-cljs release browser-test
 	./node_modules/karma/bin/karma start --single-run
 
-cljstest: nodetest browsertest
+node_modules: package.json
+	npm install
 
-test: cljtest cljstest
+cljstest: node_modules nodetest browsertest ## Run all ClojureScript tests
 
-lint:
+test: cljtest cljstest ## Run all tests (Clojure and ClojureScript)
+
+lint: ## Run clj-kondo linter
 	clj-kondo --lint src test
 
-lint-ci:
+lint-ci: ## Run clj-kondo linter with CI configuration
 	clj-kondo --config .clj-kondo/ci-config.edn --lint src test
 
-fmt:
+fmt: ## Fix code formatting with cljfmt
 	clojure -M:fmt fix
 
-fmt-check:
+fmt-check: ## Check code formatting with cljfmt
 	clojure -M:fmt check
 
-jar: target/fluree-json-ld.jar
+jar: target/json-ld-0.1.0.jar ## Build JAR file
 
-install: target/fluree-json-ld.jar
-	clojure -X:install
+install: target/json-ld-0.1.0.jar ## Install JAR to local repository
+	clojure -T:build install
 
 # You'll need to set the env vars CLOJARS_USERNAME & CLOJARS_PASSWORD
 # (which must be a Clojars deploy token now) to use this.
-deploy: target/fluree-json-ld.jar
-	clojure -X:deploy
+deploy: target/json-ld-0.1.0.jar ## Deploy JAR to Clojars
+	clojure -T:build deploy
 
-clean:
+clean: ## Remove build artifacts
 	rm -rf target
 	rm -rf node_modules
 	rm -rf test/nodejs
