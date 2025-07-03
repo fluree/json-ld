@@ -1,0 +1,14 @@
+target/
+.cpcache/
+.shadow-cljs/
+node_modules/
+.git/
+.gitignore
+.clj-kondo/.cache/
+.lsp/
+*.jar
+test/browser/
+test/nodejs/
+.nrepl-port
+.nrepl-history
+!docker-chrome-seccomp.json

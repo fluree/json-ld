@@ -1,6 +1,6 @@
 (ns fluree.json-ld.impl.util
-  (:require #?(:clj [clojure.java.io :as io])
-            #?(:clj [clojure.edn :as edn]))
+  #?(:clj (:require [clojure.java.io :as io]
+                    [clojure.edn :as edn]))
   #?(:cljs (:require-macros [fluree.json-ld.impl.util :refer [try-catchall if-cljs]])))
 
 #?(:clj (set! *warn-on-reflection* true))

@@ -1,4 +1,4 @@
-.PHONY: help test jar install deploy clean edn-contexts parse-all-contexts lint lint-ci fmt fmt-check cljtest cljstest nodetest browsertest
+.PHONY: help test jar install deploy clean edn-contexts parse-all-contexts lint lint-ci fmt fmt-check cljtest cljstest cljs-node-test cljs-browser-test docker-build docker-test
 
 SOURCES := $(shell find src)
 
@@ -33,17 +33,17 @@ pom.xml: deps.edn
 cljtest: ## Run Clojure tests
 	clojure -X:test
 
-nodetest: ## Run ClojureScript Node.js tests
+cljs-node-test: ## Run ClojureScript Node.js tests
 	npx shadow-cljs release nodejs-test
 
-browsertest: ## Run ClojureScript browser tests with Karma
+cljs-browser-test: ## Run ClojureScript browser tests with Karma
 	npx shadow-cljs release browser-test
 	./node_modules/karma/bin/karma start --single-run
 
 node_modules: package.json
 	npm install
 
-cljstest: node_modules nodetest browsertest ## Run all ClojureScript tests
+cljstest: node_modules cljs-node-test cljs-browser-test ## Run all ClojureScript tests
 
 test: cljtest cljstest ## Run all tests (Clojure and ClojureScript)
 
@@ -74,3 +74,9 @@ clean: ## Remove build artifacts
 	rm -rf node_modules
 	rm -rf test/nodejs
 	rm -rf test/browser
+
+docker-build: ## Build Docker image for testing
+	docker build -t fluree/json-ld:test .
+
+docker-test: docker-build ## Run tests in Docker container
+	docker run --rm --security-opt seccomp=docker-chrome-seccomp.json fluree/json-ld:test
