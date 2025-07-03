@@ -6,7 +6,7 @@
 (def lib 'com.fluree/json-ld)
 (def version "1.0.0")
 (def class-dir "target/classes")
-(def jar-file (format "target/%s-%s.jar" (name lib) version))
+(def jar-file "target/fluree-json-ld.jar")
 
 ;; delay to defer side effects (artifact downloads)
 (def basis (delay (b/create-basis {:project "deps.edn"})))
