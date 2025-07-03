@@ -2,6 +2,8 @@
  "breastfeedingWarning" {:id "http://schema.org/breastfeedingWarning"},
  "isicV4" {:id "http://schema.org/isicV4"},
  "productSupported" {:id "http://schema.org/productSupported"},
+ "http://schema.org/dateCreated"
+ {:id "http://schema.org/dateCreated", :type "http://schema.org/Date"},
  "productionDate"
  {:id "http://schema.org/productionDate",
   :type "http://schema.org/Date"},
@@ -59,7 +61,7 @@
  "geoTouches" {:id "http://schema.org/geoTouches"},
  "ResearchOrganization" {:id "http://schema.org/ResearchOrganization"},
  "CatholicChurch" {:id "http://schema.org/CatholicChurch"},
- "orderedItem" {:id "http://schema.org/orderedItem" :type :id},
+ "orderedItem" {:id "http://schema.org/orderedItem"},
  "inChI" {:id "http://schema.org/inChI"},
  "BusinessAudience" {:id "http://schema.org/BusinessAudience"},
  "track" {:id "http://schema.org/track"},
@@ -137,6 +139,8 @@
  "geoCrosses" {:id "http://schema.org/geoCrosses"},
  "AskAction" {:id "http://schema.org/AskAction"},
  "accelerationTime" {:id "http://schema.org/accelerationTime"},
+ "http://schema.org/trackingUrl"
+ {:id "http://schema.org/trackingUrl", :type :id},
  "pagination" {:id "http://schema.org/pagination"},
  "SatireOrParodyContent"
  {:id "http://schema.org/SatireOrParodyContent"},
@@ -153,6 +157,8 @@
  "purchaseDate"
  {:id "http://schema.org/purchaseDate",
   :type "http://schema.org/Date"},
+ "http://schema.org/significantLinks"
+ {:id "http://schema.org/significantLinks", :type :id},
  "PerformingArtsTheater"
  {:id "http://schema.org/PerformingArtsTheater"},
  "MedicalResearcher" {:id "http://schema.org/MedicalResearcher"},
@@ -173,6 +179,8 @@
  "Recruiting" {:id "http://schema.org/Recruiting"},
  "ExchangeRateSpecification"
  {:id "http://schema.org/ExchangeRateSpecification"},
+ "http://schema.org/associatedDisease"
+ {:id "http://schema.org/associatedDisease", :type :id},
  "jobBenefits" {:id "http://schema.org/jobBenefits"},
  "Distillery" {:id "http://schema.org/Distillery"},
  "MoveAction" {:id "http://schema.org/MoveAction"},
@@ -188,14 +196,19 @@
  "DeliveryChargeSpecification"
  {:id "http://schema.org/DeliveryChargeSpecification"},
  "cheatCode" {:id "http://schema.org/cheatCode"},
+ "http://schema.org/isLocatedInSubcellularLocation"
+ {:id "http://schema.org/isLocatedInSubcellularLocation", :type :id},
  "ElementarySchool" {:id "http://schema.org/ElementarySchool"},
  "DiagnosticLab" {:id "http://schema.org/DiagnosticLab"},
  "ElectronicsStore" {:id "http://schema.org/ElectronicsStore"},
  "album" {:id "http://schema.org/album"},
+ "http://schema.org/map" {:id "http://schema.org/map", :type :id},
  "GraphicNovel" {:id "http://schema.org/GraphicNovel"},
  "Painting" {:id "http://schema.org/Painting"},
  "responsibilities" {:id "http://schema.org/responsibilities"},
  "answerCount" {:id "http://schema.org/answerCount"},
+ "http://schema.org/diversityStaffingReport"
+ {:id "http://schema.org/diversityStaffingReport", :type :id},
  "totalPaymentDue" {:id "http://schema.org/totalPaymentDue"},
  "ComicStory" {:id "http://schema.org/ComicStory"},
  "nerveMotor" {:id "http://schema.org/nerveMotor"},
@@ -209,10 +222,14 @@
  "3DModel" {:id "http://schema.org/3DModel"},
  "evidenceOrigin" {:id "http://schema.org/evidenceOrigin"},
  "skills" {:id "http://schema.org/skills"},
+ "http://schema.org/validThrough"
+ {:id "http://schema.org/validThrough",
+  :type "http://schema.org/Date"},
  "pageStart" {:id "http://schema.org/pageStart"},
  "Review" {:id "http://schema.org/Review"},
  "PreventionIndication" {:id "http://schema.org/PreventionIndication"},
  "procedureType" {:id "http://schema.org/procedureType"},
+ "http://schema.org/url" {:id "http://schema.org/url", :type :id},
  "holdingArchive" {:id "http://schema.org/holdingArchive"},
  "commentTime"
  {:id "http://schema.org/commentTime", :type "http://schema.org/Date"},
@@ -309,6 +326,8 @@
  {:id "http://schema.org/PercutaneousProcedure"},
  "vendor" {:id "http://schema.org/vendor"},
  "drugUnit" {:id "http://schema.org/drugUnit"},
+ "http://schema.org/gettingTestedInfo"
+ {:id "http://schema.org/gettingTestedInfo", :type :id},
  "TVClip" {:id "http://schema.org/TVClip"},
  "HowToSection" {:id "http://schema.org/HowToSection"},
  "sdLicense" {:id "http://schema.org/sdLicense", :type :id},
@@ -320,6 +339,9 @@
  "childTaxon" {:id "http://schema.org/childTaxon"},
  "TrainStation" {:id "http://schema.org/TrainStation"},
  "DataFeedItem" {:id "http://schema.org/DataFeedItem"},
+ "http://schema.org/availabilityStarts"
+ {:id "http://schema.org/availabilityStarts",
+  :type "http://schema.org/Date"},
  "WesternConventional" {:id "http://schema.org/WesternConventional"},
  "browserRequirements" {:id "http://schema.org/browserRequirements"},
  "Balance" {:id "http://schema.org/Balance"},
@@ -351,6 +373,8 @@
  "UserPageVisits" {:id "http://schema.org/UserPageVisits"},
  "SocialMediaPosting" {:id "http://schema.org/SocialMediaPosting"},
  "valueRequired" {:id "http://schema.org/valueRequired"},
+ "http://schema.org/documentation"
+ {:id "http://schema.org/documentation", :type :id},
  "MedicalAudience" {:id "http://schema.org/MedicalAudience"},
  "ApprovedIndication" {:id "http://schema.org/ApprovedIndication"},
  "healthPlanMarketingUrl"
@@ -371,6 +395,8 @@
  "AggregateOffer" {:id "http://schema.org/AggregateOffer"},
  "RadiationTherapy" {:id "http://schema.org/RadiationTherapy"},
  "Nonprofit501c3" {:id "http://schema.org/Nonprofit501c3"},
+ "http://schema.org/isBasedOnUrl"
+ {:id "http://schema.org/isBasedOnUrl", :type :id},
  "MedicalIndication" {:id "http://schema.org/MedicalIndication"},
  "TransitMap" {:id "http://schema.org/TransitMap"},
  "CollectionPage" {:id "http://schema.org/CollectionPage"},
@@ -378,6 +404,8 @@
  "exerciseRelatedDiet" {:id "http://schema.org/exerciseRelatedDiet"},
  "loanRepaymentForm" {:id "http://schema.org/loanRepaymentForm"},
  "citation" {:id "http://schema.org/citation"},
+ "http://schema.org/prescribingInfo"
+ {:id "http://schema.org/prescribingInfo", :type :id},
  "WriteAction" {:id "http://schema.org/WriteAction"},
  "Vessel" {:id "http://schema.org/Vessel"},
  "ShippingDeliveryTime" {:id "http://schema.org/ShippingDeliveryTime"},
@@ -396,6 +424,8 @@
  "handlingTime" {:id "http://schema.org/handlingTime"},
  "BuyAction" {:id "http://schema.org/BuyAction"},
  "valueReference" {:id "http://schema.org/valueReference"},
+ "http://schema.org/targetUrl"
+ {:id "http://schema.org/targetUrl", :type :id},
  "LodgingBusiness" {:id "http://schema.org/LodgingBusiness"},
  "hospitalAffiliation" {:id "http://schema.org/hospitalAffiliation"},
  "Retail" {:id "http://schema.org/Retail"},
@@ -421,6 +451,8 @@
  "GamePlayMode" {:id "http://schema.org/GamePlayMode"},
  "Osteopathic" {:id "http://schema.org/Osteopathic"},
  "broadcastChannelId" {:id "http://schema.org/broadcastChannelId"},
+ "http://schema.org/publishingPrinciples"
+ {:id "http://schema.org/publishingPrinciples", :type :id},
  "hasVariant" {:id "http://schema.org/hasVariant"},
  "AerobicActivity" {:id "http://schema.org/AerobicActivity"},
  "recipeYield" {:id "http://schema.org/recipeYield"},
@@ -456,6 +488,8 @@
  "RadioSeries" {:id "http://schema.org/RadioSeries"},
  "WearableSizeGroupExtraShort"
  {:id "http://schema.org/WearableSizeGroupExtraShort"},
+ "http://schema.org/inDefinedTermSet"
+ {:id "http://schema.org/inDefinedTermSet", :type :id},
  "StadiumOrArena" {:id "http://schema.org/StadiumOrArena"},
  "Florist" {:id "http://schema.org/Florist"},
  "customerRemorseReturnShippingFeesAmount"
@@ -474,6 +508,8 @@
  {:id "http://schema.org/returnShippingFeesAmount"},
  "Thing" {:id "http://schema.org/Thing"},
  "BookStore" {:id "http://schema.org/BookStore"},
+ "http://schema.org/dateIssued"
+ {:id "http://schema.org/dateIssued", :type "http://schema.org/Date"},
  "legislationLegalValue"
  {:id "http://schema.org/legislationLegalValue"},
  "BusTrip" {:id "http://schema.org/BusTrip"},
@@ -497,6 +533,9 @@
  "LifestyleModification"
  {:id "http://schema.org/LifestyleModification"},
  "BusReservation" {:id "http://schema.org/BusReservation"},
+ "http://schema.org/dateModified"
+ {:id "http://schema.org/dateModified",
+  :type "http://schema.org/Date"},
  "renegotiableLoan" {:id "http://schema.org/renegotiableLoan"},
  "siblings" {:id "http://schema.org/siblings"},
  "usedToDiagnose" {:id "http://schema.org/usedToDiagnose"},
@@ -573,10 +612,14 @@
  "returnLabelSource" {:id "http://schema.org/returnLabelSource"},
  "House" {:id "http://schema.org/House"},
  "ItemListOrderType" {:id "http://schema.org/ItemListOrderType"},
+ "http://schema.org/uploadDate"
+ {:id "http://schema.org/uploadDate", :type "http://schema.org/Date"},
  "StagedContent" {:id "http://schema.org/StagedContent"},
  "estimatedFlightDuration"
  {:id "http://schema.org/estimatedFlightDuration"},
  "sodiumContent" {:id "http://schema.org/sodiumContent"},
+ "http://schema.org/dateRead"
+ {:id "http://schema.org/dateRead", :type "http://schema.org/Date"},
  "Church" {:id "http://schema.org/Church"},
  "contentSize" {:id "http://schema.org/contentSize"},
  "PerformAction" {:id "http://schema.org/PerformAction"},
@@ -611,6 +654,8 @@
  {:id "http://schema.org/PaymentChargeSpecification"},
  "TravelAction" {:id "http://schema.org/TravelAction"},
  "WearableSizeSystemMX" {:id "http://schema.org/WearableSizeSystemMX"},
+ "http://schema.org/mainEntityOfPage"
+ {:id "http://schema.org/mainEntityOfPage", :type :id},
  "letterer" {:id "http://schema.org/letterer"},
  "BodyMeasurementWaist" {:id "http://schema.org/BodyMeasurementWaist"},
  "Resort" {:id "http://schema.org/Resort"},
@@ -640,6 +685,8 @@
  "Chiropractic" {:id "http://schema.org/Chiropractic"},
  "BoatReservation" {:id "http://schema.org/BoatReservation"},
  "pickupTime" {:id "http://schema.org/pickupTime"},
+ "http://schema.org/expires"
+ {:id "http://schema.org/expires", :type "http://schema.org/Date"},
  "MedicalDevice" {:id "http://schema.org/MedicalDevice"},
  "arrivalBusStop" {:id "http://schema.org/arrivalBusStop"},
  "steeringPosition" {:id "http://schema.org/steeringPosition"},
@@ -668,11 +715,19 @@
  "QAPage" {:id "http://schema.org/QAPage"},
  "Number" {:id "http://schema.org/Number"},
  "Map" {:id "http://schema.org/Map"},
+ "http://schema.org/merchantReturnDays"
+ {:id "http://schema.org/merchantReturnDays",
+  :type "http://schema.org/Date"},
  "postOfficeBoxNumber" {:id "http://schema.org/postOfficeBoxNumber"},
  "servesCuisine" {:id "http://schema.org/servesCuisine"},
+ "http://schema.org/paymentUrl"
+ {:id "http://schema.org/paymentUrl", :type :id},
  "maxPrice" {:id "http://schema.org/maxPrice"},
  "flightNumber" {:id "http://schema.org/flightNumber"},
  "BusinessEntityType" {:id "http://schema.org/BusinessEntityType"},
+ "http://schema.org/productionDate"
+ {:id "http://schema.org/productionDate",
+  :type "http://schema.org/Date"},
  "image" {:id "http://schema.org/image", :type :id},
  "interactionType" {:id "http://schema.org/interactionType"},
  "MovingCompany" {:id "http://schema.org/MovingCompany"},
@@ -684,6 +739,9 @@
  "SalePrice" {:id "http://schema.org/SalePrice"},
  "SoftwareApplication" {:id "http://schema.org/SoftwareApplication"},
  "rdf" {:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#"},
+ "http://schema.org/vehicleModelDate"
+ {:id "http://schema.org/vehicleModelDate",
+  :type "http://schema.org/Date"},
  "Monday" {:id "http://schema.org/Monday"},
  "jobLocation" {:id "http://schema.org/jobLocation"},
  "RespiratoryTherapy" {:id "http://schema.org/RespiratoryTherapy"},
@@ -698,6 +756,9 @@
  {:id "http://schema.org/MedicalGuidelineContraindication"},
  "ReturnFeesCustomerResponsibility"
  {:id "http://schema.org/ReturnFeesCustomerResponsibility"},
+ "http://schema.org/expectedArrivalFrom"
+ {:id "http://schema.org/expectedArrivalFrom",
+  :type "http://schema.org/Date"},
  "LinkRole" {:id "http://schema.org/LinkRole"},
  "yearsInOperation" {:id "http://schema.org/yearsInOperation"},
  "AutoBodyShop" {:id "http://schema.org/AutoBodyShop"},
@@ -708,6 +769,9 @@
  {:id "http://schema.org/ScreeningHealthAspect"},
  "openingHoursSpecification"
  {:id "http://schema.org/openingHoursSpecification"},
+ "http://schema.org/applicationDeadline"
+ {:id "http://schema.org/applicationDeadline",
+  :type "http://schema.org/Date"},
  "successorOf" {:id "http://schema.org/successorOf"},
  "mathExpression" {:id "http://schema.org/mathExpression"},
  "UserInteraction" {:id "http://schema.org/UserInteraction"},
@@ -740,6 +804,11 @@
  "HinduTemple" {:id "http://schema.org/HinduTemple"},
  "StatisticalPopulation"
  {:id "http://schema.org/StatisticalPopulation"},
+ "http://schema.org/availabilityEnds"
+ {:id "http://schema.org/availabilityEnds",
+  :type "http://schema.org/Date"},
+ "http://schema.org/inCodeSet"
+ {:id "http://schema.org/inCodeSet", :type :id},
  "comprisedOf" {:id "http://schema.org/comprisedOf"},
  "merchantReturnLink"
  {:id "http://schema.org/merchantReturnLink", :type :id},
@@ -937,8 +1006,12 @@
  "WantAction" {:id "http://schema.org/WantAction"},
  "BodyOfWater" {:id "http://schema.org/BodyOfWater"},
  "HVACBusiness" {:id "http://schema.org/HVACBusiness"},
+ "http://schema.org/tourBookingPage"
+ {:id "http://schema.org/tourBookingPage", :type :id},
  "UnincorporatedAssociationCharity"
  {:id "http://schema.org/UnincorporatedAssociationCharity"},
+ "http://schema.org/schoolClosuresInfo"
+ {:id "http://schema.org/schoolClosuresInfo", :type :id},
  "loanTerm" {:id "http://schema.org/loanTerm"},
  "DeliveryTimeSettings" {:id "http://schema.org/DeliveryTimeSettings"},
  "ControlAction" {:id "http://schema.org/ControlAction"},
@@ -957,8 +1030,13 @@
  "BoatTrip" {:id "http://schema.org/BoatTrip"},
  "FinancialProduct" {:id "http://schema.org/FinancialProduct"},
  "MotorcycleDealer" {:id "http://schema.org/MotorcycleDealer"},
+ "http://schema.org/season"
+ {:id "http://schema.org/season", :type :id},
  "medicalAudience" {:id "http://schema.org/medicalAudience"},
  "accountMinimumInflow" {:id "http://schema.org/accountMinimumInflow"},
+ "http://schema.org/guidelineDate"
+ {:id "http://schema.org/guidelineDate",
+  :type "http://schema.org/Date"},
  "priceComponentType" {:id "http://schema.org/priceComponentType"},
  "estimatesRiskOf" {:id "http://schema.org/estimatesRiskOf"},
  "containedIn" {:id "http://schema.org/containedIn"},
@@ -995,10 +1073,17 @@
  "nonEqual" {:id "http://schema.org/nonEqual"},
  "WebSite" {:id "http://schema.org/WebSite"},
  "landlord" {:id "http://schema.org/landlord"},
+ "http://schema.org/travelBans"
+ {:id "http://schema.org/travelBans", :type :id},
  "CancelAction" {:id "http://schema.org/CancelAction"},
  "UnitPriceSpecification"
  {:id "http://schema.org/UnitPriceSpecification"},
  "ReturnAtKiosk" {:id "http://schema.org/ReturnAtKiosk"},
+ "http://schema.org/diseasePreventionInfo"
+ {:id "http://schema.org/diseasePreventionInfo", :type :id},
+ "http://schema.org/scheduledPaymentDate"
+ {:id "http://schema.org/scheduledPaymentDate",
+  :type "http://schema.org/Date"},
  "molecularFormula" {:id "http://schema.org/molecularFormula"},
  "DeleteAction" {:id "http://schema.org/DeleteAction"},
  "taxID" {:id "http://schema.org/taxID"},
@@ -1038,6 +1123,8 @@
  "error" {:id "http://schema.org/error"},
  "postalCodeBegin" {:id "http://schema.org/postalCodeBegin"},
  "video" {:id "http://schema.org/video"},
+ "http://schema.org/significantLink"
+ {:id "http://schema.org/significantLink", :type :id},
  "Taxon" {:id "http://schema.org/Taxon"},
  "superEvent" {:id "http://schema.org/superEvent"},
  "courseCode" {:id "http://schema.org/courseCode"},
@@ -1094,6 +1181,8 @@
  {:id "http://schema.org/MedicalRiskCalculator"},
  "publication" {:id "http://schema.org/publication"},
  "coverageEndTime" {:id "http://schema.org/coverageEndTime"},
+ "http://schema.org/datePosted"
+ {:id "http://schema.org/datePosted", :type "http://schema.org/Date"},
  "CheckOutAction" {:id "http://schema.org/CheckOutAction"},
  "bestRating" {:id "http://schema.org/bestRating"},
  "deliveryAddress" {:id "http://schema.org/deliveryAddress"},
@@ -1116,6 +1205,8 @@
  "Event" {:id "http://schema.org/Event"},
  "speechToTextMarkup" {:id "http://schema.org/speechToTextMarkup"},
  "ComedyEvent" {:id "http://schema.org/ComedyEvent"},
+ "http://schema.org/correctionsPolicy"
+ {:id "http://schema.org/correctionsPolicy", :type :id},
  "discussionUrl" {:id "http://schema.org/discussionUrl", :type :id},
  "ProductGroup" {:id "http://schema.org/ProductGroup"},
  "medicalSpecialty" {:id "http://schema.org/medicalSpecialty"},
@@ -1139,6 +1230,12 @@
  "SRP" {:id "http://schema.org/SRP"},
  "CarUsageType" {:id "http://schema.org/CarUsageType"},
  "rxcui" {:id "http://schema.org/rxcui"},
+ "http://schema.org/priceValidUntil"
+ {:id "http://schema.org/priceValidUntil",
+  :type "http://schema.org/Date"},
+ "http://schema.org/dissolutionDate"
+ {:id "http://schema.org/dissolutionDate",
+  :type "http://schema.org/Date"},
  "risks" {:id "http://schema.org/risks"},
  "restPeriods" {:id "http://schema.org/restPeriods"},
  "encodesCreativeWork" {:id "http://schema.org/encodesCreativeWork"},
@@ -1164,21 +1261,30 @@
  "MusicRecording" {:id "http://schema.org/MusicRecording"},
  "Pond" {:id "http://schema.org/Pond"},
  "containsSeason" {:id "http://schema.org/containsSeason"},
+ "http://schema.org/contentUrl"
+ {:id "http://schema.org/contentUrl", :type :id},
  "doseUnit" {:id "http://schema.org/doseUnit"},
  "ChildrensEvent" {:id "http://schema.org/ChildrensEvent"},
  "applicationCategory" {:id "http://schema.org/applicationCategory"},
  "subStageSuffix" {:id "http://schema.org/subStageSuffix"},
+ "http://schema.org/duringMedia"
+ {:id "http://schema.org/duringMedia", :type :id},
  "FoodEstablishmentReservation"
  {:id "http://schema.org/FoodEstablishmentReservation"},
  "previousItem" {:id "http://schema.org/previousItem"},
  "PodcastEpisode" {:id "http://schema.org/PodcastEpisode"},
  "textValue" {:id "http://schema.org/textValue"},
+ "http://schema.org/unnamedSourcesPolicy"
+ {:id "http://schema.org/unnamedSourcesPolicy", :type :id},
  "event" {:id "http://schema.org/event"},
  "WearableSizeGroupMisses"
  {:id "http://schema.org/WearableSizeGroupMisses"},
  "UKNonprofitType" {:id "http://schema.org/UKNonprofitType"},
  "BioChemEntity" {:id "http://schema.org/BioChemEntity"},
  "percentile10" {:id "http://schema.org/percentile10"},
+ "http://schema.org/datePublished"
+ {:id "http://schema.org/datePublished",
+  :type "http://schema.org/Date"},
  "InfectiousDisease" {:id "http://schema.org/InfectiousDisease"},
  "HowToDirection" {:id "http://schema.org/HowToDirection"},
  "mainEntityOfPage"
@@ -1196,6 +1302,8 @@
  "EducationalOccupationalProgram"
  {:id "http://schema.org/EducationalOccupationalProgram"},
  "MathSolver" {:id "http://schema.org/MathSolver"},
+ "http://schema.org/sdLicense"
+ {:id "http://schema.org/sdLicense", :type :id},
  "characterAttribute" {:id "http://schema.org/characterAttribute"},
  "Person" {:id "http://schema.org/Person"},
  "processorRequirements"
@@ -1252,6 +1360,8 @@
  "WPFooter" {:id "http://schema.org/WPFooter"},
  "Nonprofit501c23" {:id "http://schema.org/Nonprofit501c23"},
  "stageAsNumber" {:id "http://schema.org/stageAsNumber"},
+ "http://schema.org/relatedLink"
+ {:id "http://schema.org/relatedLink", :type :id},
  "usesHealthPlanIdStandard"
  {:id "http://schema.org/usesHealthPlanIdStandard"},
  "WebApplication" {:id "http://schema.org/WebApplication"},
@@ -1290,9 +1400,13 @@
  "MedicalClinic" {:id "http://schema.org/MedicalClinic"},
  "Toxicologic" {:id "http://schema.org/Toxicologic"},
  "VegetarianDiet" {:id "http://schema.org/VegetarianDiet"},
+ "http://schema.org/benefitsSummaryUrl"
+ {:id "http://schema.org/benefitsSummaryUrl", :type :id},
  "actionAccessibilityRequirement"
  {:id "http://schema.org/actionAccessibilityRequirement"},
  "algorithm" {:id "http://schema.org/algorithm"},
+ "http://schema.org/quarantineGuidelines"
+ {:id "http://schema.org/quarantineGuidelines", :type :id},
  "Quotation" {:id "http://schema.org/Quotation"},
  "availableFrom" {:id "http://schema.org/availableFrom"},
  "Report" {:id "http://schema.org/Report"},
@@ -1341,6 +1455,8 @@
  "DamagedCondition" {:id "http://schema.org/DamagedCondition"},
  "PriceTypeEnumeration" {:id "http://schema.org/PriceTypeEnumeration"},
  "riskFactor" {:id "http://schema.org/riskFactor"},
+ "http://schema.org/actionableFeedbackPolicy"
+ {:id "http://schema.org/actionableFeedbackPolicy", :type :id},
  "recommendedIntake" {:id "http://schema.org/recommendedIntake"},
  "costCategory" {:id "http://schema.org/costCategory"},
  "Ticket" {:id "http://schema.org/Ticket"},
@@ -1374,6 +1490,8 @@
  {:id "http://schema.org/WearableSizeGroupPlus"},
  "FailedActionStatus" {:id "http://schema.org/FailedActionStatus"},
  "hasOfferCatalog" {:id "http://schema.org/hasOfferCatalog"},
+ "http://schema.org/validUntil"
+ {:id "http://schema.org/validUntil", :type "http://schema.org/Date"},
  "copyrightYear" {:id "http://schema.org/copyrightYear"},
  "position" {:id "http://schema.org/position"},
  "namedPosition" {:id "http://schema.org/namedPosition"},
@@ -1394,6 +1512,8 @@
  "annualPercentageRate" {:id "http://schema.org/annualPercentageRate"},
  "musicGroupMember" {:id "http://schema.org/musicGroupMember"},
  "parents" {:id "http://schema.org/parents"},
+ "http://schema.org/hasMap"
+ {:id "http://schema.org/hasMap", :type :id},
  "vehicleIdentificationNumber"
  {:id "http://schema.org/vehicleIdentificationNumber"},
  "naturalProgression" {:id "http://schema.org/naturalProgression"},
@@ -1437,6 +1557,8 @@
  {:id "http://schema.org/numberOfAccommodationUnits"},
  "ReportedDoseSchedule" {:id "http://schema.org/ReportedDoseSchedule"},
  "Nonprofit501n" {:id "http://schema.org/Nonprofit501n"},
+ "http://schema.org/isPartOf"
+ {:id "http://schema.org/isPartOf", :type :id},
  "Psychiatric" {:id "http://schema.org/Psychiatric"},
  "Muscle" {:id "http://schema.org/Muscle"},
  "fuelConsumption" {:id "http://schema.org/fuelConsumption"},
@@ -1525,6 +1647,8 @@
  "surface" {:id "http://schema.org/surface"},
  "HealthCare" {:id "http://schema.org/HealthCare"},
  "CssSelectorType" {:id "http://schema.org/CssSelectorType"},
+ "http://schema.org/validFrom"
+ {:id "http://schema.org/validFrom", :type "http://schema.org/Date"},
  "cvdNumC19MechVentPats"
  {:id "http://schema.org/cvdNumC19MechVentPats"},
  "beforeMedia" {:id "http://schema.org/beforeMedia", :type :id},
@@ -1569,6 +1693,8 @@
  "EmployerReview" {:id "http://schema.org/EmployerReview"},
  "NailSalon" {:id "http://schema.org/NailSalon"},
  "floorLimit" {:id "http://schema.org/floorLimit"},
+ "http://schema.org/discussionUrl"
+ {:id "http://schema.org/discussionUrl", :type :id},
  "minimumPaymentDue" {:id "http://schema.org/minimumPaymentDue"},
  "subReservation" {:id "http://schema.org/subReservation"},
  "employee" {:id "http://schema.org/employee"},
@@ -1595,6 +1721,8 @@
  "procedure" {:id "http://schema.org/procedure"},
  "GameServer" {:id "http://schema.org/GameServer"},
  "application" {:id "http://schema.org/application"},
+ "http://schema.org/installUrl"
+ {:id "http://schema.org/installUrl", :type :id},
  "ProductReturnPolicy" {:id "http://schema.org/ProductReturnPolicy"},
  "serviceAudience" {:id "http://schema.org/serviceAudience"},
  "SheetMusic" {:id "http://schema.org/SheetMusic"},
@@ -1611,6 +1739,9 @@
  "organizer" {:id "http://schema.org/organizer"},
  "DDxElement" {:id "http://schema.org/DDxElement"},
  "commentCount" {:id "http://schema.org/commentCount"},
+ "http://schema.org/lastReviewed"
+ {:id "http://schema.org/lastReviewed",
+  :type "http://schema.org/Date"},
  "CreativeWork" {:id "http://schema.org/CreativeWork"},
  "numberOfForwardGears" {:id "http://schema.org/numberOfForwardGears"},
  "MusicStore" {:id "http://schema.org/MusicStore"},
@@ -1655,6 +1786,8 @@
  "Locksmith" {:id "http://schema.org/Locksmith"},
  "processingTime" {:id "http://schema.org/processingTime"},
  "usesDevice" {:id "http://schema.org/usesDevice"},
+ "http://schema.org/noBylinesPolicy"
+ {:id "http://schema.org/noBylinesPolicy", :type :id},
  "RsvpAction" {:id "http://schema.org/RsvpAction"},
  "UserPlusOnes" {:id "http://schema.org/UserPlusOnes"},
  "tracks" {:id "http://schema.org/tracks"},
@@ -1697,6 +1830,8 @@
  "ingredients" {:id "http://schema.org/ingredients"},
  "printPage" {:id "http://schema.org/printPage"},
  "fiberContent" {:id "http://schema.org/fiberContent"},
+ "http://schema.org/healthPlanMarketingUrl"
+ {:id "http://schema.org/healthPlanMarketingUrl", :type :id},
  "WearableSizeSystemEN13402"
  {:id "http://schema.org/WearableSizeSystemEN13402"},
  "coach" {:id "http://schema.org/coach"},
@@ -1719,11 +1854,18 @@
  "Ultrasound" {:id "http://schema.org/Ultrasound"},
  "MulticellularParasite"
  {:id "http://schema.org/MulticellularParasite"},
+ "http://schema.org/diversityPolicy"
+ {:id "http://schema.org/diversityPolicy", :type :id},
  "Motorcycle" {:id "http://schema.org/Motorcycle"},
  "Seat" {:id "http://schema.org/Seat"},
  "LimitedAvailability" {:id "http://schema.org/LimitedAvailability"},
  "ticketedSeat" {:id "http://schema.org/ticketedSeat"},
+ "http://schema.org/thumbnailUrl"
+ {:id "http://schema.org/thumbnailUrl", :type :id},
  "CreativeWorkSeason" {:id "http://schema.org/CreativeWorkSeason"},
+ "http://schema.org/applicationStartDate"
+ {:id "http://schema.org/applicationStartDate",
+  :type "http://schema.org/Date"},
  "healthPlanCoinsuranceRate"
  {:id "http://schema.org/healthPlanCoinsuranceRate"},
  "EUEnergyEfficiencyCategoryC"
@@ -1759,6 +1901,8 @@
  {:id "http://schema.org/MedicalScholarlyArticle"},
  "applicationContact" {:id "http://schema.org/applicationContact"},
  "coursePrerequisites" {:id "http://schema.org/coursePrerequisites"},
+ "http://schema.org/endDate"
+ {:id "http://schema.org/endDate", :type "http://schema.org/Date"},
  "AssessAction" {:id "http://schema.org/AssessAction"},
  "PostalAddress" {:id "http://schema.org/PostalAddress"},
  "text" {:id "http://schema.org/text"},
@@ -1870,6 +2014,8 @@
  "ItemAvailability" {:id "http://schema.org/ItemAvailability"},
  "distance" {:id "http://schema.org/distance"},
  "Blog" {:id "http://schema.org/Blog"},
+ "http://schema.org/replyToUrl"
+ {:id "http://schema.org/replyToUrl", :type :id},
  "significance" {:id "http://schema.org/significance"},
  "PublicationEvent" {:id "http://schema.org/PublicationEvent"},
  "accessibilityFeature" {:id "http://schema.org/accessibilityFeature"},
@@ -1885,6 +2031,8 @@
  "GameServerStatus" {:id "http://schema.org/GameServerStatus"},
  "authenticator" {:id "http://schema.org/authenticator"},
  "SportsEvent" {:id "http://schema.org/SportsEvent"},
+ "http://schema.org/exceptDate"
+ {:id "http://schema.org/exceptDate", :type "http://schema.org/Date"},
  "readBy" {:id "http://schema.org/readBy"},
  "answerExplanation" {:id "http://schema.org/answerExplanation"},
  "associatedPathophysiology"
@@ -1912,6 +2060,8 @@
  "mediaAuthenticityCategory"
  {:id "http://schema.org/mediaAuthenticityCategory"},
  "ShareAction" {:id "http://schema.org/ShareAction"},
+ "http://schema.org/sameAs"
+ {:id "http://schema.org/sameAs", :type :id},
  "Radiography" {:id "http://schema.org/Radiography"},
  "ReactAction" {:id "http://schema.org/ReactAction"},
  "SportsTeam" {:id "http://schema.org/SportsTeam"},
@@ -1942,10 +2092,14 @@
  "WearableSizeSystemDE" {:id "http://schema.org/WearableSizeSystemDE"},
  "arrivalBoatTerminal" {:id "http://schema.org/arrivalBoatTerminal"},
  "hasOccupation" {:id "http://schema.org/hasOccupation"},
+ "http://schema.org/modelDate"
+ {:id "http://schema.org/modelDate", :type "http://schema.org/Date"},
  "coverageStartTime" {:id "http://schema.org/coverageStartTime"},
  "educationalCredentialAwarded"
  {:id "http://schema.org/educationalCredentialAwarded"},
  "valuePattern" {:id "http://schema.org/valuePattern"},
+ "http://schema.org/embedUrl"
+ {:id "http://schema.org/embedUrl", :type :id},
  "shippingDetails" {:id "http://schema.org/shippingDetails"},
  "priceType" {:id "http://schema.org/priceType"},
  "Place" {:id "http://schema.org/Place"},
@@ -1962,6 +2116,8 @@
  "Gynecologic" {:id "http://schema.org/Gynecologic"},
  "instrument" {:id "http://schema.org/instrument"},
  "inventoryLevel" {:id "http://schema.org/inventoryLevel"},
+ "http://schema.org/colleague"
+ {:id "http://schema.org/colleague", :type :id},
  "loanType" {:id "http://schema.org/loanType"},
  "recourseLoan" {:id "http://schema.org/recourseLoan"},
  "AnatomicalStructure" {:id "http://schema.org/AnatomicalStructure"},
@@ -1974,6 +2130,8 @@
  {:id "http://schema.org/OccupationalExperienceRequirements"},
  "adverseOutcome" {:id "http://schema.org/adverseOutcome"},
  "menuAddOn" {:id "http://schema.org/menuAddOn"},
+ "http://schema.org/serviceUrl"
+ {:id "http://schema.org/serviceUrl", :type :id},
  "boardingGroup" {:id "http://schema.org/boardingGroup"},
  "MSRP" {:id "http://schema.org/MSRP"},
  "trialDesign" {:id "http://schema.org/trialDesign"},
@@ -2013,6 +2171,8 @@
  "muscleAction" {:id "http://schema.org/muscleAction"},
  "ContactPage" {:id "http://schema.org/ContactPage"},
  "cashBack" {:id "http://schema.org/cashBack"},
+ "http://schema.org/originalMediaLink"
+ {:id "http://schema.org/originalMediaLink", :type :id},
  "abridged" {:id "http://schema.org/abridged"},
  "LocationFeatureSpecification"
  {:id "http://schema.org/LocationFeatureSpecification"},
@@ -2072,6 +2232,9 @@
  "Downpayment" {:id "http://schema.org/Downpayment"},
  "AuthorizeAction" {:id "http://schema.org/AuthorizeAction"},
  "EducationEvent" {:id "http://schema.org/EducationEvent"},
+ "http://schema.org/purchaseDate"
+ {:id "http://schema.org/purchaseDate",
+  :type "http://schema.org/Date"},
  "departureTerminal" {:id "http://schema.org/departureTerminal"},
  "Nonprofit501c22" {:id "http://schema.org/Nonprofit501c22"},
  "foundingDate"
@@ -2101,6 +2264,8 @@
  "includedComposition" {:id "http://schema.org/includedComposition"},
  "availableChannel" {:id "http://schema.org/availableChannel"},
  "iataCode" {:id "http://schema.org/iataCode"},
+ "http://schema.org/commentTime"
+ {:id "http://schema.org/commentTime", :type "http://schema.org/Date"},
  "masthead" {:id "http://schema.org/masthead", :type :id},
  "naics" {:id "http://schema.org/naics"},
  "DoubleBlindedTrial" {:id "http://schema.org/DoubleBlindedTrial"},
@@ -2119,6 +2284,8 @@
  "HinduDiet" {:id "http://schema.org/HinduDiet"},
  "EventAttendanceModeEnumeration"
  {:id "http://schema.org/EventAttendanceModeEnumeration"},
+ "http://schema.org/speakable"
+ {:id "http://schema.org/speakable", :type :id},
  "GenderType" {:id "http://schema.org/GenderType"},
  "hiringOrganization" {:id "http://schema.org/hiringOrganization"},
  "CoverArt" {:id "http://schema.org/CoverArt"},
@@ -2133,6 +2300,8 @@
  "DanceEvent" {:id "http://schema.org/DanceEvent"},
  "postalCodeRange" {:id "http://schema.org/postalCodeRange"},
  "VideoObjectSnapshot" {:id "http://schema.org/VideoObjectSnapshot"},
+ "http://schema.org/screenshot"
+ {:id "http://schema.org/screenshot", :type :id},
  "postOp" {:id "http://schema.org/postOp"},
  "Movie" {:id "http://schema.org/Movie"},
  "drainsTo" {:id "http://schema.org/drainsTo"},
@@ -2196,6 +2365,8 @@
  "locationCreated" {:id "http://schema.org/locationCreated"},
  "subEvent" {:id "http://schema.org/subEvent"},
  "OfferShippingDetails" {:id "http://schema.org/OfferShippingDetails"},
+ "http://schema.org/isInvolvedInBiologicalProcess"
+ {:id "http://schema.org/isInvolvedInBiologicalProcess", :type :id},
  "PostOffice" {:id "http://schema.org/PostOffice"},
  "RepaymentSpecification"
  {:id "http://schema.org/RepaymentSpecification"},
@@ -2226,6 +2397,8 @@
  "DrugCost" {:id "http://schema.org/DrugCost"},
  "BusStation" {:id "http://schema.org/BusStation"},
  "SubscribeAction" {:id "http://schema.org/SubscribeAction"},
+ "http://schema.org/releaseDate"
+ {:id "http://schema.org/releaseDate", :type "http://schema.org/Date"},
  "pattern" {:id "http://schema.org/pattern"},
  "AssignAction" {:id "http://schema.org/AssignAction"},
  "availabilityStarts"
@@ -2237,6 +2410,8 @@
  "type" {:id "@type", :type? true},
  "WearableMeasurementBack"
  {:id "http://schema.org/WearableMeasurementBack"},
+ "http://schema.org/codeRepository"
+ {:id "http://schema.org/codeRepository", :type :id},
  "originAddress" {:id "http://schema.org/originAddress"},
  "amount" {:id "http://schema.org/amount"},
  "birthDate"
@@ -2276,6 +2451,8 @@
  {:id "http://schema.org/datePublished",
   :type "http://schema.org/Date"},
  "clinicalPharmacology" {:id "http://schema.org/clinicalPharmacology"},
+ "http://schema.org/isBasedOn"
+ {:id "http://schema.org/isBasedOn", :type :id},
  "MedicalSignOrSymptom" {:id "http://schema.org/MedicalSignOrSymptom"},
  "primaryPrevention" {:id "http://schema.org/primaryPrevention"},
  "EventCancelled" {:id "http://schema.org/EventCancelled"},
@@ -2285,6 +2462,8 @@
  {:id "http://schema.org/SiteNavigationElement"},
  "sensoryRequirement" {:id "http://schema.org/sensoryRequirement"},
  "AcceptAction" {:id "http://schema.org/AcceptAction"},
+ "http://schema.org/verificationFactCheckingPolicy"
+ {:id "http://schema.org/verificationFactCheckingPolicy", :type :id},
  "departurePlatform" {:id "http://schema.org/departurePlatform"},
  "taxonRank" {:id "http://schema.org/taxonRank"},
  "partySize" {:id "http://schema.org/partySize"},
@@ -2292,6 +2471,8 @@
  "MusicPlaylist" {:id "http://schema.org/MusicPlaylist"},
  "Apartment" {:id "http://schema.org/Apartment"},
  "Hospital" {:id "http://schema.org/Hospital"},
+ "http://schema.org/merchantReturnLink"
+ {:id "http://schema.org/merchantReturnLink", :type :id},
  "ConvenienceStore" {:id "http://schema.org/ConvenienceStore"},
  "ReturnLabelInBox" {:id "http://schema.org/ReturnLabelInBox"},
  "PET" {:id "http://schema.org/PET"},
@@ -2373,6 +2554,8 @@
  "target" {:id "http://schema.org/target"},
  "OpeningHoursSpecification"
  {:id "http://schema.org/OpeningHoursSpecification"},
+ "http://schema.org/additionalType"
+ {:id "http://schema.org/additionalType", :type :id},
  "MedicalAudienceType" {:id "http://schema.org/MedicalAudienceType"},
  "RejectAction" {:id "http://schema.org/RejectAction"},
  "includesHealthPlanNetwork"
@@ -2381,6 +2564,9 @@
  "LiquorStore" {:id "http://schema.org/LiquorStore"},
  "FDAcategoryD" {:id "http://schema.org/FDAcategoryD"},
  "dct" {:id "http://purl.org/dc/terms/"},
+ "http://schema.org/expectedArrivalUntil"
+ {:id "http://schema.org/expectedArrivalUntil",
+  :type "http://schema.org/Date"},
  "unsaturatedFatContent"
  {:id "http://schema.org/unsaturatedFatContent"},
  "HowToItem" {:id "http://schema.org/HowToItem"},
@@ -2404,11 +2590,15 @@
  "Continent" {:id "http://schema.org/Continent"},
  "Game" {:id "http://schema.org/Game"},
  "partOfSeries" {:id "http://schema.org/partOfSeries"},
+ "http://schema.org/deathDate"
+ {:id "http://schema.org/deathDate", :type "http://schema.org/Date"},
  "targetPopulation" {:id "http://schema.org/targetPopulation"},
  "OrderInTransit" {:id "http://schema.org/OrderInTransit"},
  "legalName" {:id "http://schema.org/legalName"},
  "activityDuration" {:id "http://schema.org/activityDuration"},
  "IceCreamShop" {:id "http://schema.org/IceCreamShop"},
+ "http://schema.org/masthead"
+ {:id "http://schema.org/masthead", :type :id},
  "PodcastSeason" {:id "http://schema.org/PodcastSeason"},
  "Mountain" {:id "http://schema.org/Mountain"},
  "alumni" {:id "http://schema.org/alumni"},
@@ -2447,6 +2637,8 @@
  "Subscription" {:id "http://schema.org/Subscription"},
  "nsn" {:id "http://schema.org/nsn"},
  "EventVenue" {:id "http://schema.org/EventVenue"},
+ "http://schema.org/startDate"
+ {:id "http://schema.org/startDate", :type "http://schema.org/Date"},
  "discountCode" {:id "http://schema.org/discountCode"},
  "typicalCreditsPerTerm"
  {:id "http://schema.org/typicalCreditsPerTerm"},
@@ -2462,6 +2654,9 @@
  "contentType" {:id "http://schema.org/contentType"},
  "HobbyShop" {:id "http://schema.org/HobbyShop"},
  "PerformingGroup" {:id "http://schema.org/PerformingGroup"},
+ "http://schema.org/dateVehicleFirstRegistered"
+ {:id "http://schema.org/dateVehicleFirstRegistered",
+  :type "http://schema.org/Date"},
  "Series" {:id "http://schema.org/Series"},
  "PhysicalActivityCategory"
  {:id "http://schema.org/PhysicalActivityCategory"},
@@ -2541,6 +2736,9 @@
  "MerchantReturnNotPermitted"
  {:id "http://schema.org/MerchantReturnNotPermitted"},
  "broadcastSubChannel" {:id "http://schema.org/broadcastSubChannel"},
+ "http://schema.org/newsUpdatesAndGuidelines"
+ {:id "http://schema.org/newsUpdatesAndGuidelines", :type :id},
+ "http://schema.org/logo" {:id "http://schema.org/logo", :type :id},
  "State" {:id "http://schema.org/State"},
  "contactPoint" {:id "http://schema.org/contactPoint"},
  "schemaVersion" {:id "http://schema.org/schemaVersion"},
@@ -2551,6 +2749,9 @@
  "SolveMathAction" {:id "http://schema.org/SolveMathAction"},
  "AmpStory" {:id "http://schema.org/AmpStory"},
  "Cardiovascular" {:id "http://schema.org/Cardiovascular"},
+ "http://schema.org/sdDatePublished"
+ {:id "http://schema.org/sdDatePublished",
+  :type "http://schema.org/Date"},
  "colleagues" {:id "http://schema.org/colleagues"},
  "Dermatology" {:id "http://schema.org/Dermatology"},
  "PriceSpecification" {:id "http://schema.org/PriceSpecification"},
@@ -2562,6 +2763,7 @@
  "safetyConsideration" {:id "http://schema.org/safetyConsideration"},
  "includedDataCatalog" {:id "http://schema.org/includedDataCatalog"},
  "PlasticSurgery" {:id "http://schema.org/PlasticSurgery"},
+ "http://schema.org/image" {:id "http://schema.org/image", :type :id},
  "TaxiStand" {:id "http://schema.org/TaxiStand"},
  "healthPlanCostSharing"
  {:id "http://schema.org/healthPlanCostSharing"},
@@ -2572,6 +2774,8 @@
  "departureAirport" {:id "http://schema.org/departureAirport"},
  "SafetyHealthAspect" {:id "http://schema.org/SafetyHealthAspect"},
  "LaboratoryScience" {:id "http://schema.org/LaboratoryScience"},
+ "http://schema.org/beforeMedia"
+ {:id "http://schema.org/beforeMedia", :type :id},
  "specialOpeningHoursSpecification"
  {:id "http://schema.org/specialOpeningHoursSpecification"},
  "cookTime" {:id "http://schema.org/cookTime"},
@@ -2590,6 +2794,8 @@
  "interactivityType" {:id "http://schema.org/interactivityType"},
  "orderQuantity" {:id "http://schema.org/orderQuantity"},
  "category" {:id "http://schema.org/category"},
+ "http://schema.org/productReturnLink"
+ {:id "http://schema.org/productReturnLink", :type :id},
  "ReturnLabelCustomerResponsibility"
  {:id "http://schema.org/ReturnLabelCustomerResponsibility"},
  "NoteDigitalDocument" {:id "http://schema.org/NoteDigitalDocument"},
@@ -2620,6 +2826,8 @@
  "fileFormat" {:id "http://schema.org/fileFormat"},
  "MedicalProcedure" {:id "http://schema.org/MedicalProcedure"},
  "homeLocation" {:id "http://schema.org/homeLocation"},
+ "http://schema.org/gameLocation"
+ {:id "http://schema.org/gameLocation", :type :id},
  "colleague" {:id "http://schema.org/colleague", :type :id},
  "costCurrency" {:id "http://schema.org/costCurrency"},
  "FDAcategoryC" {:id "http://schema.org/FDAcategoryC"},
@@ -2632,6 +2840,8 @@
  "ListenAction" {:id "http://schema.org/ListenAction"},
  "MedicalBusiness" {:id "http://schema.org/MedicalBusiness"},
  "SurgicalProcedure" {:id "http://schema.org/SurgicalProcedure"},
+ "http://schema.org/orderDate"
+ {:id "http://schema.org/orderDate", :type "http://schema.org/Date"},
  "validUntil"
  {:id "http://schema.org/validUntil", :type "http://schema.org/Date"},
  "SeaBodyOfWater" {:id "http://schema.org/SeaBodyOfWater"},
@@ -2650,7 +2860,7 @@
  "PalliativeProcedure" {:id "http://schema.org/PalliativeProcedure"},
  "Researcher" {:id "http://schema.org/Researcher"},
  "audience" {:id "http://schema.org/audience"},
- "customer" {:id "http://schema.org/customer" :type :id},
+ "customer" {:id "http://schema.org/customer"},
  "baseSalary" {:id "http://schema.org/baseSalary"},
  "epidemiology" {:id "http://schema.org/epidemiology"},
  "GeoCircle" {:id "http://schema.org/GeoCircle"},
@@ -2707,6 +2917,8 @@
  "Service" {:id "http://schema.org/Service"},
  "TollFree" {:id "http://schema.org/TollFree"},
  "price" {:id "http://schema.org/price"},
+ "http://schema.org/usageInfo"
+ {:id "http://schema.org/usageInfo", :type :id},
  "PaymentDeclined" {:id "http://schema.org/PaymentDeclined"},
  "Pediatric" {:id "http://schema.org/Pediatric"},
  "DrinkAction" {:id "http://schema.org/DrinkAction"},
@@ -2796,6 +3008,8 @@
  "isBasedOn" {:id "http://schema.org/isBasedOn", :type :id},
  "Table" {:id "http://schema.org/Table"},
  "Motel" {:id "http://schema.org/Motel"},
+ "http://schema.org/publicTransportClosuresInfo"
+ {:id "http://schema.org/publicTransportClosuresInfo", :type :id},
  "Nonprofit501c13" {:id "http://schema.org/Nonprofit501c13"},
  "MedicalTrial" {:id "http://schema.org/MedicalTrial"},
  "FinancialService" {:id "http://schema.org/FinancialService"},
@@ -2838,6 +3052,8 @@
  "DisagreeAction" {:id "http://schema.org/DisagreeAction"},
  "Otolaryngologic" {:id "http://schema.org/Otolaryngologic"},
  "ClaimReview" {:id "http://schema.org/ClaimReview"},
+ "http://schema.org/webFeed"
+ {:id "http://schema.org/webFeed", :type :id},
  "circle" {:id "http://schema.org/circle"},
  "usageInfo" {:id "http://schema.org/usageInfo", :type :id},
  "icaoCode" {:id "http://schema.org/icaoCode"},
@@ -2864,6 +3080,8 @@
  "NewsArticle" {:id "http://schema.org/NewsArticle"},
  "numberOfFullBathrooms"
  {:id "http://schema.org/numberOfFullBathrooms"},
+ "http://schema.org/acquireLicensePage"
+ {:id "http://schema.org/acquireLicensePage", :type :id},
  "TravelAgency" {:id "http://schema.org/TravelAgency"},
  "MediaSubscription" {:id "http://schema.org/MediaSubscription"},
  "Audiobook" {:id "http://schema.org/Audiobook"},
@@ -2878,6 +3096,8 @@
  "exerciseType" {:id "http://schema.org/exerciseType"},
  "titleEIDR" {:id "http://schema.org/titleEIDR"},
  "aspect" {:id "http://schema.org/aspect"},
+ "http://schema.org/license"
+ {:id "http://schema.org/license", :type :id},
  "HealthInsurancePlan" {:id "http://schema.org/HealthInsurancePlan"},
  "MusicGroup" {:id "http://schema.org/MusicGroup"},
  "nextItem" {:id "http://schema.org/nextItem"},
@@ -2889,6 +3109,8 @@
  "studySubject" {:id "http://schema.org/studySubject"},
  "nationality" {:id "http://schema.org/nationality"},
  "SubwayStation" {:id "http://schema.org/SubwayStation"},
+ "http://schema.org/afterMedia"
+ {:id "http://schema.org/afterMedia", :type :id},
  "WearableSizeGroupJuniors"
  {:id "http://schema.org/WearableSizeGroupJuniors"},
  "homeTeam" {:id "http://schema.org/homeTeam"},
@@ -2926,6 +3148,9 @@
  "Bone" {:id "http://schema.org/Bone"},
  "DrawAction" {:id "http://schema.org/DrawAction"},
  "RadioStation" {:id "http://schema.org/RadioStation"},
+ "http://schema.org/legislationDateVersion"
+ {:id "http://schema.org/legislationDateVersion",
+  :type "http://schema.org/Date"},
  "FollowAction" {:id "http://schema.org/FollowAction"},
  "MediaGallery" {:id "http://schema.org/MediaGallery"},
  "Neurologic" {:id "http://schema.org/Neurologic"},
@@ -2948,12 +3173,16 @@
  "trainingSalary" {:id "http://schema.org/trainingSalary"},
  "ProductReturnFiniteReturnWindow"
  {:id "http://schema.org/ProductReturnFiniteReturnWindow"},
+ "http://schema.org/shippingSettingsLink"
+ {:id "http://schema.org/shippingSettingsLink", :type :id},
  "ProductReturnUnlimitedWindow"
  {:id "http://schema.org/ProductReturnUnlimitedWindow"},
  "doseSchedule" {:id "http://schema.org/doseSchedule"},
  "borrower" {:id "http://schema.org/borrower"},
  "penciler" {:id "http://schema.org/penciler"},
  "minValue" {:id "http://schema.org/minValue"},
+ "http://schema.org/layoutImage"
+ {:id "http://schema.org/layoutImage", :type :id},
  "Attorney" {:id "http://schema.org/Attorney"},
  "MonetaryAmount" {:id "http://schema.org/MonetaryAmount"},
  "ReportageNewsArticle" {:id "http://schema.org/ReportageNewsArticle"},
@@ -2984,7 +3213,12 @@
  "UserCheckins" {:id "http://schema.org/UserCheckins"},
  "includedInDataCatalog"
  {:id "http://schema.org/includedInDataCatalog"},
+ "http://schema.org/archivedAt"
+ {:id "http://schema.org/archivedAt", :type :id},
  "ReadAction" {:id "http://schema.org/ReadAction"},
+ "http://schema.org/foundingDate"
+ {:id "http://schema.org/foundingDate",
+  :type "http://schema.org/Date"},
  "EUEnergyEfficiencyCategoryG"
  {:id "http://schema.org/EUEnergyEfficiencyCategoryG"},
  "DrugClass" {:id "http://schema.org/DrugClass"},
@@ -3008,6 +3242,9 @@
  "associatedMediaReview"
  {:id "http://schema.org/associatedMediaReview"},
  "yearlyRevenue" {:id "http://schema.org/yearlyRevenue"},
+ "http://schema.org/legislationDate"
+ {:id "http://schema.org/legislationDate",
+  :type "http://schema.org/Date"},
  "Bacteria" {:id "http://schema.org/Bacteria"},
  "Online" {:id "http://schema.org/Online"},
  "numberOfBathroomsTotal"
@@ -3020,6 +3257,8 @@
  "actor" {:id "http://schema.org/actor"},
  "attendees" {:id "http://schema.org/attendees"},
  "BodyMeasurementFoot" {:id "http://schema.org/BodyMeasurementFoot"},
+ "http://schema.org/hasMolecularFunction"
+ {:id "http://schema.org/hasMolecularFunction", :type :id},
  "True" {:id "http://schema.org/True"},
  "EUEnergyEfficiencyCategoryF"
  {:id "http://schema.org/EUEnergyEfficiencyCategoryF"},
@@ -3031,6 +3270,7 @@
  "MolecularEntity" {:id "http://schema.org/MolecularEntity"},
  "foodWarning" {:id "http://schema.org/foodWarning"},
  "lowPrice" {:id "http://schema.org/lowPrice"},
+ "http://schema.org/maps" {:id "http://schema.org/maps", :type :id},
  "Season" {:id "http://schema.org/Season"},
  "addressCountry" {:id "http://schema.org/addressCountry"},
  "MonetaryGrant" {:id "http://schema.org/MonetaryGrant"},
@@ -3043,6 +3283,8 @@
  "availableThrough" {:id "http://schema.org/availableThrough"},
  "billingAddress" {:id "http://schema.org/billingAddress"},
  "worksFor" {:id "http://schema.org/worksFor"},
+ "http://schema.org/downloadUrl"
+ {:id "http://schema.org/downloadUrl", :type :id},
  "noBylinesPolicy"
  {:id "http://schema.org/noBylinesPolicy", :type :id},
  "priceValidUntil"
@@ -3057,7 +3299,12 @@
  "albumProductionType" {:id "http://schema.org/albumProductionType"},
  "AudiobookFormat" {:id "http://schema.org/AudiobookFormat"},
  "BodyMeasurementBust" {:id "http://schema.org/BodyMeasurementBust"},
+ "http://schema.org/paymentDueDate"
+ {:id "http://schema.org/paymentDueDate",
+  :type "http://schema.org/Date"},
  "RoofingContractor" {:id "http://schema.org/RoofingContractor"},
+ "http://schema.org/missionCoveragePrioritiesPolicy"
+ {:id "http://schema.org/missionCoveragePrioritiesPolicy", :type :id},
  "ReadPermission" {:id "http://schema.org/ReadPermission"},
  "valueMaxLength" {:id "http://schema.org/valueMaxLength"},
  "isbn" {:id "http://schema.org/isbn"},
@@ -3088,7 +3335,12 @@
  "NGO" {:id "http://schema.org/NGO"},
  "foodEvent" {:id "http://schema.org/foodEvent"},
  "OrderItem" {:id "http://schema.org/OrderItem"},
+ "http://schema.org/labelDetails"
+ {:id "http://schema.org/labelDetails", :type :id},
  "ComicSeries" {:id "http://schema.org/ComicSeries"},
+ "http://schema.org/previousStartDate"
+ {:id "http://schema.org/previousStartDate",
+  :type "http://schema.org/Date"},
  "EmailMessage" {:id "http://schema.org/EmailMessage"},
  "Answer" {:id "http://schema.org/Answer"},
  "issueNumber" {:id "http://schema.org/issueNumber"},
@@ -3141,6 +3393,8 @@
  "serviceUrl" {:id "http://schema.org/serviceUrl", :type :id},
  "Registry" {:id "http://schema.org/Registry"},
  "constrainingProperty" {:id "http://schema.org/constrainingProperty"},
+ "http://schema.org/diseaseSpreadStatistics"
+ {:id "http://schema.org/diseaseSpreadStatistics", :type :id},
  "xsd" {:id "http://www.w3.org/2001/XMLSchema#"},
  "ConfirmAction" {:id "http://schema.org/ConfirmAction"},
  "alternativeOf" {:id "http://schema.org/alternativeOf"},
@@ -3159,11 +3413,15 @@
  "offers" {:id "http://schema.org/offers"},
  "characterName" {:id "http://schema.org/characterName"},
  "activityFrequency" {:id "http://schema.org/activityFrequency"},
+ "http://schema.org/dateDeleted"
+ {:id "http://schema.org/dateDeleted", :type "http://schema.org/Date"},
  "RadioClip" {:id "http://schema.org/RadioClip"},
  "VeganDiet" {:id "http://schema.org/VeganDiet"},
  "CityHall" {:id "http://schema.org/CityHall"},
  "Collection" {:id "http://schema.org/Collection"},
  "isConsumableFor" {:id "http://schema.org/isConsumableFor"},
+ "http://schema.org/ethicsPolicy"
+ {:id "http://schema.org/ethicsPolicy", :type :id},
  "Observation" {:id "http://schema.org/Observation"},
  "DateTime" {:id "http://schema.org/DateTime"},
  "volumeNumber" {:id "http://schema.org/volumeNumber"},
@@ -3202,6 +3460,8 @@
  "stage" {:id "http://schema.org/stage"},
  "median" {:id "http://schema.org/median"},
  "XRay" {:id "http://schema.org/XRay"},
+ "http://schema.org/birthDate"
+ {:id "http://schema.org/birthDate", :type "http://schema.org/Date"},
  "MeetingRoom" {:id "http://schema.org/MeetingRoom"},
  "missionCoveragePrioritiesPolicy"
  {:id "http://schema.org/missionCoveragePrioritiesPolicy", :type :id},

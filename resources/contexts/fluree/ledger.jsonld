@@ -1,0 +1,175 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "id": "@id",
+    "type": "@type",
+    "f": "https://ns.flur.ee/ledger#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    
+    "t": {
+      "@id": "f:t",
+      "@type": "xsd:long"
+    },
+    "assert": {
+      "@id": "f:assert",
+      "@container": "@graph"
+    },
+    "retract": {
+      "@id": "f:retract",
+      "@container": "@graph"
+    },
+    "data": {
+      "@id": "f:data",
+      "@type": "@id"
+    },
+    "flakes": {
+      "@id": "f:flakes",
+      "@type": "xsd:long"
+    },
+    "size": {
+      "@id": "f:size",
+      "@type": "xsd:long"
+    },
+    "v": {
+      "@id": "f:v",
+      "@type": "xsd:decimal"
+    },
+    "address": "f:address",
+    
+    "commit": {
+      "@id": "f:commit",
+      "@type": "@id"
+    },
+    "previous": {
+      "@id": "f:previous",
+      "@type": "@id"
+    },
+    "alias": "f:alias",
+    "ledger": "f:ledger",
+    "branch": "f:branch",
+    "namespaces": "f:namespaces",
+    "index": "f:index",
+    "ns": {
+      "@id": "f:ns",
+      "@type": "@id"
+    },
+    "time": "f:time",
+    "author": "f:author",
+    "txn": "f:txn",
+    "annotation": "f:annotation",
+    "message": "f:message",
+    "tag": "f:tag",
+    "updates": "f:updates",
+    
+    "CommitProof": "f:CommitProof",
+    "Commit": "f:Commit",
+    "DB": "f:DB",
+    
+    "AccessPolicy": "f:AccessPolicy",
+    "policyClass": {
+      "@id": "f:policyClass",
+      "@type": "@id"
+    },
+    "action": {
+      "@id": "f:action",
+      "@type": "@id"
+    },
+    "required": "f:required",
+    "exMessage": "f:exMessage",
+    
+    "view": "f:view",
+    "modify": "f:modify",
+    
+    "targetRole": {
+      "@id": "f:targetRole",
+      "@type": "@id"
+    },
+    "targetClass": {
+      "@id": "f:targetClass",
+      "@type": "@id"
+    },
+    "targetNode": {
+      "@id": "f:targetNode",
+      "@type": "@id"
+    },
+    "targetSubject": {
+      "@id": "f:targetSubject",
+      "@type": "@id"
+    },
+    "targetProperty": {
+      "@id": "f:targetProperty",
+      "@type": "@id"
+    },
+    "targetObjectsOf": {
+      "@id": "f:targetObjectsOf",
+      "@type": "@id"
+    },
+    "onProperty": {
+      "@id": "f:onProperty",
+      "@type": "@id"
+    },
+    "onSubject": {
+      "@id": "f:onSubject",
+      "@type": "@id"
+    },
+    
+    "query": "f:query",
+    "where": {
+      "@id": "f:where",
+      "@type": "@json"
+    },
+    "values": {
+      "@id": "f:values",
+      "@type": "@json"
+    },
+    "equals": {
+      "@id": "f:equals",
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "contains": {
+      "@id": "f:contains",
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "property": {
+      "@id": "f:property",
+      "@type": "@id"
+    },
+    "path": {
+      "@id": "f:path",
+      "@type": "@id"
+    },
+    "onClass": {
+      "@id": "f:onClass",
+      "@type": "@id"
+    },
+    
+    "$identity": "f:$identity",
+    "role": {
+      "@id": "f:role",
+      "@type": "@id"
+    },
+    
+    "VirtualGraph": "f:VirtualGraph",
+    "virtualGraph": "f:virtualGraph",
+    "vector": "f:vector",
+    "sparseVector": "f:sparseVector",
+    
+    "opts": {
+      "@id": "f:opts",
+      "@type": "@json"
+    },
+    "rule": "f:rule",
+    "insert": {
+      "@id": "f:insert",
+      "@type": "@json"
+    },
+    "delete": {
+      "@id": "f:delete",
+      "@type": "@json"
+    },
+    "all-nodes": "f:all-nodes"
+  }
+}
