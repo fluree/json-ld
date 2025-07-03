@@ -2,6 +2,8 @@
  {:id "https://w3id.org/security#RsaVerificationKey2018"},
  "EncryptedMessage" {:id "https://w3id.org/security#EncryptedMessage"},
  "dc" {:id "http://purl.org/dc/terms/"},
+ "https://w3id.org/security#publicKeyService"
+ {:id "https://w3id.org/security#publicKeyService", :type :id},
  "capabilityChain"
  {:id "https://w3id.org/security#capabilityChain",
   :type :id,
@@ -21,8 +23,16 @@
   :type "http://www.w3.org/2001/XMLSchema#dateTime"},
  "signatureValue" {:id "https://w3id.org/security#signatureValue"},
  "CryptographicKey" {:id "https://w3id.org/security#Key"},
+ "https://w3id.org/security#assertionMethod"
+ {:id "https://w3id.org/security#assertionMethod",
+  :type :id,
+  :container :set},
+ "https://w3id.org/security#verificationMethod"
+ {:id "https://w3id.org/security#verificationMethod", :type :id},
  "AesKeyWrappingKey2019"
  {:id "https://w3id.org/security#AesKeyWrappingKey2019"},
+ "https://w3id.org/security#proof"
+ {:id "https://w3id.org/security#proof", :type :id, :container :graph},
  "authentication"
  {:id "https://w3id.org/security#authenticationMethod",
   :type :id,
@@ -30,6 +40,8 @@
  "wrappedKey" {:id "https://w3id.org/security#wrappedKey"},
  "EcdsaSecp256k1Signature2019"
  {:id "https://w3id.org/security#EcdsaSecp256k1Signature2019"},
+ "https://w3id.org/security#privateKey"
+ {:id "https://w3id.org/security#privateKey", :type :id},
  "publicKeyPem" {:id "https://w3id.org/security#publicKeyPem"},
  "invocationTarget"
  {:id "https://w3id.org/security#invocationTarget", :type :id},
@@ -38,6 +50,13 @@
  "iterationCount" {:id "https://w3id.org/security#iterationCount"},
  "EcdsaSecp256r1VerificationKey2019"
  {:id "https://w3id.org/security#EcdsaSecp256r1VerificationKey2019"},
+ "https://w3id.org/security#parentCapability"
+ {:id "https://w3id.org/security#parentCapability", :type :id},
+ "https://w3id.org/security#equihashParameterN"
+ {:id "https://w3id.org/security#equihashParameterN",
+  :type "http://www.w3.org/2001/XMLSchema#integer"},
+ "https://w3id.org/security#controller"
+ {:id "https://w3id.org/security#controller", :type :id},
  "jws" {:id "https://w3id.org/security#jws"},
  "proofPurpose"
  {:id "https://w3id.org/security#proofPurpose", :type :vocab},
@@ -47,15 +66,24 @@
   :container :set},
  "EquihashProof2018"
  {:id "https://w3id.org/security#EquihashProof2018"},
+ "https://w3id.org/security#publicKey"
+ {:id "https://w3id.org/security#publicKey", :type :id},
  "capability" {:id "https://w3id.org/security#capability", :type :id},
+ "https://w3id.org/security#invoker"
+ {:id "https://w3id.org/security#invoker", :type :id},
  "parentCapability"
  {:id "https://w3id.org/security#parentCapability", :type :id},
  "Ed25519VerificationKey2018"
  {:id "https://w3id.org/security#Ed25519VerificationKey2018"},
  "id" {:id "@id"},
+ "https://w3id.org/security#capability"
+ {:id "https://w3id.org/security#capability", :type :id},
  "publicKey" {:id "https://w3id.org/security#publicKey", :type :id},
  "Ed25519Signature2018"
  {:id "https://w3id.org/security#Ed25519Signature2018"},
+ "https://w3id.org/security#revoked"
+ {:id "https://w3id.org/security#revoked",
+  :type "http://www.w3.org/2001/XMLSchema#dateTime"},
  "RevokeKeyOperation"
  {:id "https://w3id.org/security#RevokeKeyOperation"},
  "publicKeyWif" {:id "https://w3id.org/security#publicKeyWif"},
@@ -64,6 +92,10 @@
   :type "http://www.w3.org/2001/XMLSchema#integer"},
  "GraphSignature2012"
  {:id "https://w3id.org/security#GraphSignature2012"},
+ "https://w3id.org/security#authenticationMethod"
+ {:id "https://w3id.org/security#authenticationMethod",
+  :type :id,
+  :container :set},
  "creator" {:id "http://purl.org/dc/terms/creator", :type :id},
  "challenge" {:id "https://w3id.org/security#challenge"},
  :type-key "type",
@@ -71,6 +103,12 @@
  "unwrappedKey" {:id "https://w3id.org/security#unwrappedKey"},
  "cipherAlgorithm" {:id "https://w3id.org/security#cipherAlgorithm"},
  "digestAlgorithm" {:id "https://w3id.org/security#digestAlgorithm"},
+ "https://w3id.org/security#keyAgreementMethod"
+ {:id "https://w3id.org/security#keyAgreementMethod",
+  :type :id,
+  :container :set},
+ "https://w3id.org/security#invocationTarget"
+ {:id "https://w3id.org/security#invocationTarget", :type :id},
  "invoker" {:id "https://w3id.org/security#invoker", :type :id},
  "LinkedDataSignature2015"
  {:id "https://w3id.org/security#LinkedDataSignature2015"},
@@ -89,6 +127,10 @@
  "signatureAlgorithm"
  {:id "https://w3id.org/security#signingAlgorithm"},
  "verifyData" {:id "https://w3id.org/security#verifyData"},
+ "https://w3id.org/security#capabilityDelegationMethod"
+ {:id "https://w3id.org/security#capabilityDelegationMethod",
+  :type :id,
+  :container :set},
  "signature" {:id "https://w3id.org/security#signature"},
  "domain" {:id "https://w3id.org/security#domain"},
  "VerifyOperation" {:id "https://w3id.org/security#VerifyOperation"},
@@ -101,6 +143,8 @@
  {:id "https://w3id.org/security#ExportKeyOperation"},
  "Sha256HmacKey2019"
  {:id "https://w3id.org/security#Sha256HmacKey2019"},
+ "http://purl.org/dc/terms/creator"
+ {:id "http://purl.org/dc/terms/creator", :type :id},
  "encryptionKey" {:id "https://w3id.org/security#encryptionKey"},
  "cipherKey" {:id "https://w3id.org/security#cipherKey"},
  "salt" {:id "https://w3id.org/security#salt"},
@@ -111,11 +155,20 @@
  "allowedAction" {:id "https://w3id.org/security#allowedAction"},
  "proofValue" {:id "https://w3id.org/security#proofValue"},
  "type" {:id "@type", :type? true},
+ "https://w3id.org/security#capabilityChain"
+ {:id "https://w3id.org/security#capabilityChain",
+  :type :id,
+  :container :list},
+ "http://purl.org/dc/terms/created"
+ {:id "http://purl.org/dc/terms/created",
+  :type "http://www.w3.org/2001/XMLSchema#dateTime"},
  "X25519KeyAgreementKey2019"
  {:id "https://w3id.org/security#X25519KeyAgreementKey2019"},
  "plaintext" {:id "https://w3id.org/security#plaintext"},
  "GenerateKeyOperation"
  {:id "https://w3id.org/security#GenerateKeyOperation"},
+ "https://w3id.org/security#proofPurpose"
+ {:id "https://w3id.org/security#proofPurpose", :type :vocab},
  "EcdsaSecp256r1Signature2019"
  {:id "https://w3id.org/security#EcdsaSecp256r1Signature2019"},
  "DeleteKeyOperation"
@@ -133,6 +186,9 @@
  {:id "https://w3id.org/security#authenticationTag"},
  "capabilityAction" {:id "https://w3id.org/security#capabilityAction"},
  "privateKeyPem" {:id "https://w3id.org/security#privateKeyPem"},
+ "https://w3id.org/security#equihashParameterK"
+ {:id "https://w3id.org/security#equihashParameterK",
+  :type "http://www.w3.org/2001/XMLSchema#integer"},
  :version 1.1,
  "capabilityInvocation"
  {:id "https://w3id.org/security#capabilityInvocationMethod",
@@ -140,10 +196,21 @@
   :container :set},
  "sec" {:id "https://w3id.org/security#"},
  "WrapKeyOperation" {:id "https://w3id.org/security#WrapKeyOperation"},
+ "https://w3id.org/security#caveat"
+ {:id "https://w3id.org/security#caveat", :type :id, :container :set},
+ "https://w3id.org/security#owner"
+ {:id "https://w3id.org/security#owner", :type :id},
  "kmsModule" {:id "https://w3id.org/security#kmsModule"},
  "delegator" {:id "https://w3id.org/security#delegator", :type :id},
  "UnwrapKeyOperation"
  {:id "https://w3id.org/security#UnwrapKeyOperation"},
+ "https://w3id.org/security#expiration"
+ {:id "https://w3id.org/security#expiration",
+  :type "http://www.w3.org/2001/XMLSchema#dateTime"},
+ "https://w3id.org/security#capabilityInvocationMethod"
+ {:id "https://w3id.org/security#capabilityInvocationMethod",
+  :type :id,
+  :container :set},
  "normalizationAlgorithm"
  {:id "https://w3id.org/security#normalizationAlgorithm"},
  "controller" {:id "https://w3id.org/security#controller", :type :id},
@@ -156,4 +223,6 @@
   :container :set},
  "KmsOperation" {:id "https://w3id.org/security#KmsOperation"},
  "xsd" {:id "http://www.w3.org/2001/XMLSchema#"},
- "referenceId" {:id "https://w3id.org/security#referenceId"}}
+ "referenceId" {:id "https://w3id.org/security#referenceId"},
+ "https://w3id.org/security#delegator"
+ {:id "https://w3id.org/security#delegator", :type :id}}

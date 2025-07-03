@@ -1,5 +1,7 @@
 {"EncryptedMessage" {:id "https://w3id.org/security#EncryptedMessage"},
  "dc" {:id "http://purl.org/dc/terms/"},
+ "https://w3id.org/security#publicKeyService"
+ {:id "https://w3id.org/security#publicKeyService", :type :id},
  "canonicalizationAlgorithm"
  {:id "https://w3id.org/security#canonicalizationAlgorithm"},
  "owner" {:id "https://w3id.org/security#owner", :type :id},
@@ -8,12 +10,19 @@
   :type "http://www.w3.org/2001/XMLSchema#dateTime"},
  "signatureValue" {:id "https://w3id.org/security#signatureValue"},
  "CryptographicKey" {:id "https://w3id.org/security#Key"},
+ "https://w3id.org/security#privateKey"
+ {:id "https://w3id.org/security#privateKey", :type :id},
  "publicKeyPem" {:id "https://w3id.org/security#publicKeyPem"},
  "iterationCount" {:id "https://w3id.org/security#iterationCount"},
+ "https://w3id.org/security#publicKey"
+ {:id "https://w3id.org/security#publicKey", :type :id},
  "id" {:id "@id"},
  "publicKey" {:id "https://w3id.org/security#publicKey", :type :id},
  "Ed25519Signature2018"
  {:id "https://w3id.org/security#Ed25519Signature2018"},
+ "https://w3id.org/security#revoked"
+ {:id "https://w3id.org/security#revoked",
+  :type "http://www.w3.org/2001/XMLSchema#dateTime"},
  "publicKeyWif" {:id "https://w3id.org/security#publicKeyWif"},
  "GraphSignature2012"
  {:id "https://w3id.org/security#GraphSignature2012"},
@@ -40,11 +49,16 @@
  "revoked"
  {:id "https://w3id.org/security#revoked",
   :type "http://www.w3.org/2001/XMLSchema#dateTime"},
+ "http://purl.org/dc/terms/creator"
+ {:id "http://purl.org/dc/terms/creator", :type :id},
  "encryptionKey" {:id "https://w3id.org/security#encryptionKey"},
  "cipherKey" {:id "https://w3id.org/security#cipherKey"},
  "salt" {:id "https://w3id.org/security#salt"},
  "digestValue" {:id "https://w3id.org/security#digestValue"},
  "type" {:id "@type", :type? true},
+ "http://purl.org/dc/terms/created"
+ {:id "http://purl.org/dc/terms/created",
+  :type "http://www.w3.org/2001/XMLSchema#dateTime"},
  "password" {:id "https://w3id.org/security#password"},
  "expiration"
  {:id "https://w3id.org/security#expiration",
@@ -56,6 +70,11 @@
  {:id "https://w3id.org/security#authenticationTag"},
  "privateKeyPem" {:id "https://w3id.org/security#privateKeyPem"},
  "sec" {:id "https://w3id.org/security#"},
+ "https://w3id.org/security#owner"
+ {:id "https://w3id.org/security#owner", :type :id},
+ "https://w3id.org/security#expiration"
+ {:id "https://w3id.org/security#expiration",
+  :type "http://www.w3.org/2001/XMLSchema#dateTime"},
  "normalizationAlgorithm"
  {:id "https://w3id.org/security#normalizationAlgorithm"},
  "initializationVector"

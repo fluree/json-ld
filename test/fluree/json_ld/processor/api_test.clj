@@ -5,16 +5,16 @@
             [jsonista.core :as json]))
 
 (def context {"@version" 1.1,
-              "address"  "fluree:address",
-              "alias"    "fluree:alias",
-              "cool"     {"@id" "fluree:cool" "@type" "xsd:boolean"}
-              "data"     {"@id" "fluree:data", "@type" "@id"},
-              "DB"       "fluree:DB",
-              "fluree"   "https://ns.flur.ee/ledger#",
+              "address"  "f:address",
+              "alias"    "f:alias",
+              "cool"     {"@id" "f:cool" "@type" "xsd:boolean"}
+              "data"     {"@id" "f:data", "@type" "@id"},
+              "DB"       "f:DB",
+              "f"        "https://ns.flur.ee/ledger#",
               "id"       "@id",
-              "t"        {"@id" "fluree:t", "@type" "xsd:long"},
+              "t"        {"@id" "f:t", "@type" "xsd:long"},
               "type"     "@type"
-              "xsd"      "http://www.w3.org/2001/XMLSchema#",})
+              "xsd"      "http://www.w3.org/2001/XMLSchema#"})
 
 (def commit
   {"@context" context
@@ -29,7 +29,7 @@
   [{"https://ns.flur.ee/ledger#address" [{"@value" ""}],
     "https://ns.flur.ee/ledger#alias" [{"@value" "test/db19", "@language" "en"}],
     "https://ns.flur.ee/ledger#data"
-    [{"@id" "https://ns.flur.ee/ledger#db:sha256:bb3u2hayr4pdwunsa5ijdp7txqrmmku5zlhj7dpozetdcr5g7r5n6",
+    [{"@id" "fluree:db:sha256:bb3u2hayr4pdwunsa5ijdp7txqrmmku5zlhj7dpozetdcr5g7r5n6",
       "@type" ["https://ns.flur.ee/ledger#DB"],
       "https://ns.flur.ee/ledger#t" [{"@value" 1, "@type" "http://www.w3.org/2001/XMLSchema#long"}],
       "https://ns.flur.ee/ledger#cool" [{"@value" true, "@type" "http://www.w3.org/2001/XMLSchema#boolean"}]}]}])
@@ -45,8 +45,8 @@
   (testing "static context"
     (is (= expanded
            (jld-processor/expand (assoc commit "@context"
-                                        ["https://ns.flur.ee/ledger/v1"
-                                         {"cool" {"@id" "fluree:cool" "@type" "xsd:boolean"}}]))))
+                                        ["https://ns.flur.ee/ledger#"
+                                         {"cool" {"@id" "f:cool" "@type" "xsd:boolean"}}]))))
 
     (is (= "Unable to load context: http://failure.foo"
            (try (jld-processor/expand (assoc commit "@context" "http://failure.foo"))
@@ -76,12 +76,12 @@
 
 (deftest to-rdf
   (let [result (sort (str/split-lines (jld-processor/to-rdf commit)))]
-    (is (= ["<https://ns.flur.ee/ledger#db:sha256:bb3u2hayr4pdwunsa5ijdp7txqrmmku5zlhj7dpozetdcr5g7r5n6> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.flur.ee/ledger#DB> ."
-            "<https://ns.flur.ee/ledger#db:sha256:bb3u2hayr4pdwunsa5ijdp7txqrmmku5zlhj7dpozetdcr5g7r5n6> <https://ns.flur.ee/ledger#cool> \"true\"^^<http://www.w3.org/2001/XMLSchema#boolean> ."
-            "<https://ns.flur.ee/ledger#db:sha256:bb3u2hayr4pdwunsa5ijdp7txqrmmku5zlhj7dpozetdcr5g7r5n6> <https://ns.flur.ee/ledger#t> \"1\"^^<http://www.w3.org/2001/XMLSchema#long> ."
+    (is (= ["<fluree:db:sha256:bb3u2hayr4pdwunsa5ijdp7txqrmmku5zlhj7dpozetdcr5g7r5n6> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.flur.ee/ledger#DB> ."
+            "<fluree:db:sha256:bb3u2hayr4pdwunsa5ijdp7txqrmmku5zlhj7dpozetdcr5g7r5n6> <https://ns.flur.ee/ledger#cool> \"true\"^^<http://www.w3.org/2001/XMLSchema#boolean> ."
+            "<fluree:db:sha256:bb3u2hayr4pdwunsa5ijdp7txqrmmku5zlhj7dpozetdcr5g7r5n6> <https://ns.flur.ee/ledger#t> \"1\"^^<http://www.w3.org/2001/XMLSchema#long> ."
             "_:b0 <https://ns.flur.ee/ledger#address> \"\" ."
             "_:b0 <https://ns.flur.ee/ledger#alias> \"test/db19\"@en ."
-            "_:b0 <https://ns.flur.ee/ledger#data> <https://ns.flur.ee/ledger#db:sha256:bb3u2hayr4pdwunsa5ijdp7txqrmmku5zlhj7dpozetdcr5g7r5n6> ."]
+            "_:b0 <https://ns.flur.ee/ledger#data> <fluree:db:sha256:bb3u2hayr4pdwunsa5ijdp7txqrmmku5zlhj7dpozetdcr5g7r5n6> ."]
            result))))
 
 #_(deftest from-rdf
@@ -108,7 +108,40 @@
                [{"@value" "1", "@type" "xsd:long"}]}]
              result))))
 
+(deftest flatten-test
+  (testing "flatten nested structures"
+    (let [nested-doc {"@context" {"knows" "http://schema.org/knows"}
+                      "@id" "http://example.org/person/1"
+                      "knows" {"@id" "http://example.org/person/2"
+                               "knows" {"@id" "http://example.org/person/3"}}}
+          result (jld-processor/flatten nested-doc)]
+      ;; The result should be a flattened graph
+      (is (vector? result))
+      ;; Find the @graph entry which contains the flattened nodes
+      (let [graph-entry (first (filter #(contains? % "@graph") result))
+            nodes (if graph-entry
+                    (get graph-entry "@graph")
+                    result)]
+        ;; Should have at least 2 nodes in the flattened graph
+        ;; (person3 might not appear if it has no properties)
+        (is (>= (count nodes) 2))
+        ;; All nodes should have @id
+        (is (every? #(contains? % "@id") nodes))
+        ;; Check that the nodes are properly connected via references
+        (let [person1 (first (filter #(= "http://example.org/person/1" (get % "@id")) nodes))
+              person2 (first (filter #(= "http://example.org/person/2" (get % "@id")) nodes))]
+          (is person1 "person1 should exist")
+          (is person2 "person2 should exist")
+          ;; person1 knows person2 (as a reference)
+          (is (= [{"@id" "http://example.org/person/2"}] 
+                 (get person1 "http://schema.org/knows"))
+              "person1 should know person2")
+          ;; person2 knows person3 (as a reference)
+          (is (= [{"@id" "http://example.org/person/3"}] 
+                 (get person2 "http://schema.org/knows"))
+              "person2 should know person3"))))))
+
 (deftest canonize
   (let [result (jld-processor/canonize commit)]
-    (is (= "<https://ns.flur.ee/ledger#db:sha256:bb3u2hayr4pdwunsa5ijdp7txqrmmku5zlhj7dpozetdcr5g7r5n6> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.flur.ee/ledger#DB> .\n<https://ns.flur.ee/ledger#db:sha256:bb3u2hayr4pdwunsa5ijdp7txqrmmku5zlhj7dpozetdcr5g7r5n6> <https://ns.flur.ee/ledger#cool> \"true\"^^<http://www.w3.org/2001/XMLSchema#boolean> .\n<https://ns.flur.ee/ledger#db:sha256:bb3u2hayr4pdwunsa5ijdp7txqrmmku5zlhj7dpozetdcr5g7r5n6> <https://ns.flur.ee/ledger#t> \"1\"^^<http://www.w3.org/2001/XMLSchema#long> .\n_:c14n0 <https://ns.flur.ee/ledger#address> \"\" .\n_:c14n0 <https://ns.flur.ee/ledger#alias> \"test/db19\"@en .\n_:c14n0 <https://ns.flur.ee/ledger#data> <https://ns.flur.ee/ledger#db:sha256:bb3u2hayr4pdwunsa5ijdp7txqrmmku5zlhj7dpozetdcr5g7r5n6> .\n"
+    (is (= "<fluree:db:sha256:bb3u2hayr4pdwunsa5ijdp7txqrmmku5zlhj7dpozetdcr5g7r5n6> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://ns.flur.ee/ledger#DB> .\n<fluree:db:sha256:bb3u2hayr4pdwunsa5ijdp7txqrmmku5zlhj7dpozetdcr5g7r5n6> <https://ns.flur.ee/ledger#cool> \"true\"^^<http://www.w3.org/2001/XMLSchema#boolean> .\n<fluree:db:sha256:bb3u2hayr4pdwunsa5ijdp7txqrmmku5zlhj7dpozetdcr5g7r5n6> <https://ns.flur.ee/ledger#t> \"1\"^^<http://www.w3.org/2001/XMLSchema#long> .\n_:c14n0 <https://ns.flur.ee/ledger#address> \"\" .\n_:c14n0 <https://ns.flur.ee/ledger#alias> \"test/db19\"@en .\n_:c14n0 <https://ns.flur.ee/ledger#data> <fluree:db:sha256:bb3u2hayr4pdwunsa5ijdp7txqrmmku5zlhj7dpozetdcr5g7r5n6> .\n"
            result))))

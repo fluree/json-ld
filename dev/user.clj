@@ -15,12 +15,11 @@
     (when-not json
       (throw (ex-info (str "Context unable to be loaded from file: " source ".")
                       {:status 400 :error :json-ld/invalid-context})))
-    (->> json
-         cheshire/parse-string
-         json-ld/parse-context
-         pprint/pprint
-         with-out-str
-         (spit (io/file "resources" dest)))))
+    (let [parsed-context (-> json
+                             cheshire/parse-string
+                             json-ld/parse-context)]
+      (spit (io/file "resources" dest)
+            (with-out-str (pprint/pprint parsed-context))))))
 
 (defn parse-context
   "Parses a single context and saves to corresponding .edn file."
@@ -76,7 +75,7 @@
 
   (json-ld/parse-context "https://www.w3.org/2018/credentials/v1")
 
-  (parse-context "https://ns.flur.ee/ledger/v1")
+  (parse-context "https://ns.flur.ee/ledger#")
 
   (parse-context "https://geojson.org/geojson-ld/geojson-context.jsonld")
 

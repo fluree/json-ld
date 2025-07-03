@@ -1,4 +1,4 @@
-.PHONY: test jar install deploy clean edn-contexts
+.PHONY: test jar install deploy clean edn-contexts parse-all-contexts
 
 SOURCES := $(shell find src)
 
@@ -15,6 +15,11 @@ CONTEXTS := $(shell find resources/contexts -name '*.jsonld')
 EDN_CONTEXTS := $(CONTEXTS:.jsonld=.edn)
 
 edn-contexts: $(EDN_CONTEXTS)
+
+# Re-parse all JSON-LD contexts from external.cljc
+parse-all-contexts:
+	@echo "Re-parsing all JSON-LD contexts..."
+	@clojure -M:dev scripts/parse-contexts.clj
 
 pom.xml: deps.edn
 	clojure -Spom

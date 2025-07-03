@@ -158,13 +158,7 @@
   (assoc context id parsed-v))
 
 (defn parse-map
-  "Parses json-ld context and returns clojure map.
-  If an already parsed base-context is provided, merges it into base-context.
-
-  Each context term is a key, and each value a map with term details within. The maps include:
-  :id - @id value - the IRI, or IRI substring for the context item
-  :vocab - @vocab value - if using a default vocabulary (effectively a blank term). There
-           can only be one vocab value for the returned context."
+  "Internal helper for parsing context maps."
   [base-context externals context]
   (reduce-kv
    (fn [acc k v]
@@ -187,19 +181,8 @@
 
 
 (defn parse
-  "Parses json-ld context and returns clojure map.
-  If an already parsed base-context is provided, merges it into base-context.
-
-  Each context term is a key, and each value a map with term details within. The maps include:
-  :id - @id value - the IRI, or IRI substring for the context item
-  :vocab - @vocab value - if using a default vocabulary (effectively a blank term). There
-           can only be one vocab value for the returned context.
-  :type-key - The key @type is mapped to (default is @type). If context includes
-              e.g. {'type' '@type'} then :type-key would be equal to 'type'.
-              It is important to know @type values prior to parsing as context
-              may include a sub-context specific to an @type - if those cannot be
-              checked easily up front, parsing will be done with the wrong context
-              (unless you are lucky and the @type is defined first)."
+  "Internal context parsing implementation.
+  See fluree.json-ld/parse-context for public API."
   ([context] (parse {} external/external-contexts context))
   ([base-context context] (parse base-context external/external-contexts context))
   ([base-context externals context]
@@ -235,8 +218,3 @@
                        {:status  400
                         :error   :json-ld/invalid-context
                         :context context}))))))
-
-(comment
-
- (parse nil
-        ["https://ns.flur.ee/ledger/v1"]),)

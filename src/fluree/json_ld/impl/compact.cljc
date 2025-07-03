@@ -78,11 +78,8 @@
 
 
 (defn compact-fn
-  "Returns a single arity function based on the provided context that will compact any string iri.
-
-  Optionally, a second param, used-atom, can be supplied which captures all context items that were used.
-  This is useful when a large context is present which only a small subset will be used, and you want to
-  know which subset were used."
+  "Internal implementation of IRI compaction.
+  See fluree.json-ld/compact-fn for public API."
   ([context] (compact-fn context nil))
   ([context used-atom]
    (let [flipped-ctx (reverse-context context)              ;; flips context map
@@ -97,9 +94,8 @@
 
 
 (defn compact
-  "Goes through context and attempts to shorten iri if matches context, else returns original IRI.
-
-  Uses query context format where context values have {:iri 'iri-here'}, so must already be parsed."
+  "Internal helper that accepts either a parsed context or a compact function.
+  See fluree.json-ld/compact for public API."
   [iri parsed-context-or-fn]
   (let [match-fn (if (fn? parsed-context-or-fn)
                    parsed-context-or-fn

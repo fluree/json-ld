@@ -2,16 +2,50 @@
  {:id "https://w3id.org/security#keyAgreementMethod",
   :type :id,
   :container :set},
+ "https://w3id.org/security#assertionMethod"
+ {:id "https://w3id.org/security#assertionMethod",
+  :type :id,
+  :container :set},
+ "https://w3id.org/security#verificationMethod"
+ {:id "https://w3id.org/security#verificationMethod", :type :id},
  "authentication"
  {:id "https://w3id.org/security#authenticationMethod",
   :type :id,
   :container :set},
+ "https://w3id.org/security#controller"
+ {:id "https://w3id.org/security#controller", :type :id},
+ "https://www.w3.org/ns/activitystreams#alsoKnownAs"
+ {:id "https://www.w3.org/ns/activitystreams#alsoKnownAs", :type :id},
  "assertionMethod"
  {:id "https://w3id.org/security#assertionMethod",
   :type :id,
   :container :set},
  "id" {:id "@id"},
+ "https://w3id.org/security#authenticationMethod"
+ {:id "https://w3id.org/security#authenticationMethod",
+  :type :id,
+  :container :set},
+ "https://www.w3.org/ns/did#service"
+ {:id "https://www.w3.org/ns/did#service",
+  :type :id,
+  :context
+  {:type-key "type",
+   :protected true,
+   "id" {:id "@id"},
+   "type" {:id "@type", :type? true},
+   "serviceEndpoint"
+   {:id "https://www.w3.org/ns/did#serviceEndpoint", :type :id},
+   "https://www.w3.org/ns/did#serviceEndpoint"
+   {:id "https://www.w3.org/ns/did#serviceEndpoint", :type :id}}},
  :type-key "type",
+ "https://w3id.org/security#keyAgreementMethod"
+ {:id "https://w3id.org/security#keyAgreementMethod",
+  :type :id,
+  :container :set},
+ "https://w3id.org/security#capabilityDelegationMethod"
+ {:id "https://w3id.org/security#capabilityDelegationMethod",
+  :type :id,
+  :container :set},
  "alsoKnownAs"
  {:id "https://www.w3.org/ns/activitystreams#alsoKnownAs", :type :id},
  "verificationMethod"
@@ -27,8 +61,14 @@
    "id" {:id "@id"},
    "type" {:id "@type", :type? true},
    "serviceEndpoint"
+   {:id "https://www.w3.org/ns/did#serviceEndpoint", :type :id},
+   "https://www.w3.org/ns/did#serviceEndpoint"
    {:id "https://www.w3.org/ns/did#serviceEndpoint", :type :id}}},
  "capabilityInvocation"
+ {:id "https://w3id.org/security#capabilityInvocationMethod",
+  :type :id,
+  :container :set},
+ "https://w3id.org/security#capabilityInvocationMethod"
  {:id "https://w3id.org/security#capabilityInvocationMethod",
   :type :id,
   :container :set},

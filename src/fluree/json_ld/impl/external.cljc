@@ -16,13 +16,13 @@
                   "https://w3id.org/openbadges#"               "org.w3id.openbadges.edn"
                   "https://purl.imsglobal.org/spec/clr/vocab#" "org.imsglobal.spec.clr.vocab.edn"})
 
-(def context->file {"https://ns.flur.ee"
-                    {:source "contexts/fluree/v1.json"
-                     :parsed "contexts/fluree/v1.edn"}
+(def context->file {"https://ns.flur.ee/ledger#"
+                    {:source "contexts/fluree/ledger.jsonld"
+                     :parsed "contexts/fluree/ledger.edn"}
 
-                    "https://ns.flur.ee/ledger/v1"
-                    {:source "contexts/fluree/ledger/v1.jsonld"
-                     :parsed "contexts/fluree/ledger/v1.edn"}
+                    "https://ns.flur.ee/ledger/idx#"
+                    {:source "contexts/fluree/ledger/idx.jsonld"
+                     :parsed "contexts/fluree/ledger/idx.edn"}
 
                     "http://www.w3.org/ns/shacl"
                     {:source "contexts/org/w3/www/ns/shacl/v1.jsonld"
