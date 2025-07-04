@@ -43,7 +43,7 @@
 (deftest expansion--static-context
   (async done
          (-> (jld-processor/expand (assoc commit "@context"
-                                          ["https://ns.flur.ee/ledger#"
+                                          ["https://ns.flur.ee/ledger/v1"
                                            {"cool" {"@id" "f:cool" "@type" "xsd:boolean"}}]))
              (.then (fn [result]
                       (is (= expanded

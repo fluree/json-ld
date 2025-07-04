@@ -13,7 +13,7 @@
         (is (contains? schema-ctx "name")))
 
       ;; Test loading Fluree ledger context
-      (let [fluree-ctx (json-ld/external-context "https://ns.flur.ee/ledger#")]
+      (let [fluree-ctx (json-ld/external-context "https://ns.flur.ee/ledger/v1")]
         (is (map? fluree-ctx))
         (is (contains? fluree-ctx "f"))
         (is (= "https://ns.flur.ee/ledger#" (get-in fluree-ctx ["f" :id]))))
