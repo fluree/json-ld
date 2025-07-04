@@ -21,10 +21,6 @@
                     {:source "contexts/fluree/ledger/v1.jsonld"
                      :parsed "contexts/fluree/ledger/v1.edn"}
 
-                    "https://ns.flur.ee/ledger/idx#"
-                    {:source "contexts/fluree/ledger/idx.jsonld"
-                     :parsed "contexts/fluree/ledger/idx.edn"}
-
                     "http://www.w3.org/ns/shacl"
                     {:source "contexts/org/w3/www/ns/shacl/v1.jsonld"
                      :parsed "contexts/org/w3/www/ns/shacl/v1.edn"}

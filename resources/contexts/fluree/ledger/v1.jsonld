@@ -4,6 +4,7 @@
     "id": "@id",
     "type": "@type",
     "f": "https://ns.flur.ee/ledger#",
+    "fidx": "https://ns.flur.ee/ledger/idx#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     
@@ -170,6 +171,40 @@
       "@id": "f:delete",
       "@type": "@json"
     },
-    "all-nodes": "f:all-nodes"
+    "all-nodes": "f:all-nodes",
+    
+    "fidx:BM25": {
+      "@type": "@id"
+    },
+    "fidx:b": {
+      "@type": "xsd:decimal"
+    },
+    "fidx:k1": {
+      "@type": "xsd:decimal"
+    },
+    "fidx:target": {
+      "@type": "xsd:string"
+    },
+    "fidx:property": {
+      "@type": "@id"
+    },
+    "fidx:limit": {
+      "@type": "xsd:integer"
+    },
+    "fidx:score": {
+      "@type": "xsd:decimal"
+    },
+    "fidx:result": {
+      "@type": "@id"
+    },
+    "fidx:vector": {
+      "@container": "@list"
+    },
+    "fidx:sync": {
+      "@type": "xsd:boolean"
+    },
+    "fidx:timeout": {
+      "@type": "xsd:integer"
+    }
   }
 }
