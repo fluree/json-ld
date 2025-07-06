@@ -155,7 +155,7 @@
   [context {:keys [id] :as parsed-v}]
   ;; note if original context 'key' was already fully expanded, then
   ;; k = id and it just overwrites with same value - no need to do a check
-  (assoc context id parsed-v))
+  (assoc context id (assoc parsed-v :derived? true)))
 
 (defn parse-map
   "Internal helper for parsing context maps."

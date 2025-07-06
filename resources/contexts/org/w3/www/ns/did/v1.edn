@@ -5,17 +5,24 @@
  "https://w3id.org/security#assertionMethod"
  {:id "https://w3id.org/security#assertionMethod",
   :type :id,
-  :container :set},
+  :container :set,
+  :derived? true},
  "https://w3id.org/security#verificationMethod"
- {:id "https://w3id.org/security#verificationMethod", :type :id},
+ {:id "https://w3id.org/security#verificationMethod",
+  :type :id,
+  :derived? true},
  "authentication"
  {:id "https://w3id.org/security#authenticationMethod",
   :type :id,
   :container :set},
  "https://w3id.org/security#controller"
- {:id "https://w3id.org/security#controller", :type :id},
+ {:id "https://w3id.org/security#controller",
+  :type :id,
+  :derived? true},
  "https://www.w3.org/ns/activitystreams#alsoKnownAs"
- {:id "https://www.w3.org/ns/activitystreams#alsoKnownAs", :type :id},
+ {:id "https://www.w3.org/ns/activitystreams#alsoKnownAs",
+  :type :id,
+  :derived? true},
  "assertionMethod"
  {:id "https://w3id.org/security#assertionMethod",
   :type :id,
@@ -24,7 +31,8 @@
  "https://w3id.org/security#authenticationMethod"
  {:id "https://w3id.org/security#authenticationMethod",
   :type :id,
-  :container :set},
+  :container :set,
+  :derived? true},
  "https://www.w3.org/ns/did#service"
  {:id "https://www.w3.org/ns/did#service",
   :type :id,
@@ -36,16 +44,21 @@
    "serviceEndpoint"
    {:id "https://www.w3.org/ns/did#serviceEndpoint", :type :id},
    "https://www.w3.org/ns/did#serviceEndpoint"
-   {:id "https://www.w3.org/ns/did#serviceEndpoint", :type :id}}},
+   {:id "https://www.w3.org/ns/did#serviceEndpoint",
+    :type :id,
+    :derived? true}},
+  :derived? true},
  :type-key "type",
  "https://w3id.org/security#keyAgreementMethod"
  {:id "https://w3id.org/security#keyAgreementMethod",
   :type :id,
-  :container :set},
+  :container :set,
+  :derived? true},
  "https://w3id.org/security#capabilityDelegationMethod"
  {:id "https://w3id.org/security#capabilityDelegationMethod",
   :type :id,
-  :container :set},
+  :container :set,
+  :derived? true},
  "alsoKnownAs"
  {:id "https://www.w3.org/ns/activitystreams#alsoKnownAs", :type :id},
  "verificationMethod"
@@ -63,7 +76,9 @@
    "serviceEndpoint"
    {:id "https://www.w3.org/ns/did#serviceEndpoint", :type :id},
    "https://www.w3.org/ns/did#serviceEndpoint"
-   {:id "https://www.w3.org/ns/did#serviceEndpoint", :type :id}}},
+   {:id "https://www.w3.org/ns/did#serviceEndpoint",
+    :type :id,
+    :derived? true}}},
  "capabilityInvocation"
  {:id "https://w3id.org/security#capabilityInvocationMethod",
   :type :id,
@@ -71,7 +86,8 @@
  "https://w3id.org/security#capabilityInvocationMethod"
  {:id "https://w3id.org/security#capabilityInvocationMethod",
   :type :id,
-  :container :set},
+  :container :set,
+  :derived? true},
  "controller" {:id "https://w3id.org/security#controller", :type :id},
  "capabilityDelegation"
  {:id "https://w3id.org/security#capabilityDelegationMethod",

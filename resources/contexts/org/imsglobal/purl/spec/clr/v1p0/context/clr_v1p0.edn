@@ -21,25 +21,30 @@
  "Verification" {:id "https://w3id.org/openbadges#VerificationObject"},
  "https://purl.imsglobal.org/spec/clr/vocab#specialization"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#specialization",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "revocationList" {:id "https://w3id.org/openbadges#revocationList"},
  "https://purl.imsglobal.org/spec/clr/vocab#licenseNumber"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#licenseNumber",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "url" {:id "http://schema.org/url"},
  "CryptographicKey"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtCryptographicKey"},
  "https://purl.imsglobal.org/spec/clr/vocab#privacyPolicyUrl"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#privacyPolicyUrl",
-  :type :id},
+  :type :id,
+  :derived? true},
  "hashed" {:id "https://w3id.org/openbadges#hashed"},
  "Signed" {:id "https://w3id.org/openbadges#signed"},
  "https://purl.imsglobal.org/spec/clr/vocab#activityEndDate"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#activityEndDate",
-  :type "http://www.w3.org/2001/XMLSchema#dateTime"},
+  :type "http://www.w3.org/2001/XMLSchema#dateTime",
+  :derived? true},
  "https://purl.imsglobal.org/spec/clr/vocab#sourcedId"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#sourcedId",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "dtMarkdown"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtMarkdown",
   :type "http://www.w3.org/2001/XMLSchema#string"},
@@ -68,7 +73,8 @@
   "https://purl.imsglobal.org/spec/clr/vocab#dtExtensibleAchievementType"},
  "https://purl.imsglobal.org/spec/clr/vocab#addressCountry"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#addressCountry",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "dtEndorsement"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtEndorsement"},
  "addressRegion"
@@ -90,10 +96,12 @@
  "targetId" {:id "https://purl.imsglobal.org/spec/clr/vocab#dtIRI"},
  "https://purl.imsglobal.org/spec/clr/vocab#postOfficeBoxNumber"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#postOfficeBoxNumber",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "https://purl.imsglobal.org/spec/clr/vocab#creditsAvailable"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#creditsAvailable",
-  :type "http://www.w3.org/2001/XMLSchema#float"},
+  :type "http://www.w3.org/2001/XMLSchema#float",
+  :derived? true},
  "postOfficeBoxNumber"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#postOfficeBoxNumber",
   :type "http://www.w3.org/2001/XMLSchema#string"},
@@ -103,13 +111,15 @@
   "https://purl.imsglobal.org/spec/clr/vocab#dtExtensibleSystemIdentifierType"},
  "https://purl.imsglobal.org/spec/clr/vocab#activityStartDate"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#activityStartDate",
-  :type "http://www.w3.org/2001/XMLSchema#dateTime"},
+  :type "http://www.w3.org/2001/XMLSchema#dateTime",
+  :derived? true},
  "activityStartDate"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#activityStartDate",
   :type "http://www.w3.org/2001/XMLSchema#dateTime"},
  "https://purl.imsglobal.org/spec/clr/vocab#title"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#title",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "identifiers"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtSystemIdentifier",
   :container :set},
@@ -124,7 +134,8 @@
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtSystemIdentifier"},
  "https://purl.imsglobal.org/spec/clr/vocab#birthDate"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#birthDate",
-  :type "http://www.w3.org/2001/XMLSchema#date"},
+  :type "http://www.w3.org/2001/XMLSchema#date",
+  :derived? true},
  "dtExtensibleResultType"
  {:id
   "https://purl.imsglobal.org/spec/clr/vocab#dtExtensibleResultType"},
@@ -133,7 +144,8 @@
   :type "http://www.w3.org/2001/XMLSchema#string"},
  "https://purl.imsglobal.org/spec/clr/vocab#postalCode"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#postalCode",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "term"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#term",
   :type "http://www.w3.org/2001/XMLSchema#string"},
@@ -142,7 +154,8 @@
  "recipient" {:id "https://w3id.org/openbadges#recipient"},
  "https://purl.imsglobal.org/spec/clr/vocab#level"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#level",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "familyName" {:id "http://schema.org/familyName"},
  "assertions"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtAssertion",
@@ -150,10 +163,12 @@
  "Result" {:id "https://purl.imsglobal.org/spec/clr/vocab#dtResult"},
  "https://purl.imsglobal.org/spec/clr/vocab#requiredValue"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#requiredValue",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "https://purl.imsglobal.org/spec/clr/vocab#valueMax"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#valueMax",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "tags" {:id "http://schema.org/keywords"},
  "Evidence"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtEvidence"},
@@ -165,7 +180,8 @@
  "https://purl.imsglobal.org/spec/clr/vocab#allowedValues"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#allowedValues",
   :type "http://www.w3.org/2001/XMLSchema#string",
-  :container :set},
+  :container :set,
+  :derived? true},
  "associations"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtAssociation",
   :container :set},
@@ -183,7 +199,8 @@
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtRevocationList"},
  "https://purl.imsglobal.org/spec/clr/vocab#streetAddress"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#streetAddress",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "dtAssociation"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtAssociation"},
  "dtEvidence"
@@ -191,7 +208,8 @@
  "publicKey" {:id "https://w3id.org/security#publicKey"},
  "https://purl.imsglobal.org/spec/clr/vocab#authorizationUrl"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#authorizationUrl",
-  :type :id},
+  :type :id,
+  :derived? true},
  "Artifact"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtArtifact"},
  "clr" {:id "https://purl.imsglobal.org/spec/clr/vocab#dtClr"},
@@ -199,7 +217,8 @@
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtSystemIdentifier"},
  "https://purl.imsglobal.org/spec/clr/vocab#term"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#term",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "IRI"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtIRI",
   :type "http://www.w3.org/2001/XMLSchema#normalizedString"},
@@ -230,7 +249,8 @@
   :type "http://www.w3.org/2001/XMLSchema#string"},
  "https://purl.imsglobal.org/spec/clr/vocab#valueMin"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#valueMin",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  :type-key "type",
  "tokenUrl"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#tokenUrl", :type :id},
@@ -257,12 +277,14 @@
   :type "http://www.w3.org/2001/XMLSchema#string"},
  "https://purl.imsglobal.org/spec/clr/vocab#partial"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#partial",
-  :type "http://www.w3.org/2001/XMLSchema#boolean"},
+  :type "http://www.w3.org/2001/XMLSchema#boolean",
+  :derived? true},
  "address" {:id "https://purl.imsglobal.org/spec/clr/vocab#dtAddress"},
  "targetName" {:id "http://schema.org/targetName"},
  "https://purl.imsglobal.org/spec/clr/vocab#role"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#role",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "dtResultDescription"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtResultDescription"},
  "achievementType"
@@ -273,7 +295,8 @@
   :container :set},
  "https://purl.imsglobal.org/spec/clr/vocab#creditsEarned"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#creditsEarned",
-  :type "http://www.w3.org/2001/XMLSchema#float"},
+  :type "http://www.w3.org/2001/XMLSchema#float",
+  :derived? true},
  "status"
  {:id
   "https://purl.imsglobal.org/spec/clr/vocab#ResultStatusTypeDType"},
@@ -293,7 +316,8 @@
   :type "http://www.w3.org/2001/XMLSchema#string"},
  "https://purl.imsglobal.org/spec/clr/vocab#official"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#official",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "genre" {:id "http://schema.org/genre"},
  "expires"
  {:id "https://w3id.org/security#expiration",
@@ -313,7 +337,8 @@
  "https://purl.imsglobal.org/spec/clr/vocab#scopesOffered"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#scopesOffered",
   :type "http://www.w3.org/2001/XMLSchema#anyURI",
-  :container :set},
+  :container :set,
+  :derived? true},
  "EnumExtString"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtEnumExtString",
   :type "http://www.w3.org/2001/XMLSchema#string"},
@@ -323,10 +348,12 @@
   :type "http://www.w3.org/2001/XMLSchema#string"},
  "https://purl.imsglobal.org/spec/clr/vocab#dtUUID"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtUUID",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "https://purl.imsglobal.org/spec/clr/vocab#publisher"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#publisher",
-  :type :id},
+  :type :id,
+  :derived? true},
  "dtResult" {:id "https://purl.imsglobal.org/spec/clr/vocab#dtResult"},
  "dtEndorsementProfile"
  {:id
@@ -337,7 +364,9 @@
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtResultDescription",
   :container :set},
  "https://purl.imsglobal.org/spec/clr/vocab#tokenUrl"
- {:id "https://purl.imsglobal.org/spec/clr/vocab#tokenUrl", :type :id},
+ {:id "https://purl.imsglobal.org/spec/clr/vocab#tokenUrl",
+  :type :id,
+  :derived? true},
  "dtAchievement"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtAchievement"},
  "salt" {:id "https://w3id.org/openbadges#salt"},
@@ -363,10 +392,12 @@
   "https://purl.imsglobal.org/spec/clr/vocab#dtExtensibleAchievementType"},
  "https://purl.imsglobal.org/spec/clr/vocab#registrationUrl"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#registrationUrl",
-  :type :id},
+  :type :id,
+  :derived? true},
  "https://purl.imsglobal.org/spec/clr/vocab#dtCompactJws"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtCompactJws",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "source" {:id "https://purl.imsglobal.org/spec/clr/vocab#dtProfile"},
  "type" {:id "@type", :type? true},
  "Identity"
@@ -387,10 +418,12 @@
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtEndorsementClaim"},
  "https://purl.imsglobal.org/spec/clr/vocab#value"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#value",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "https://purl.imsglobal.org/spec/clr/vocab#dtMarkdown"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtMarkdown",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "dtIRI"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtIRI",
   :type "http://www.w3.org/2001/XMLSchema#normalizedString"},
@@ -400,13 +433,16 @@
  "startsWith" {:id "https://w3id.org/openbadges#startsWith"},
  "https://purl.imsglobal.org/spec/clr/vocab#addressLocality"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#addressLocality",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "https://purl.imsglobal.org/spec/clr/vocab#studentId"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#studentId",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "https://purl.imsglobal.org/spec/clr/vocab#addressRegion"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#addressRegion",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "dtRubricCriterionLevel"
  {:id
   "https://purl.imsglobal.org/spec/clr/vocab#dtRubricCriterionLevel"},
@@ -423,10 +459,12 @@
  {:id "https://purl.imsglobal.org/spec/clr/vocab#scopesOffered",
   :type "http://www.w3.org/2001/XMLSchema#anyURI",
   :container :set},
- "http://schema.org/image" {:id "http://schema.org/image", :type :id},
+ "http://schema.org/image"
+ {:id "http://schema.org/image", :type :id, :derived? true},
  "https://purl.imsglobal.org/spec/clr/vocab#identifier"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#identifier",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "achievement"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtAchievement"},
  "Criteria"
@@ -443,7 +481,9 @@
  "signedClr"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtCompactJws"},
  "https://purl.imsglobal.org/spec/clr/vocab#learner"
- {:id "https://purl.imsglobal.org/spec/clr/vocab#learner", :type :id},
+ {:id "https://purl.imsglobal.org/spec/clr/vocab#learner",
+  :type :id,
+  :derived? true},
  "learner"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#learner", :type :id},
  "Association"
@@ -459,7 +499,8 @@
   :type "http://www.w3.org/2001/XMLSchema#string"},
  "https://purl.imsglobal.org/spec/clr/vocab#termsOfServiceUrl"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#termsOfServiceUrl",
-  :type :id},
+  :type :id,
+  :derived? true},
  "Alignment"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtAlignment"},
  "humanCode"
@@ -470,15 +511,18 @@
  "sec" {:id "https://w3id.org/security#"},
  "https://purl.imsglobal.org/spec/clr/vocab#fieldOfStudy"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#fieldOfStudy",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "targetCode" {:id "https://w3id.org/openbadges#targetCode"},
  "https://purl.imsglobal.org/spec/clr/vocab#dtIRI"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtIRI",
-  :type "http://www.w3.org/2001/XMLSchema#normalizedString"},
+  :type "http://www.w3.org/2001/XMLSchema#normalizedString",
+  :derived? true},
  "evidence" {:id "https://w3id.org/openbadges#evidence"},
  "https://w3id.org/security#expiration"
  {:id "https://w3id.org/security#expiration",
-  :type "http://www.w3.org/2001/XMLSchema#dateTime"},
+  :type "http://www.w3.org/2001/XMLSchema#dateTime",
+  :derived? true},
  "allowedOrigins" {:id "https://w3id.org/openbadges#allowedOrigins"},
  "creditsAvailable"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#creditsAvailable",
@@ -494,17 +538,20 @@
   :type "http://www.w3.org/2001/XMLSchema#string"},
  "https://purl.imsglobal.org/spec/clr/vocab#dtEnumExtString"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtEnumExtString",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "description" {:id "http://schema.org/description"},
  "https://purl.imsglobal.org/spec/clr/vocab#points"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#points",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "UUID"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtUUID",
   :type "http://www.w3.org/2001/XMLSchema#string"},
  "https://purl.imsglobal.org/spec/clr/vocab#humanCode"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#humanCode",
-  :type "http://www.w3.org/2001/XMLSchema#string"},
+  :type "http://www.w3.org/2001/XMLSchema#string",
+  :derived? true},
  "xsd" {:id "http://www.w3.org/2001/XMLSchema#"},
  "resultDescription"
  {:id "https://purl.imsglobal.org/spec/clr/vocab#dtIRI"},
