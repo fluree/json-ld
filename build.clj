@@ -4,7 +4,7 @@
             [deps-deploy.deps-deploy :as dd]))
 
 (def lib 'com.fluree/json-ld)
-(def version "1.0.0")
+(def version "1.0.1")
 (def class-dir "target/classes")
 (def jar-file "target/fluree-json-ld.jar")
 
