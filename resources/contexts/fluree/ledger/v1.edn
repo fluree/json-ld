@@ -1,50 +1,78 @@
-{"https://ns.flur.ee/ledger#size"
+{"fidx:b"
+ {:type "http://www.w3.org/2001/XMLSchema#decimal",
+  :id "https://ns.flur.ee/ledger/idx#b"},
+ "https://ns.flur.ee/ledger#size"
  {:id "https://ns.flur.ee/ledger#size",
-  :type "http://www.w3.org/2001/XMLSchema#long"},
+  :type "http://www.w3.org/2001/XMLSchema#long",
+  :derived? true},
  "message" {:id "https://ns.flur.ee/ledger#message"},
  "role" {:id "https://ns.flur.ee/ledger#role", :type :id},
  "https://ns.flur.ee/ledger#targetProperty"
- {:id "https://ns.flur.ee/ledger#targetProperty", :type :id},
+ {:id "https://ns.flur.ee/ledger#targetProperty",
+  :type :id,
+  :derived? true},
+ "https://ns.flur.ee/ledger/idx#target"
+ {:type "http://www.w3.org/2001/XMLSchema#string",
+  :id "https://ns.flur.ee/ledger/idx#target",
+  :derived? true},
+ "fidx:property"
+ {:type :id, :id "https://ns.flur.ee/ledger/idx#property"},
  "values" {:id "https://ns.flur.ee/ledger#values", :type :json},
  "rule" {:id "https://ns.flur.ee/ledger#rule"},
+ "https://ns.flur.ee/ledger/idx#sync"
+ {:type "http://www.w3.org/2001/XMLSchema#boolean",
+  :id "https://ns.flur.ee/ledger/idx#sync",
+  :derived? true},
  "targetClass"
  {:id "https://ns.flur.ee/ledger#targetClass", :type :id},
  "https://ns.flur.ee/ledger#ns"
- {:id "https://ns.flur.ee/ledger#ns", :type :id},
+ {:id "https://ns.flur.ee/ledger#ns", :type :id, :derived? true},
+ "fidx:vector"
+ {:container :list, :id "https://ns.flur.ee/ledger/idx#vector"},
  "f" {:id "https://ns.flur.ee/ledger#"},
  "index" {:id "https://ns.flur.ee/ledger#index"},
  "all-nodes" {:id "https://ns.flur.ee/ledger#all-nodes"},
  "https://ns.flur.ee/ledger#t"
  {:id "https://ns.flur.ee/ledger#t",
-  :type "http://www.w3.org/2001/XMLSchema#long"},
+  :type "http://www.w3.org/2001/XMLSchema#long",
+  :derived? true},
  "https://ns.flur.ee/ledger#path"
- {:id "https://ns.flur.ee/ledger#path", :type :id},
+ {:id "https://ns.flur.ee/ledger#path", :type :id, :derived? true},
  "https://ns.flur.ee/ledger#values"
- {:id "https://ns.flur.ee/ledger#values", :type :json},
+ {:id "https://ns.flur.ee/ledger#values", :type :json, :derived? true},
  "https://ns.flur.ee/ledger#flakes"
  {:id "https://ns.flur.ee/ledger#flakes",
-  :type "http://www.w3.org/2001/XMLSchema#long"},
+  :type "http://www.w3.org/2001/XMLSchema#long",
+  :derived? true},
  "delete" {:id "https://ns.flur.ee/ledger#delete", :type :json},
+ "https://ns.flur.ee/ledger/idx#property"
+ {:type :id,
+  :id "https://ns.flur.ee/ledger/idx#property",
+  :derived? true},
  "updates" {:id "https://ns.flur.ee/ledger#updates"},
  "https://ns.flur.ee/ledger#commit"
- {:id "https://ns.flur.ee/ledger#commit", :type :id},
+ {:id "https://ns.flur.ee/ledger#commit", :type :id, :derived? true},
  "https://ns.flur.ee/ledger#contains"
  {:id "https://ns.flur.ee/ledger#contains",
   :type :id,
-  :container :list},
+  :container :list,
+  :derived? true},
  "branch" {:id "https://ns.flur.ee/ledger#branch"},
  "https://ns.flur.ee/ledger#opts"
- {:id "https://ns.flur.ee/ledger#opts", :type :json},
+ {:id "https://ns.flur.ee/ledger#opts", :type :json, :derived? true},
  "contains"
  {:id "https://ns.flur.ee/ledger#contains",
   :type :id,
   :container :list},
  "author" {:id "https://ns.flur.ee/ledger#author"},
  "https://ns.flur.ee/ledger#property"
- {:id "https://ns.flur.ee/ledger#property", :type :id},
+ {:id "https://ns.flur.ee/ledger#property", :type :id, :derived? true},
  "https://ns.flur.ee/ledger#previous"
- {:id "https://ns.flur.ee/ledger#previous", :type :id},
+ {:id "https://ns.flur.ee/ledger#previous", :type :id, :derived? true},
  "query" {:id "https://ns.flur.ee/ledger#query"},
+ "fidx:sync"
+ {:type "http://www.w3.org/2001/XMLSchema#boolean",
+  :id "https://ns.flur.ee/ledger/idx#sync"},
  "path" {:id "https://ns.flur.ee/ledger#path", :type :id},
  "DB" {:id "https://ns.flur.ee/ledger#DB"},
  "v"
@@ -53,12 +81,19 @@
  "where" {:id "https://ns.flur.ee/ledger#where", :type :json},
  "id" {:id "@id"},
  "https://ns.flur.ee/ledger#insert"
- {:id "https://ns.flur.ee/ledger#insert", :type :json},
+ {:id "https://ns.flur.ee/ledger#insert", :type :json, :derived? true},
  "onSubject" {:id "https://ns.flur.ee/ledger#onSubject", :type :id},
+ "fidx:k1"
+ {:type "http://www.w3.org/2001/XMLSchema#decimal",
+  :id "https://ns.flur.ee/ledger/idx#k1"},
  "opts" {:id "https://ns.flur.ee/ledger#opts", :type :json},
  "AccessPolicy" {:id "https://ns.flur.ee/ledger#AccessPolicy"},
  "targetObjectsOf"
  {:id "https://ns.flur.ee/ledger#targetObjectsOf", :type :id},
+ "https://ns.flur.ee/ledger/idx#b"
+ {:type "http://www.w3.org/2001/XMLSchema#decimal",
+  :id "https://ns.flur.ee/ledger/idx#b",
+  :derived? true},
  "txn" {:id "https://ns.flur.ee/ledger#txn"},
  "flakes"
  {:id "https://ns.flur.ee/ledger#flakes",
@@ -66,9 +101,14 @@
  "sparseVector" {:id "https://ns.flur.ee/ledger#sparseVector"},
  :type-key "type",
  "Commit" {:id "https://ns.flur.ee/ledger#Commit"},
+ "https://ns.flur.ee/ledger/idx#timeout"
+ {:type "http://www.w3.org/2001/XMLSchema#integer",
+  :id "https://ns.flur.ee/ledger/idx#timeout",
+  :derived? true},
  "https://ns.flur.ee/ledger#v"
  {:id "https://ns.flur.ee/ledger#v",
-  :type "http://www.w3.org/2001/XMLSchema#decimal"},
+  :type "http://www.w3.org/2001/XMLSchema#decimal",
+  :derived? true},
  "tag" {:id "https://ns.flur.ee/ledger#tag"},
  "commit" {:id "https://ns.flur.ee/ledger#commit", :type :id},
  "modify" {:id "https://ns.flur.ee/ledger#modify"},
@@ -76,66 +116,111 @@
  "vector" {:id "https://ns.flur.ee/ledger#vector"},
  "previous" {:id "https://ns.flur.ee/ledger#previous", :type :id},
  "virtualGraph" {:id "https://ns.flur.ee/ledger#virtualGraph"},
+ "https://ns.flur.ee/ledger/idx#BM25"
+ {:type :id, :id "https://ns.flur.ee/ledger/idx#BM25", :derived? true},
  "https://ns.flur.ee/ledger#targetSubject"
- {:id "https://ns.flur.ee/ledger#targetSubject", :type :id},
+ {:id "https://ns.flur.ee/ledger#targetSubject",
+  :type :id,
+  :derived? true},
  "action" {:id "https://ns.flur.ee/ledger#action", :type :id},
  "retract"
  {:id "https://ns.flur.ee/ledger#retract", :container :graph},
  "property" {:id "https://ns.flur.ee/ledger#property", :type :id},
  "time" {:id "https://ns.flur.ee/ledger#time"},
  "https://ns.flur.ee/ledger#targetClass"
- {:id "https://ns.flur.ee/ledger#targetClass", :type :id},
+ {:id "https://ns.flur.ee/ledger#targetClass",
+  :type :id,
+  :derived? true},
  "https://ns.flur.ee/ledger#onClass"
- {:id "https://ns.flur.ee/ledger#onClass", :type :id},
+ {:id "https://ns.flur.ee/ledger#onClass", :type :id, :derived? true},
  "https://ns.flur.ee/ledger#action"
- {:id "https://ns.flur.ee/ledger#action", :type :id},
+ {:id "https://ns.flur.ee/ledger#action", :type :id, :derived? true},
+ "https://ns.flur.ee/ledger/idx#limit"
+ {:type "http://www.w3.org/2001/XMLSchema#integer",
+  :id "https://ns.flur.ee/ledger/idx#limit",
+  :derived? true},
  "t"
  {:id "https://ns.flur.ee/ledger#t",
   :type "http://www.w3.org/2001/XMLSchema#long"},
  "rdfs" {:id "http://www.w3.org/2000/01/rdf-schema#"},
+ "fidx" {:id "https://ns.flur.ee/ledger/idx#"},
  "https://ns.flur.ee/ledger#where"
- {:id "https://ns.flur.ee/ledger#where", :type :json},
+ {:id "https://ns.flur.ee/ledger#where", :type :json, :derived? true},
  "https://ns.flur.ee/ledger#delete"
- {:id "https://ns.flur.ee/ledger#delete", :type :json},
+ {:id "https://ns.flur.ee/ledger#delete", :type :json, :derived? true},
  "required" {:id "https://ns.flur.ee/ledger#required"},
  "exMessage" {:id "https://ns.flur.ee/ledger#exMessage"},
+ "fidx:target"
+ {:type "http://www.w3.org/2001/XMLSchema#string",
+  :id "https://ns.flur.ee/ledger/idx#target"},
  "type" {:id "@type", :type? true},
+ "https://ns.flur.ee/ledger/idx#score"
+ {:type "http://www.w3.org/2001/XMLSchema#decimal",
+  :id "https://ns.flur.ee/ledger/idx#score",
+  :derived? true},
+ "fidx:BM25" {:type :id, :id "https://ns.flur.ee/ledger/idx#BM25"},
  "https://ns.flur.ee/ledger#onSubject"
- {:id "https://ns.flur.ee/ledger#onSubject", :type :id},
+ {:id "https://ns.flur.ee/ledger#onSubject",
+  :type :id,
+  :derived? true},
  "targetSubject"
  {:id "https://ns.flur.ee/ledger#targetSubject", :type :id},
  "insert" {:id "https://ns.flur.ee/ledger#insert", :type :json},
  "annotation" {:id "https://ns.flur.ee/ledger#annotation"},
  "namespaces" {:id "https://ns.flur.ee/ledger#namespaces"},
  "https://ns.flur.ee/ledger#targetObjectsOf"
- {:id "https://ns.flur.ee/ledger#targetObjectsOf", :type :id},
+ {:id "https://ns.flur.ee/ledger#targetObjectsOf",
+  :type :id,
+  :derived? true},
  "https://ns.flur.ee/ledger#targetRole"
- {:id "https://ns.flur.ee/ledger#targetRole", :type :id},
+ {:id "https://ns.flur.ee/ledger#targetRole",
+  :type :id,
+  :derived? true},
  "onProperty" {:id "https://ns.flur.ee/ledger#onProperty", :type :id},
  "VirtualGraph" {:id "https://ns.flur.ee/ledger#VirtualGraph"},
  "targetRole" {:id "https://ns.flur.ee/ledger#targetRole", :type :id},
  "alias" {:id "https://ns.flur.ee/ledger#alias"},
  "targetNode" {:id "https://ns.flur.ee/ledger#targetNode", :type :id},
  "https://ns.flur.ee/ledger#policyClass"
- {:id "https://ns.flur.ee/ledger#policyClass", :type :id},
+ {:id "https://ns.flur.ee/ledger#policyClass",
+  :type :id,
+  :derived? true},
  "https://ns.flur.ee/ledger#data"
- {:id "https://ns.flur.ee/ledger#data", :type :id},
+ {:id "https://ns.flur.ee/ledger#data", :type :id, :derived? true},
  "size"
  {:id "https://ns.flur.ee/ledger#size",
   :type "http://www.w3.org/2001/XMLSchema#long"},
  "https://ns.flur.ee/ledger#equals"
- {:id "https://ns.flur.ee/ledger#equals", :type :id, :container :list},
+ {:id "https://ns.flur.ee/ledger#equals",
+  :type :id,
+  :container :list,
+  :derived? true},
  :version 1.1,
  "https://ns.flur.ee/ledger#targetNode"
- {:id "https://ns.flur.ee/ledger#targetNode", :type :id},
+ {:id "https://ns.flur.ee/ledger#targetNode",
+  :type :id,
+  :derived? true},
+ "https://ns.flur.ee/ledger/idx#result"
+ {:type :id,
+  :id "https://ns.flur.ee/ledger/idx#result",
+  :derived? true},
  "CommitProof" {:id "https://ns.flur.ee/ledger#CommitProof"},
  "onClass" {:id "https://ns.flur.ee/ledger#onClass", :type :id},
+ "fidx:result" {:type :id, :id "https://ns.flur.ee/ledger/idx#result"},
+ "fidx:limit"
+ {:type "http://www.w3.org/2001/XMLSchema#integer",
+  :id "https://ns.flur.ee/ledger/idx#limit"},
  "https://ns.flur.ee/ledger#onProperty"
- {:id "https://ns.flur.ee/ledger#onProperty", :type :id},
+ {:id "https://ns.flur.ee/ledger#onProperty",
+  :type :id,
+  :derived? true},
  "data" {:id "https://ns.flur.ee/ledger#data", :type :id},
  "view" {:id "https://ns.flur.ee/ledger#view"},
  "targetProperty"
  {:id "https://ns.flur.ee/ledger#targetProperty", :type :id},
+ "fidx:timeout"
+ {:type "http://www.w3.org/2001/XMLSchema#integer",
+  :id "https://ns.flur.ee/ledger/idx#timeout"},
  "equals"
  {:id "https://ns.flur.ee/ledger#equals", :type :id, :container :list},
  "assert" {:id "https://ns.flur.ee/ledger#assert", :container :graph},
@@ -143,6 +228,13 @@
  "ledger" {:id "https://ns.flur.ee/ledger#ledger"},
  "xsd" {:id "http://www.w3.org/2001/XMLSchema#"},
  "https://ns.flur.ee/ledger#role"
- {:id "https://ns.flur.ee/ledger#role", :type :id},
+ {:id "https://ns.flur.ee/ledger#role", :type :id, :derived? true},
+ "https://ns.flur.ee/ledger/idx#k1"
+ {:type "http://www.w3.org/2001/XMLSchema#decimal",
+  :id "https://ns.flur.ee/ledger/idx#k1",
+  :derived? true},
  "$identity" {:id "https://ns.flur.ee/ledger#$identity"},
+ "fidx:score"
+ {:type "http://www.w3.org/2001/XMLSchema#decimal",
+  :id "https://ns.flur.ee/ledger/idx#score"},
  "policyClass" {:id "https://ns.flur.ee/ledger#policyClass", :type :id}}

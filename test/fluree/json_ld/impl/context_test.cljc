@@ -76,7 +76,8 @@
                          :type "http://www.w3.org/2001/XMLSchema#string"}
               "https://purl.imsglobal.org/spec/clr/vocab#dtUUID"
               {:id   "https://purl.imsglobal.org/spec/clr/vocab#dtUUID"
-               :type "http://www.w3.org/2001/XMLSchema#string"}})))))
+               :type "http://www.w3.org/2001/XMLSchema#string"
+               :derived? true}})))))
 
 
 (deftest multiple-contexts
@@ -122,7 +123,8 @@
                             :type "http://schema.org/Text"}
             "http://schema.org/name"
             {:id   "http://schema.org/name"
-             :type "http://schema.org/Text"}}))
+             :type "http://schema.org/Text"
+             :derived? true}}))
 
     (is (= (context/parse {"schema"      "http://schema.org/",
                            "customClass" {"@id"   "schema:Book"
@@ -133,7 +135,8 @@
                            :type "http://schema.org/CreativeWork"}
             "http://schema.org/Book"
             {:id   "http://schema.org/Book"
-             :type "http://schema.org/CreativeWork"}}))))
+             :type "http://schema.org/CreativeWork"
+             :derived? true}}))))
 
 
 (deftest reverse-refs
@@ -168,7 +171,8 @@
                             :id   "http://www.w3.org/2002/12/cal/ical#dtstart"}
             "http://www.w3.org/2002/12/cal/ical#dtstart"
             {:type "http://www.w3.org/2001/XMLSchema#dateTime"
-             :id   "http://www.w3.org/2002/12/cal/ical#dtstart"}}))))
+             :id   "http://www.w3.org/2002/12/cal/ical#dtstart"
+             :derived? true}}))))
 
 (deftest blank-vocab
   (testing "An empty string @vocab should default to @base value."
@@ -236,7 +240,8 @@
                          :type "http://www.w3.org/2001/XMLSchema#float"}
             "https://example.com/rating"
             {:id   "https://example.com/rating"
-             :type "http://www.w3.org/2001/XMLSchema#float"}}))))
+             :type "http://www.w3.org/2001/XMLSchema#float"
+             :derived? true}}))))
 
 #?(:clj
    (deftest cyclic-context

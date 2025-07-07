@@ -43,7 +43,7 @@
 (deftest expansion--static-context
   (async done
          (-> (jld-processor/expand (assoc commit "@context"
-                                          ["https://ns.flur.ee/ledger#"
+                                          ["https://ns.flur.ee/ledger/v1"
                                            {"cool" {"@id" "f:cool" "@type" "xsd:boolean"}}]))
              (.then (fn [result]
                       (is (= expanded
@@ -94,7 +94,7 @@
 
 (deftest to-rdf--remote-context
   (async done
-         (-> (jld-processor/to-rdf {"@context" "https://ns.flur.ee/ledger#"
+         (-> (jld-processor/to-rdf {"@context" "https://ns.flur.ee/ledger/v1"
                                     "address" ""})
              (.then (fn [result]
                       (is (= "_:b0 <https://ns.flur.ee/ledger#address> \"\" .\n"
@@ -138,7 +138,7 @@
 
 (deftest canonize--remote-context
   (async done
-         (-> (jld-processor/canonize {"@context" "https://ns.flur.ee/ledger#"
+         (-> (jld-processor/canonize {"@context" "https://ns.flur.ee/ledger/v1"
                                       "address" ""})
              (.then (fn [result]
                       (is (= "_:c14n0 <https://ns.flur.ee/ledger#address> \"\" .\n"

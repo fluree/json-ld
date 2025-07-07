@@ -45,7 +45,7 @@
   (testing "static context"
     (is (= expanded
            (jld-processor/expand (assoc commit "@context"
-                                        ["https://ns.flur.ee/ledger#"
+                                        ["https://ns.flur.ee/ledger/v1"
                                          {"cool" {"@id" "f:cool" "@type" "xsd:boolean"}}]))))
 
     (is (= "Unable to load context: http://failure.foo"

@@ -7,14 +7,15 @@
   "Flips context map from prefix -> prefix-map, to iri -> prefix-map.
 
   Only includes context items that have an :id; i.e., @id.
-  Excludes non-id context statements (e.g., @reverse)."
+  Excludes non-id context statements (e.g., @reverse).
+  Also excludes derived context entries (created by copy-to-full-iri)."
   [context]
   (loop [[[prefix v] & r] context
          acc {}]
     (if prefix
       (let [iri-fragment (:id v)
             acc*         (cond
-                           iri-fragment (assoc acc iri-fragment prefix)
+                           (and iri-fragment (not (:derived? v))) (assoc acc iri-fragment prefix)
                            (= :vocab prefix) (assoc acc v :vocab)
                            (= :base prefix) (assoc acc v :base)
                            :else acc)]
