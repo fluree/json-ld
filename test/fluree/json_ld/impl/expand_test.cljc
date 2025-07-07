@@ -31,15 +31,12 @@
 (deftest expanding-node
   (testing "Datatype in context using compact IRI as key"
     (is (= {"http://www.w3.org/2002/12/cal/ical#summary"
-            [{:type  nil, :idx ["ical:summary"],
-              :value "Lady Gaga Concert"}],
+            [{"@value" "Lady Gaga Concert"}],
             "http://www.w3.org/2002/12/cal/ical#location"
-            [{:type  nil, :idx ["ical:location"],
-              :value "New Orleans Arena, New Orleans, Louisiana, USA"}],
+            [{"@value" "New Orleans Arena, New Orleans, Louisiana, USA"}],
             "http://www.w3.org/2002/12/cal/ical#dtstart"
-            [{:type  "http://www.w3.org/2001/XMLSchema#dateTime", :idx ["ical:dtstart"],
-              :value "2011-04-09T20:00:00Z"}]
-            :idx []}
+            [{"@value" "2011-04-09T20:00:00Z"
+              "@type" "http://www.w3.org/2001/XMLSchema#dateTime"}]}
            (expand/node {"@context"      {"ical"         "http://www.w3.org/2002/12/cal/ical#",
                                           "xsd"          "http://www.w3.org/2001/XMLSchema#",
                                           "ical:dtstart" {"@type" "xsd:dateTime"}},
@@ -48,26 +45,22 @@
                          "ical:dtstart"  "2011-04-09T20:00:00Z"}))))
 
   (testing "Using a context mapped to use 'type' and 'id', but using @type and @id instead"
-    (is (= {:id   "https://www.wikidata.org/wiki/Q836821"
-            :type ["http://schema.org/Movie"]
+    (is (= {"@id" "https://www.wikidata.org/wiki/Q836821"
+            "@type" ["http://schema.org/Movie"]
             "http://schema.org/name"
-            [{:value "Hitchhiker's Guide to the Galaxy", :type nil, :idx ["name"]}]
-            :idx  []}
+            [{"@value" "Hitchhiker's Guide to the Galaxy"}]}
            (expand/node {"@context" "https://schema.org"
                          "@id"      "https://www.wikidata.org/wiki/Q836821"
                          "@type"    "Movie"
                          "name"     "Hitchhiker's Guide to the Galaxy"}))))
 
   (testing "Sequential values containing maps with @values"
-    (is (= {:idx                                            [],
-            :type                                           ["http://www.w3.org/2002/07/owl#Class"],
-            :id                                             "https://ontologies.semanticarts.com/gist/CoherentUnit",
-            "http://www.w3.org/2004/02/skos/core#scopeNote" [{:value "Coherent unit is the physics term for this, informally you might think of it as the standard unit for a given dimension.",
-                                                              :type  "http://www.w3.org/2001/XMLSchema#string",
-                                                              :idx   ["skos:scopeNote" 0]}
-                                                             {:value "In principle, the CoherentUnit for a ProductUnit or RatioUnit can be inferred by recursively decomposing the products and ratios into their respective CoherentUnits, bottoming out in SimpleUnits",
-                                                              :type  "http://www.w3.org/2001/XMLSchema#string",
-                                                              :idx   ["skos:scopeNote" 1]}]}
+    (is (= {"@type" ["http://www.w3.org/2002/07/owl#Class"],
+            "@id" "https://ontologies.semanticarts.com/gist/CoherentUnit",
+            "http://www.w3.org/2004/02/skos/core#scopeNote" [{"@value" "Coherent unit is the physics term for this, informally you might think of it as the standard unit for a given dimension."
+                                                              "@type"  "http://www.w3.org/2001/XMLSchema#string"}
+                                                             {"@value" "In principle, the CoherentUnit for a ProductUnit or RatioUnit can be inferred by recursively decomposing the products and ratios into their respective CoherentUnits, bottoming out in SimpleUnits"
+                                                              "@type"  "http://www.w3.org/2001/XMLSchema#string"}]}
            (expand/node {"@context"       {"gist" "https://ontologies.semanticarts.com/gist/",
                                            "owl"  "http://www.w3.org/2002/07/owl#",
                                            "skos" "http://www.w3.org/2004/02/skos/core#",
@@ -79,24 +72,18 @@
 
   (testing "Nested child with no @id but datatypes"
     (is (= {"http://schema.org/name"
-            [{:value "The Empire State Building", :type nil, :idx ["name"]}],
+            [{"@value" "The Empire State Building"}],
             "http://schema.org/description"
-            [{:value "The Empire State Building is a 102-story landmark in New York City.",
-              :type  nil, :idx ["description"]}],
+            [{"@value" "The Empire State Building is a 102-story landmark in New York City."}],
             "http://schema.org/image"
-            [{:id  "http://www.civil.usherbrooke.ca/cours/gci215a/empire-state-building.jpg",
-              :idx ["image"]}],
+            [{"@id" "http://www.civil.usherbrooke.ca/cours/gci215a/empire-state-building.jpg"}],
             "http://schema.org/geo"
-            [{:idx ["geo"],
-              "http://schema.org/latitude"
-              [{:value "40.75",
-                :type  "http://www.w3.org/2001/XMLSchema#float",
-                :idx   ["geo" "latitude"]}],
+            [{"http://schema.org/latitude"
+              [{"@value" "40.75"
+                "@type" "http://www.w3.org/2001/XMLSchema#float"}],
               "http://schema.org/longitude"
-              [{:value "73.98",
-                :type  "http://www.w3.org/2001/XMLSchema#float",
-                :idx   ["geo" "longitude"]}]}]
-            :idx []}
+              [{"@value" "73.98"
+                "@type" "http://www.w3.org/2001/XMLSchema#float"}]}]}
            (expand/node {"@context"    {"name"        "http://schema.org/name",
                                         "description" "http://schema.org/description",
                                         "image"       {"@id"   "http://schema.org/image",

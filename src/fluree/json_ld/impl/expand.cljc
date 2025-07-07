@@ -128,15 +128,15 @@
 
 (defmethod parse-node-val :json
   [v _ _ _ idx]
-  [{:value v
-    :type :json
-    :idx idx}])
+  [{"@value" v
+    "@type" "@json"}])
 
 (defmethod parse-node-val :boolean
   [v v-info _ _ idx]
-  [{:value v
-    :type  (:type v-info) ;; type may be defined in the @context
-    :idx   idx}])
+  (let [type (:type v-info)]
+    (if type
+      [{"@value" v "@type" type}]
+      [{"@value" v}])))
 
 (defn throw-invalid-language
   []
@@ -154,17 +154,14 @@
     (= "@type" id) (iri v context false) ; @type should have been picked up
                                          ; using :type-key, but in case
                                          ; explicitly defined regardless
-    (= :id type)   [{:id  (iri v context false)
-                     :idx idx}]
+    (= :id type)   [{"@id" (iri v context false)}]
     :else          (if-let [lang (and (nil? type)
                                       (or (:language v-info)
                                           (:language context)))]
-                     [{:value    v
-                       :language lang
-                       :idx      idx}]
-                     [{:value v
-                       :type  type
-                       :idx   idx}])))
+                     [{"@value" v "@language" lang}]
+                     (if type
+                       [{"@value" v "@type" type}]
+                       [{"@value" v}]))))
 
 ;; keywords should only be used in values for IRIs
 (defmethod parse-node-val :keyword
@@ -172,14 +169,14 @@
   (cond
     (= "@id" id) (iri v context false)
     (= "@type" id) [(iri v context false)]                  ;; @type should have been picked up using :type-key, but in case explicitly defined regardless
-    :else [{:id  (iri v context false)
-            :idx idx}]))
+    :else [{"@id" (iri v context false)}]))
 
 (defmethod parse-node-val :number
   [v v-info _ _ idx]
-  [{:value v
-    :type  (:type v-info)                                    ;; type may be defined in the @context
-    :idx   idx}])
+  (let [type (:type v-info)]
+    (if type
+      [{"@value" v "@type" type}]
+      [{"@value" v}])))
 
 (defn- parse-node-value-map
   [v-key v v-info ctx idx]
@@ -192,15 +189,12 @@
                       (:language ctx))]
       (if type
         (throw-invalid-language)
-        [{:value    val
-          :language lang
-          :idx      idx}])
+        [{"@value" val "@language" lang}])
       (if (#{"@id" :id} type)
-        [{:id  (iri val ctx false)
-          :idx idx}]
-        [{:value val
-          :type  type
-          :idx   idx}]))))
+        [{"@id" (iri val ctx false)}]
+        (if type
+          [{"@value" val "@type" type}]
+          [{"@value" val}])))))
 
 (defmethod parse-node-val :map
   [v v-info context externals idx]
@@ -209,9 +203,9 @@
                context)]
     (cond
       (list-item? v)
-      [{:list (-> (or (get v "@list")
-                      (:list v))
-                  (parse-node-val v-info context externals (conj idx "@list")))}]
+      [{"@list" (-> (or (get v "@list")
+                        (:list v))
+                    (parse-node-val v-info context externals (conj idx "@list")))}]
 
       (set-item? v)                                  ;; set is the default container type, so just flatten to regular vector
       (-> (or (get v "@set")
@@ -229,7 +223,7 @@
             (mapcat (fn [[lang v*]]
                       (let [idx* (conj idx lang)]
                         (map (fn [nv]
-                               (assoc nv :language lang))
+                               (assoc nv "@language" lang))
                              (parse-node-val v* v-info context externals idx*)))))
             v)
 
@@ -258,7 +252,7 @@
                        cat)
                  v)]
     (if (= :list (:container v-info))
-      [{:list v*}]
+      [{"@list" v*}]
       v*)))
 
 
@@ -279,7 +273,7 @@
   and a (possibly) updated context if there was a type-dependent sub-context present.
   Always return @type as a vector regardless of input."
   [node-map context idx]
-  (let [base (if (empty? idx) {:idx []} {:idx idx})
+  (let [base (if (empty? idx) {} {})
         {:keys [type-key]} context]
     (if-let [type-val (or (get node-map type-key)
                           (get node-map (get-in context [type-key :id])))]
@@ -290,12 +284,12 @@
                                   (iri % context true)
                                   (catch e
                                          (throw (ex-info (str "Error parsing @type value, provided: "
-                                                              type-val " at index: " (conj (:idx base) (:type-key context)) ".")
+                                                              type-val " at index: " (conj idx (:type-key context)) ".")
                                                          {:status 400
                                                           :error  :json-ld/invalid-context
-                                                          :idx    (conj (:idx base) (:type-key context))}))))
+                                                          :idx    (conj idx (:type-key context))}))))
                                 type-val*)]
-        [(assoc base :type expanded) context+types])
+        [(assoc base "@type" expanded) context+types])
       [base context])))
 
 (defn wrap-error
@@ -329,23 +323,23 @@
          context context
          acc     (transient base-result)]
     (if k
-      (let [idx* (conj (:idx base-result) k)
+      (let [idx* (conj (or (:idx base-result) []) k)
             [k* v-info] (try-catchall
                          (details k context true)
                          (catch e (wrap-error e idx*)))
             k**  (if (= \@ (first k*))
-                   (keyword (subs k* 1))
+                   k*
                    k*)
             v*   (try-catchall
                   (parse-node-val v v-info context externals idx*)
                   (catch e (wrap-error e idx*)))]
         (recur r
-               (if (= :type k**)
+               (if (= "@type" k**)
                  (type-sub-context context v)
                  context)
-               (if (#{:type} k**)
+               (if (#{"@type"} k**)
                  acc
-                 (if (#{:id} k**)
+                 (if (#{"@id"} k**)
                    (assoc! acc k** v*)
                    (append-value! acc k** v*)))))
       (persistent! acc))))
