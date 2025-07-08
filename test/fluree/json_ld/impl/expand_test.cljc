@@ -100,42 +100,31 @@
                          "geo"         {"latitude" "40.75", "longitude" "73.98"}}))))
 
   (testing "Nested children with datatypes in context using compact-iris"
-    (is (= {:id   "http://example.org/cars/for-sale#tesla",
-            :idx  [],
-            :type ["http://purl.org/goodrelations/v1#Offering"],
+    (is (= {"@id" "http://example.org/cars/for-sale#tesla",
+            "@type" ["http://purl.org/goodrelations/v1#Offering"],
             "http://purl.org/goodrelations/v1#includes"
-            [{:idx  ["gr:includes"],
-              :type ["http://purl.org/goodrelations/v1#Individual"
-                     "http://www.productontology.org/id/Vehicle"],
+            [{"@type" ["http://purl.org/goodrelations/v1#Individual"
+                       "http://www.productontology.org/id/Vehicle"],
               "http://purl.org/goodrelations/v1#name"
-              [{:value "Tesla Roadster", :type nil,
-                :idx   ["gr:includes" "gr:name"]}],
+              [{"@value" "Tesla Roadster"}],
               "http://xmlns.com/foaf/0.1/page"
-              [{:id  "http://www.teslamotors.com/roadster",
-                :idx ["gr:includes" "foaf:page"]}]}],
+              [{"@id" "http://www.teslamotors.com/roadster"}]}],
             "http://purl.org/goodrelations/v1#description"
-            [{:value "Need to sell fast and furiously",
-              :type  nil, :idx ["gr:description"]}],
+            [{"@value" "Need to sell fast and furiously"}],
             "http://purl.org/goodrelations/v1#name"
-            [{:value "Used Tesla Roadster", :type nil, :idx ["gr:name"]}],
+            [{"@value" "Used Tesla Roadster"}],
             "http://purl.org/goodrelations/v1#hasPriceSpecification"
-            [{:idx ["gr:hasPriceSpecification"],
-              "http://purl.org/goodrelations/v1#hasCurrencyValue"
-              [{:value "85000", :type "http://www.w3.org/2001/XMLSchema#float",
-                :idx   ["gr:hasPriceSpecification" "gr:hasCurrencyValue"]}],
+            [{"http://purl.org/goodrelations/v1#hasCurrencyValue"
+              [{"@value" "85000", "@type" "http://www.w3.org/2001/XMLSchema#float"}],
               "http://purl.org/goodrelations/v1#hasCurrency"
-              [{:value "USD", :type nil,
-                :idx   ["gr:hasPriceSpecification" "gr:hasCurrency"]}]}],
+              [{"@value" "USD"}]}],
             "http://purl.org/goodrelations/v1#acceptedPaymentMethods"
-            [{:id  "http://purl.org/goodrelations/v1#Cash",
-              :idx ["gr:acceptedPaymentMethods"]}],
+            [{"@id" "http://purl.org/goodrelations/v1#Cash"}],
             "http://purl.org/goodrelations/v1#hasBusinessFunction"
-            [{:id  "http://purl.org/goodrelations/v1#Sell",
-              :idx ["gr:hasBusinessFunction"]}]
+            [{"@id" "http://purl.org/goodrelations/v1#Sell"}]
             "my:json"
-            [{:value {"foo" {:bar [1 false 9.0 nil]}},
-              :type :json,
-              :idx ["my:json"]}]}
+            [{"@value" {"foo" {:bar [1 false 9.0 nil]}},
+              "@type" "@json"}]}
 
            (expand/node {"gr:includes"               {"@type"     ["gr:Individual" "pto:Vehicle"],
                                                       "gr:name"   "Tesla Roadster",
@@ -161,53 +150,42 @@
 
   (testing "Nested children in vector"
     (is (= {"http://rdf.data-vocabulary.org/#name"
-            [{:type nil, :idx ["name"], :value "Mojito"}],
+            [{"@value" "Mojito"}],
             "http://rdf.data-vocabulary.org/#ingredients"
-            [{:type nil, :idx ["ingredient" 0], :value "12 fresh mint leaves"}
-             {:type nil, :idx ["ingredient" 1], :value "1/2 lime, juiced with pulp"}
-             {:type nil, :idx ["ingredient" 2], :value "1 tablespoons white sugar"}
-             {:type nil, :idx ["ingredient" 3], :value "1 cup ice cubes"}
-             {:type nil, :idx ["ingredient" 4], :value "2 fluid ounces white rum"}
-             {:type nil, :idx ["ingredient" 5], :value "1/2 cup club soda"}],
+            [{"@value" "12 fresh mint leaves"}
+             {"@value" "1/2 lime, juiced with pulp"}
+             {"@value" "1 tablespoons white sugar"}
+             {"@value" "1 cup ice cubes"}
+             {"@value" "2 fluid ounces white rum"}
+             {"@value" "1/2 cup club soda"}],
             "http://rdf.data-vocabulary.org/#yield"
-            [{:type nil, :idx ["yield"], :value "1 cocktail"}],
+            [{"@value" "1 cocktail"}],
             "http://rdf.data-vocabulary.org/#instructions"
-            [{:idx ["instructions" 0],
-              "http://rdf.data-vocabulary.org/#step"
-              [{:type "http://www.w3.org/2001/XMLSchema#integer",
-                :idx  ["instructions" 0 "step"], :value 1}],
+            [{"http://rdf.data-vocabulary.org/#step"
+              [{"@value" 1,
+                "@type" "http://www.w3.org/2001/XMLSchema#integer"}],
               "http://rdf.data-vocabulary.org/#description"
-              [{:type  nil, :idx ["instructions" 0 "description"],
-                :value "Crush lime juice, mint and sugar together in glass."}]}
-             {:idx ["instructions" 1],
-              "http://rdf.data-vocabulary.org/#step"
-              [{:type "http://www.w3.org/2001/XMLSchema#integer",
-                :idx  ["instructions" 1 "step"], :value 2}],
+              [{"@value" "Crush lime juice, mint and sugar together in glass."}]}
+             {"http://rdf.data-vocabulary.org/#step"
+              [{"@value" 2,
+                "@type" "http://www.w3.org/2001/XMLSchema#integer"}],
               "http://rdf.data-vocabulary.org/#description"
-              [{:type  nil, :idx ["instructions" 1 "description"],
-                :value "Fill glass to top with ice cubes."}]}
-             {:idx ["instructions" 2],
-              "http://rdf.data-vocabulary.org/#step"
-              [{:type "http://www.w3.org/2001/XMLSchema#integer",
-                :idx  ["instructions" 2 "step"], :value 3}],
+              [{"@value" "Fill glass to top with ice cubes."}]}
+             {"http://rdf.data-vocabulary.org/#step"
+              [{"@value" 3,
+                "@type" "http://www.w3.org/2001/XMLSchema#integer"}],
               "http://rdf.data-vocabulary.org/#description"
-              [{:type  nil, :idx ["instructions" 2 "description"],
-                :value "Pour white rum over ice."}]}
-             {:idx ["instructions" 3],
-              "http://rdf.data-vocabulary.org/#step"
-              [{:type "http://www.w3.org/2001/XMLSchema#integer",
-                :idx  ["instructions" 3 "step"], :value 4}],
+              [{"@value" "Pour white rum over ice."}]}
+             {"http://rdf.data-vocabulary.org/#step"
+              [{"@value" 4,
+                "@type" "http://www.w3.org/2001/XMLSchema#integer"}],
               "http://rdf.data-vocabulary.org/#description"
-              [{:type  nil, :idx ["instructions" 3 "description"],
-                :value "Fill the rest of glass with club soda, stir."}]}
-             {:idx ["instructions" 4],
-              "http://rdf.data-vocabulary.org/#step"
-              [{:type "http://www.w3.org/2001/XMLSchema#integer",
-                :idx  ["instructions" 4 "step"], :value 5}],
+              [{"@value" "Fill the rest of glass with club soda, stir."}]}
+             {"http://rdf.data-vocabulary.org/#step"
+              [{"@value" 5,
+                "@type" "http://www.w3.org/2001/XMLSchema#integer"}],
               "http://rdf.data-vocabulary.org/#description"
-              [{:type  nil, :idx ["instructions" 4 "description"],
-                :value "Garnish with a lime wedge."}]}]
-            :idx []}
+              [{"@value" "Garnish with a lime wedge."}]}]}
            (expand/node {"@context"     {"name"         "http://rdf.data-vocabulary.org/#name",
                                          "ingredient"   "http://rdf.data-vocabulary.org/#ingredients",
                                          "yield"        "http://rdf.data-vocabulary.org/#yield",
@@ -232,30 +210,24 @@
 (deftest node-graph-parse
   (testing "Parsing graph nodes"
     (testing "with a top level default graph"
-      (is (= [{:idx  ["@graph" 0],
-               :id   "http://example.org/library",
-               :type ["http://example.org/vocab#Library"],
+      (is (= [{"@id" "http://example.org/library",
+               "@type" ["http://example.org/vocab#Library"],
                "http://example.org/vocab#contains"
-               [{:id "http://example.org/library/the-republic", :idx ["@graph" 0 "ex:contains"]}]}
-              {:idx  ["@graph" 1],
-               :id   "http://example.org/library/the-republic",
-               :type ["http://example.org/vocab#Book"],
+               [{"@id" "http://example.org/library/the-republic"}]}
+              {"@id" "http://example.org/library/the-republic",
+               "@type" ["http://example.org/vocab#Book"],
                "http://purl.org/dc/elements/1.1/creator"
-               [{:value "Plato", :type nil, :idx ["@graph" 1 "dc11:creator"]}],
+               [{"@value" "Plato"}],
                "http://purl.org/dc/elements/1.1/title"
-               [{:value "The Republic", :type nil, :idx ["@graph" 1 "dc11:title"]}],
+               [{"@value" "The Republic"}],
                "http://example.org/vocab#contains"
-               [{:id  "http://example.org/library/the-republic#introduction",
-                 :idx ["@graph" 1 "ex:contains"]}]}
-              {:idx  ["@graph" 2],
-               :id   "http://example.org/library/the-republic#introduction",
-               :type ["http://example.org/vocab#Chapter"],
+               [{"@id" "http://example.org/library/the-republic#introduction"}]}
+              {"@id" "http://example.org/library/the-republic#introduction",
+               "@type" ["http://example.org/vocab#Chapter"],
                "http://purl.org/dc/elements/1.1/description"
-               [{:value "An introductory chapter on The Republic.", :type nil,
-                 :idx   ["@graph" 2 "dc11:description"]}],
+               [{"@value" "An introductory chapter on The Republic."}],
                "http://purl.org/dc/elements/1.1/title"
-               [{:value "The Introduction", :type nil,
-                 :idx   ["@graph" 2 "dc11:title"]}]}]
+               [{"@value" "The Introduction"}]}]
              (into []
                    (expand/node {"@context" {"dc11"        "http://purl.org/dc/elements/1.1/",
                                              "ex"          "http://example.org/vocab#",
@@ -275,34 +247,20 @@
                                               "dc11:title"       "The Introduction"}]})))
           "expands the graph as a sequence"))
     (testing "with a top level named graph"
-      (is (= {:graph [{"http://example.org/vocab#contains" [{:id "http://example.org/library/the-republic",
-                                                             :idx ["@graph" 0 "ex:contains"]}],
-                       :id "http://example.org/library",
-                       :idx ["@graph" 0],
-                       :type ["http://example.org/vocab#Library"]}
-                      {"http://example.org/vocab#contains" [{:id "http://example.org/library/the-republic#introduction",
-                                                             :idx ["@graph" 1 "ex:contains"]}],
-                       "http://purl.org/dc/elements/1.1/creator" [{:idx ["@graph" 1 "dc11:creator"],
-                                                                   :type nil,
-                                                                   :value "Plato"}],
-                       "http://purl.org/dc/elements/1.1/title" [{:idx ["@graph" 1 "dc11:title"],
-                                                                 :type nil,
-                                                                 :value "The Republic"}],
-                       :id "http://example.org/library/the-republic",
-                       :idx ["@graph" 1],
-                       :type ["http://example.org/vocab#Book"]}
-                      {"http://purl.org/dc/elements/1.1/description" [{:idx ["@graph" 2 "dc11:description"],
-                                                                       :type nil,
-                                                                       :value "An introductory chapter on The Republic."}],
-                       "http://purl.org/dc/elements/1.1/title" [{:idx ["@graph" 2 "dc11:title"],
-                                                                 :type nil,
-                                                                 :value "The Introduction"}],
-                       :id "http://example.org/library/the-republic#introduction",
-                       :idx ["@graph" 2],
-                       :type ["http://example.org/vocab#Chapter"]}],
-              :id "http://example.org/vocab#alexandria",
-              "http://example.org/vocab#burnedAt" [{:idx ["ex:burnedAt"], :type nil, :value "640 CE"}]
-              :idx []}
+      (is (= {"@graph" [{"http://example.org/vocab#contains" [{"@id" "http://example.org/library/the-republic"}],
+                       "@id" "http://example.org/library",
+                       "@type" ["http://example.org/vocab#Library"]}
+                      {"http://example.org/vocab#contains" [{"@id" "http://example.org/library/the-republic#introduction"}],
+                       "http://purl.org/dc/elements/1.1/creator" [{"@value" "Plato"}],
+                       "http://purl.org/dc/elements/1.1/title" [{"@value" "The Republic"}],
+                       "@id" "http://example.org/library/the-republic",
+                       "@type" ["http://example.org/vocab#Book"]}
+                      {"http://purl.org/dc/elements/1.1/description" [{"@value" "An introductory chapter on The Republic."}],
+                       "http://purl.org/dc/elements/1.1/title" [{"@value" "The Introduction"}],
+                       "@id" "http://example.org/library/the-republic#introduction",
+                       "@type" ["http://example.org/vocab#Chapter"]}],
+              "@id" "http://example.org/vocab#alexandria",
+              "http://example.org/vocab#burnedAt" [{"@value" "640 CE"}]}
              (expand/node {"@context"    {"dc11"        "http://purl.org/dc/elements/1.1/",
                                           "ex"          "http://example.org/vocab#",
                                           "xsd"         "http://www.w3.org/2001/XMLSchema#",
@@ -326,46 +284,42 @@
 
 (deftest list-type-values
   (testing "An @list can be used in context to specify all instances of the node are list items"
-    (is (= {:id  "http://example.org/people#joebob"
-            :idx []
+    (is (= {"@id" "http://example.org/people#joebob"
             "http://xmlns.com/foaf/0.1/nick"
-            [{:list [{:value "joe", :type nil, :idx ["nick" 0]}
-                     {:value "bob", :type nil, :idx ["nick" 1]}
-                     {:value "jaybee", :type nil, :idx ["nick" 2]}]}]}
+            [{"@list" [{"@value" "joe"}
+                       {"@value" "bob"}
+                       {"@value" "jaybee"}]}]}
            (expand/node {"@context" {"nick" {"@id"        "http://xmlns.com/foaf/0.1/nick",
                                              "@container" "@list"}}
 
                          "@id"  "http://example.org/people#joebob",
                          "nick" ["joe", "bob", "jaybee"]}))))
   (testing "An @list can also be used within the node itself"
-    (is (= {:id  "http://example.org/people#joebob"
-            :idx []
+    (is (= {"@id" "http://example.org/people#joebob"
             "http://xmlns.com/foaf/0.1/nick"
-            [{:list [{:value "joe", :type nil, :idx ["foaf:nick" "@list" 0]}
-                     {:value "bob", :type nil, :idx ["foaf:nick" "@list" 1]}
-                     {:value "jaybee", :type nil, :idx ["foaf:nick" "@list" 2]}]}]}
+            [{"@list" [{"@value" "joe"}
+                       {"@value" "bob"}
+                       {"@value" "jaybee"}]}]}
            (expand/node {"@context"  {"foaf" "http://xmlns.com/foaf/0.1/"}
                          "@id"       "http://example.org/people#joebob",
                          "foaf:nick" {"@list" ["joe", "bob", "jaybee"]}})))))
 
 (deftest set-type-values
   (testing "An @set is the default list/vector container type, even if specified, flatten."
-    (is (= {:id  "http://example.org/people#joebob"
-            :idx []
+    (is (= {"@id" "http://example.org/people#joebob"
             "http://xmlns.com/foaf/0.1/nick"
-            [{:value "joe", :type nil, :idx ["foaf:nick" "@set" 0]}
-             {:value "bob", :type nil, :idx ["foaf:nick" "@set" 1]}
-             {:value "jaybee", :type nil, :idx ["foaf:nick" "@set" 2]}]}
+            [{"@value" "joe"}
+             {"@value" "bob"}
+             {"@value" "jaybee"}]}
            (expand/node {"@context"  {"foaf" "http://xmlns.com/foaf/0.1/"}
                          "@id"       "http://example.org/people#joebob",
                          "foaf:nick" {"@set" ["joe", "bob", "jaybee"]}}))))
   (testing "An @set can be used in context ensure all values presented in vector/array format."
-    (is (= {:id  "http://example.org/people#joebob"
-            :idx []
+    (is (= {"@id" "http://example.org/people#joebob"
             "http://xmlns.com/foaf/0.1/nick"
-            [{:value "joe", :type nil, :idx ["nick" 0]}
-             {:value "bob", :type nil, :idx ["nick" 1]}
-             {:value "jaybee", :type nil, :idx ["nick" 2]}]}
+            [{"@value" "joe"}
+             {"@value" "bob"}
+             {"@value" "jaybee"}]}
            (expand/node {"@context" {"nick" {"@id"        "http://xmlns.com/foaf/0.1/nick",
                                              "@container" "@set"}}
 
@@ -375,14 +329,12 @@
 
 (deftest base-and-vocab-test
   (testing "An @base and a @vocab expand the correct iris"
-    (is (= {:id   "https://base.com/base/iri#joebob"
-            :idx  []
-            :type ["https://vocab.com/vocab/iri/Joey"]
+    (is (= {"@id" "https://base.com/base/iri#joebob"
+            "@type" ["https://vocab.com/vocab/iri/Joey"]
             "https://vocab.com/vocab/iri/name"
-            [{:value "Joe Bob" :type nil :idx ["name"]}]
+            [{"@value" "Joe Bob"}]
             "https://vocab.com/vocab/iri/iriProperty"
-            [{:id  "https://base.com/base/iri#a-relative-id"
-              :idx ["iriProperty"]}]}
+            [{"@id" "https://base.com/base/iri#a-relative-id"}]}
            (expand/node {"@context"    {"@base"       "https://base.com/base/iri"
                                         "@vocab"      "https://vocab.com/vocab/iri/"
                                         "iriProperty" {"@type" "@id"}}
@@ -398,29 +350,21 @@
                     "@type"       "Joey"
                     "name"        "Joe Bob"
                     "iriProperty" "#a-relative-id"}]
-      (is (= {:idx                                []
-              :type                               ["http://example.com/ns/Joey"]
-              :id                                 "http://example.com/#joebob"
-              "http://example.com/ns/name"        [{:value "Joe Bob"
-                                                    :type  nil
-                                                    :idx   ["name"]}]
-              "http://example.com/ns/iriProperty" [{:id  "http://example.com/#a-relative-id"
-                                                    :idx ["iriProperty"]}]}
+      (is (= {"@type" ["http://example.com/ns/Joey"]
+              "@id" "http://example.com/#joebob"
+              "http://example.com/ns/name"        [{"@value" "Joe Bob"}]
+              "http://example.com/ns/iriProperty" [{"@id" "http://example.com/#a-relative-id"}]}
              (expand/node (assoc data "@context" context*)))))))
 
 (deftest type-sub-context
   (testing "When @context has a sub-@context for specific types, ensure merged"
-    (let [expected {:id "#joebob"
-                    :idx []
-                    :type ["https://www.w3.org/2018/credentials#VerifiableCredential"]
+    (let [expected {"@id" "#joebob"
+                    "@type" ["https://www.w3.org/2018/credentials#VerifiableCredential"]
                     "https://www.w3.org/2018/credentials#issuer"
-                    [{:id "did:for:some-issuer" :idx ["issuer"]}]
+                    [{"@id" "did:for:some-issuer"}]
                     "https://www.w3.org/2018/credentials#credentialSchema"
-                    [{:id "#credSchema"
-                      :idx ["credentialSchema"]
-                      "https://www.w3.org/2018/credentials#" [{:value "Some Cred!"
-                                                               :type nil
-                                                               :idx ["credentialSchema" "cred"]}]}]}]
+                    [{"@id" "#credSchema"
+                      "https://www.w3.org/2018/credentials#" [{"@value" "Some Cred!"}]}]}]
       ;; expect same output independent of key order of input
       ;; "type" is 3rd key
       (is (= expected
@@ -472,10 +416,9 @@
 
 (deftest keyword-contexts
   (testing "Clojure keyword contexts"
-    (is (= {:idx                     [],
-            :type                    ["http://schema.org/Movie"],
-            :id                      "http://example.com/ns#item123",
-            "http://schema.org/name" [{:value "My Movie", :type nil, :idx [:schema/name]}]}
+    (is (= {"@type" ["http://schema.org/Movie"],
+            "@id" "http://example.com/ns#item123",
+            "http://schema.org/name" [{"@value" "My Movie"}]}
            (expand/node {:context     {:id     "@id"
                                        :type   "@type"
                                        :schema "http://schema.org/"}
@@ -483,10 +426,9 @@
                          :type        :schema/Movie
                          :schema/name "My Movie"}))))
   (testing "Clojure keyword used as IRI value"
-    (is (= {:idx                     [],
-            :type                    ["http://schema.org/Movie"],
-            :id                      "http://example.com/ns#item123",
-            "http://schema.org/name" [{:value "My Movie", :type nil, :idx [:schema/name]}]}
+    (is (= {"@type" ["http://schema.org/Movie"],
+            "@id" "http://example.com/ns#item123",
+            "http://schema.org/name" [{"@value" "My Movie"}]}
            (expand/node {:context     {:id     "@id"
                                        :type   "@type"
                                        :schema "http://schema.org/"
@@ -495,10 +437,9 @@
                          :type        :schema/Movie
                          :schema/name "My Movie"}))))
   (testing "Clojure keyword used as IRI value in a vector"
-    (is (= {:idx [],
-            :id "http://example.com/ns#item123",
-            "http://example.com/ns#favColor" [{:id "http://example.com/ns#red", :idx [:ex/favColor 0]}
-                                              {:id "http://example.com/ns#green", :idx [:ex/favColor 1]}]}
+    (is (= {"@id" "http://example.com/ns#item123",
+            "http://example.com/ns#favColor" [{"@id" "http://example.com/ns#red"}
+                                              {"@id" "http://example.com/ns#green"}]}
            (expand/node {:context     {:id     "@id"
                                        :ex     "http://example.com/ns#"}
                          :id          :ex/item123
@@ -506,20 +447,15 @@
 
 (deftest shacl-embedded-nodes
   (testing "clojure kws"
-    (is (= {:idx [],
-            :type ["http://www.w3.org/ns/shacl#NodeShape"],
-            :id "http://example.org/ns/UserShape",
+    (is (= {"@type" ["http://www.w3.org/ns/shacl#NodeShape"],
+            "@id" "http://example.org/ns/UserShape",
             "http://www.w3.org/ns/shacl#targetClass"
-            [{:id "http://example.org/ns/User",
-              :idx [:sh/targetClass]}],
+            [{"@id" "http://example.org/ns/User"}],
             "http://www.w3.org/ns/shacl#property"
-            [{:idx [:sh/property 0],
-              "http://www.w3.org/ns/shacl#path"
-              [{:id "http://schema.org/name",
-                :idx [:sh/property 0 :sh/path]}],
+            [{"http://www.w3.org/ns/shacl#path"
+              [{"@id" "http://schema.org/name"}],
               "http://www.w3.org/ns/shacl#datatype"
-              [{:id "http://www.w3.org/2001/XMLSchema#string",
-                :idx [:sh/property 0 :sh/datatype]}]}]}
+              [{"@id" "http://www.w3.org/2001/XMLSchema#string"}]}]}
 
            (expand/node
             {:id :ex/UserShape,
@@ -542,20 +478,15 @@
              :skos {:id "http://www.w3.org/2008/05/skos#"},
              :rdf {:id "http://www.w3.org/1999/02/22-rdf-syntax-ns#"}})) {}))
   (testing "string, with `:type-key` of 'type', but node uses @type"
-    (is (= {:idx [],
-            :type ["http://www.w3.org/ns/shacl#NodeShape"],
-            :id "http://example.org/ns/UserShape",
+    (is (= {"@type" ["http://www.w3.org/ns/shacl#NodeShape"],
+            "@id" "http://example.org/ns/UserShape",
             "http://www.w3.org/ns/shacl#targetClass"
-            [{:id "http://example.org/ns/User",
-              :idx ["sh:targetClass"]}],
+            [{"@id" "http://example.org/ns/User"}],
             "http://www.w3.org/ns/shacl#property"
-            [{:idx ["sh:property" 0],
-              "http://www.w3.org/ns/shacl#path"
-              [{:id "http://schema.org/name",
-                :idx ["sh:property" 0 "sh:path"]}],
+            [{"http://www.w3.org/ns/shacl#path"
+              [{"@id" "http://schema.org/name"}],
               "http://www.w3.org/ns/shacl#datatype"
-              [{:id "http://www.w3.org/2001/XMLSchema#string",
-                :idx ["sh:property" 0 "sh:datatype"]}]}]}
+              [{"@id" "http://www.w3.org/2001/XMLSchema#string"}]}]}
 
            (expand/node
             {"@id" "ex:UserShape",
@@ -586,13 +517,11 @@
                       "ex:name"       "Frank"
                       "ex:occupation" {"@value"    "Ninja"
                                        "@language" "en"}}]
-          (is (= {:idx                            [],
-                  "http://example.com/vocab/name"
-                  [{:value "Frank", :type nil, :idx ["ex:name"]}],
+          (is (= {"http://example.com/vocab/name"
+                  [{"@value" "Frank"}],
                   "http://example.com/vocab/occupation"
-                  [{:value    "Ninja"
-                    :language "en"
-                    :idx      ["ex:occupation"]}]}
+                  [{"@value"    "Ninja"
+                    "@language" "en"}]}
                  (expand/node jsonld))
               "includes the language tag")))
       (testing "with a type specified"
@@ -614,13 +543,12 @@
                     "ex:name"    "Frank"
                     "ex:age"     33
                     "occupation" {"@value" "Ninja"}}]
-        (is (= {:idx [],
-                "http://example.com/vocab/name"
-                [{:value "Frank", :language "en", :idx ["ex:name"]}]
+        (is (= {"http://example.com/vocab/name"
+                [{"@value" "Frank", "@language" "en"}]
                 "http://example.com/vocab/age"
-                [{:value 33, :type nil, :idx ["ex:age"]}]
+                [{"@value" 33}]
                 "http://example.com/vocab/occupation"
-                [{:value "Ninja", :language "en", :idx ["occupation"]}]}
+                [{"@value" "Ninja", "@language" "en"}]}
                (expand/node jsonld))
             "includes the language tag for all string values")
         (testing "cleared in an intervening context"
@@ -629,15 +557,13 @@
                                       {"@language" nil})
                             (dissoc "occupation")
                             (assoc-in ["ex:details" "occupation"] "Ninja"))]
-            (is (= {:idx [],
-                    "http://example.com/vocab/name"
-                    [{:value "Frank", :language "en", :idx ["ex:name"]}],
+            (is (= {"http://example.com/vocab/name"
+                    [{"@value" "Frank", "@language" "en"}],
                     "http://example.com/vocab/age"
-                    [{:value 33, :type nil, :idx ["ex:age"]}],
+                    [{"@value" 33}],
                     "http://example.com/vocab/details"
-                    [{:idx ["ex:details"],
-                      "http://example.com/vocab/occupation"
-                      [{:value "Ninja", :type nil, :idx ["ex:details" "occupation"]}]}]}
+                    [{"http://example.com/vocab/occupation"
+                      [{"@value" "Ninja"}]}]}
                    (expand/node jsonld*))
                 "does not include the language tag")))
         (testing "overridden by an expanded term definition"
@@ -645,13 +571,12 @@
                             (assoc-in ["@context" "occupation_ja"]
                                       {"@id" "ex:occupation", "@language" "ja"})
                             (assoc "occupation_ja" "忍者"))]
-            (is (= {:idx [],
-                    "http://example.com/vocab/name"
-                    [{:value "Frank", :language "en", :idx ["ex:name"]}],
-                    "http://example.com/vocab/age" [{:value 33, :type nil, :idx ["ex:age"]}],
+            (is (= {"http://example.com/vocab/name"
+                    [{"@value" "Frank", "@language" "en"}],
+                    "http://example.com/vocab/age" [{"@value" 33}],
                     "http://example.com/vocab/occupation"
-                    [{:value "Ninja", :language "en", :idx ["occupation"]}
-                     {:value "忍者", :language "ja", :idx ["occupation_ja"]}]}
+                    [{"@value" "Ninja", "@language" "en"}
+                     {"@value" "忍者", "@language" "ja"}]}
                    (expand/node jsonld*))
                 "includes the correct language tag on each entry")))))
     (testing "as keys in language maps"
@@ -662,31 +587,25 @@
                     "ex:age" 33,
                     "occupation" {"en" {"@value" "Ninja"}
                                   "ja" "忍者"}}]
-        (is (= {:idx [],
-                "http://example.com/vocab/name"
-                [{:value "Frank", :type nil, :idx ["ex:name"]}],
-                "http://example.com/vocab/age" [{:value 33, :type nil, :idx ["ex:age"]}],
+        (is (= {"http://example.com/vocab/name"
+                [{"@value" "Frank"}],
+                "http://example.com/vocab/age" [{"@value" 33}],
                 "http://example.com/vocab/occupation"
-                [{:value "Ninja", :type nil, :idx ["occupation" "en"], :language "en"}
-                 {:value "忍者", :type nil, :idx ["occupation" "ja"], :language "ja"}]}
+                [{"@value" "Ninja", "@language" "en"}
+                 {"@value" "忍者", "@language" "ja"}]}
                (expand/node jsonld))
             "includes the correct language tag on each entry")))))
 
 (deftest false-value-test
   (testing "false survives expansion"
-    (is (= {"bar" [{:idx ["bar"], :type nil, :value false}], :id "foo", :idx []}
+    (is (= {"bar" [{"@value" false}], "@id" "foo"}
            (expand/node {"@id" "foo"
                          "bar" {"@value" false}})))))
 
 (deftest empty-colon-test
   (testing "Testing context key of ':' expands properly."
-    (is (= {"http://somedomain.org/age"     [{:idx   [":age"]
-                                              :type  nil
-                                              :value 33}]
-            "http://example.com/vocab/name" [{:idx   ["ex:name"]
-                                              :type  nil
-                                              :value "Frank"}]
-            :idx                            []}
+    (is (= {"http://somedomain.org/age"     [{"@value" 33}]
+            "http://example.com/vocab/name" [{"@value" "Frank"}]}
            (expand/node {"@context"
                          {"ex" "http://example.com/vocab/"
                           ":"  "http://somedomain.org/"}
@@ -695,15 +614,12 @@
 
 (deftest variables
   (testing "vars are not expanded by base/vocab"
-    (is (= {:idx [],
-            "https:example.com/ns/foo"
-            [{:idx ["foo"],
-              :id "?s",
-              "?p" [{:value "?o", :type nil, :idx ["foo" "?p"]}]}],
+    (is (= {"https:example.com/ns/foo"
+            [{"@id" "?s",
+              "?p" [{"@value" "?o"}]}],
             "https:example.com/ns/bar"
-            [{:idx ["bar"],
-              :id "https:example.com/me",
-              "https:example.com/ns/name" [{:value "Dan", :type nil, :idx ["bar" "name"]}]}]}
+            [{"@id" "https:example.com/me",
+              "https:example.com/ns/name" [{"@value" "Dan"}]}]}
            (expand/node {"@context" {"@base" "https:example.com/" "@vocab" "ns/"}
                          "foo" {"@id" "?s" "?p" "?o"}
                          "bar" {"@id" "me" "name" "Dan"}})))))
