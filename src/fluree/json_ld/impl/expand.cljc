@@ -273,7 +273,7 @@
   and a (possibly) updated context if there was a type-dependent sub-context present.
   Always return @type as a vector regardless of input."
   [node-map context idx]
-  (let [base (if (empty? idx) {} {})
+  (let [base {}
         {:keys [type-key]} context]
     (if-let [type-val (or (get node-map type-key)
                           (get node-map (get-in context [type-key :id])))]
@@ -327,21 +327,18 @@
             [k* v-info] (try-catchall
                          (details k context true)
                          (catch e (wrap-error e idx*)))
-            k**  (if (= \@ (first k*))
-                   k*
-                   k*)
             v*   (try-catchall
                   (parse-node-val v v-info context externals idx*)
                   (catch e (wrap-error e idx*)))]
         (recur r
-               (if (= "@type" k**)
+               (if (= "@type" k*)
                  (type-sub-context context v)
                  context)
-               (if (#{"@type"} k**)
+               (if (#{"@type"} k*)
                  acc
-                 (if (#{"@id"} k**)
-                   (assoc! acc k** v*)
-                   (append-value! acc k** v*)))))
+                 (if (#{"@id"} k*)
+                   (assoc! acc k* v*)
+                   (append-value! acc k* v*)))))
       (persistent! acc))))
 
 
