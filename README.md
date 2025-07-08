@@ -32,7 +32,7 @@ The library provides the `fluree.json-ld` namespace with JSON-LD operations incl
 
 **Note:** Most operations in this library require a parsed context. Parsing contexts once and reusing them makes expansion and compaction operations more efficient, especially when processing multiple documents with the same context.
 
-**JSON-LD Keywords:** When expanding documents, special JSON-LD keywords (like `@id`, `@type`, `@graph`, `@list`, `@value`) are converted to Clojure keywords (`:id`, `:type`, `:graph`, `:list`, `:value`) in the resulting data structure.
+**JSON-LD Standard Output:** The expansion operation produces valid JSON-LD output that conforms to the JSON-LD 1.1 specification, using standard JSON-LD keywords (`@id`, `@type`, `@graph`, `@list`, `@value`, etc.) in the resulting data structure.
 
 ### Context Parsing
 
@@ -63,37 +63,37 @@ Expand JSON-LD to its full form:
   {"@context" {"name" "http://schema.org/name"}
    "@id" "http://example.org/person/1"
    "name" "John Doe"})
-;; => {:id "http://example.org/person/1"
-;;     :idx []
-;;     "http://schema.org/name" [{:value "John Doe" 
-;;                                :type nil 
-;;                                :idx ["name"]}]}
+;; => {"@id" "http://example.org/person/1"
+;;     "http://schema.org/name" [{"@value" "John Doe"}]}
 
-;; The :idx metadata tracks the path in the original document,
-;; useful for error reporting. For nested structures:
+;; Nested structures are expanded recursively:
 (json-ld/expand
   {"@context" {"knows" "http://schema.org/knows"}
    "@id" "http://example.org/person/1"
    "knows" {"@id" "http://example.org/person/2"
             "knows" {"@id" "http://example.org/person/3"}}})
-;; => Nested structure with :idx paths like ["knows"] and ["knows" "knows"]
+;; => {"@id" "http://example.org/person/1"
+;;     "http://schema.org/knows" [{"@id" "http://example.org/person/2"
+;;                                 "http://schema.org/knows" [{"@id" "http://example.org/person/3"}]}]}
 
-;; Special JSON-LD terms (@id, @type, @graph, etc.) are converted to keywords
+;; JSON-LD lists are handled with @list containers:
 (json-ld/expand
   {"@context" {"nick" {"@id" "http://xmlns.com/foaf/0.1/nick"
                        "@container" "@list"}}
    "@id" "http://example.org/people#joebob"
    "nick" ["joe" "bob" "jaybee"]})
-;; => {:id "http://example.org/people#joebob"
-;;     :idx []
+;; => {"@id" "http://example.org/people#joebob"
 ;;     "http://xmlns.com/foaf/0.1/nick" 
-;;     [{:list [{:value "joe" :type nil :idx ["nick" 0]}
-;;              {:value "bob" :type nil :idx ["nick" 1]}
-;;              {:value "jaybee" :type nil :idx ["nick" 2]}]}]}
+;;     [{"@list" [{"@value" "joe"}
+;;                {"@value" "bob"}
+;;                {"@value" "jaybee"}]}]}
 
-;; @graph returns a vector of expanded nodes
-(json-ld/expand {"@graph" [{"@id" "http://example.org/1" "name" "John"}]})
-;; => [{:id "http://example.org/1" :idx ["@graph" 0] ...}]
+;; @graph returns standard JSON-LD graph structures:
+(json-ld/expand {"@graph" [{"@id" "http://example.org/1" 
+                            "@context" {"name" "http://schema.org/name"}
+                            "name" "John"}]})
+;; => [{"@id" "http://example.org/1" 
+;;      "http://schema.org/name" [{"@value" "John"}]}]
 
 ;; Expand a single IRI
 (json-ld/expand-iri "schema:name" parsed-context)
