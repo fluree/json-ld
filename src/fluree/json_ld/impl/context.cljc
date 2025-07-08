@@ -96,8 +96,8 @@
   [ctx-key ctx-val ctx-original ctx-base externals]
   (let [default-vocab  (when-let [vocab (get ctx-original "@vocab")]
                          (or (get vocab "@id") vocab))
-        default-vocab* (when default-vocab
-                         (vocab ctx-base ctx-original default-vocab))
+        default-vocab* (when-let [dv default-vocab]
+                         (vocab ctx-base ctx-original dv))
         ctx-val*       (if (string? ctx-val)
                          (recursively-get-id ctx-val ctx-original)
                          ctx-val)]

@@ -133,10 +133,9 @@
 
 (defmethod parse-node-val :boolean
   [v v-info _ _ _]
-  (let [type (:type v-info)]
-    (if type
-      [{"@value" v "@type" type}]
-      [{"@value" v}])))
+  (if-let [type (:type v-info)]
+    [{"@value" v "@type" type}]
+    [{"@value" v}]))
 
 (defn throw-invalid-language
   []
@@ -173,10 +172,9 @@
 
 (defmethod parse-node-val :number
   [v v-info _ _ _]
-  (let [type (:type v-info)]
-    (if type
-      [{"@value" v "@type" type}]
-      [{"@value" v}])))
+  (if-let [type (:type v-info)]
+    [{"@value" v "@type" type}]
+    [{"@value" v}]))
 
 (defn- parse-node-value-map
   [v-key v v-info ctx _]
