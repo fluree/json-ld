@@ -248,17 +248,17 @@
           "expands the graph as a sequence"))
     (testing "with a top level named graph"
       (is (= {"@graph" [{"http://example.org/vocab#contains" [{"@id" "http://example.org/library/the-republic"}],
-                       "@id" "http://example.org/library",
-                       "@type" ["http://example.org/vocab#Library"]}
-                      {"http://example.org/vocab#contains" [{"@id" "http://example.org/library/the-republic#introduction"}],
-                       "http://purl.org/dc/elements/1.1/creator" [{"@value" "Plato"}],
-                       "http://purl.org/dc/elements/1.1/title" [{"@value" "The Republic"}],
-                       "@id" "http://example.org/library/the-republic",
-                       "@type" ["http://example.org/vocab#Book"]}
-                      {"http://purl.org/dc/elements/1.1/description" [{"@value" "An introductory chapter on The Republic."}],
-                       "http://purl.org/dc/elements/1.1/title" [{"@value" "The Introduction"}],
-                       "@id" "http://example.org/library/the-republic#introduction",
-                       "@type" ["http://example.org/vocab#Chapter"]}],
+                         "@id" "http://example.org/library",
+                         "@type" ["http://example.org/vocab#Library"]}
+                        {"http://example.org/vocab#contains" [{"@id" "http://example.org/library/the-republic#introduction"}],
+                         "http://purl.org/dc/elements/1.1/creator" [{"@value" "Plato"}],
+                         "http://purl.org/dc/elements/1.1/title" [{"@value" "The Republic"}],
+                         "@id" "http://example.org/library/the-republic",
+                         "@type" ["http://example.org/vocab#Book"]}
+                        {"http://purl.org/dc/elements/1.1/description" [{"@value" "An introductory chapter on The Republic."}],
+                         "http://purl.org/dc/elements/1.1/title" [{"@value" "The Introduction"}],
+                         "@id" "http://example.org/library/the-republic#introduction",
+                         "@type" ["http://example.org/vocab#Chapter"]}],
               "@id" "http://example.org/vocab#alexandria",
               "http://example.org/vocab#burnedAt" [{"@value" "640 CE"}]}
              (expand/node {"@context"    {"dc11"        "http://purl.org/dc/elements/1.1/",
