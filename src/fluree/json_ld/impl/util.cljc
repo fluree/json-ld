@@ -40,7 +40,7 @@
 (defn slurp-resource
   #_{:clj-kondo/ignore [:unused-binding]}
   [filename]
-  #?(:cljs (throw (ex-info (str "Loading external resources is not yet supported in Javascript.")
+  #?(:cljs (throw (ex-info "Loading external resources is not yet supported in Javascript."
                            {:status 400 :error :json-ld/external-resource}))
      :clj  (try
              (some-> filename

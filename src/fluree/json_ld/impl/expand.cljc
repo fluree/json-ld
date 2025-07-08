@@ -127,12 +127,12 @@
   [])
 
 (defmethod parse-node-val :json
-  [v _ _ _ idx]
+  [v _ _ _ _]
   [{"@value" v
     "@type" "@json"}])
 
 (defmethod parse-node-val :boolean
-  [v v-info _ _ idx]
+  [v v-info _ _ _]
   (let [type (:type v-info)]
     (if type
       [{"@value" v "@type" type}]
@@ -140,12 +140,12 @@
 
 (defn throw-invalid-language
   []
-  (throw (ex-info (str "@language cannot be used for values with a specified @type")
+  (throw (ex-info "@language cannot be used for values with a specified @type"
                   {:status 400
                    :error  :json-ld/invalid-type})))
 
 (defmethod parse-node-val :string
-  [v {:keys [id type] :as v-info} context _ idx]
+  [v {:keys [id type] :as v-info} context _ _]
   ;; TODO - for both here and :sequential case, we catch @type values if :type-key exists but used explicit anyhow
   ;; TODO - can keep this, but could miss @type-specific context inclusion. Consider changing expansion to use
   ;; TODO - :type-keys as a set and catch before this step as is designed. i.e. :type-keys #{'type' '@type'}
@@ -165,21 +165,21 @@
 
 ;; keywords should only be used in values for IRIs
 (defmethod parse-node-val :keyword
-  [v {:keys [id]} context _ idx]
+  [v {:keys [id]} context _ _]
   (cond
     (= "@id" id) (iri v context false)
     (= "@type" id) [(iri v context false)]                  ;; @type should have been picked up using :type-key, but in case explicitly defined regardless
     :else [{"@id" (iri v context false)}]))
 
 (defmethod parse-node-val :number
-  [v v-info _ _ idx]
+  [v v-info _ _ _]
   (let [type (:type v-info)]
     (if type
       [{"@value" v "@type" type}]
       [{"@value" v}])))
 
 (defn- parse-node-value-map
-  [v-key v v-info ctx idx]
+  [v-key v v-info ctx _]
   (let [val (get v v-key)
         type (if-let [explicit-type (or (get v "@type") (:type v))]
                (iri explicit-type ctx true)
