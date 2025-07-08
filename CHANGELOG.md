@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **BREAKING**: Expansion now produces valid JSON-LD output conforming to JSON-LD 1.1 specification
+  - Expansion output now uses standard JSON-LD keywords (`@id`, `@type`, `@value`, `@graph`, `@list`) instead of proprietary format
+  - Removed `:idx` metadata from expansion output - expansion now produces clean JSON-LD
+  - Updated all examples and documentation to reflect the new standard format
+  - This change makes the library fully compatible with other JSON-LD processors and tools
+
 ## [1.0.1] - 2025-01-06
 
 ### Fixed

@@ -99,8 +99,8 @@
                        "@id" "http://example.org/person/1"
                        "name" "John Doe"})]
         (is (map? expanded))
-        (is (= "http://example.org/person/1" (:id expanded)))
-        (is (= "John Doe" (get-in expanded ["http://schema.org/name" 0 :value]))))
+        (is (= "http://example.org/person/1" (get expanded "@id")))
+        (is (= "John Doe" (get-in expanded ["http://schema.org/name" 0 "@value"]))))
 
       ;; IRI expansion
       (let [ctx (json-ld/parse-context {"@context" {"schema" "http://schema.org/"}})
