@@ -84,7 +84,7 @@
      (or
       ; Direct properties
       (get clj-doc "@context")
-      (get clj-doc "@id") 
+      (get clj-doc "@id")
       (get clj-doc "@type")
       (get clj-doc "@graph")
       ; Array format
