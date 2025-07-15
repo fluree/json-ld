@@ -17,3 +17,5 @@ test/nodejs
 .shadow-cljs
 /.clj-kondo/.cache/
 /.lsp/
+/out/
+/dist/

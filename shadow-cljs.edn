@@ -1,6 +1,8 @@
 
 {:deps {:aliases [:dev]}
 
+ :dev-http {8000 "out/browser"}
+
  :builds
  {:nodejs-test                            ; runs the cljs tests on node
   {:target :node-test
@@ -10,4 +12,34 @@
 
   :browser-test                         ; runs the cljs tests in the browser via karma
   {:target :karma
-   :output-to "test/browser/browser-tests.js"}}}
+   :output-to "test/browser/browser-tests.js"}
+
+  :browser
+  {:target           :esm
+   :output-dir       "out/browser/"
+   :build-hooks      [(shadow.cljs.build-report/hook)]
+   :compiler-options {:infer-externs true}
+   :modules          {:fluree-json-ld
+                      {:exports
+                       {expand          fluree.json-ld-js/expand
+                        compact         fluree.json-ld-js/compact
+                        normalizeData   fluree.json-ld-js/normalize-data
+                        parseContext    fluree.json-ld-js/parse-context
+                        expandIri       fluree.json-ld-js/expand-iri
+                        compactFn       fluree.json-ld-js/compact-fn
+                        jsonLd          fluree.json-ld-js/json-ld?}}}}
+
+  :node
+  {:target           :esm
+   :output-dir       "out/nodejs"
+   :runtime          :node
+   :modules          {:fluree-json-ld
+                      {:exports
+                       {expand          fluree.json-ld-js/expand
+                        compact         fluree.json-ld-js/compact
+                        normalizeData   fluree.json-ld-js/normalize-data
+                        parseContext    fluree.json-ld-js/parse-context
+                        expandIri       fluree.json-ld-js/expand-iri
+                        compactFn       fluree.json-ld-js/compact-fn
+                        jsonLd          fluree.json-ld-js/json-ld?}}}
+   :compiler-options {:infer-externs true}}}}
