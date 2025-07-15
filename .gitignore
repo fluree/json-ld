@@ -17,3 +17,4 @@ test/nodejs
 .shadow-cljs
 /.clj-kondo/.cache/
 /.lsp/
+pom.xml
