@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser ESM Test - Fluree JSON-LD</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-result { margin: 10px 0; }
+        .pass { color: green; }
+        .fail { color: red; }
+        .summary { margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Browser ESM Functionality Tests</h1>
+    <div id="test-results"></div>
+    
+    <script type="module">
+        import { expand, compact, normalizeData, parseContext, jsonLd } from '../../dist/browser/fluree-json-ld.js';
+        
+        const testDoc = {
+            "@context": {
+                "name": "http://schema.org/name",
+                "Person": "http://schema.org/Person"
+            },
+            "@type": "Person",
+            "name": "John Doe"
+        };
+
+        const testContext = {
+            "name": "http://schema.org/name",
+            "Person": "http://schema.org/Person"
+        };
+
+        const resultsDiv = document.getElementById('test-results');
+        let passed = 0;
+        let failed = 0;
+
+        function addResult(testName, success, message = '') {
+            const div = document.createElement('div');
+            div.className = 'test-result';
+            if (success) {
+                div.innerHTML = `<span class="pass">✅ ${testName} works</span>`;
+                passed++;
+            } else {
+                div.innerHTML = `<span class="fail">❌ ${testName} failed: ${message}</span>`;
+                failed++;
+            }
+            resultsDiv.appendChild(div);
+        }
+
+        function addSummary() {
+            const summaryDiv = document.createElement('div');
+            summaryDiv.className = 'summary';
+            summaryDiv.innerHTML = `📊 Test Results: ${passed} passed, ${failed} failed`;
+            resultsDiv.appendChild(summaryDiv);
+
+            const statusDiv = document.createElement('div');
+            statusDiv.className = 'summary';
+            if (failed === 0) {
+                statusDiv.innerHTML = '<span class="pass">🎉 All browser ESM tests passed!</span>';
+            } else {
+                statusDiv.innerHTML = '<span class="fail">💥 Some tests failed</span>';
+            }
+            resultsDiv.appendChild(statusDiv);
+        }
+
+        async function runTests() {
+            console.log('🧪 Running browser ESM functionality tests...');
+
+            // Test 1: Module loading check
+            try {
+                if (typeof expand === 'function' && 
+                    typeof compact === 'function' && 
+                    typeof normalizeData === 'function' && 
+                    typeof parseContext === 'function' &&
+                    typeof jsonLd === 'function') {
+                    addResult('ESM module loading', true);
+                } else {
+                    addResult('ESM module loading', false, 'functions not available');
+                }
+            } catch (error) {
+                addResult('ESM module loading', false, error.message);
+            }
+
+            // Test 2: JSON-LD detection
+            try {
+                const isJsonLd = jsonLd(testDoc);
+                if (typeof isJsonLd === 'boolean') {
+                    addResult('jsonLd() detection', true);
+                } else {
+                    addResult('jsonLd() detection', false, 'invalid result type');
+                }
+            } catch (error) {
+                addResult('jsonLd() detection', false, error.message);
+            }
+
+            // Test 3: Parse Context functionality
+            try {
+                const parsedContext = parseContext(testContext);
+                if (parsedContext && typeof parsedContext === 'object') {
+                    addResult('parseContext() with JS object', true);
+                } else {
+                    addResult('parseContext() with JS object', false, 'invalid result');
+                }
+            } catch (error) {
+                addResult('parseContext() with JS object', false, error.message);
+            }
+
+            // Test 4: Normalize functionality
+            try {
+                const normalized = normalizeData(testDoc);
+                if (typeof normalized === 'string') {
+                    addResult('normalizeData()', true);
+                } else {
+                    addResult('normalizeData()', false, 'invalid result');
+                }
+            } catch (error) {
+                addResult('normalizeData()', false, error.message);
+            }
+
+            // Test 5: Expand functionality
+            try {
+                const expanded = expand(testDoc);
+                if (expanded && typeof expanded === 'object') {
+                    addResult('expand()', true);
+                } else {
+                    addResult('expand()', false, 'invalid result');
+                }
+            } catch (error) {
+                addResult('expand()', false, error.message);
+            }
+
+            addSummary();
+        }
+
+        // Run tests when page loads
+        runTests().catch(error => {
+            console.error('❌ Test runner failed:', error);
+            addResult('Test Runner', false, error.message);
+            addSummary();
+        });
+    </script>
+</body>
+</html>

@@ -11,8 +11,9 @@
 .hg/
 .cljs_node_repl/
 .dir-locals.el
-test/browser
-test/nodejs
+test/browser/*.js
+test/browser/*.js.map
+test/nodejs/*.js
 **node_modules
 .shadow-cljs
 /.clj-kondo/.cache/
