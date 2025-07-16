@@ -1,6 +1,7 @@
 
 {:deps {:aliases [:dev]}
 
+
  :dev-http {8000 "out/browser"}
 
  :builds
@@ -18,7 +19,8 @@
   {:target           :esm
    :output-dir       "out/browser/"
    :build-hooks      [(shadow.cljs.build-report/hook)]
-   :compiler-options {:infer-externs true}
+   :compiler-options {:infer-externs true
+                      :optimizations :advanced}
    :modules          {:fluree-json-ld
                       {:exports
                        {expand          fluree.json-ld-js/expand
@@ -42,4 +44,5 @@
                         expandIri       fluree.json-ld-js/expand-iri
                         compactFn       fluree.json-ld-js/compact-fn
                         jsonLd          fluree.json-ld-js/json-ld?}}}
-   :compiler-options {:infer-externs true}}}}
+   :compiler-options {:infer-externs true
+                      :optimizations :advanced}}}}
