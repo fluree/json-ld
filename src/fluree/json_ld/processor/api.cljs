@@ -1,7 +1,8 @@
 (ns fluree.json-ld.processor.api
   (:refer-clojure :exclude [flatten])
-  (:require ["jsonld/dist/jsonld.esm.min.js" :as jldjs]
-            [fluree.json-ld.impl.external :as external]))
+  (:require ["jsonld" :as jldjs]
+            [fluree.json-ld.impl.external :as external]
+            [fluree.json-ld.processor.crypto-shim]))
 
 (defn pluggable-loader
   "Takes a document-loader, which takes a url and options and returns a json string

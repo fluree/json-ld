@@ -99,6 +99,7 @@ out/browser/fluree-json-ld.js: shadow-cljs.edn node_modules $(SOURCES)
 
 browser: out/browser/fluree-json-ld.js
 
+
 dist/fluree-json-ld.d.ts: out/nodejs/fluree-json-ld.js
 	npx tsc
 

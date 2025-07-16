@@ -1,7 +1,6 @@
 
 {:deps {:aliases [:dev]}
 
-
  :dev-http {8000 "out/browser"}
 
  :builds

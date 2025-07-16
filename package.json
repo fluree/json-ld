@@ -10,7 +10,13 @@
   "files": [
     "dist"
   ],
-  "exports": "./dist/nodejs/fluree-json-ld.js",
+  "exports": {
+    ".": {
+      "import": "./dist/nodejs/fluree-json-ld.js",
+      "browser": "./dist/browser/fluree-json-ld.js"
+    }
+  },
+  "module": "./dist/nodejs/fluree-json-ld.js",
   "browser": "dist/browser/fluree-json-ld.js",
   "types": "dist/fluree-json-ld.d.ts",
   "devDependencies": {
