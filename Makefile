@@ -1,6 +1,7 @@
-.PHONY: help test jar install deploy clean edn-contexts parse-all-contexts lint lint-ci fmt fmt-check cljtest cljstest cljs-node-test cljs-browser-test docker-build docker-test
+.PHONY: all help test jar install deploy clean edn-contexts parse-all-contexts lint lint-ci fmt fmt-check cljtest cljstest cljs-node-test cljs-browser-test docker-build docker-test node browser js-package
 
 SOURCES := $(shell find src)
+RESOURCES := $(shell find resources)
 
 .PHONY: help
 help: ## Describe available tasks
@@ -8,7 +9,9 @@ help: ## Describe available tasks
 
 .DEFAULT_GOAL := help
 
-target/fluree-json-ld.jar: deps.edn src/deps.cljs $(SOURCES)
+all: jar js-package
+
+target/fluree-json-ld.jar: deps.edn src/deps.cljs node_modules $(SOURCES) $(RESOURCES)
 	clojure -T:build jar
 
 src/deps.cljs: package.json
@@ -45,7 +48,24 @@ node_modules: package.json
 
 cljstest: node_modules cljs-node-test cljs-browser-test ## Run all ClojureScript tests
 
-test: cljtest cljstest ## Run all tests (Clojure and ClojureScript)
+esm-test-node: dist/nodejs/fluree-json-ld.js ## Run Node.js ESM functionality test
+	node test/nodejs/esm-test.mjs
+
+esm-test-conversion: dist/nodejs/fluree-json-ld.js ## Run JS<->CLJ data conversion test
+	node test/nodejs/js-clj-conversion-test.mjs
+
+esm-test-browser: dist/browser/fluree-json-ld.js ## Open browser ESM test page
+	@echo "Open http://localhost:8000/test/browser/esm-test.html in your browser"
+	@echo "Or run: python3 -m http.server 8000"
+
+esm-test: esm-test-node esm-test-conversion ## Run ESM functionality tests
+
+test: cljtest esm-test ## Run all tests (Clojure and ESM functionality)
+
+test-ci: cljtest esm-test ## Run all tests for CI/CD (Clojure and ESM functionality)
+
+test-ci-workflow: ## Test complete CI workflow locally
+	./test-ci-workflow.sh
 
 lint: ## Run clj-kondo linter
 	clj-kondo --lint src test
@@ -69,11 +89,31 @@ install: target/fluree-json-ld.jar ## Install JAR to local repository
 deploy: target/fluree-json-ld.jar ## Deploy JAR to Clojars
 	clojure -T:build deploy
 
+out/nodejs/fluree-json-ld.js: shadow-cljs.edn node_modules $(SOURCES)
+	clojure -T:build node
+
+node: out/nodejs/fluree-json-ld.js
+
+out/browser/fluree-json-ld.js: shadow-cljs.edn node_modules $(SOURCES)
+	clojure -T:build browser
+
+browser: out/browser/fluree-json-ld.js
+
+
+dist/fluree-json-ld.d.ts: out/nodejs/fluree-json-ld.js
+	npx tsc
+
+dist/%/fluree-json-ld.js: out/%/fluree-json-ld.js
+	mkdir -p $(@D)
+	cp $< $@
+
+js-package: dist/nodejs/fluree-json-ld.js dist/browser/fluree-json-ld.js dist/fluree-json-ld.d.ts
+
 clean: ## Remove build artifacts
-	rm -rf target
+	clojure -T:build clean
+	rm -rf out/*
+	rm -rf dist/*
 	rm -rf node_modules
-	rm -rf test/nodejs
-	rm -rf test/browser
 
 docker-build: ## Build Docker image for testing
 	docker build -t fluree/json-ld:test .

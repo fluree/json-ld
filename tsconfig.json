@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist",
+    "lib": ["es2020"],
+    "moduleResolution": "node",
+    "target": "es2020",
+    "module": "es2020",
+    "skipLibCheck": true
+  },
+  "include": [
+    "out/nodejs/fluree-json-ld.js"
+  ]
+}

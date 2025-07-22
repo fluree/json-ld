@@ -1,11 +1,34 @@
 {
+  "name": "@fluree/json-ld",
+  "version": "1.0.1",
+  "type": "module",
+  "description": "JSON-LD library for Fluree",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fluree/json-ld.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/nodejs/fluree-json-ld.js",
+      "browser": "./dist/browser/fluree-json-ld.js"
+    }
+  },
+  "module": "./dist/nodejs/fluree-json-ld.js",
+  "browser": "dist/browser/fluree-json-ld.js",
+  "types": "dist/fluree-json-ld.d.ts",
   "devDependencies": {
     "karma": "6.4.0",
     "karma-chrome-launcher": "3.1.1",
     "karma-cljs-test": "0.1.0",
-    "shadow-cljs": "2.20.5"
+    "shadow-cljs": "2.28.15",
+    "typescript": "^5.3.3"
   },
   "dependencies": {
     "jsonld": "^8.1.0"
-  }
+  },
+  "author": "Fluree, PBC",
+  "license": "EPL-2.0"
 }
