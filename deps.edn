@@ -1,13 +1,13 @@
 {:paths ["src" "resources"]
 
- :deps {org.clojure/clojure             {:mvn/version "1.11.1"}
+ :deps {org.clojure/clojure             {:mvn/version "1.12.1"}
         org.clojure/clojurescript       {:mvn/version "1.11.60"}
         com.apicatalog/titanium-json-ld {:mvn/version "1.3.2"}
         org.glassfish/jakarta.json      {:mvn/version "2.0.1"}
         org.glassfish/javax.json        {:mvn/version "1.1.4"}
         javax.json/javax.json-api       {:mvn/version "1.1.4"}
         io.setl/rdf-urdna               {:mvn/version "1.2"}
-        metosin/jsonista                {:mvn/version "0.3.7"}}
+        metosin/jsonista                {:mvn/version "0.3.13"}}
 
  :aliases
  {:mvn/group-id    com.fluree
@@ -63,4 +63,7 @@
 
   :fmt
   {:extra-deps {cljfmt/cljfmt {:mvn/version "0.9.2"}}
-   :main-opts  ["-m" "cljfmt.main"]}}}
+   :main-opts  ["-m" "cljfmt.main"]}
+
+  :graalvm
+  {:extra-deps {com.github.clj-easy/graal-build-time {:mvn/version "1.0.5"}}}}}

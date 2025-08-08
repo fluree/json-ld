@@ -180,6 +180,68 @@ The library works identically in ClojureScript:
 (def compacted-iri (json-ld/compact "http://schema.org/name" ctx))
 ```
 
+## JavaScript/ESM Support
+
+The library provides a JavaScript-friendly ESM (ES Module) API that works in both Node.js and browser environments. The JavaScript API automatically handles data conversion between JavaScript objects and ClojureScript data structures.
+
+### Installation (JavaScript/NPM)
+
+```bash
+npm install @fluree/json-ld
+```
+
+### JavaScript API Usage
+
+```javascript
+// Node.js
+import { expand, compact, normalizeData, parseContext, jsonLd } from '@fluree/json-ld';
+
+// Browser
+import { expand, compact, normalizeData, parseContext, jsonLd } from './dist/browser/fluree-json-ld.js';
+
+// Works with plain JavaScript objects
+const doc = {
+  "@context": { "name": "http://schema.org/name" },
+  "@type": "Person",
+  "name": "John Doe"
+};
+
+// JSON-LD detection
+const isJsonLd = jsonLd(doc); // true
+
+// Parse context (returns internal format for other functions)
+const context = parseContext(doc["@context"]);
+
+// Expand document
+const expanded = expand(doc);
+
+// Normalize for hashing/comparison
+const normalized = normalizeData(doc); // Returns string
+
+// Full workflow
+const parsedContext = parseContext({ "name": "http://schema.org/name" });
+const expandedDoc = expand(doc);
+const compactedIri = compact(expandedDoc, parsedContext);
+```
+
+### JavaScript API Functions
+
+- `expand(document, [context])` - Expands JSON-LD documents
+- `compact(iri, context)` - Compacts expanded IRIs 
+- `normalizeData(document, [options])` - Normalizes for hashing/comparison
+- `parseContext(context, [baseContext], [externals])` - Parses JSON-LD contexts
+- `expandIri(compactIri, context, [vocab])` - Expands compact IRIs
+- `compactFn(context, [usedAtom])` - Returns compaction function
+- `jsonLd(document)` - Detects if document is JSON-LD
+
+### Building JavaScript Modules
+
+```bash
+$ make js-package     # Build both Node.js and browser ESM modules
+$ make node          # Build Node.js ESM module only  
+$ make browser       # Build browser ESM module only
+```
+
 ## Pre-loaded External Contexts
 
 The library includes pre-parsed contexts for common vocabularies:
@@ -212,10 +274,23 @@ ClojureScript tests require Node.js and npm. The Makefile will automatically ins
 Run the project's tests:
 
 ```bash
-$ make test        # Run all tests  
-$ make cljtest     # Run Clojure tests only
-$ make cljstest    # Run ClojureScript tests only (auto-installs npm deps)
+$ make test                # Run all tests (Clojure + JavaScript ESM)
+$ make cljtest             # Run Clojure tests only
+$ make cljstest            # Run ClojureScript tests only (auto-installs npm deps)
+$ make esm-test            # Run JavaScript ESM tests only
+$ make esm-test-node       # Run Node.js ESM tests only
+$ make esm-test-conversion # Run JS<->CLJ data conversion tests
+$ make test-ci             # Run all tests for CI/CD
+$ make test-ci-workflow    # Test complete CI workflow locally
 ```
+
+#### JavaScript ESM Testing
+
+The JavaScript tests verify:
+- ESM module loading in Node.js and browsers
+- All API functions work with JavaScript objects
+- Automatic data conversion between JavaScript and ClojureScript
+- Complex nested data structures and edge cases
 
 ### Code Quality
 
@@ -236,6 +311,13 @@ Build a deployable jar:
 $ make jar
 ```
 
+Build JavaScript ESM modules:
+
+```bash
+$ make js-package        # Build both Node.js and browser modules
+$ make all              # Build both JAR and JavaScript modules
+```
+
 Install locally:
 
 ```bash
@@ -247,6 +329,26 @@ Deploy to Clojars (requires `CLOJARS_USERNAME` and `CLOJARS_PASSWORD` environmen
 ```bash
 $ make deploy
 ```
+
+### CI/CD Integration
+
+The project includes comprehensive CI/CD testing via GitHub Actions:
+
+- **Clojure Tests**: Unit tests for core functionality
+- **JavaScript ESM Tests**: Functionality and data conversion tests for both Node.js and browser environments
+- **Code Quality**: Linting with clj-kondo and code formatting checks
+- **Cross-platform**: Tests run on Ubuntu with Java 17 and Node.js 18
+
+**Local CI Testing:**
+```bash
+$ ./test-ci-workflow.sh  # Simulate complete CI pipeline locally
+```
+
+The CI workflow automatically:
+1. Installs dependencies (npm, Maven)
+2. Builds JAR and JavaScript ESM modules
+3. Runs all test suites
+4. Validates code quality and formatting
 
 ### Development Tools
 

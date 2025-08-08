@@ -19,7 +19,10 @@
   "Delete the build target directory"
   [_]
   (println "\nCleaning target...")
-  (b/delete {:path "target"}))
+  (dorun
+   (map #(b/delete {:path %})
+        #{"target" "dist" "node_modules" ".shadow-cljs" "out/nodejs"
+          "out/browser/fluree-json-ld.js"})))
 
 (defn jar
   "Build the JAR"
@@ -76,3 +79,12 @@
       (println "JAR file not found. Building...")
       (jar nil)
       (deploy nil))))
+
+(defn node [_]
+  (b/process {:command-args ["npx" "shadow-cljs" "release" "node"]}))
+
+(defn browser [_]
+  (b/process {:command-args ["npx" "shadow-cljs" "release" "browser"]}))
+
+(defn print-version [_]
+  (println (pr-str {:version version})))

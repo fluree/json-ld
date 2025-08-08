@@ -1,4 +1,4 @@
-module.exports = function (config) {
+export default function (config) {
   config.set({
     browsers: ['ChromeHeadless'],
     // The directory where the output file lives
