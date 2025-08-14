@@ -87,14 +87,9 @@
 
   Returns an expanded document where:
   - Compact IRIs are expanded to full IRIs
-  - JSON-LD keywords (@id, @type, @graph, @list, @value) become Clojure keywords
-    (:id, :type, :graph, :list, :value)
-  - Values include metadata:
-    - :idx - Path in the original document using get-in syntax (useful for error reporting)
-    - :value - The actual value
-    - :type - The datatype IRI (if specified)
-    - :language - Language tag (if specified)
-    - :list - Ordered list values (for @list containers)
+  - Values included in metadata:
+    - :json-ld/idx - Path in the original document using get-in syntax
+                     (useful for error reporting)
   - @graph returns a vector of expanded nodes
 
   Recursively expands into child nodes."
