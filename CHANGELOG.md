@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - **BREAKING**: Expansion now produces valid JSON-LD output conforming to JSON-LD 1.1 specification
   - Expansion output now uses standard JSON-LD keywords (`@id`, `@type`, `@value`, `@graph`, `@list`) instead of proprietary format
-  - Removed `:idx` metadata from expansion output - expansion now produces clean JSON-LD
+  - Removed `:idx` metadata from expanded data and instead include it in Clojure metadata under the `:json-ld/idx` key
   - Updated all examples and documentation to reflect the new standard format
   - This change makes the library fully compatible with other JSON-LD processors and tools
 
