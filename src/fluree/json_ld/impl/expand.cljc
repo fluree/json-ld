@@ -138,7 +138,7 @@
   [v _ _ _ idx]
   [(with-idx {"@value" v
               "@type" "@json"}
-             idx)])
+     idx)])
 
 (defmethod parse-node-val :boolean
   [v v-info _ _ idx]
@@ -211,9 +211,9 @@
     (cond
       (list-item? v)
       [(with-idx {"@list" (-> (or (get v "@list")
-                                      (:list v))
-                                  (parse-node-val v-info context externals (conj idx "@list")))}
-                 idx)]
+                                  (:list v))
+                              (parse-node-val v-info context externals (conj idx "@list")))}
+         idx)]
 
       (set-item? v)                                  ;; set is the default container type, so just flatten to regular vector
       (-> (or (get v "@set")
