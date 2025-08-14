@@ -60,20 +60,19 @@
                     "name" "John Doe"}
           expanded (jld/expand test-doc)]
       (is (map? expanded))
-      (is (contains? expanded :idx))
-      (is (contains? expanded :type))
+      (is (-> expanded jld/get-idx some?))
+      (is (contains? expanded "@type"))
       (is (contains? expanded "http://schema.org/name"))
-      (is (vector? (:type expanded)))
-      (is (= "http://schema.org/Person" (first (:type expanded))))
+      (is (vector? (get expanded "@type")))
+      (is (= "http://schema.org/Person" (first (get expanded "@type"))))
       (is (vector? (get expanded "http://schema.org/name")))
       (let [name-value (first (get expanded "http://schema.org/name"))]
         (is (map? name-value))
-        (is (= "John Doe" (:value name-value))))))
+        (is (= "John Doe" (get name-value "@value"))))))
 
   (testing "compact works in GraalVM"
-    (let [expanded-doc {:idx []
-                        :type ["Person"]
-                        "http://schema.org/name" [{:value "John Doe" :type nil :idx ["name"]}]}
+    (let [expanded-doc {"@type" ["Person"]
+                        "http://schema.org/name" [{"@value" "John Doe"}]}
           context {"name" "http://schema.org/name"
                    "Person" "http://schema.org/Person"}
           compacted (jld/compact expanded-doc context)]
@@ -95,10 +94,10 @@
   "Main function for GraalVM native image testing"
   [& _args]
   (println "🧪 Running GraalVM compatibility tests for fluree/json-ld...")
-  
+
   ;; Enable reflection warnings to catch any issues
   (set! *warn-on-reflection* true)
-  
+
   (try
     ;; Run the tests
     (let [results (clojure.test/run-tests 'graal-compat-test)]

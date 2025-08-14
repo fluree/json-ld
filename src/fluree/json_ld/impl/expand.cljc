@@ -107,6 +107,14 @@
                 (or (contains? m "@index")
                     (contains? m :index))))))
 
+(defn with-idx
+  [x idx]
+  (vary-meta x assoc :json-ld/idx idx))
+
+(defn get-idx
+  [x]
+  (-> x meta :json-ld/idx))
+
 (defmulti parse-node-val (fn [v v-info _ _ idx]
                            (cond
                              (= :json (:type v-info)) :json
@@ -128,19 +136,19 @@
 
 (defmethod parse-node-val :json
   [v _ _ _ idx]
-  [{:value v
-    :type :json
-    :idx idx}])
+  [(with-idx {"@value" v
+              "@type" "@json"}
+     idx)])
 
 (defmethod parse-node-val :boolean
   [v v-info _ _ idx]
-  [{:value v
-    :type  (:type v-info) ;; type may be defined in the @context
-    :idx   idx}])
+  (if-let [type (:type v-info)]
+    [(with-idx {"@value" v "@type" type} idx)]
+    [(with-idx {"@value" v} idx)]))
 
 (defn throw-invalid-language
   []
-  (throw (ex-info (str "@language cannot be used for values with a specified @type")
+  (throw (ex-info "@language cannot be used for values with a specified @type"
                   {:status 400
                    :error  :json-ld/invalid-type})))
 
@@ -154,17 +162,14 @@
     (= "@type" id) (iri v context false) ; @type should have been picked up
                                          ; using :type-key, but in case
                                          ; explicitly defined regardless
-    (= :id type)   [{:id  (iri v context false)
-                     :idx idx}]
+    (= :id type)   [(with-idx {"@id" (iri v context false)} idx)]
     :else          (if-let [lang (and (nil? type)
                                       (or (:language v-info)
                                           (:language context)))]
-                     [{:value    v
-                       :language lang
-                       :idx      idx}]
-                     [{:value v
-                       :type  type
-                       :idx   idx}])))
+                     [(with-idx {"@value" v "@language" lang} idx)]
+                     (if type
+                       [(with-idx {"@value" v "@type" type} idx)]
+                       [(with-idx {"@value" v} idx)]))))
 
 ;; keywords should only be used in values for IRIs
 (defmethod parse-node-val :keyword
@@ -172,14 +177,13 @@
   (cond
     (= "@id" id) (iri v context false)
     (= "@type" id) [(iri v context false)]                  ;; @type should have been picked up using :type-key, but in case explicitly defined regardless
-    :else [{:id  (iri v context false)
-            :idx idx}]))
+    :else [(with-idx {"@id" (iri v context false)} idx)]))
 
 (defmethod parse-node-val :number
   [v v-info _ _ idx]
-  [{:value v
-    :type  (:type v-info)                                    ;; type may be defined in the @context
-    :idx   idx}])
+  (if-let [type (:type v-info)]
+    [(with-idx {"@value" v "@type" type} idx)]
+    [(with-idx {"@value" v} idx)]))
 
 (defn- parse-node-value-map
   [v-key v v-info ctx idx]
@@ -192,15 +196,12 @@
                       (:language ctx))]
       (if type
         (throw-invalid-language)
-        [{:value    val
-          :language lang
-          :idx      idx}])
+        [(with-idx {"@value" val "@language" lang} idx)])
       (if (#{"@id" :id} type)
-        [{:id  (iri val ctx false)
-          :idx idx}]
-        [{:value val
-          :type  type
-          :idx   idx}]))))
+        [(with-idx {"@id" (iri val ctx false)} idx)]
+        (if type
+          [(with-idx {"@value" val "@type" type} idx)]
+          [(with-idx {"@value" val} idx)])))))
 
 (defmethod parse-node-val :map
   [v v-info context externals idx]
@@ -209,9 +210,10 @@
                context)]
     (cond
       (list-item? v)
-      [{:list (-> (or (get v "@list")
-                      (:list v))
-                  (parse-node-val v-info context externals (conj idx "@list")))}]
+      [(with-idx {"@list" (-> (or (get v "@list")
+                                  (:list v))
+                              (parse-node-val v-info context externals (conj idx "@list")))}
+         idx)]
 
       (set-item? v)                                  ;; set is the default container type, so just flatten to regular vector
       (-> (or (get v "@set")
@@ -229,7 +231,7 @@
             (mapcat (fn [[lang v*]]
                       (let [idx* (conj idx lang)]
                         (map (fn [nv]
-                               (assoc nv :language lang))
+                               (assoc nv "@language" lang))
                              (parse-node-val v* v-info context externals idx*)))))
             v)
 
@@ -258,7 +260,7 @@
                        cat)
                  v)]
     (if (= :list (:container v-info))
-      [{:list v*}]
+      [(with-idx {"@list" v*} idx)]
       v*)))
 
 
@@ -279,7 +281,7 @@
   and a (possibly) updated context if there was a type-dependent sub-context present.
   Always return @type as a vector regardless of input."
   [node-map context idx]
-  (let [base (if (empty? idx) {:idx []} {:idx idx})
+  (let [base (with-idx {} idx)
         {:keys [type-key]} context]
     (if-let [type-val (or (get node-map type-key)
                           (get node-map (get-in context [type-key :id])))]
@@ -290,12 +292,12 @@
                                   (iri % context true)
                                   (catch e
                                          (throw (ex-info (str "Error parsing @type value, provided: "
-                                                              type-val " at index: " (conj (:idx base) (:type-key context)) ".")
+                                                              type-val " at index: " (conj idx (:type-key context)) ".")
                                                          {:status 400
                                                           :error  :json-ld/invalid-context
-                                                          :idx    (conj (:idx base) (:type-key context))}))))
+                                                          :idx    (conj idx (:type-key context))}))))
                                 type-val*)]
-        [(assoc base :type expanded) context+types])
+        [(assoc base "@type" expanded) context+types])
       [base context])))
 
 (defn wrap-error
@@ -329,26 +331,23 @@
          context context
          acc     (transient base-result)]
     (if k
-      (let [idx* (conj (:idx base-result) k)
+      (let [idx* (conj (or (get-idx base-result) []) k)
             [k* v-info] (try-catchall
                          (details k context true)
                          (catch e (wrap-error e idx*)))
-            k**  (if (= \@ (first k*))
-                   (keyword (subs k* 1))
-                   k*)
             v*   (try-catchall
                   (parse-node-val v v-info context externals idx*)
                   (catch e (wrap-error e idx*)))]
         (recur r
-               (if (= :type k**)
+               (if (= "@type" k*)
                  (type-sub-context context v)
                  context)
-               (if (#{:type} k**)
+               (if (#{"@type"} k*)
                  acc
-                 (if (#{:id} k**)
-                   (assoc! acc k** v*)
-                   (append-value! acc k** v*)))))
-      (persistent! acc))))
+                 (if (#{"@id"} k*)
+                   (assoc! acc k* v*)
+                   (append-value! acc k* v*)))))
+      (with-meta (persistent! acc) (meta base-result)))))
 
 
 (defn expand-nodes

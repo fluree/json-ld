@@ -8,10 +8,10 @@
 #?(:clj (set! *warn-on-reflection* true))
 
 (defn parse-context
-  "Parses a JSON-LD context and returns a parsed context with an internal 
+  "Parses a JSON-LD context and returns a parsed context with an internal
    representation to make repeated expansion/compaction more efficient
    for use in other API calls.
-  
+
   Optional parameters:
   - base-context: Previously parsed context to merge into the new un-parsed context
   - externals: Set of allowed external context URLs (defaults to pre-loaded contexts)"
@@ -25,14 +25,14 @@
 (defn external-vocab
   "Returns vocabulary information for a specific IRI including relationships
   like rdfs:subClassOf.
-  
+
   Returns nil if not found."
   [iri]
   (external/vocab iri))
 
 (defn external-iri
   "Returns IRI information for a specific IRI if available in pre-loaded vocabularies.
-  
+
   Returns nil if not found."
   [iri]
   (external/iri iri))
@@ -40,7 +40,7 @@
 
 (defn external-context
   "Returns a pre-loaded parsed context for the given URL.
-  
+
   Returns nil if not available."
   [url]
   (external/context url))
@@ -54,12 +54,12 @@
 
 (defn compact-fn
   "Returns a single-arity function that compacts expanded IRIs using the parsed context.
-  
+
   The returned function will attempt to compact an IRI by:
   - First checking for exact matches in the context
   - Then checking for partial matches to create prefixed forms (e.g., \"schema:name\")
   - Returning the original IRI if no match is found
-  
+
   Optional used-atom parameter (a Clojure atom) captures all context terms that were
   actually used during compaction. This is useful when working with large contexts
   (like schema.org) to identify which subset of terms were actually needed."
@@ -71,7 +71,7 @@
 
 (defn expand-iri
   "Expands a compact IRI to its full form using the parsed context.
-  
+
   vocab? true (default) uses @vocab for properties/classes, false uses @base for @id values."
   ([compact-iri parsed-context]
    (expand/iri compact-iri parsed-context true))
@@ -81,22 +81,17 @@
 
 (defn expand
   "Expands a JSON-LD document to its full form with all context applied.
-  
+
   Takes a JSON-LD node (map) and optional parsed context. If the node contains
   a local @context, it will be merged with any provided parsed context.
-  
+
   Returns an expanded document where:
   - Compact IRIs are expanded to full IRIs
-  - JSON-LD keywords (@id, @type, @graph, @list, @value) become Clojure keywords 
-    (:id, :type, :graph, :list, :value)
-  - Values include metadata:
-    - :idx - Path in the original document using get-in syntax (useful for error reporting)
-    - :value - The actual value
-    - :type - The datatype IRI (if specified)
-    - :language - Language tag (if specified)
-    - :list - Ordered list values (for @list containers)
+  - Values included in metadata:
+    - :json-ld/idx - Path in the original document using get-in syntax
+                     (useful for error reporting)
   - @graph returns a vector of expanded nodes
-  
+
   Recursively expands into child nodes."
   ([node-map]
    (expand/node node-map {}))
@@ -104,9 +99,16 @@
    (expand/node node-map parsed-context)))
 
 
+(defn get-idx
+  "Returns the original index of the expanded item `data` within the JSON-LD
+  document originally returned by the `expand` function."
+  [data]
+  (expand/get-idx data))
+
+
 (defn details
   "Expands an IRI and returns [expanded-iri context-settings].
-  
+
   vocab? true (default) uses @vocab for properties/classes, false uses @base for @id values."
   ([compact-iri parsed-context]
    (expand/details compact-iri parsed-context true))
@@ -126,7 +128,7 @@
 
 (defn normalize-data
   "Normalizes JSON-LD data to a consistent string format for comparison/hashing.
-  
+
   Options:
   - :algorithm - :basic (default) or :URDNA2015 (not yet supported)
   - :format - :application/json (default) or :application/n-quads (not yet supported)"
